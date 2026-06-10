@@ -46,6 +46,41 @@ const seed: PageData[] = [
   },
 ];
 
+// Exemple de page secondaire pré-remplie (mode démo).
+seed.push({
+  slug: "filieres",
+  title: "Nos filières",
+  published: true,
+  blocks: [
+    {
+      id: blockId(),
+      type: "hero",
+      data: {
+        pill: "Enseignement",
+        title: "Nos *filières* et options",
+        sub: "Du premier au troisième degré, ainsi que le DASPA et la 7ᵉ préparatoire.",
+        btn1: "Préinscription",
+        link1: "/preinscription",
+        btn2: "",
+        link2: "#",
+        color: "#284193",
+        bg: "gradient",
+        effects: true,
+        anim: true,
+      },
+    },
+    { id: blockId(), type: "grid", data: { title: "Grille horaire — 1er degré" } },
+    {
+      id: blockId(),
+      type: "text",
+      data: {
+        title: "Un parcours pour chaque élève",
+        body: "Enseignement général, options scientifiques, langues modernes, sciences économiques et sociales : chaque élève construit un parcours adapté à son projet.",
+      },
+    },
+  ],
+});
+
 const g = globalThis as unknown as { __baraPages?: PageData[] };
 function memStore(): PageData[] {
   if (!g.__baraPages) g.__baraPages = structuredClone(seed);
@@ -107,6 +142,41 @@ export async function listPages(): Promise<
     title,
     published,
   }));
+}
+
+export async function createPage(
+  slug: string,
+  title: string
+): Promise<PageData | null> {
+  if (useDb) {
+    const db = await prisma();
+    const exists = await db.page.findUnique({ where: { slug } });
+    if (exists) return null;
+    await db.page.create({ data: { slug, title, published: false } });
+    return (await getPage(slug))!;
+  }
+  const store = memStore();
+  if (store.some((p) => p.slug === slug)) return null;
+  const page: PageData = { slug, title, published: false, blocks: [] };
+  store.push(page);
+  return page;
+}
+
+export async function deletePage(slug: string): Promise<boolean> {
+  if (useDb) {
+    const db = await prisma();
+    try {
+      await db.page.delete({ where: { slug } });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  const store = memStore();
+  const i = store.findIndex((p) => p.slug === slug);
+  if (i === -1) return false;
+  store.splice(i, 1);
+  return true;
 }
 
 export async function savePage(

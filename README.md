@@ -67,16 +67,20 @@ Comptes de démonstration (mots de passe surchargés par `ADMIN_PASSWORD` /
 
 ## Pages composées & formulaires
 
-- L'éditeur (`/admin/editeur`) charge/enregistre/publie la page via
-  `PUT /api/pages/[slug]` ; les pages publiées sont rendues publiquement
-  sur `/p/[slug]` avec les styles du site.
+- L'éditeur (`/admin/editeur`) gère **toutes les pages du site** : panneau
+  « Pages du site » (statut publié/brouillon), création (`+ Nouvelle page`),
+  renommage, suppression (l'accueil est protégé), bascule avec garde-fou si
+  des modifications ne sont pas enregistrées (`?page=slug` pour le lien
+  direct). Chaque page s'enregistre/se publie via `PUT /api/pages/[slug]`
+  et les pages publiées sont rendues publiquement sur `/p/[slug]` avec les
+  styles du site.
 - `/contact` et `/preinscription` enregistrent les demandes, consultables
   dans `/admin/messages`.
 
 ## Reste à faire
 
-- [ ] Sélecteur multi-pages dans l'éditeur (l'API gère déjà n pages)
 - [ ] Pages de contenu : filières/grilles horaires, restaurant, calendrier
+- [ ] Intégrer les pages composées dans la navigation publique (menu dynamique)
 - [ ] **Diffusion vers les réseaux sociaux** depuis le gestionnaire d'actus
 - [ ] Téléversement d'images (actualités, galeries)
 - [ ] Notification e-mail à la réception d'un message/préinscription

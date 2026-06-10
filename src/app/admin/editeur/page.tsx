@@ -4,7 +4,8 @@
 // Les blocs sont stockés en l'état dans le composant ; la persistance
 // (modèles Page/Block en base) se branche sur les boutons Enregistrer/Publier.
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Article } from "@/lib/article-types";
 import type { Block, BlockData, BlockType } from "@/lib/page-types";
 import {
@@ -15,8 +16,11 @@ import {
 import { shade, hexA, ACCENT_COLORS } from "@/lib/colors";
 import { useToast } from "@/components/Toast";
 
-// Page éditée (une seule pour l'instant ; un sélecteur de pages viendra ensuite).
-const PAGE_SLUG = "accueil";
+interface PageMeta {
+  slug: string;
+  title: string;
+  published: boolean;
+}
 
 const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "hero", icon: "🖼️", desc: "Image + titre" },
@@ -155,7 +159,14 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
 
 /* ----------------------------- éditeur ----------------------------- */
 
-export default function PageEditor() {
+function Editor() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const slug = searchParams.get("page") ?? "accueil";
+
+  const [pages, setPages] = useState<PageMeta[]>([]);
+  const [pageTitle, setPageTitle] = useState("");
+  const [published, setPublished] = useState(false);
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
@@ -164,6 +175,8 @@ export default function PageEditor() {
   const dragType = useRef<BlockType | null>(null);
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
+  // Modifications non enregistrées sur la page courante.
+  const dirty = useRef(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -171,24 +184,86 @@ export default function PageEditor() {
       .then((r) => r.json())
       .then(setNews)
       .catch(() => {});
-    fetch(`/api/pages/${PAGE_SLUG}`)
+  }, []);
+
+  async function refreshPages() {
+    const res = await fetch("/api/pages");
+    if (res.ok) setPages(await res.json());
+  }
+
+  useEffect(() => {
+    refreshPages();
+    fetch(`/api/pages/${slug}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((page) => {
-        if (page?.blocks) setBlocks(page.blocks);
+        setBlocks(page?.blocks ?? []);
+        setPageTitle(page?.title ?? slug);
+        setPublished(page?.published ?? false);
+        setSelectedId(null);
+        dirty.current = false;
       })
       .catch(() => {});
-  }, []);
+  }, [slug]);
+
+  function switchPage(target: string) {
+    if (target === slug) return;
+    if (
+      dirty.current &&
+      !confirm("Des modifications ne sont pas enregistrées. Changer de page quand même ?")
+    ) {
+      return;
+    }
+    router.replace(`/admin/editeur?page=${target}`);
+  }
+
+  async function createNewPage() {
+    const title = prompt("Titre de la nouvelle page :");
+    if (!title?.trim()) return;
+    const res = await fetch("/api/pages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      toast(`Page « ${data.title} » créée`);
+      await refreshPages();
+      router.replace(`/admin/editeur?page=${data.slug}`);
+    } else {
+      toast(data.error ?? "Création impossible");
+    }
+  }
+
+  async function removePage(target: string) {
+    if (!confirm(`Supprimer définitivement la page « ${target} » ?`)) return;
+    const res = await fetch(`/api/pages/${target}`, { method: "DELETE" });
+    if (res.ok) {
+      toast("Page supprimée");
+      await refreshPages();
+      if (target === slug) router.replace("/admin/editeur?page=accueil");
+    } else {
+      const data = await res.json().catch(() => ({}));
+      toast(data.error ?? "Suppression impossible");
+    }
+  }
 
   async function persist(publish: boolean) {
     setSaving(true);
-    const res = await fetch(`/api/pages/${PAGE_SLUG}`, {
+    const res = await fetch(`/api/pages/${slug}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ blocks, ...(publish ? { publish: true } : {}) }),
+      body: JSON.stringify({
+        blocks,
+        title: pageTitle,
+        ...(publish ? { publish: true } : {}),
+      }),
     });
     setSaving(false);
     if (res.ok) {
+      dirty.current = false;
+      if (publish) setPublished(true);
       toast(publish ? "Page publiée en ligne ✓" : "Brouillon enregistré");
+      refreshPages();
     } else {
       const data = await res.json().catch(() => ({}));
       toast(data.error ?? "Erreur lors de l'enregistrement");
@@ -215,6 +290,7 @@ export default function PageEditor() {
 
   function onDrop(e: React.DragEvent) {
     e.preventDefault();
+    dirty.current = true;
     let idx = indexFromY(e.clientY);
     if (dragType.current) {
       const nb: Block = {
@@ -243,6 +319,7 @@ export default function PageEditor() {
   }
 
   function del(id: string) {
+    dirty.current = true;
     setBlocks(blocks.filter((b) => b.id !== id));
     if (selectedId === id) setSelectedId(null);
     toast("Bloc supprimé");
@@ -251,6 +328,7 @@ export default function PageEditor() {
   function dup(id: string) {
     const i = blocks.findIndex((b) => b.id === id);
     if (i === -1) return;
+    dirty.current = true;
     const copy: Block = {
       id: bid(),
       type: blocks[i].type,
@@ -264,6 +342,7 @@ export default function PageEditor() {
 
   function upd(key: string, value: unknown) {
     if (!selected) return;
+    dirty.current = true;
     setBlocks(
       blocks.map((b) =>
         b.id === selected.id ? { ...b, data: { ...b.data, [key]: value } } : b
@@ -321,7 +400,55 @@ export default function PageEditor() {
     <div className="editor">
       {/* palette */}
       <aside className="palette">
-        <div className="lbl">Glissez un bloc →</div>
+        <div className="lbl">Pages du site</div>
+        <div className="pglist">
+          {pages.map((p) => (
+            <div
+              key={p.slug}
+              className={`pgitem${p.slug === slug ? " on" : ""}`}
+              onClick={() => switchPage(p.slug)}
+            >
+              <span
+                className={`st ${p.published ? "pub" : "draft"}`}
+                title={p.published ? "Publiée" : "Brouillon"}
+              />
+              <span className="pt">{p.title}</span>
+              {p.slug !== "accueil" && (
+                <button
+                  className="del"
+                  title="Supprimer la page"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removePage(p.slug);
+                  }}
+                >
+                  🗑
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        <button
+          className="abtn ghost"
+          style={{ width: "100%", justifyContent: "center", marginBottom: 4 }}
+          onClick={createNewPage}
+        >
+          + Nouvelle page
+        </button>
+
+        <div className="lbl" style={{ marginTop: 22 }}>Titre de la page</div>
+        <div className="field">
+          <input
+            value={pageTitle}
+            onChange={(e) => {
+              setPageTitle(e.target.value);
+              dirty.current = true;
+            }}
+            placeholder="Titre de la page"
+          />
+        </div>
+
+        <div className="lbl" style={{ marginTop: 22 }}>Glissez un bloc →</div>
         {PALETTE.map((p) => (
           <div
             key={p.type}
@@ -359,10 +486,10 @@ export default function PageEditor() {
         <a
           className="abtn ghost"
           style={{ width: "100%", justifyContent: "center" }}
-          href={`/p/${PAGE_SLUG}`}
+          href={`/p/${slug}`}
           target="_blank"
         >
-          Aperçu public ↗
+          Aperçu public {published ? "↗" : "(brouillon) ↗"}
         </a>
       </aside>
 
@@ -373,7 +500,7 @@ export default function PageEditor() {
             <span className="dot" style={{ background: "#f6584f" }} />
             <span className="dot" style={{ background: "#f5b14a" }} />
             <span className="dot" style={{ background: "#42c66a" }} />
-            <span className="url">atheneejulesbara.be / accueil</span>
+            <span className="url">atheneejulesbara.be / {slug}</span>
           </div>
           <div
             ref={dropzone}
@@ -562,5 +689,13 @@ export default function PageEditor() {
         )}
       </aside>
     </div>
+  );
+}
+
+export default function PageEditor() {
+  return (
+    <Suspense>
+      <Editor />
+    </Suspense>
   );
 }
