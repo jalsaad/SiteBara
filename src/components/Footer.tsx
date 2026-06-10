@@ -26,7 +26,7 @@ export default function Footer() {
           <h4>Le site</h4>
           <Link href="/actualites">Actualités</Link>
           <a href="#">Calendrier scolaire</a>
-          <a href="#">Inscription</a>
+          <Link href="/preinscription">Inscription</Link>
           <a href="#">Galerie photo</a>
         </div>
         <div>

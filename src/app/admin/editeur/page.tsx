@@ -6,47 +6,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Article } from "@/lib/article-types";
+import type { Block, BlockData, BlockType } from "@/lib/page-types";
+import {
+  BLOCK_LABELS as LABELS,
+  BLOCK_TEMPLATES as TEMPLATES,
+  blockId as bid,
+} from "@/lib/page-types";
 import { shade, hexA, ACCENT_COLORS } from "@/lib/colors";
 import { useToast } from "@/components/Toast";
 
-type BlockType = "hero" | "text" | "news" | "grid" | "gallery" | "contact";
-
-interface HeroData {
-  pill: string;
-  title: string;
-  sub: string;
-  btn1: string;
-  link1: string;
-  btn2: string;
-  link2: string;
-  color: string;
-  bg: "gradient" | "solid" | "texture";
-  effects: boolean;
-  anim: boolean;
-}
-
-type BlockData = Partial<HeroData> & {
-  title?: string;
-  body?: string;
-  addr?: string;
-  tel?: string;
-  mail?: string;
-};
-
-interface Block {
-  id: string;
-  type: BlockType;
-  data: BlockData;
-}
-
-const LABELS: Record<BlockType, string> = {
-  hero: "Bannière",
-  text: "Texte",
-  news: "Actualités",
-  grid: "Grille horaire",
-  gallery: "Galerie",
-  contact: "Contact",
-};
+// Page éditée (une seule pour l'instant ; un sélecteur de pages viendra ensuite).
+const PAGE_SLUG = "accueil";
 
 const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "hero", icon: "🖼️", desc: "Image + titre" },
@@ -55,70 +25,6 @@ const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "grid", icon: "🗂️", desc: "Tableau" },
   { type: "gallery", icon: "🏞️", desc: "Photos" },
   { type: "contact", icon: "📍", desc: "Coordonnées" },
-];
-
-const TEMPLATES: Record<BlockType, BlockData> = {
-  hero: {
-    pill: "Nouveau",
-    title: "Votre titre ici",
-    sub: "Sous-titre descriptif de la section.",
-    btn1: "En savoir plus",
-    link1: "#",
-    btn2: "",
-    link2: "#",
-    color: "#284193",
-    bg: "gradient",
-    effects: true,
-    anim: true,
-  },
-  text: {
-    title: "Titre de section",
-    body: "Saisissez votre texte ici. Ce bloc accepte plusieurs paragraphes et se modifie sans aucune ligne de code.",
-  },
-  news: { title: "Dernières actualités" },
-  grid: { title: "Grille horaire — 1er degré" },
-  gallery: { title: "Galerie photo" },
-  contact: {
-    title: "Nous contacter",
-    addr: "Rue Duquesnoy 24, 7500 Tournai",
-    tel: "069 89 06 02",
-    mail: "direction@atheneejulesbara.be",
-  },
-};
-
-function bid() {
-  return "b" + Math.random().toString(36).slice(2, 8);
-}
-
-const INITIAL: Block[] = [
-  {
-    id: bid(),
-    type: "hero",
-    data: {
-      pill: "Établissement d'enseignement · Fondé en 1595",
-      title: "Apprendre, *s'ouvrir*, s'accomplir",
-      sub: "Au cœur de Tournai, un athénée où chaque élève est accompagné individuellement vers la réussite.",
-      btn1: "Préinscriptions ouvertes",
-      link1: "#inscription",
-      btn2: "Découvrir l'école",
-      link2: "#mission",
-      color: "#1b2245",
-      bg: "texture",
-      effects: true,
-      anim: true,
-    },
-  },
-  { id: bid(), type: "news", data: { title: "Dernières actualités" } },
-  {
-    id: bid(),
-    type: "contact",
-    data: {
-      title: "Nous trouver",
-      addr: "Rue Duquesnoy 24, 7500 Tournai",
-      tel: "069 89 06 02",
-      mail: "direction@atheneejulesbara.be",
-    },
-  },
 ];
 
 /* ---------------- rendu d'un bloc dans le canvas ---------------- */
@@ -250,10 +156,11 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
 /* ----------------------------- éditeur ----------------------------- */
 
 export default function PageEditor() {
-  const [blocks, setBlocks] = useState<Block[]>(INITIAL);
+  const [blocks, setBlocks] = useState<Block[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [news, setNews] = useState<Article[]>([]);
+  const [saving, setSaving] = useState(false);
   const dragType = useRef<BlockType | null>(null);
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
@@ -264,7 +171,29 @@ export default function PageEditor() {
       .then((r) => r.json())
       .then(setNews)
       .catch(() => {});
+    fetch(`/api/pages/${PAGE_SLUG}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((page) => {
+        if (page?.blocks) setBlocks(page.blocks);
+      })
+      .catch(() => {});
   }, []);
+
+  async function persist(publish: boolean) {
+    setSaving(true);
+    const res = await fetch(`/api/pages/${PAGE_SLUG}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ blocks, ...(publish ? { publish: true } : {}) }),
+    });
+    setSaving(false);
+    if (res.ok) {
+      toast(publish ? "Page publiée en ligne ✓" : "Brouillon enregistré");
+    } else {
+      const data = await res.json().catch(() => ({}));
+      toast(data.error ?? "Erreur lors de l'enregistrement");
+    }
+  }
 
   const selected = blocks.find((b) => b.id === selectedId) ?? null;
 
@@ -414,17 +343,27 @@ export default function PageEditor() {
         <button
           className="abtn save"
           style={{ width: "100%", justifyContent: "center", marginBottom: 8 }}
-          onClick={() => toast("Brouillon enregistré")}
+          disabled={saving}
+          onClick={() => persist(false)}
         >
-          Enregistrer
+          {saving ? "…" : "Enregistrer"}
         </button>
         <button
           className="abtn primary"
-          style={{ width: "100%", justifyContent: "center" }}
-          onClick={() => toast("Page publiée en ligne ✓")}
+          style={{ width: "100%", justifyContent: "center", marginBottom: 8 }}
+          disabled={saving}
+          onClick={() => persist(true)}
         >
           Publier
         </button>
+        <a
+          className="abtn ghost"
+          style={{ width: "100%", justifyContent: "center" }}
+          href={`/p/${PAGE_SLUG}`}
+          target="_blank"
+        >
+          Aperçu public ↗
+        </a>
       </aside>
 
       {/* canvas */}

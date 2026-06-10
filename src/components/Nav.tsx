@@ -9,7 +9,7 @@ const LINKS = [
   { href: "/#grilles", label: "Grilles" },
   { href: "/actualites", label: "Actus" },
   { href: "/#restaurant", label: "Restaurant" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Nav() {
@@ -40,7 +40,7 @@ export default function Nav() {
             </Link>
           ))}
         </nav>
-        <Link className="nav-cta" href="/#contact">
+        <Link className="nav-cta" href="/preinscription">
           Préinscription
         </Link>
       </div>

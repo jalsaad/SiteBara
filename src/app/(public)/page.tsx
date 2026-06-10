@@ -31,7 +31,7 @@ export default async function HomePage() {
               bienveillant.
             </p>
             <div className="hero-btns">
-              <Link className="btn btn-orange" href="/#contact">
+              <Link className="btn btn-orange" href="/preinscription">
                 Préinscriptions ouvertes →
               </Link>
               <Link className="btn btn-ghost" href="/#mission">
@@ -244,13 +244,13 @@ export default async function HomePage() {
                 Venez nous rencontrer.
               </p>
             </div>
-            <a
+            <Link
               className="btn btn-light"
               style={{ position: "relative", zIndex: 2 }}
-              href="mailto:direction@atheneejulesbara.be"
+              href="/preinscription"
             >
               Je m&apos;inscris →
-            </a>
+            </Link>
           </div>
         </section>
       </main>
