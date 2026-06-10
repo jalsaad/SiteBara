@@ -1,0 +1,93 @@
+// Schéma de données — Athénée Royal Jules Bara
+// PostgreSQL (hébergement OVH), cf. cahier des charges.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN // accès complet (éditeur de pages inclus)
+  COMM // responsable communication (gestion des actualités)
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  role         Role     @default(COMM)
+  passwordHash String
+  createdAt    DateTime @default(now())
+  articles     Article[]
+}
+
+// Pages de contenu gérées par l'éditeur drag-and-drop.
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  published Boolean  @default(false)
+  blocks    Block[]
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+// Un bloc de page (bannière, texte, actualités, grille, galerie, contact…).
+// Le contenu est stocké en JSON : chaque type de bloc a son propre schéma de données.
+model Block {
+  id     String @id @default(cuid())
+  page   Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId String
+  order  Int
+  type   String
+  data   Json
+
+  @@index([pageId, order])
+}
+
+model Article {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  category    String
+  excerpt     String
+  body        String        @default("")
+  color       String        @default("#284193")
+  status      ArticleStatus @default(DRAFT)
+  publishedAt DateTime?
+  author      User?         @relation(fields: [authorId], references: [id])
+  authorId    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+// Formulaire de préinscription (site public).
+model PreRegistration {
+  id        String   @id @default(cuid())
+  lastName  String
+  firstName String
+  email     String
+  phone     String?
+  level     String // année / filière souhaitée
+  message   String?
+  createdAt DateTime @default(now())
+}
+
+// Formulaire de contact (site public).
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}

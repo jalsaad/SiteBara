@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Site web — Athénée Royal Jules Bara
 
-## Getting Started
+Refonte du site [atheneejulesbara.be](https://atheneejulesbara.be) selon le
+cahier des charges (mail du pouvoir organisateur) et la maquette graphique
+validée (`../bara maquette du site2.html`).
 
-First, run the development server:
+**Stack** : Next.js 16 (App Router, Turbopack) · TypeScript · Tailwind CSS 4 ·
+Prisma 7 · PostgreSQL.
+
+## Démarrer
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sans configuration supplémentaire, le site tourne en **mode démo** : les
+actualités sont servies depuis un magasin en mémoire pré-rempli (les
+modifications ne survivent pas au redémarrage).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Brancher PostgreSQL (production / OVH)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env       # renseigner DATABASE_URL
+npx prisma migrate dev     # crée les tables
+npm run dev
+```
 
-## Learn More
+La couche de données (`src/lib/articles.ts`) bascule automatiquement sur
+Prisma dès que `DATABASE_URL` est défini.
 
-To learn more about Next.js, take a look at the following resources:
+## Les trois interfaces (cahier des charges)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Interface | URL | État |
+|---|---|---|
+| Site public | `/` | Accueil fidèle à la maquette, liste + détail des actualités, SEO de base (métadonnées, Open Graph) |
+| Éditeur de pages drag-and-drop | `/admin/editeur` | Palette de 6 blocs (bannière, texte, actus, grille, galerie, contact), canvas avec aperçu temps réel, inspecteur de propriétés, duplication/suppression/réordonnancement |
+| Gestion des actualités | `/admin/actus` | CRUD complet : création, édition, publication/dépublication, suppression — répercuté automatiquement sur la page d'accueil |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Structure
 
-## Deploy on Vercel
+```
+prisma/schema.prisma          Modèles : User (rôles), Page, Block, Article,
+                              PreRegistration, ContactMessage
+src/app/(public)/             Site public (layout nav + footer)
+src/app/admin/                Interfaces d'administration
+src/app/api/articles/         API REST des actualités
+src/lib/articles.ts           Couche données (Prisma ⇄ mémoire) — serveur
+src/lib/article-types.ts      Types partagés client/serveur
+src/components/               Nav, Footer, NewsCard, Reveal, Toast
+public/                       Logos + vidéo héro extraits de la maquette
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Reste à faire
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] **Authentification** (NextAuth/Auth.js) : accès admin réservé
+      (rôles ADMIN / COMM prévus dans le schéma Prisma)
+- [ ] **Persistance de l'éditeur de pages** (modèles Page/Block déjà en base)
+      et rendu des pages éditées côté public
+- [ ] Formulaires de **contact** et de **préinscription** (modèles prêts)
+- [ ] Pages de contenu : filières/grilles horaires, restaurant, calendrier
+- [ ] **Diffusion vers les réseaux sociaux** depuis le gestionnaire d'actus
+- [ ] Téléversement d'images (actualités, galeries)
+- [ ] Migration du contenu existant (WordPress)
+- [ ] QR codes, conversion PDF, chatbot (outils mentionnés au cahier des charges)
