@@ -51,15 +51,35 @@ src/components/               Nav, Footer, NewsCard, Reveal, Toast
 public/                       Logos + vidéo héro extraits de la maquette
 ```
 
+## Authentification
+
+L'espace `/admin` est protégé (cookie de session signé HMAC + proxy Next).
+Comptes de démonstration (mots de passe surchargés par `ADMIN_PASSWORD` /
+`COMM_PASSWORD`, secret de session via `AUTH_SECRET`) :
+
+| Compte | Rôle | Accès |
+|---|---|---|
+| admin@atheneejulesbara.be / `admin2026` | ADMIN | éditeur de pages + actus + messages |
+| communication@atheneejulesbara.be / `comm2026` | COMM | actus + messages |
+
+À terme : remplacer les comptes de démo par le modèle `User` en base
+(éventuellement via Auth.js).
+
+## Pages composées & formulaires
+
+- L'éditeur (`/admin/editeur`) charge/enregistre/publie la page via
+  `PUT /api/pages/[slug]` ; les pages publiées sont rendues publiquement
+  sur `/p/[slug]` avec les styles du site.
+- `/contact` et `/preinscription` enregistrent les demandes, consultables
+  dans `/admin/messages`.
+
 ## Reste à faire
 
-- [ ] **Authentification** (NextAuth/Auth.js) : accès admin réservé
-      (rôles ADMIN / COMM prévus dans le schéma Prisma)
-- [ ] **Persistance de l'éditeur de pages** (modèles Page/Block déjà en base)
-      et rendu des pages éditées côté public
-- [ ] Formulaires de **contact** et de **préinscription** (modèles prêts)
+- [ ] Sélecteur multi-pages dans l'éditeur (l'API gère déjà n pages)
 - [ ] Pages de contenu : filières/grilles horaires, restaurant, calendrier
 - [ ] **Diffusion vers les réseaux sociaux** depuis le gestionnaire d'actus
 - [ ] Téléversement d'images (actualités, galeries)
+- [ ] Notification e-mail à la réception d'un message/préinscription
 - [ ] Migration du contenu existant (WordPress)
 - [ ] QR codes, conversion PDF, chatbot (outils mentionnés au cahier des charges)
+- [ ] Comptes utilisateurs en base (modèle User) au lieu des comptes de démo
