@@ -3,17 +3,21 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const LINKS = [
+type NavLink = { href: string; label: string };
+
+const LINKS: NavLink[] = [
   { href: "/", label: "Accueil" },
   { href: "/#mission", label: "L'école" },
   { href: "/#grilles", label: "Grilles" },
   { href: "/actualites", label: "Actus" },
   { href: "/#restaurant", label: "Restaurant" },
-  { href: "/contact", label: "Contact" },
 ];
 
-export default function Nav() {
+const CONTACT: NavLink = { href: "/contact", label: "Contact" };
+
+export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
+  const links = [...LINKS, ...pages, CONTACT];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -34,7 +38,7 @@ export default function Nav() {
           />
         </Link>
         <nav className="nav-links">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <Link key={l.label} href={l.href}>
               {l.label}
             </Link>

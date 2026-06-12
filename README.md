@@ -74,13 +74,14 @@ Comptes de démonstration (mots de passe surchargés par `ADMIN_PASSWORD` /
   direct). Chaque page s'enregistre/se publie via `PUT /api/pages/[slug]`
   et les pages publiées sont rendues publiquement sur `/p/[slug]` avec les
   styles du site.
+- Les pages publiées apparaissent automatiquement dans le menu de
+  navigation public (entre les liens fixes et « Contact »).
 - `/contact` et `/preinscription` enregistrent les demandes, consultables
   dans `/admin/messages`.
 
 ## Reste à faire
 
 - [ ] Pages de contenu : filières/grilles horaires, restaurant, calendrier
-- [ ] Intégrer les pages composées dans la navigation publique (menu dynamique)
 - [ ] **Diffusion vers les réseaux sociaux** depuis le gestionnaire d'actus
 - [ ] Téléversement d'images (actualités, galeries)
 - [ ] Notification e-mail à la réception d'un message/préinscription
