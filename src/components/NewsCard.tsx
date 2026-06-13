@@ -9,11 +9,15 @@ export default function NewsCard({ article }: { article: Article }) {
       <article className="ncard reveal">
         <div
           className="ph"
-          style={{
-            background: `linear-gradient(135deg,${article.color},${shade(article.color)})`,
-          }}
+          style={
+            article.image
+              ? { backgroundImage: `url(${article.image})`, backgroundSize: "cover", backgroundPosition: "center" }
+              : { background: `linear-gradient(135deg,${article.color},${shade(article.color)})` }
+          }
         >
-          <div className="ic">{CATEGORY_ICONS[article.category] ?? "📰"}</div>
+          {!article.image && (
+            <div className="ic">{CATEGORY_ICONS[article.category] ?? "📰"}</div>
+          )}
           <span className="cat">{article.category}</span>
         </div>
         <div className="bd">

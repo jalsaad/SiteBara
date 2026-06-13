@@ -20,6 +20,9 @@
 # production
 /build
 
+# images téléversées (actualités, galeries) — servies depuis public/uploads
+/public/uploads
+
 # misc
 .DS_Store
 *.pem

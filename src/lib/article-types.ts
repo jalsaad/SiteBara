@@ -2,6 +2,29 @@
 
 export type ArticleStatus = "DRAFT" | "PUBLISHED";
 
+// Diffusion vers les réseaux sociaux (cahier des charges : gestionnaire
+// d'actualités → publication et diffusion de contenus vers les réseaux).
+export type SocialNetwork = "facebook" | "instagram" | "linkedin";
+
+export type SocialShareStatus = "SENT" | "SIMULATED" | "FAILED";
+
+export interface SocialShare {
+  network: SocialNetwork;
+  sharedAt: string; // ISO
+  status: SocialShareStatus;
+  detail?: string;
+}
+
+export const SOCIAL_NETWORKS: {
+  id: SocialNetwork;
+  label: string;
+  icon: string;
+}[] = [
+  { id: "facebook", label: "Facebook", icon: "📘" },
+  { id: "instagram", label: "Instagram", icon: "📸" },
+  { id: "linkedin", label: "LinkedIn", icon: "💼" },
+];
+
 export interface Article {
   id: string;
   title: string;
@@ -9,10 +32,12 @@ export interface Article {
   category: string;
   excerpt: string;
   body: string;
+  image: string | null;
   color: string;
   status: ArticleStatus;
   publishedAt: string | null;
   createdAt: string;
+  shares: SocialShare[];
 }
 
 export interface ArticleInput {
@@ -20,6 +45,7 @@ export interface ArticleInput {
   category: string;
   excerpt: string;
   body?: string;
+  image?: string | null;
   color?: string;
   status?: ArticleStatus;
 }

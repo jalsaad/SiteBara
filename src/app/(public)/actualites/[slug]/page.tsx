@@ -18,9 +18,17 @@ export default async function ArticlePage({
     <main>
       <section
         className="hero"
-        style={{
-          background: `linear-gradient(160deg,${shade(article.color)},${article.color})`,
-        }}
+        style={
+          article.image
+            ? {
+                backgroundImage: `linear-gradient(160deg,rgba(27,34,69,.78),rgba(27,34,69,.55)),url(${article.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : {
+                background: `linear-gradient(160deg,${shade(article.color)},${article.color})`,
+              }
+        }
       >
         <div className="hero-in" style={{ padding: "72px 30px", gridTemplateColumns: "1fr" }}>
           <div className="reveal in">

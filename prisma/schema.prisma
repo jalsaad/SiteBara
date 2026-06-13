@@ -61,9 +61,13 @@ model Article {
   category    String
   excerpt     String
   body        String        @default("")
+  // Image de couverture (URL renvoyée par /api/upload, ex. /uploads/xxx.jpg)
+  image       String?
   color       String        @default("#284193")
   status      ArticleStatus @default(DRAFT)
   publishedAt DateTime?
+  // Historique de diffusion vers les réseaux sociaux : [{ network, sharedAt, status, detail }]
+  shares      Json          @default("[]")
   author      User?         @relation(fields: [authorId], references: [id])
   authorId    String?
   createdAt   DateTime      @default(now())

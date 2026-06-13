@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Article, ArticleStatus } from "@/lib/article-types";
-import { formatDateFr } from "@/lib/article-types";
+import type {
+  Article,
+  ArticleStatus,
+  SocialNetwork,
+  SocialShare,
+} from "@/lib/article-types";
+import { formatDateFr, SOCIAL_NETWORKS } from "@/lib/article-types";
 import { shade, ACCENT_COLORS } from "@/lib/colors";
 import { useToast } from "@/components/Toast";
+import ImageUpload from "@/components/ImageUpload";
 
 const CATEGORIES = ["Événement", "Projet", "Inscription", "Sortie", "Info"];
 
@@ -14,6 +20,7 @@ interface Draft {
   category: string;
   excerpt: string;
   body: string;
+  image: string | null;
   color: string;
   status: ArticleStatus;
 }
@@ -23,14 +30,25 @@ const EMPTY: Draft = {
   category: "Événement",
   excerpt: "",
   body: "",
+  image: null,
   color: "#284193",
   status: "DRAFT",
 };
+
+const ALL_NETWORKS = SOCIAL_NETWORKS.map((n) => n.id);
+
+/** Dernière diffusion d'un article sur un réseau donné. */
+function lastShare(a: Article, network: SocialNetwork): SocialShare | undefined {
+  return [...a.shares].reverse().find((s) => s.network === network);
+}
 
 export default function ActusManager() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [shareFor, setShareFor] = useState<Article | null>(null);
+  const [shareNets, setShareNets] = useState<SocialNetwork[]>(ALL_NETWORKS);
+  const [sharing, setSharing] = useState(false);
   const toast = useToast();
 
   async function refresh() {
@@ -60,6 +78,7 @@ export default function ActusManager() {
           category: draft.category,
           excerpt: draft.excerpt,
           body: draft.body,
+          image: draft.image,
           color: draft.color,
           status: draft.status,
         }),
@@ -92,6 +111,49 @@ export default function ActusManager() {
     refresh();
   }
 
+  function openShare(a: Article) {
+    if (a.status !== "PUBLISHED") {
+      toast("Publiez l'article avant de le diffuser");
+      return;
+    }
+    setShareNets(ALL_NETWORKS);
+    setShareFor(a);
+  }
+
+  async function doShare() {
+    if (!shareFor || sharing) return;
+    if (shareNets.length === 0) {
+      toast("Choisissez au moins un réseau");
+      return;
+    }
+    setSharing(true);
+    const res = await fetch(`/api/articles/${shareFor.id}/share`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ networks: shareNets }),
+    });
+    setSharing(false);
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: null }));
+      toast(error ?? "Erreur lors de la diffusion");
+      return;
+    }
+    const { results } = (await res.json()) as { results: SocialShare[] };
+    const failed = results.filter((r) => r.status === "FAILED");
+    const names = results
+      .filter((r) => r.status !== "FAILED")
+      .map((r) => SOCIAL_NETWORKS.find((n) => n.id === r.network)?.label)
+      .join(", ");
+    if (failed.length === results.length) {
+      toast("La diffusion a échoué — voir l'historique");
+    } else {
+      const simulated = results.some((r) => r.status === "SIMULATED");
+      toast(`Diffusé sur ${names}${simulated ? " (simulation)" : ""}`);
+    }
+    setShareFor(null);
+    refresh();
+  }
+
   function edit(a: Article) {
     setDraft({
       id: a.id,
@@ -99,6 +161,7 @@ export default function ActusManager() {
       category: a.category,
       excerpt: a.excerpt,
       body: a.body,
+      image: a.image,
       color: a.color,
       status: a.status,
     });
@@ -142,9 +205,11 @@ export default function ActusManager() {
           <div className="arow" key={a.id}>
             <div
               className="thumb"
-              style={{
-                background: `linear-gradient(135deg,${a.color},${shade(a.color)})`,
-              }}
+              style={
+                a.image
+                  ? { backgroundImage: `url(${a.image})`, backgroundSize: "cover", backgroundPosition: "center" }
+                  : { background: `linear-gradient(135deg,${a.color},${shade(a.color)})` }
+              }
             />
             <div>
               <div className="ti2">{a.title}</div>
@@ -158,6 +223,23 @@ export default function ActusManager() {
               <span className={`badge ${a.status === "PUBLISHED" ? "pub" : "draft"}`}>
                 {a.status === "PUBLISHED" ? "Publié" : "Brouillon"}
               </span>
+              {a.shares.length > 0 && (
+                <div className="shared-nets">
+                  {SOCIAL_NETWORKS.filter((n) => lastShare(a, n.id)).map((n) => {
+                    const s = lastShare(a, n.id)!;
+                    return (
+                      <span
+                        key={n.id}
+                        title={`${n.label} — ${formatDateFr(s.sharedAt)}${
+                          s.status === "SIMULATED" ? " (simulation)" : ""
+                        }${s.status === "FAILED" ? " (échec)" : ""}`}
+                      >
+                        {n.icon}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div className="acts">
               <button title="Modifier" onClick={() => edit(a)}>✏️</button>
@@ -167,11 +249,68 @@ export default function ActusManager() {
               >
                 {a.status === "PUBLISHED" ? "⏸" : "🚀"}
               </button>
+              <button title="Diffuser sur les réseaux" onClick={() => openShare(a)}>
+                📣
+              </button>
               <button title="Supprimer" onClick={() => remove(a)}>🗑</button>
             </div>
           </div>
         ))}
       </div>
+
+      {shareFor && (
+        <div className="modal-veil" onClick={() => setShareFor(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Diffuser sur les réseaux</h3>
+            <p style={{ fontSize: 14, color: "var(--ink-soft)", marginBottom: 18 }}>
+              «&nbsp;{shareFor.title}&nbsp;» sera partagé avec son résumé et le
+              lien vers l&apos;article.
+            </p>
+            {SOCIAL_NETWORKS.map((n) => {
+              const on = shareNets.includes(n.id);
+              const last = lastShare(shareFor, n.id);
+              return (
+                <div
+                  key={n.id}
+                  className={`netrow${on ? " on" : ""}`}
+                  onClick={() =>
+                    setShareNets(
+                      on
+                        ? shareNets.filter((x) => x !== n.id)
+                        : [...shareNets, n.id]
+                    )
+                  }
+                >
+                  <span className="ni">{n.icon}</span>
+                  <span>
+                    <span className="nl">{n.label}</span>
+                    <span className="nd">
+                      {last
+                        ? `Dernière diffusion : ${formatDateFr(last.sharedAt)}${
+                            last.status === "SIMULATED" ? " (simulation)" : ""
+                          }${last.status === "FAILED" ? " (échec)" : ""}`
+                        : "Jamais diffusé"}
+                    </span>
+                  </span>
+                  <span className="ck">{on ? "✓" : ""}</span>
+                </div>
+              );
+            })}
+            <p className="ihint" style={{ margin: "14px 0 0" }}>
+              Sans clés API configurées (Meta, LinkedIn), la diffusion est
+              simulée et tracée dans l&apos;historique — mode démonstration.
+            </p>
+            <div className="actions">
+              <button className="abtn ghost" onClick={() => setShareFor(null)}>
+                Annuler
+              </button>
+              <button className="abtn primary" onClick={doShare} disabled={sharing}>
+                {sharing ? "Diffusion…" : "📣 Diffuser"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {draft && (
         <div className="modal-veil" onClick={() => setDraft(null)}>
@@ -211,6 +350,13 @@ export default function ActusManager() {
                 value={draft.body}
                 onChange={(e) => setDraft({ ...draft, body: e.target.value })}
                 placeholder="Texte complet de l'article"
+              />
+            </div>
+            <div className="field">
+              <label>Image de couverture</label>
+              <ImageUpload
+                value={draft.image}
+                onChange={(url) => setDraft({ ...draft, image: url })}
               />
             </div>
             <div className="field">

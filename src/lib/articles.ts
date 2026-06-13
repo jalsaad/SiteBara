@@ -8,10 +8,16 @@
 //    redémarrage du serveur).
 
 import "server-only";
-import type { Article, ArticleInput } from "./article-types";
+import type { Article, ArticleInput, SocialShare } from "./article-types";
 import { slugify } from "./article-types";
 
-export type { Article, ArticleInput, ArticleStatus } from "./article-types";
+export type {
+  Article,
+  ArticleInput,
+  ArticleStatus,
+  SocialNetwork,
+  SocialShare,
+} from "./article-types";
 export { slugify, formatDateFr } from "./article-types";
 
 /* ------------------- magasin mémoire (mode démo) ------------------- */
@@ -25,10 +31,19 @@ const seed: Article[] = [
     excerpt:
       "Nos élèves de 3e degré ont brillé lors de la grande finale d'éloquence.",
     body: "Nos élèves de 3e degré ont brillé lors de la grande finale d'éloquence organisée à Tournai.",
+    image: null,
     color: "#284193",
     status: "PUBLISHED",
     publishedAt: "2026-04-03T10:00:00.000Z",
     createdAt: "2026-04-01T10:00:00.000Z",
+    shares: [
+      {
+        network: "facebook",
+        sharedAt: "2026-04-03T10:05:00.000Z",
+        status: "SIMULATED",
+        detail: "Mode démo : aucune clé API configurée, publication simulée.",
+      },
+    ],
   },
   {
     id: "a2",
@@ -38,10 +53,12 @@ const seed: Article[] = [
     excerpt:
       "Un projet pédagogique immersif autour de la nature et du vivant.",
     body: "Un projet pédagogique immersif autour de la nature et du vivant, mené avec l'ensemble des classes.",
+    image: null,
     color: "#0f9e75",
     status: "PUBLISHED",
     publishedAt: "2026-03-18T10:00:00.000Z",
     createdAt: "2026-03-15T10:00:00.000Z",
+    shares: [],
   },
   {
     id: "a3",
@@ -51,10 +68,12 @@ const seed: Article[] = [
     excerpt:
       "Venez découvrir l'établissement et rencontrer l'équipe pédagogique.",
     body: "Venez découvrir l'établissement et rencontrer l'équipe pédagogique lors de nos journées portes ouvertes.",
+    image: null,
     color: "#f57a20",
     status: "PUBLISHED",
     publishedAt: "2026-03-02T10:00:00.000Z",
     createdAt: "2026-02-25T10:00:00.000Z",
+    shares: [],
   },
   {
     id: "a4",
@@ -64,10 +83,12 @@ const seed: Article[] = [
     excerpt:
       "Brouillon en cours de rédaction pour le séjour culturel de mai.",
     body: "",
+    image: null,
     color: "#1b2245",
     status: "DRAFT",
     publishedAt: null,
     createdAt: "2026-04-10T10:00:00.000Z",
+    shares: [],
   },
 ];
 
@@ -86,9 +107,12 @@ function memId(): string {
 
 const useDb = !!process.env.DATABASE_URL;
 
-type PrismaArticle = Omit<Article, "publishedAt" | "createdAt"> & {
+type PrismaArticle = Omit<Article, "publishedAt" | "createdAt" | "shares"> & {
   publishedAt: Date | null;
   createdAt: Date;
+  // Colonne Json — optionnelle pour rester compatible avec un client Prisma
+  // généré avant la migration « shares » (régénérer via `npx prisma generate`).
+  shares?: unknown;
 };
 
 async function prisma() {
@@ -111,6 +135,7 @@ function fromDb(a: PrismaArticle): Article {
     ...a,
     publishedAt: a.publishedAt ? a.publishedAt.toISOString() : null,
     createdAt: a.createdAt.toISOString(),
+    shares: Array.isArray(a.shares) ? (a.shares as SocialShare[]) : [],
   };
 }
 
@@ -146,6 +171,43 @@ export async function getArticle(slug: string): Promise<Article | null> {
   return memStore().find((a) => a.slug === slug) ?? null;
 }
 
+export async function getArticleById(id: string): Promise<Article | null> {
+  if (useDb) {
+    const db = await prisma();
+    const row = await db.article.findUnique({ where: { id } });
+    return row ? fromDb(row) : null;
+  }
+  return memStore().find((a) => a.id === id) ?? null;
+}
+
+/** Ajoute des diffusions à l'historique d'un article (réseaux sociaux). */
+export async function addShares(
+  id: string,
+  shares: SocialShare[]
+): Promise<Article | null> {
+  if (useDb) {
+    const db = await prisma();
+    const prev = (await db.article.findUnique({
+      where: { id },
+    })) as PrismaArticle | null;
+    if (!prev) return null;
+    const merged = [
+      ...(Array.isArray(prev.shares) ? (prev.shares as SocialShare[]) : []),
+      ...shares,
+    ];
+    const row = await db.article.update({
+      where: { id },
+      // Cast : champ absent des types tant que le client n'est pas régénéré.
+      data: { shares: merged } as never,
+    });
+    return fromDb(row);
+  }
+  const a = memStore().find((x) => x.id === id);
+  if (!a) return null;
+  a.shares = [...a.shares, ...shares];
+  return a;
+}
+
 export async function createArticle(input: ArticleInput): Promise<Article> {
   const status = input.status ?? "DRAFT";
   const base = {
@@ -154,6 +216,7 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
     category: input.category,
     excerpt: input.excerpt,
     body: input.body ?? "",
+    image: input.image ?? null,
     color: input.color ?? "#284193",
     status,
   };
@@ -176,6 +239,7 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
     id: memId(),
     publishedAt: status === "PUBLISHED" ? new Date().toISOString() : null,
     createdAt: new Date().toISOString(),
+    shares: [],
   };
   store.unshift(article);
   return article;
