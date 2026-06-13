@@ -106,7 +106,7 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="access">
-            <a className="acard reveal" style={{ "--c": "var(--royal)" } as React.CSSProperties} href="#grilles">
+            <Link className="acard reveal" style={{ "--c": "var(--royal)" } as React.CSSProperties} href="/filieres">
               <div className="ic">🎓</div>
               <h3 className="serif">Nos filières</h3>
               <p>
@@ -114,13 +114,13 @@ export default async function HomePage() {
                 préparatoire.
               </p>
               <span className="go">Voir les grilles →</span>
-            </a>
-            <a className="acard reveal" style={{ "--c": "var(--orange)" } as React.CSSProperties} href="#calendrier">
+            </Link>
+            <Link className="acard reveal" style={{ "--c": "var(--orange)" } as React.CSSProperties} href="/calendrier">
               <div className="ic">📅</div>
               <h3 className="serif">Calendrier</h3>
               <p>Dates clés, congés et événements de l&apos;année scolaire en cours.</p>
               <span className="go">Consulter →</span>
-            </a>
+            </Link>
             <a className="acard reveal" style={{ "--c": "var(--teal)" } as React.CSSProperties} href="#numerique">
               <div className="ic">💻</div>
               <h3 className="serif">École numérique</h3>
@@ -130,12 +130,12 @@ export default async function HomePage() {
               </p>
               <span className="go">Se connecter →</span>
             </a>
-            <a className="acard reveal" style={{ "--c": "var(--gold)" } as React.CSSProperties} href="#restaurant" id="restaurant">
+            <Link className="acard reveal" style={{ "--c": "var(--gold)" } as React.CSSProperties} href="/restaurant">
               <div className="ic">🍽️</div>
               <h3 className="serif">Restaurant</h3>
               <p>Menus de la semaine et informations sur la cantine scolaire.</p>
               <span className="go">Voir le menu →</span>
-            </a>
+            </Link>
           </div>
         </section>
 

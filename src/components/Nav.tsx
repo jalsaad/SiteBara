@@ -7,10 +7,10 @@ type NavLink = { href: string; label: string };
 
 const LINKS: NavLink[] = [
   { href: "/", label: "Accueil" },
-  { href: "/#mission", label: "L'école" },
-  { href: "/#grilles", label: "Grilles" },
+  { href: "/filieres", label: "Filières" },
+  { href: "/calendrier", label: "Calendrier" },
   { href: "/actualites", label: "Actus" },
-  { href: "/#restaurant", label: "Restaurant" },
+  { href: "/restaurant", label: "Restaurant" },
 ];
 
 const CONTACT: NavLink = { href: "/contact", label: "Contact" };

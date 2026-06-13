@@ -46,19 +46,21 @@ const seed: PageData[] = [
   },
 ];
 
-// Exemple de page secondaire pré-remplie (mode démo).
+// Exemple de page secondaire composée dans l'éditeur (mode démo). Sujet
+// distinct des pages de contenu dédiées (/filieres, /restaurant, /calendrier)
+// pour illustrer l'éditeur drag-and-drop sans faire doublon.
 seed.push({
-  slug: "filieres",
-  title: "Nos filières",
+  slug: "projet-pedagogique",
+  title: "Notre projet",
   published: true,
   blocks: [
     {
       id: blockId(),
       type: "hero",
       data: {
-        pill: "Enseignement",
-        title: "Nos *filières* et options",
-        sub: "Du premier au troisième degré, ainsi que le DASPA et la 7ᵉ préparatoire.",
+        pill: "Projet d'établissement",
+        title: "Notre *projet* pédagogique",
+        sub: "Une école bienveillante et exigeante, tournée vers l'autonomie, l'ouverture et la réussite de chaque élève.",
         btn1: "Préinscription",
         link1: "/preinscription",
         btn2: "",
@@ -69,15 +71,15 @@ seed.push({
         anim: true,
       },
     },
-    { id: blockId(), type: "grid", data: { title: "Grille horaire — 1er degré" } },
     {
       id: blockId(),
       type: "text",
       data: {
-        title: "Un parcours pour chaque élève",
-        body: "Enseignement général, options scientifiques, langues modernes, sciences économiques et sociales : chaque élève construit un parcours adapté à son projet.",
+        title: "Apprendre, s'ouvrir, s'accomplir",
+        body: "Des approches pédagogiques diversifiées et un suivi personnalisé, une école tournée vers le monde et la diversité, et le développement de l'autonomie pour que chacun trouve sa voie.",
       },
     },
+    { id: blockId(), type: "gallery", data: { title: "La vie à Bara" } },
   ],
 });
 

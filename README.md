@@ -33,7 +33,7 @@ Prisma dès que `DATABASE_URL` est défini.
 
 | Interface | URL | État |
 |---|---|---|
-| Site public | `/` | Accueil fidèle à la maquette, liste + détail des actualités, SEO de base (métadonnées, Open Graph) |
+| Site public | `/` | Accueil fidèle à la maquette, pages de contenu (`/filieres`, `/restaurant`, `/calendrier`), liste + détail des actualités, SEO de base (métadonnées, Open Graph) |
 | Éditeur de pages drag-and-drop | `/admin/editeur` | Palette de 6 blocs (bannière, texte, actus, grille, galerie, contact), canvas avec aperçu temps réel, inspecteur de propriétés, duplication/suppression/réordonnancement |
 | Gestion des actualités | `/admin/actus` | CRUD complet : création, édition, publication/dépublication, suppression — répercuté automatiquement sur la page d'accueil. Diffusion vers les réseaux sociaux (voir ci-dessous) |
 
@@ -115,7 +115,8 @@ page de détail (à défaut, le dégradé de la couleur d'accent est conservé).
 
 - [x] **Diffusion vers les réseaux sociaux** depuis le gestionnaire d'actus
 - [x] **Téléversement d'images** de couverture pour les actualités
-- [ ] Pages de contenu : filières/grilles horaires, restaurant, calendrier
+- [x] **Pages de contenu** : filières/grilles horaires (`/filieres`), restaurant
+  (`/restaurant`), calendrier scolaire (`/calendrier`)
 - [ ] Téléversement d'images dans les galeries de l'éditeur de pages
 - [ ] Notification e-mail à la réception d'un message/préinscription
 - [ ] Migration du contenu existant (WordPress)
