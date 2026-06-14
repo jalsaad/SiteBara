@@ -11,6 +11,7 @@ const LINKS: NavLink[] = [
   { href: "/calendrier", label: "Calendrier" },
   { href: "/actualites", label: "Actus" },
   { href: "/restaurant", label: "Restaurant" },
+  { href: "/applis", label: "Applis" },
 ];
 
 const CONTACT: NavLink = { href: "/contact", label: "Contact" };
