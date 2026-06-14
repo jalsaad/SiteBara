@@ -16,10 +16,10 @@ export interface PublicWeek {
   days: MenuDay[];
 }
 
-// Affiche la semaine en cours et, si plusieurs sont publiées, des onglets pour
-// consulter les semaines suivantes.
+// Carrousel de semaines : la semaine en cours (première de la liste) est
+// affichée par défaut ; les flèches ‹ › font défiler les semaines suivantes.
 export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
-  const [active, setActive] = useState(0);
+  const [i, setI] = useState(0);
 
   if (weeks.length === 0) {
     return (
@@ -29,26 +29,34 @@ export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
     );
   }
 
-  const week = weeks[Math.min(active, weeks.length - 1)];
+  const idx = Math.min(i, weeks.length - 1);
+  const week = weeks[idx];
   const jours = week.days.filter((d) => d.potage || d.plat || d.veggie || d.dessert);
 
   return (
-    <div className="menu-public">
-      {weeks.length > 1 && (
-        <div className="menu-tabs" role="tablist">
-          {weeks.map((w, i) => (
-            <button
-              key={w.id}
-              role="tab"
-              aria-selected={i === active}
-              className={`menu-tab ${i === active ? "active" : ""}`}
-              onClick={() => setActive(i)}
-            >
-              {i === 0 ? "Cette semaine" : w.label}
-            </button>
-          ))}
+    <div className="menu-carousel">
+      <div className="menu-carousel-head">
+        <button
+          className="menu-nav"
+          onClick={() => setI(idx - 1)}
+          disabled={idx === 0}
+          aria-label="Semaine précédente"
+        >
+          ‹
+        </button>
+        <div className="menu-carousel-title">
+          <strong>{week.label}</strong>
+          {idx === 0 && <span className="menu-now">semaine en cours</span>}
         </div>
-      )}
+        <button
+          className="menu-nav"
+          onClick={() => setI(idx + 1)}
+          disabled={idx >= weeks.length - 1}
+          aria-label="Semaine suivante"
+        >
+          ›
+        </button>
+      </div>
 
       {jours.length === 0 ? (
         <p className="lead" style={{ textAlign: "center" }}>
@@ -78,6 +86,19 @@ export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {weeks.length > 1 && (
+        <div className="menu-dots">
+          {weeks.map((w, n) => (
+            <button
+              key={w.id}
+              className={`menu-dot ${n === idx ? "active" : ""}`}
+              onClick={() => setI(n)}
+              aria-label={`Aller à ${w.label}`}
+            />
+          ))}
         </div>
       )}
     </div>

@@ -198,22 +198,25 @@ body::before {
 .menu-day { background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 14px; padding: 18px 18px 6px; }
 .menu-day h3 { color: var(--royal); font-size: 17px; margin-bottom: 12px; }
 .menu-day .field { margin-bottom: 12px; }
-.menu-layout { display: grid; grid-template-columns: 240px 1fr; gap: 22px; margin-top: 22px; align-items: start; }
-.menu-weeks-list { display: flex; flex-direction: column; gap: 8px; }
-.menu-week-item { text-align: left; background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 2px; transition: 0.15s; }
-.menu-week-item:hover { border-color: var(--royal); }
-.menu-week-item.active { border-color: var(--royal); background: #eef2fb; }
-.menu-week-item .mw-label { font-weight: 600; color: var(--ink, #1b2245); font-size: 14px; }
-.menu-week-item .mw-date { font-size: 12px; color: #959cb3; }
-.menu-editor-head { display: flex; gap: 18px; flex-wrap: wrap; }
+.menu-editor-head { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; }
 .abtn.danger { color: #c0392b; }
-@media (max-width: 760px) { .menu-layout { grid-template-columns: 1fr; } }
 
-/* Onglets de semaines sur la page publique /restaurant */
-.menu-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
-.menu-tab { background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 999px; padding: 8px 16px; font-size: 14px; cursor: pointer; transition: 0.15s; color: var(--ink, #1b2245); }
-.menu-tab:hover { border-color: var(--royal); }
-.menu-tab.active { background: var(--royal); border-color: var(--royal); color: #fff; }
+/* Carrousel de semaines (flèches) — partagé éditeur + page publique */
+.menu-carousel-head { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 18px; }
+.menu-carousel-head.admin { margin-top: 18px; }
+.menu-carousel-title { text-align: center; display: flex; flex-direction: column; gap: 2px; min-width: 220px; }
+.menu-carousel-title strong { color: var(--royal); font-size: 18px; }
+.menu-now { font-size: 12px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.menu-pos { font-size: 12px; color: #959cb3; }
+.menu-nav { width: 42px; height: 42px; flex: none; border-radius: 50%; border: 1px solid var(--line, #e6e8f0); background: #fff; color: var(--royal); font-size: 22px; line-height: 1; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; justify-content: center; }
+.menu-nav:hover:not(:disabled) { background: var(--royal); color: #fff; border-color: var(--royal); }
+.menu-nav:disabled { opacity: 0.3; cursor: default; }
+.menu-nav.add { width: auto; padding: 0 16px; border-radius: 999px; border-style: dashed; border-color: var(--royal); font-size: 16px; font-weight: 600; }
+.menu-nav.add.big { height: 46px; }
+/* Pastilles de navigation (page publique) */
+.menu-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+.menu-dot { width: 9px; height: 9px; border-radius: 50%; border: none; background: #d3d8e6; cursor: pointer; padding: 0; transition: 0.15s; }
+.menu-dot.active { background: var(--royal); transform: scale(1.25); }
 @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 
