@@ -62,6 +62,11 @@ export type Block = Prisma.BlockModel
  */
 export type Article = Prisma.ArticleModel
 /**
+ * Model WeeklyMenu
+ * 
+ */
+export type WeeklyMenu = Prisma.WeeklyMenuModel
+/**
  * Model PreRegistration
  * 
  */

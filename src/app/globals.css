@@ -192,6 +192,12 @@ body::before {
 .credit a { display: inline-flex; opacity: 0.4; transition: opacity 0.2s; }
 .credit a:hover { opacity: 0.85; }
 .credit img { height: 20px; width: auto; display: block; }
+
+/* Gestionnaire du menu de la semaine (admin) */
+.menu-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 22px; }
+.menu-day { background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 14px; padding: 18px 18px 6px; }
+.menu-day h3 { color: var(--royal); font-size: 17px; margin-bottom: 12px; }
+.menu-day .field { margin-bottom: 12px; }
 @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 

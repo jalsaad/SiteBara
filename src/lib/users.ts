@@ -56,6 +56,12 @@ const SEED: { email: string; name: string; role: Role; password: string }[] = [
     role: "COMM",
     password: process.env.COMM_PASSWORD ?? "comm2026",
   },
+  {
+    email: "cuisine@atheneejulesbara.be",
+    name: "Cuisine",
+    role: "CUISINE",
+    password: process.env.CUISINE_PASSWORD ?? "cuisine2026",
+  },
 ];
 
 function stripUser({ passwordHash: _omit, ...u }: UserRow): User {

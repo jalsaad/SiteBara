@@ -388,6 +388,7 @@ export const ModelName = {
   Page: 'Page',
   Block: 'Block',
   Article: 'Article',
+  WeeklyMenu: 'WeeklyMenu',
   PreRegistration: 'PreRegistration',
   ContactMessage: 'ContactMessage'
 } as const
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "page" | "block" | "article" | "preRegistration" | "contactMessage"
+    modelProps: "user" | "page" | "block" | "article" | "weeklyMenu" | "preRegistration" | "contactMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -705,6 +706,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    WeeklyMenu: {
+      payload: Prisma.$WeeklyMenuPayload<ExtArgs>
+      fields: Prisma.WeeklyMenuFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WeeklyMenuFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WeeklyMenuFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>
+        }
+        findFirst: {
+          args: Prisma.WeeklyMenuFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WeeklyMenuFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>
+        }
+        findMany: {
+          args: Prisma.WeeklyMenuFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>[]
+        }
+        create: {
+          args: Prisma.WeeklyMenuCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>
+        }
+        createMany: {
+          args: Prisma.WeeklyMenuCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WeeklyMenuCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>[]
+        }
+        delete: {
+          args: Prisma.WeeklyMenuDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>
+        }
+        update: {
+          args: Prisma.WeeklyMenuUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>
+        }
+        deleteMany: {
+          args: Prisma.WeeklyMenuDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WeeklyMenuUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WeeklyMenuUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>[]
+        }
+        upsert: {
+          args: Prisma.WeeklyMenuUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeeklyMenuPayload>
+        }
+        aggregate: {
+          args: Prisma.WeeklyMenuAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWeeklyMenu>
+        }
+        groupBy: {
+          args: Prisma.WeeklyMenuGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeeklyMenuGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WeeklyMenuCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeeklyMenuCountAggregateOutputType> | number
+        }
+      }
+    }
     PreRegistration: {
       payload: Prisma.$PreRegistrationPayload<ExtArgs>
       fields: Prisma.PreRegistrationFieldRefs
@@ -945,6 +1020,16 @@ export const ArticleScalarFieldEnum = {
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const WeeklyMenuScalarFieldEnum = {
+  id: 'id',
+  weekLabel: 'weekLabel',
+  days: 'days',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WeeklyMenuScalarFieldEnum = (typeof WeeklyMenuScalarFieldEnum)[keyof typeof WeeklyMenuScalarFieldEnum]
 
 
 export const PreRegistrationScalarFieldEnum = {
@@ -1237,6 +1322,7 @@ export type GlobalOmitConfig = {
   page?: Prisma.PageOmit
   block?: Prisma.BlockOmit
   article?: Prisma.ArticleOmit
+  weeklyMenu?: Prisma.WeeklyMenuOmit
   preRegistration?: Prisma.PreRegistrationOmit
   contactMessage?: Prisma.ContactMessageOmit
 }

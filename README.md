@@ -76,13 +76,14 @@ L'envoi du code réutilise la configuration **SMTP** (voir « Notifications
 e-mail ») ; **sans SMTP** (mode démo) le code est tracé dans la **console du
 serveur** afin de pouvoir tester le flux hors ligne.
 
-Au premier démarrage (base vide) ou en mode démo, deux comptes sont **semés**
-automatiquement à partir de `ADMIN_PASSWORD` / `COMM_PASSWORD` :
+Au premier démarrage (base vide) ou en mode démo, trois comptes sont **semés**
+automatiquement à partir de `ADMIN_PASSWORD` / `COMM_PASSWORD` / `CUISINE_PASSWORD` :
 
 | Compte | Rôle | Accès |
 |---|---|---|
-| admin@atheneejulesbara.be / `admin2026` | ADMIN | éditeur de pages + actus + messages + utilisateurs |
+| admin@atheneejulesbara.be / `admin2026` | ADMIN | éditeur de pages + actus + messages + menu + utilisateurs |
 | communication@atheneejulesbara.be / `comm2026` | COMM | actus + messages |
+| cuisine@atheneejulesbara.be / `cuisine2026` | CUISINE | menu de la semaine du restaurant scolaire |
 
 La page **`/admin/utilisateurs`** (réservée aux ADMIN) permet de créer des
 comptes, changer le rôle, réinitialiser le mot de passe et supprimer — avec

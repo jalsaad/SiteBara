@@ -13,6 +13,7 @@ datasource db {
 enum Role {
   ADMIN // accès complet (éditeur de pages inclus)
   COMM // responsable communication (gestion des actualités)
+  CUISINE // chef cuisinier (gestion du menu de la semaine)
 }
 
 enum ArticleStatus {
@@ -72,6 +73,16 @@ model Article {
   authorId    String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+
+// Menu de la semaine du restaurant scolaire (géré par le rôle CUISINE).
+// Un seul enregistrement « courant » est conservé ; `days` = [{ day, potage,
+// plat, veggie, dessert }].
+model WeeklyMenu {
+  id        String   @id @default(cuid())
+  weekLabel String   @default("")
+  days      Json     @default("[]")
+  updatedAt DateTime @updatedAt
 }
 
 // Formulaire de préinscription (site public).

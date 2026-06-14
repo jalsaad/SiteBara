@@ -1,7 +1,7 @@
 import { requireRole } from "@/lib/auth";
 import { countAdmins, deleteUser, getUser, updateUser } from "@/lib/users";
 
-const ROLES = ["ADMIN", "COMM"] as const;
+const ROLES = ["ADMIN", "COMM", "CUISINE"] as const;
 
 export async function PATCH(
   request: Request,
@@ -28,7 +28,7 @@ export async function PATCH(
     );
   }
   // Empêche de rétrograder le dernier administrateur.
-  if (role === "COMM" && target.role === "ADMIN" && (await countAdmins()) <= 1) {
+  if (role !== undefined && role !== "ADMIN" && target.role === "ADMIN" && (await countAdmins()) <= 1) {
     return Response.json(
       { error: "Impossible : c'est le dernier administrateur" },
       { status: 409 }

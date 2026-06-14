@@ -55,6 +55,7 @@ export const ModelName = {
   Page: 'Page',
   Block: 'Block',
   Article: 'Article',
+  WeeklyMenu: 'WeeklyMenu',
   PreRegistration: 'PreRegistration',
   ContactMessage: 'ContactMessage'
 } as const
@@ -128,6 +129,16 @@ export const ArticleScalarFieldEnum = {
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const WeeklyMenuScalarFieldEnum = {
+  id: 'id',
+  weekLabel: 'weekLabel',
+  days: 'days',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WeeklyMenuScalarFieldEnum = (typeof WeeklyMenuScalarFieldEnum)[keyof typeof WeeklyMenuScalarFieldEnum]
 
 
 export const PreRegistrationScalarFieldEnum = {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/Toast";
 
-type Role = "ADMIN" | "COMM";
+type Role = "ADMIN" | "COMM" | "CUISINE";
 
 interface User {
   id: string;
@@ -24,6 +24,7 @@ interface Draft {
 const ROLE_LABEL: Record<Role, string> = {
   ADMIN: "Administrateur",
   COMM: "Communication",
+  CUISINE: "Cuisine",
 };
 
 const EMPTY: Draft = { email: "", name: "", role: "COMM", password: "" };
@@ -227,6 +228,7 @@ export default function UsersPage() {
                 }
               >
                 <option value="COMM">Communication (actus + messages)</option>
+                <option value="CUISINE">Cuisine (menu de la semaine)</option>
                 <option value="ADMIN">Administrateur (accès complet)</option>
               </select>
             </div>

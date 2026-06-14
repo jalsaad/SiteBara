@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 interface Me {
   email: string;
-  role: "ADMIN" | "COMM";
+  role: "ADMIN" | "COMM" | "CUISINE";
 }
 
 export default function AdminTop() {
@@ -30,7 +30,9 @@ export default function AdminTop() {
       ? "Messages reçus"
       : pathname.startsWith("/admin/utilisateurs")
         ? "Utilisateurs"
-        : "Actualités";
+        : pathname.startsWith("/admin/menu")
+          ? "Menu de la semaine"
+          : "Actualités";
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -54,18 +56,30 @@ export default function AdminTop() {
             🧩 Éditeur de page
           </Link>
         )}
-        <Link
-          className={`abtn ${pathname.startsWith("/admin/actus") ? "save" : "ghost"}`}
-          href="/admin/actus"
-        >
-          📰 Actualités
-        </Link>
-        <Link
-          className={`abtn ${pathname.startsWith("/admin/messages") ? "save" : "ghost"}`}
-          href="/admin/messages"
-        >
-          📬 Messages
-        </Link>
+        {(me?.role === "ADMIN" || me?.role === "COMM") && (
+          <>
+            <Link
+              className={`abtn ${pathname.startsWith("/admin/actus") ? "save" : "ghost"}`}
+              href="/admin/actus"
+            >
+              📰 Actualités
+            </Link>
+            <Link
+              className={`abtn ${pathname.startsWith("/admin/messages") ? "save" : "ghost"}`}
+              href="/admin/messages"
+            >
+              📬 Messages
+            </Link>
+          </>
+        )}
+        {(me?.role === "ADMIN" || me?.role === "CUISINE") && (
+          <Link
+            className={`abtn ${pathname.startsWith("/admin/menu") ? "save" : "ghost"}`}
+            href="/admin/menu"
+          >
+            🍽 Menu
+          </Link>
+        )}
         {me?.role === "ADMIN" && (
           <Link
             className={`abtn ${pathname.startsWith("/admin/utilisateurs") ? "save" : "ghost"}`}

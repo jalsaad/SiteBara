@@ -1,51 +1,16 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import ContentHero from "@/components/ContentHero";
+import { getMenu } from "@/lib/menu";
+
+// Le menu est éditable à tout moment depuis /admin/menu : rendu à la demande.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Restaurant scolaire",
   description:
     "Menus de la semaine, horaires, tarifs et informations pratiques du restaurant scolaire de l'Athénée Royal Jules Bara à Tournai.",
 };
-
-// Menu hebdomadaire (exemple — mis à jour chaque semaine par l'établissement).
-const MENU = [
-  {
-    jour: "Lundi",
-    potage: "Velouté de potiron",
-    plat: "Boulettes sauce tomate, purée maison",
-    veggie: "Boulettes végétales, purée maison",
-    dessert: "Compote de pommes",
-  },
-  {
-    jour: "Mardi",
-    potage: "Julienne de légumes",
-    plat: "Filet de poulet, riz, ratatouille",
-    veggie: "Curry de pois chiches, riz",
-    dessert: "Yaourt nature",
-  },
-  {
-    jour: "Mercredi",
-    potage: "Tomate-basilic",
-    plat: "Spaghetti bolognaise",
-    veggie: "Spaghetti aux lentilles",
-    dessert: "Fruit de saison",
-  },
-  {
-    jour: "Jeudi",
-    potage: "Poireaux-pommes de terre",
-    plat: "Poisson pané, frites, salade",
-    veggie: "Galette de légumes, frites, salade",
-    dessert: "Mousse au chocolat",
-  },
-  {
-    jour: "Vendredi",
-    potage: "Carottes-coriandre",
-    plat: "Gratin de chou-fleur, jambon",
-    veggie: "Gratin de chou-fleur (sans jambon)",
-    dessert: "Salade de fruits",
-  },
-];
 
 const INFOS = [
   {
@@ -65,7 +30,13 @@ const INFOS = [
   },
 ];
 
-export default function RestaurantPage() {
+export default async function RestaurantPage() {
+  const menu = await getMenu();
+  // N'affiche que les jours renseignés (au moins un champ rempli).
+  const jours = menu.days.filter(
+    (d) => d.potage || d.plat || d.veggie || d.dessert
+  );
+
   return (
     <main>
       <ContentHero
@@ -84,7 +55,15 @@ export default function RestaurantPage() {
         <div className="shead reveal">
           <span className="eyebrow">Menu de la semaine</span>
           <h2 className="serif">
-            Au menu <em>cette semaine</em>
+            {menu.weekLabel ? (
+              <>
+                Au menu — <em>{menu.weekLabel}</em>
+              </>
+            ) : (
+              <>
+                Au menu <em>cette semaine</em>
+              </>
+            )}
           </h2>
           <p className="lead">
             Menus indicatifs, susceptibles d&apos;évoluer selon les
@@ -92,6 +71,11 @@ export default function RestaurantPage() {
             jour.
           </p>
         </div>
+        {jours.length === 0 ? (
+          <p className="lead reveal" style={{ textAlign: "center" }}>
+            Le menu de la semaine sera publié prochainement.
+          </p>
+        ) : (
         <div style={{ overflowX: "auto" }}>
           <table className="pub-table reveal" style={{ maxWidth: "100%", minWidth: 720 }}>
             <thead>
@@ -104,9 +88,9 @@ export default function RestaurantPage() {
               </tr>
             </thead>
             <tbody>
-              {MENU.map((m) => (
-                <tr key={m.jour}>
-                  <td style={{ fontWeight: 600, color: "var(--royal)" }}>{m.jour}</td>
+              {jours.map((m) => (
+                <tr key={m.day}>
+                  <td style={{ fontWeight: 600, color: "var(--royal)" }}>{m.day}</td>
                   <td>{m.potage}</td>
                   <td>{m.plat}</td>
                   <td>{m.veggie}</td>
@@ -116,6 +100,7 @@ export default function RestaurantPage() {
             </tbody>
           </table>
         </div>
+        )}
       </section>
 
       {/* ====== infos pratiques ====== */}

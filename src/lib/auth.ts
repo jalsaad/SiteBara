@@ -5,7 +5,7 @@
 // `@/lib/users` (server-only, hachage scrypt) — volontairement séparées d'ici
 // pour que ce module reste importable par le proxy edge.
 
-export type Role = "ADMIN" | "COMM";
+export type Role = "ADMIN" | "COMM" | "CUISINE";
 
 export interface Session {
   email: string;

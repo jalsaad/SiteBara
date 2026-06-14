@@ -1,7 +1,7 @@
 import { requireRole } from "@/lib/auth";
 import { createUser, listUsers } from "@/lib/users";
 
-const ROLES = ["ADMIN", "COMM"] as const;
+const ROLES = ["ADMIN", "COMM", "CUISINE"] as const;
 
 export async function GET(request: Request) {
   const auth = await requireRole(request, "ADMIN");
