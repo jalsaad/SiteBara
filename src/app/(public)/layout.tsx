@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
+import JuliaChat from "@/components/JuliaChat";
 import { listPages } from "@/lib/pages";
 
 export default async function PublicLayout({
@@ -17,6 +18,7 @@ export default async function PublicLayout({
       {children}
       <Footer />
       <Reveal />
+      <JuliaChat />
     </>
   );
 }
