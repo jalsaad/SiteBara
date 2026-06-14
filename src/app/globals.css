@@ -193,11 +193,27 @@ body::before {
 .credit a:hover { opacity: 0.85; }
 .credit img { height: 20px; width: auto; display: block; }
 
-/* Gestionnaire du menu de la semaine (admin) */
+/* Gestionnaire des menus de la semaine (admin) */
 .menu-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 22px; }
 .menu-day { background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 14px; padding: 18px 18px 6px; }
 .menu-day h3 { color: var(--royal); font-size: 17px; margin-bottom: 12px; }
 .menu-day .field { margin-bottom: 12px; }
+.menu-layout { display: grid; grid-template-columns: 240px 1fr; gap: 22px; margin-top: 22px; align-items: start; }
+.menu-weeks-list { display: flex; flex-direction: column; gap: 8px; }
+.menu-week-item { text-align: left; background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 2px; transition: 0.15s; }
+.menu-week-item:hover { border-color: var(--royal); }
+.menu-week-item.active { border-color: var(--royal); background: #eef2fb; }
+.menu-week-item .mw-label { font-weight: 600; color: var(--ink, #1b2245); font-size: 14px; }
+.menu-week-item .mw-date { font-size: 12px; color: #959cb3; }
+.menu-editor-head { display: flex; gap: 18px; flex-wrap: wrap; }
+.abtn.danger { color: #c0392b; }
+@media (max-width: 760px) { .menu-layout { grid-template-columns: 1fr; } }
+
+/* Onglets de semaines sur la page publique /restaurant */
+.menu-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.menu-tab { background: #fff; border: 1px solid var(--line, #e6e8f0); border-radius: 999px; padding: 8px 16px; font-size: 14px; cursor: pointer; transition: 0.15s; color: var(--ink, #1b2245); }
+.menu-tab:hover { border-color: var(--royal); }
+.menu-tab.active { background: var(--royal); border-color: var(--royal); color: #fff; }
 @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 

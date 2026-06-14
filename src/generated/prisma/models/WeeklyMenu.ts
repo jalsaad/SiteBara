@@ -26,18 +26,21 @@ export type AggregateWeeklyMenu = {
 
 export type WeeklyMenuMinAggregateOutputType = {
   id: string | null
+  weekStart: Date | null
   weekLabel: string | null
   updatedAt: Date | null
 }
 
 export type WeeklyMenuMaxAggregateOutputType = {
   id: string | null
+  weekStart: Date | null
   weekLabel: string | null
   updatedAt: Date | null
 }
 
 export type WeeklyMenuCountAggregateOutputType = {
   id: number
+  weekStart: number
   weekLabel: number
   days: number
   updatedAt: number
@@ -47,18 +50,21 @@ export type WeeklyMenuCountAggregateOutputType = {
 
 export type WeeklyMenuMinAggregateInputType = {
   id?: true
+  weekStart?: true
   weekLabel?: true
   updatedAt?: true
 }
 
 export type WeeklyMenuMaxAggregateInputType = {
   id?: true
+  weekStart?: true
   weekLabel?: true
   updatedAt?: true
 }
 
 export type WeeklyMenuCountAggregateInputType = {
   id?: true
+  weekStart?: true
   weekLabel?: true
   days?: true
   updatedAt?: true
@@ -139,6 +145,7 @@ export type WeeklyMenuGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type WeeklyMenuGroupByOutputType = {
   id: string
+  weekStart: Date
   weekLabel: string
   days: runtime.JsonValue
   updatedAt: Date
@@ -167,6 +174,7 @@ export type WeeklyMenuWhereInput = {
   OR?: Prisma.WeeklyMenuWhereInput[]
   NOT?: Prisma.WeeklyMenuWhereInput | Prisma.WeeklyMenuWhereInput[]
   id?: Prisma.StringFilter<"WeeklyMenu"> | string
+  weekStart?: Prisma.DateTimeFilter<"WeeklyMenu"> | Date | string
   weekLabel?: Prisma.StringFilter<"WeeklyMenu"> | string
   days?: Prisma.JsonFilter<"WeeklyMenu">
   updatedAt?: Prisma.DateTimeFilter<"WeeklyMenu"> | Date | string
@@ -174,6 +182,7 @@ export type WeeklyMenuWhereInput = {
 
 export type WeeklyMenuOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  weekStart?: Prisma.SortOrder
   weekLabel?: Prisma.SortOrder
   days?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -184,6 +193,7 @@ export type WeeklyMenuWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.WeeklyMenuWhereInput | Prisma.WeeklyMenuWhereInput[]
   OR?: Prisma.WeeklyMenuWhereInput[]
   NOT?: Prisma.WeeklyMenuWhereInput | Prisma.WeeklyMenuWhereInput[]
+  weekStart?: Prisma.DateTimeFilter<"WeeklyMenu"> | Date | string
   weekLabel?: Prisma.StringFilter<"WeeklyMenu"> | string
   days?: Prisma.JsonFilter<"WeeklyMenu">
   updatedAt?: Prisma.DateTimeFilter<"WeeklyMenu"> | Date | string
@@ -191,6 +201,7 @@ export type WeeklyMenuWhereUniqueInput = Prisma.AtLeast<{
 
 export type WeeklyMenuOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  weekStart?: Prisma.SortOrder
   weekLabel?: Prisma.SortOrder
   days?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -204,6 +215,7 @@ export type WeeklyMenuScalarWhereWithAggregatesInput = {
   OR?: Prisma.WeeklyMenuScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WeeklyMenuScalarWhereWithAggregatesInput | Prisma.WeeklyMenuScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"WeeklyMenu"> | string
+  weekStart?: Prisma.DateTimeWithAggregatesFilter<"WeeklyMenu"> | Date | string
   weekLabel?: Prisma.StringWithAggregatesFilter<"WeeklyMenu"> | string
   days?: Prisma.JsonWithAggregatesFilter<"WeeklyMenu">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WeeklyMenu"> | Date | string
@@ -211,6 +223,7 @@ export type WeeklyMenuScalarWhereWithAggregatesInput = {
 
 export type WeeklyMenuCreateInput = {
   id?: string
+  weekStart: Date | string
   weekLabel?: string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -218,6 +231,7 @@ export type WeeklyMenuCreateInput = {
 
 export type WeeklyMenuUncheckedCreateInput = {
   id?: string
+  weekStart: Date | string
   weekLabel?: string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -225,6 +239,7 @@ export type WeeklyMenuUncheckedCreateInput = {
 
 export type WeeklyMenuUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   weekLabel?: Prisma.StringFieldUpdateOperationsInput | string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -232,6 +247,7 @@ export type WeeklyMenuUpdateInput = {
 
 export type WeeklyMenuUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   weekLabel?: Prisma.StringFieldUpdateOperationsInput | string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -239,6 +255,7 @@ export type WeeklyMenuUncheckedUpdateInput = {
 
 export type WeeklyMenuCreateManyInput = {
   id?: string
+  weekStart: Date | string
   weekLabel?: string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -246,6 +263,7 @@ export type WeeklyMenuCreateManyInput = {
 
 export type WeeklyMenuUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   weekLabel?: Prisma.StringFieldUpdateOperationsInput | string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -253,6 +271,7 @@ export type WeeklyMenuUpdateManyMutationInput = {
 
 export type WeeklyMenuUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  weekStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   weekLabel?: Prisma.StringFieldUpdateOperationsInput | string
   days?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -260,6 +279,7 @@ export type WeeklyMenuUncheckedUpdateManyInput = {
 
 export type WeeklyMenuCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  weekStart?: Prisma.SortOrder
   weekLabel?: Prisma.SortOrder
   days?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -267,12 +287,14 @@ export type WeeklyMenuCountOrderByAggregateInput = {
 
 export type WeeklyMenuMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  weekStart?: Prisma.SortOrder
   weekLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type WeeklyMenuMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  weekStart?: Prisma.SortOrder
   weekLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -281,6 +303,7 @@ export type WeeklyMenuMinOrderByAggregateInput = {
 
 export type WeeklyMenuSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  weekStart?: boolean
   weekLabel?: boolean
   days?: boolean
   updatedAt?: boolean
@@ -288,6 +311,7 @@ export type WeeklyMenuSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type WeeklyMenuSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  weekStart?: boolean
   weekLabel?: boolean
   days?: boolean
   updatedAt?: boolean
@@ -295,6 +319,7 @@ export type WeeklyMenuSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type WeeklyMenuSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  weekStart?: boolean
   weekLabel?: boolean
   days?: boolean
   updatedAt?: boolean
@@ -302,18 +327,20 @@ export type WeeklyMenuSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 
 export type WeeklyMenuSelectScalar = {
   id?: boolean
+  weekStart?: boolean
   weekLabel?: boolean
   days?: boolean
   updatedAt?: boolean
 }
 
-export type WeeklyMenuOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "weekLabel" | "days" | "updatedAt", ExtArgs["result"]["weeklyMenu"]>
+export type WeeklyMenuOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "weekStart" | "weekLabel" | "days" | "updatedAt", ExtArgs["result"]["weeklyMenu"]>
 
 export type $WeeklyMenuPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WeeklyMenu"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    weekStart: Date
     weekLabel: string
     days: runtime.JsonValue
     updatedAt: Date
@@ -741,6 +768,7 @@ export interface Prisma__WeeklyMenuClient<T, Null = never, ExtArgs extends runti
  */
 export interface WeeklyMenuFieldRefs {
   readonly id: Prisma.FieldRef<"WeeklyMenu", 'String'>
+  readonly weekStart: Prisma.FieldRef<"WeeklyMenu", 'DateTime'>
   readonly weekLabel: Prisma.FieldRef<"WeeklyMenu", 'String'>
   readonly days: Prisma.FieldRef<"WeeklyMenu", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"WeeklyMenu", 'DateTime'>

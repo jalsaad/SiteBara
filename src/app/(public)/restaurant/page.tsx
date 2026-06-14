@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import ContentHero from "@/components/ContentHero";
-import { getMenu } from "@/lib/menu";
+import MenuWeeks from "@/components/MenuWeeks";
+import { getPublicMenus } from "@/lib/menu";
 
 // Le menu est éditable à tout moment depuis /admin/menu : rendu à la demande.
 export const dynamic = "force-dynamic";
@@ -31,11 +32,7 @@ const INFOS = [
 ];
 
 export default async function RestaurantPage() {
-  const menu = await getMenu();
-  // N'affiche que les jours renseignés (au moins un champ rempli).
-  const jours = menu.days.filter(
-    (d) => d.potage || d.plat || d.veggie || d.dessert
-  );
+  const weeks = await getPublicMenus();
 
   return (
     <main>
@@ -55,15 +52,7 @@ export default async function RestaurantPage() {
         <div className="shead reveal">
           <span className="eyebrow">Menu de la semaine</span>
           <h2 className="serif">
-            {menu.weekLabel ? (
-              <>
-                Au menu — <em>{menu.weekLabel}</em>
-              </>
-            ) : (
-              <>
-                Au menu <em>cette semaine</em>
-              </>
-            )}
+            Au menu <em>au restaurant</em>
           </h2>
           <p className="lead">
             Menus indicatifs, susceptibles d&apos;évoluer selon les
@@ -71,36 +60,9 @@ export default async function RestaurantPage() {
             jour.
           </p>
         </div>
-        {jours.length === 0 ? (
-          <p className="lead reveal" style={{ textAlign: "center" }}>
-            Le menu de la semaine sera publié prochainement.
-          </p>
-        ) : (
-        <div style={{ overflowX: "auto" }}>
-          <table className="pub-table reveal" style={{ maxWidth: "100%", minWidth: 720 }}>
-            <thead>
-              <tr>
-                <th>Jour</th>
-                <th>Potage</th>
-                <th>Plat du jour</th>
-                <th>Alternative végé</th>
-                <th>Dessert</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jours.map((m) => (
-                <tr key={m.day}>
-                  <td style={{ fontWeight: 600, color: "var(--royal)" }}>{m.day}</td>
-                  <td>{m.potage}</td>
-                  <td>{m.plat}</td>
-                  <td>{m.veggie}</td>
-                  <td>{m.dessert}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="reveal">
+          <MenuWeeks weeks={weeks} />
         </div>
-        )}
       </section>
 
       {/* ====== infos pratiques ====== */}

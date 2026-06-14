@@ -75,14 +75,17 @@ model Article {
   updatedAt   DateTime      @updatedAt
 }
 
-// Menu de la semaine du restaurant scolaire (géré par le rôle CUISINE).
-// Un seul enregistrement « courant » est conservé ; `days` = [{ day, potage,
+// Menus de la semaine du restaurant scolaire (gérés par le rôle CUISINE).
+// Une ligne par semaine ; `weekStart` = le lundi, `days` = [{ day, potage,
 // plat, veggie, dessert }].
 model WeeklyMenu {
   id        String   @id @default(cuid())
+  weekStart DateTime
   weekLabel String   @default("")
   days      Json     @default("[]")
   updatedAt DateTime @updatedAt
+
+  @@index([weekStart])
 }
 
 // Formulaire de préinscription (site public).

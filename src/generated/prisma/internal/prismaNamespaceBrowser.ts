@@ -133,6 +133,7 @@ export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeo
 
 export const WeeklyMenuScalarFieldEnum = {
   id: 'id',
+  weekStart: 'weekStart',
   weekLabel: 'weekLabel',
   days: 'days',
   updatedAt: 'updatedAt'
