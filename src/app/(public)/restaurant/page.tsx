@@ -48,20 +48,43 @@ export default async function RestaurantPage() {
       />
 
       {/* ====== menu de la semaine ====== */}
-      <section className="wrap section">
-        <div className="shead reveal">
-          <span className="eyebrow">Menu de la semaine</span>
-          <h2 className="serif">
-            Au menu <em>au restaurant</em>
-          </h2>
-          <p className="lead">
-            Menus indicatifs, susceptibles d&apos;évoluer selon les
-            approvisionnements. Une alternative végétarienne est proposée chaque
-            jour.
-          </p>
-        </div>
-        <div className="reveal">
-          <MenuWeeks weeks={weeks} />
+      <section className="section resto-menu">
+        <span className="resto-deco d1" aria-hidden="true">🍅</span>
+        <span className="resto-deco d2" aria-hidden="true">🥖</span>
+        <span className="resto-deco d3" aria-hidden="true">🥕</span>
+        <span className="resto-deco d4" aria-hidden="true">🍎</span>
+        <span className="resto-deco d5" aria-hidden="true">🧀</span>
+        <div className="wrap">
+          <div className="shead reveal">
+            <span className="eyebrow">Menu de la semaine</span>
+            <h2 className="serif">
+              Au menu <em>au restaurant</em>
+            </h2>
+            <div className="menu-garnish" aria-hidden="true">
+              <span>🍲</span>
+              <span>🥗</span>
+              <span>🍮</span>
+            </div>
+            <p className="lead">
+              Menus indicatifs, susceptibles d&apos;évoluer selon les
+              approvisionnements. Une alternative végétarienne est proposée chaque
+              jour.
+            </p>
+          </div>
+          <div className="reveal">
+            <MenuWeeks weeks={weeks} />
+          </div>
+          <div className="resto-reserve reveal">
+            <p>Repas commandés et payés en ligne, sans espèces, via le compte de l&apos;élève.</p>
+            <a
+              className="btn btn-orange"
+              href="https://www.apschool.be"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🍽 Réserver vos repas sur APSchool →
+            </a>
+          </div>
         </div>
       </section>
 
