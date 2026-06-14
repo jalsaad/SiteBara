@@ -58,7 +58,14 @@ export default function ActusManager() {
   }
 
   useEffect(() => {
-    refresh();
+    // Chargement initial — setState dans le .then (asynchrone, pas de rendu en cascade).
+    fetch("/api/articles")
+      .then((r) => r.json())
+      .then((a) => {
+        setArticles(a);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   async function save() {

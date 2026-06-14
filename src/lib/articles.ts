@@ -220,12 +220,13 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
     color: input.color ?? "#284193",
     status,
   };
+  const publishedAt = status === "PUBLISHED" ? new Date() : null;
   if (useDb) {
     const db = await prisma();
     const row = await db.article.create({
       data: {
         ...base,
-        publishedAt: status === "PUBLISHED" ? new Date() : null,
+        publishedAt,
       },
     });
     return fromDb(row);
@@ -237,7 +238,7 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
   const article: Article = {
     ...base,
     id: memId(),
-    publishedAt: status === "PUBLISHED" ? new Date().toISOString() : null,
+    publishedAt: publishedAt ? publishedAt.toISOString() : null,
     createdAt: new Date().toISOString(),
     shares: [],
   };

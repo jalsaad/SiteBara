@@ -4,14 +4,20 @@ import NewsCard from "@/components/NewsCard";
 import { listArticles } from "@/lib/articles";
 import type { Block } from "@/lib/page-types";
 import { shade, hexA } from "@/lib/colors";
+import { overlayStyle, borderPath } from "@/lib/hero";
 
 function renderTitle(title: string) {
   const parts = title.split(/\*(.+?)\*/g);
   return parts.map((p, i) => (i % 2 === 1 ? <em key={i}>{p}</em> : p));
 }
 
-function heroVeil(color: string, bg?: string): string {
+function heroVeil(color: string, bg?: string, hasVideo?: boolean): string {
   const cs = shade(color);
+  // Sur une vidéo, le voile reste translucide pour la laisser transparaître
+  // tout en gardant le texte lisible.
+  if (hasVideo) {
+    return `linear-gradient(160deg,${hexA(cs, 0.62)},${hexA(color, 0.5)})`;
+  }
   if (bg === "solid") return `linear-gradient(160deg,${cs},${color})`;
   if (bg === "texture") {
     return `radial-gradient(120% 120% at 80% 0%,${hexA(color, 0.42)},transparent 58%),radial-gradient(90% 90% at 0% 100%,rgba(245,122,32,.26),transparent 52%),linear-gradient(160deg,${hexA(cs, 0.92)},${hexA(color, 0.85)})`;
@@ -45,12 +51,35 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
         const d = b.data;
         if (b.type === "hero") {
           const color = d.color ?? "#1b2245";
+          const ov = overlayStyle(d.overlay, d.overlayOpacity);
+          const bp = borderPath(d.border);
           return (
             <section className="hero" key={b.id}>
+              {d.video && (
+                <video
+                  className="hero-video"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  src={d.video}
+                />
+              )}
               <div
                 className="hero-veil"
-                style={{ background: heroVeil(color, d.bg) }}
+                style={{ background: heroVeil(color, d.bg, !!d.video) }}
               />
+              {ov && <div className="hero-overlay" style={ov} />}
+              {bp && (
+                <svg
+                  className="hero-border"
+                  viewBox="0 0 1200 120"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path d={bp} fill="var(--cream)" />
+                </svg>
+              )}
               <div
                 className="hero-in"
                 style={{ gridTemplateColumns: "1fr", padding: "84px 30px" }}
@@ -109,6 +138,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
           return <NewsBlock key={b.id} title={d.title} />;
         }
         if (b.type === "grid") {
+          const rows = d.rows ?? [];
           return (
             <section className="wrap section" key={b.id}>
               <div className="shead reveal">
@@ -117,15 +147,17 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
               <table className="pub-table reveal">
                 <thead>
                   <tr>
-                    <th>Cours</th>
-                    <th>Périodes</th>
+                    <th>{d.th1 || "Cours"}</th>
+                    <th>{d.th2 || "Périodes"}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td>Français</td><td>5</td></tr>
-                  <tr><td>Mathématiques</td><td>4</td></tr>
-                  <tr><td>Sciences</td><td>3</td></tr>
-                  <tr><td>Langues modernes</td><td>4</td></tr>
+                  {rows.map((r, i) => (
+                    <tr key={i}>
+                      <td>{r.c}</td>
+                      <td>{r.p}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </section>
@@ -133,18 +165,24 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
         }
         if (b.type === "gallery") {
           const cols = ["#284193", "#f57a20", "#0f9e75", "#1b2245", "#7c4dff", "#284193", "#0f9e75", "#f57a20"];
+          const images = d.images ?? [];
           return (
             <section className="wrap section" key={b.id}>
               <div className="shead reveal">
                 <h2 className="serif">{d.title}</h2>
               </div>
               <div className="pub-gal reveal">
-                {cols.map((c, i) => (
-                  <div
-                    key={i}
-                    style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }}
-                  />
-                ))}
+                {images.length > 0
+                  ? images.map((src, i) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={i} src={src} alt="" />
+                    ))
+                  : cols.map((c, i) => (
+                      <div
+                        key={i}
+                        style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }}
+                      />
+                    ))}
               </div>
             </section>
           );

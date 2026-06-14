@@ -1,4 +1,5 @@
-// Téléversement d'images (actualités, galeries) — CÔTÉ SERVEUR.
+// Téléversement de médias (images d'actualités/galeries, vidéo d'arrière-plan
+// de bannière) — CÔTÉ SERVEUR.
 //
 // Les fichiers sont écrits dans `public/uploads/` et servis statiquement par
 // Next à l'URL `/uploads/<nom>`. Sur l'hébergement OVH (serveur Node au long
@@ -12,7 +13,8 @@ import { requireRole } from "@/lib/auth";
 // Écriture sur disque → exécution Node obligatoire (jamais sur l'edge).
 export const runtime = "nodejs";
 
-const MAX_BYTES = 5 * 1024 * 1024; // 5 Mo
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 Mo (images)
+const MAX_VIDEO_BYTES = 25 * 1024 * 1024; // 25 Mo (vidéo d'arrière-plan)
 
 // Type MIME → extension de fichier autorisée.
 const ALLOWED: Record<string, string> = {
@@ -20,6 +22,8 @@ const ALLOWED: Record<string, string> = {
   "image/png": "png",
   "image/webp": "webp",
   "image/gif": "gif",
+  "video/mp4": "mp4",
+  "video/webm": "webm",
 };
 
 export async function POST(request: Request) {
@@ -35,13 +39,22 @@ export async function POST(request: Request) {
   const ext = ALLOWED[file.type];
   if (!ext) {
     return Response.json(
-      { error: "Format non supporté (JPEG, PNG, WebP ou GIF attendu)" },
+      {
+        error:
+          "Format non supporté (image JPEG/PNG/WebP/GIF ou vidéo MP4/WebM attendue)",
+      },
       { status: 415 }
     );
   }
-  if (file.size > MAX_BYTES) {
+  const isVideo = file.type.startsWith("video/");
+  const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+  if (file.size > max) {
     return Response.json(
-      { error: "Image trop volumineuse (5 Mo maximum)" },
+      {
+        error: isVideo
+          ? "Vidéo trop volumineuse (25 Mo maximum)"
+          : "Image trop volumineuse (5 Mo maximum)",
+      },
       { status: 413 }
     );
   }

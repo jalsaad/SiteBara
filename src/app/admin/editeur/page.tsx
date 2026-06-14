@@ -7,14 +7,21 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Article } from "@/lib/article-types";
-import type { Block, BlockData, BlockType } from "@/lib/page-types";
+import type { Block, BlockData, BlockType, GridRow } from "@/lib/page-types";
 import {
   BLOCK_LABELS as LABELS,
   BLOCK_TEMPLATES as TEMPLATES,
   blockId as bid,
 } from "@/lib/page-types";
 import { shade, hexA, ACCENT_COLORS } from "@/lib/colors";
+import {
+  overlayStyle,
+  borderPath,
+  OVERLAY_OPTIONS,
+  BORDER_OPTIONS,
+} from "@/lib/hero";
 import { useToast } from "@/components/Toast";
+import ImageUpload from "@/components/ImageUpload";
 
 interface PageMeta {
   slug: string;
@@ -57,14 +64,39 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
         : d.bg === "texture"
           ? `radial-gradient(120% 120% at 80% 0%,${hexA(color, 0.55)},transparent 55%),radial-gradient(90% 90% at 0% 100%,rgba(245,122,32,.22),transparent 50%),linear-gradient(160deg,${shade(color)},${color})`
           : `linear-gradient(135deg,${shade(color)},${color})`;
+    const ov = overlayStyle(d.overlay, d.overlayOpacity);
+    const bp = borderPath(d.border);
+    const hasVideo = !!d.video;
     return (
       <div className={`r-hero${d.anim ? " r-anim" : ""}`} style={{ background: bg }}>
+        {hasVideo && (
+          <video className="rv" src={d.video} autoPlay muted loop playsInline />
+        )}
+        {hasVideo && (
+          <span
+            className="rv-scrim"
+            style={{
+              background: `linear-gradient(160deg,${hexA(shade(color), 0.62)},${hexA(color, 0.5)})`,
+            }}
+          />
+        )}
         {d.effects && <span className="rgrain" />}
         {d.effects && (
           <>
             <span className="rb rb1" />
             <span className="rb rb2" />
           </>
+        )}
+        {ov && <span className="rov" style={ov} />}
+        {bp && (
+          <svg
+            className="r-border"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d={bp} fill="var(--cream)" />
+          </svg>
         )}
         <div className="rh-in">
           <span className="p">{d.pill}</span>
@@ -114,21 +146,24 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
     );
   }
   if (block.type === "grid") {
+    const rows = d.rows ?? [];
     return (
       <div className="r-grid">
         <div className="h">{d.title}</div>
         <table>
           <thead>
             <tr>
-              <th>Cours</th>
-              <th>Périodes</th>
+              <th>{d.th1 || "Cours"}</th>
+              <th>{d.th2 || "Périodes"}</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Français</td><td>5</td></tr>
-            <tr><td>Mathématiques</td><td>4</td></tr>
-            <tr><td>Sciences</td><td>3</td></tr>
-            <tr><td>Langues modernes</td><td>4</td></tr>
+            {rows.map((r, i) => (
+              <tr key={i}>
+                <td>{r.c}</td>
+                <td>{r.p}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -136,13 +171,19 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
   }
   if (block.type === "gallery") {
     const cols = ["#284193", "#f57a20", "#0f9e75", "#1b2245", "#7c4dff", "#284193", "#0f9e75", "#f57a20"];
+    const images = d.images ?? [];
     return (
       <div className="r-gal">
         <div className="h">{d.title}</div>
         <div className="g">
-          {cols.map((c, i) => (
-            <div key={i} style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }} />
-          ))}
+          {images.length > 0
+            ? images.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={i} src={src} alt="" />
+              ))
+            : cols.map((c, i) => (
+                <div key={i} style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }} />
+              ))}
         </div>
       </div>
     );
@@ -192,7 +233,12 @@ function Editor() {
   }
 
   useEffect(() => {
-    refreshPages();
+    // Liste des pages (panneau de gauche) — setState dans le .then (asynchrone).
+    fetch("/api/pages")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((list) => list && setPages(list))
+      .catch(() => {});
+    // Contenu de la page courante.
     fetch(`/api/pages/${slug}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((page) => {
@@ -349,6 +395,27 @@ function Editor() {
       )
     );
   }
+
+  /* galerie : liste d'images du bloc sélectionné */
+  const gallery = (selected?.data.images as string[] | undefined) ?? [];
+  const galAdd = (url: string | null) => {
+    if (url) upd("images", [...gallery, url]);
+  };
+  const galSet = (i: number, url: string | null) => {
+    // url null => l'image a été retirée
+    upd(
+      "images",
+      url ? gallery.map((g, idx) => (idx === i ? url : g)) : gallery.filter((_, idx) => idx !== i)
+    );
+  };
+
+  /* grille horaire : lignes éditables du bloc sélectionné */
+  const gridRows = (selected?.data.rows as GridRow[] | undefined) ?? [];
+  const gridSetCell = (i: number, key: "c" | "p", value: string) =>
+    upd("rows", gridRows.map((r, idx) => (idx === i ? { ...r, [key]: value } : r)));
+  const gridAddRow = () => upd("rows", [...gridRows, { c: "", p: "" }]);
+  const gridRemoveRow = (i: number) =>
+    upd("rows", gridRows.filter((_, idx) => idx !== i));
 
   /* champs de l'inspecteur */
   const txt = (k: keyof BlockData, label: string, area = false) => (
@@ -634,6 +701,67 @@ function Editor() {
                     ))}
                   </div>
                 </div>
+                <div className="field">
+                  <label>Vidéo d&apos;arrière-plan</label>
+                  <ImageUpload
+                    kind="video"
+                    value={(selected.data.video as string) || null}
+                    onChange={(url) => upd("video", url ?? "")}
+                  />
+                  <div className="ihint">
+                    MP4 ou WebM (25 Mo max). Sans vidéo, l&apos;arrière-plan
+                    utilise la couleur et le style ci-dessus.
+                  </div>
+                </div>
+                <div className="isub">Effet graphique (premier plan)</div>
+                <div className="field">
+                  <div className="seg">
+                    {OVERLAY_OPTIONS.map(({ value, label }) => (
+                      <button
+                        key={value}
+                        className={
+                          (selected.data.overlay ?? "none") === value ? "on" : ""
+                        }
+                        onClick={() => upd("overlay", value)}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {(selected.data.overlay ?? "none") !== "none" && (
+                  <div className="field">
+                    <label>
+                      Transparence ·{" "}
+                      {(selected.data.overlayOpacity as number) ?? 35}%
+                    </label>
+                    <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      value={(selected.data.overlayOpacity as number) ?? 35}
+                      onChange={(e) =>
+                        upd("overlayOpacity", Number(e.target.value))
+                      }
+                    />
+                  </div>
+                )}
+                <div className="isub">Bordure inférieure</div>
+                <div className="field">
+                  <div className="seg">
+                    {BORDER_OPTIONS.map(({ value, label }) => (
+                      <button
+                        key={value}
+                        className={
+                          (selected.data.border ?? "none") === value ? "on" : ""
+                        }
+                        onClick={() => upd("border", value)}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <div className="isub">Effets &amp; animations</div>
                 {tog("effects", "Effets visuels (halos, grain)")}
                 {tog("anim", "Animations d'apparition")}
@@ -654,26 +782,63 @@ function Editor() {
             {selected.type === "grid" && (
               <>
                 {txt("title", "Titre du tableau")}
-                {info("Les lignes du tableau s'éditeront directement dans une prochaine version.")}
+                <div className="isub">Colonnes</div>
+                {txt("th1", "En-tête colonne 1")}
+                {txt("th2", "En-tête colonne 2")}
+                <div className="isub">
+                  Lignes {gridRows.length > 0 && `(${gridRows.length})`}
+                </div>
+                {gridRows.map((r, i) => (
+                  <div className="grid-row-edit" key={i}>
+                    <input
+                      value={r.c}
+                      onChange={(e) => gridSetCell(i, "c", e.target.value)}
+                      placeholder="Intitulé"
+                    />
+                    <input
+                      value={r.p}
+                      onChange={(e) => gridSetCell(i, "p", e.target.value)}
+                      placeholder="Valeur"
+                    />
+                    <button
+                      type="button"
+                      className="grid-row-x"
+                      onClick={() => gridRemoveRow(i)}
+                      aria-label="Supprimer la ligne"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="abtn ghost"
+                  style={{ width: "100%", justifyContent: "center", marginTop: 4 }}
+                  onClick={gridAddRow}
+                >
+                  + Ajouter une ligne
+                </button>
               </>
             )}
             {selected.type === "gallery" && (
               <>
                 {txt("title", "Titre")}
                 <div className="field">
-                  <label>Photos</label>
-                  <div
-                    style={{
-                      border: "2px dashed #d4dae3",
-                      borderRadius: 10,
-                      padding: 18,
-                      textAlign: "center",
-                      color: "#98a2b3",
-                      fontSize: 13,
-                    }}
-                  >
-                    📤 Déposez des images
+                  <label>
+                    Photos {gallery.length > 0 && `(${gallery.length})`}
+                  </label>
+                  <div className="gal-edit">
+                    {gallery.map((src, i) => (
+                      <ImageUpload
+                        key={i}
+                        value={src}
+                        onChange={(url) => galSet(i, url)}
+                      />
+                    ))}
                   </div>
+                  <ImageUpload value={null} onChange={galAdd} />
+                  {gallery.length === 0 &&
+                    info("Sans photo, la galerie affiche des vignettes colorées par défaut.")}
                 </div>
               </>
             )}
