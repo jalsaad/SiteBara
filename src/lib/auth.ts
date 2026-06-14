@@ -1,9 +1,9 @@
-// Authentification par cookie de session signé (HMAC-SHA256, Web Crypto :
-// fonctionne dans le proxy comme dans les route handlers).
+// Session par cookie signé (HMAC-SHA256, Web Crypto : fonctionne dans le proxy
+// edge comme dans les route handlers).
 //
-// Mode démo : deux comptes intégrés, mots de passe surchargés par les
-// variables d'environnement ADMIN_PASSWORD / COMM_PASSWORD. À remplacer par
-// les comptes en base (modèle User) lors du branchement PostgreSQL.
+// La vérification des identifiants et la gestion des comptes vivent dans
+// `@/lib/users` (server-only, hachage scrypt) — volontairement séparées d'ici
+// pour que ce module reste importable par le proxy edge.
 
 export type Role = "ADMIN" | "COMM";
 
@@ -14,23 +14,11 @@ export interface Session {
 }
 
 export const SESSION_COOKIE = "bara_session";
-const SESSION_TTL_MS = 1000 * 60 * 60 * 12; // 12 h
+const SESSION_TTL_MS = 1000 * 60 * 60 * 12; // 12 h (session classique)
+const REMEMBER_TTL_MS = 1000 * 60 * 60 * 24 * 30; // 30 j (« se souvenir de moi »)
 
 const SECRET =
   process.env.AUTH_SECRET ?? "bara-dev-secret-a-changer-en-production";
-
-const DEMO_USERS: { email: string; role: Role; password: string }[] = [
-  {
-    email: "admin@atheneejulesbara.be",
-    role: "ADMIN",
-    password: process.env.ADMIN_PASSWORD ?? "admin2026",
-  },
-  {
-    email: "communication@atheneejulesbara.be",
-    role: "COMM",
-    password: process.env.COMM_PASSWORD ?? "comm2026",
-  },
-];
 
 function b64url(bytes: Uint8Array): string {
   let s = "";
@@ -58,24 +46,15 @@ async function hmac(data: string): Promise<string> {
   return b64url(new Uint8Array(sig));
 }
 
-export function checkCredentials(
-  email: string,
-  password: string
-): { email: string; role: Role } | null {
-  const user = DEMO_USERS.find(
-    (u) => u.email.toLowerCase() === email.trim().toLowerCase()
-  );
-  if (!user || user.password !== password) return null;
-  return { email: user.email, role: user.role };
-}
-
 export async function createSessionToken(
   email: string,
-  role: Role
+  role: Role,
+  remember = false
 ): Promise<string> {
+  const ttl = remember ? REMEMBER_TTL_MS : SESSION_TTL_MS;
   const payload = b64url(
     new TextEncoder().encode(
-      JSON.stringify({ email, role, exp: Date.now() + SESSION_TTL_MS })
+      JSON.stringify({ email, role, exp: Date.now() + ttl })
     )
   );
   return `${payload}.${await hmac(payload)}`;
@@ -119,9 +98,10 @@ export async function requireRole(
   return session;
 }
 
-export function sessionCookie(token: string): string {
+export function sessionCookie(token: string, remember = false): string {
+  const ttl = remember ? REMEMBER_TTL_MS : SESSION_TTL_MS;
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_TTL_MS / 1000}${secure}`;
+  return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${ttl / 1000}${secure}`;
 }
 
 export function clearSessionCookie(): string {

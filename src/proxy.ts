@@ -5,7 +5,7 @@ import { verifySessionToken, SESSION_COOKIE } from "@/lib/auth";
 // Protège l'interface d'administration :
 //  - /admin/login reste public (redirige si déjà connecté)
 //  - le reste de /admin exige une session valide
-//  - l'éditeur de pages est réservé au rôle ADMIN
+//  - l'éditeur de pages et la gestion des comptes sont réservés au rôle ADMIN
 // Les API d'écriture sont protégées dans les route handlers (requireRole).
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -26,7 +26,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(login);
   }
 
-  if (pathname.startsWith("/admin/editeur") && session.role !== "ADMIN") {
+  const adminOnly =
+    pathname.startsWith("/admin/editeur") ||
+    pathname.startsWith("/admin/utilisateurs");
+  if (adminOnly && session.role !== "ADMIN") {
     return NextResponse.redirect(new URL("/admin/actus", request.url));
   }
 

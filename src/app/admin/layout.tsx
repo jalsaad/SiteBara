@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// NOTE : l'authentification (accès réservé aux administrateurs et aux
-// responsables communication, cf. cahier des charges) sera branchée ici.
+// L'accès est protégé en amont par le proxy (src/proxy.ts) : session requise,
+// éditeur de pages et gestion des comptes réservés au rôle ADMIN.
 export default function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

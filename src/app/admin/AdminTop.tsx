@@ -28,7 +28,9 @@ export default function AdminTop() {
     ? "Pages › Accueil"
     : pathname.startsWith("/admin/messages")
       ? "Messages reçus"
-      : "Actualités";
+      : pathname.startsWith("/admin/utilisateurs")
+        ? "Utilisateurs"
+        : "Actualités";
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -64,6 +66,14 @@ export default function AdminTop() {
         >
           📬 Messages
         </Link>
+        {me?.role === "ADMIN" && (
+          <Link
+            className={`abtn ${pathname.startsWith("/admin/utilisateurs") ? "save" : "ghost"}`}
+            href="/admin/utilisateurs"
+          >
+            👤 Utilisateurs
+          </Link>
+        )}
         <Link className="abtn ghost" href="/" target="_blank">
           👁 Voir le site
         </Link>
