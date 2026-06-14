@@ -213,16 +213,13 @@ body::before {
 .menu-viewport { overflow: hidden; width: 100%; }
 .menu-track { display: flex; flex-wrap: nowrap; transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
 .menu-slide { flex: 0 0 100%; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; padding: 0 2px; }
-.menu-table-scroll { overflow-x: auto; }
-.menu-table-scroll .pub-table { min-width: 720px; margin-left: auto; margin-right: auto; }
+.menu-table-scroll { overflow-x: auto; text-align: center; }
+.menu-table-scroll .pub-table { min-width: 720px; margin-left: auto; margin-right: auto; display: inline-table; text-align: left; }
 .menu-slide-title { text-align: center; margin-bottom: 16px; }
 .menu-slide-title strong { display: block; color: var(--royal); font-size: 19px; }
 .menu-now { font-size: 12px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-/* Barre de contrôle sous le carrousel : flèche ‹ · pastilles · flèche › */
-.menu-controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 20px; }
-.menu-dots { display: flex; justify-content: center; gap: 8px; }
-.menu-dot { width: 9px; height: 9px; border-radius: 50%; border: none; background: #d3d8e6; cursor: pointer; padding: 0; transition: 0.15s; }
-.menu-dot.active { background: var(--royal); transform: scale(1.25); }
+/* Barre de contrôle sous le carrousel : les deux flèches ‹ › côte à côte, centrées */
+.menu-controls { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 20px; }
 
 /* Éditeur de menu : en-tête de navigation + glissé à chaque changement */
 .menu-carousel-head { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; margin-bottom: 4px; }

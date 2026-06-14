@@ -96,16 +96,6 @@ export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
           >
             ‹
           </button>
-          <div className="menu-dots">
-            {weeks.map((w, n) => (
-              <button
-                key={w.id}
-                className={`menu-dot ${n === idx ? "active" : ""}`}
-                onClick={() => setI(n)}
-                aria-label={`Aller à ${w.label}`}
-              />
-            ))}
-          </div>
           <button
             className="menu-nav"
             onClick={() => setI(idx + 1)}

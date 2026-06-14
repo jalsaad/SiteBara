@@ -110,6 +110,7 @@ function decorate(m: MenuRecord): WeeklyMenu {
 const g = globalThis as unknown as { __baraMenus?: MenuRecord[] };
 
 function seed(): MenuRecord[] {
+  const now = new Date().toISOString();
   return [
     {
       id: "m1",
@@ -122,7 +123,20 @@ function seed(): MenuRecord[] {
         { day: "Jeudi", potage: "Poireaux-pommes de terre", plat: "Poisson pané, frites, salade", veggie: "Galette de légumes, frites, salade", dessert: "Mousse au chocolat" },
         { day: "Vendredi", potage: "Carottes-coriandre", plat: "Gratin de chou-fleur, jambon", veggie: "Gratin de chou-fleur (sans jambon)", dessert: "Salade de fruits" },
       ],
-      updatedAt: new Date().toISOString(),
+      updatedAt: now,
+    },
+    {
+      id: "m2",
+      weekStart: addDaysISO(currentMonday(), 7),
+      weekLabel: "",
+      days: [
+        { day: "Lundi", potage: "Velouté de courgettes", plat: "Hachis Parmentier", veggie: "Hachis végétal aux lentilles", dessert: "Yaourt aux fruits" },
+        { day: "Mardi", potage: "Potage au cresson", plat: "Chili con carne, riz", veggie: "Chili sin carne, riz", dessert: "Compote de poires" },
+        { day: "Mercredi", potage: "Soupe à la tomate", plat: "Vol-au-vent, frites", veggie: "Quiche aux légumes, frites", dessert: "Fruit de saison" },
+        { day: "Jeudi", potage: "Velouté de carottes", plat: "Émincé de dinde, pâtes, brocolis", veggie: "Boulettes de pois chiches, pâtes", dessert: "Riz au lait" },
+        { day: "Vendredi", potage: "Soupe de potiron", plat: "Filet de poisson sauce citron, purée", veggie: "Gratin de légumes, purée", dessert: "Salade de fruits" },
+      ],
+      updatedAt: now,
     },
   ];
 }
