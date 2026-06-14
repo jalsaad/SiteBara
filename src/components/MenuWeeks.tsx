@@ -26,8 +26,8 @@ function WeekTable({ week }: { week: PublicWeek }) {
     );
   }
   return (
-    <div style={{ overflowX: "auto" }}>
-      <table className="pub-table" style={{ maxWidth: "100%", minWidth: 720 }}>
+    <div className="menu-table-scroll">
+      <table className="pub-table">
         <thead>
           <tr>
             <th>Jour</th>
@@ -54,8 +54,8 @@ function WeekTable({ week }: { week: PublicWeek }) {
 }
 
 // Carrousel glissant : la semaine en cours (1re de la liste) est affichée par
-// défaut ; les boutons ronds ‹ › font glisser les tableaux comme un carrousel
-// d'images.
+// défaut. Les tableaux défilent horizontalement ; les boutons ronds ‹ › et les
+// pastilles sont regroupés sous le carrousel.
 export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
   const [i, setI] = useState(0);
 
@@ -72,54 +72,48 @@ export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
 
   return (
     <div className="menu-carousel">
-      <div className="menu-stage">
-        {multi && (
+      <div className="menu-viewport">
+        <div className="menu-track" style={{ transform: `translateX(-${idx * 100}%)` }}>
+          {weeks.map((w, n) => (
+            <div className="menu-slide" key={w.id} aria-hidden={n !== idx}>
+              <div className="menu-slide-title">
+                <strong>{w.label}</strong>
+                {n === 0 && <span className="menu-now">semaine en cours</span>}
+              </div>
+              <WeekTable week={w} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {multi && (
+        <div className="menu-controls">
           <button
-            className="menu-nav side prev"
+            className="menu-nav"
             onClick={() => setI(idx - 1)}
             disabled={idx === 0}
             aria-label="Semaine précédente"
           >
             ‹
           </button>
-        )}
-
-        <div className="menu-viewport">
-          <div className="menu-track" style={{ transform: `translateX(-${idx * 100}%)` }}>
+          <div className="menu-dots">
             {weeks.map((w, n) => (
-              <div className="menu-slide" key={w.id} aria-hidden={n !== idx}>
-                <div className="menu-slide-title">
-                  <strong>{w.label}</strong>
-                  {n === 0 && <span className="menu-now">semaine en cours</span>}
-                </div>
-                <WeekTable week={w} />
-              </div>
+              <button
+                key={w.id}
+                className={`menu-dot ${n === idx ? "active" : ""}`}
+                onClick={() => setI(n)}
+                aria-label={`Aller à ${w.label}`}
+              />
             ))}
           </div>
-        </div>
-
-        {multi && (
           <button
-            className="menu-nav side next"
+            className="menu-nav"
             onClick={() => setI(idx + 1)}
             disabled={idx >= weeks.length - 1}
             aria-label="Semaine suivante"
           >
             ›
           </button>
-        )}
-      </div>
-
-      {multi && (
-        <div className="menu-dots">
-          {weeks.map((w, n) => (
-            <button
-              key={w.id}
-              className={`menu-dot ${n === idx ? "active" : ""}`}
-              onClick={() => setI(n)}
-              aria-label={`Aller à ${w.label}`}
-            />
-          ))}
         </div>
       )}
     </div>
