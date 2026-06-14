@@ -52,6 +52,18 @@ export default function Footer() {
       <div className="copy wrap">
         © 2026 Athénée Royal Jules Bara · Apprendre · S&apos;ouvrir ·
         S&apos;accomplir
+        <div className="credit">
+          <span>Réalisation signée&nbsp;:</span>
+          <a
+            href="https://www.jas-dw.be"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="JAS Digital Works"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/jas-digital-works.png" alt="JAS Digital Works" />
+          </a>
+        </div>
       </div>
     </footer>
   );
