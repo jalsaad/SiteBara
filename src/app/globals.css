@@ -201,22 +201,37 @@ body::before {
 .menu-editor-head { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; }
 .abtn.danger { color: #c0392b; }
 
-/* Carrousel de semaines (flèches) — partagé éditeur + page publique */
-.menu-carousel-head { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 18px; }
-.menu-carousel-head.admin { margin-top: 18px; }
-.menu-carousel-title { text-align: center; display: flex; flex-direction: column; gap: 2px; min-width: 220px; }
-.menu-carousel-title strong { color: var(--royal); font-size: 18px; }
-.menu-now { font-size: 12px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-.menu-pos { font-size: 12px; color: #959cb3; }
-.menu-nav { width: 42px; height: 42px; flex: none; border-radius: 50%; border: 1px solid var(--line, #e6e8f0); background: #fff; color: var(--royal); font-size: 22px; line-height: 1; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; justify-content: center; }
+/* Boutons ronds de navigation — partagés éditeur + page publique */
+.menu-nav { width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid var(--line, #e6e8f0); background: #fff; color: var(--royal); font-size: 24px; line-height: 1; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; justify-content: center; }
 .menu-nav:hover:not(:disabled) { background: var(--royal); color: #fff; border-color: var(--royal); }
 .menu-nav:disabled { opacity: 0.3; cursor: default; }
-.menu-nav.add { width: auto; padding: 0 16px; border-radius: 999px; border-style: dashed; border-color: var(--royal); font-size: 16px; font-weight: 600; }
+.menu-nav.add { width: auto; padding: 0 18px; border-radius: 999px; border-style: dashed; border-color: var(--royal); font-size: 16px; font-weight: 600; }
 .menu-nav.add.big { height: 46px; }
-/* Pastilles de navigation (page publique) */
-.menu-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+
+/* Carrousel glissant (tableaux qui défilent comme des images) */
+.menu-stage { position: relative; }
+.menu-viewport { overflow: hidden; }
+.menu-track { display: flex; transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+.menu-slide { min-width: 100%; flex: none; padding: 0 2px; }
+.menu-slide-title { text-align: center; margin-bottom: 16px; }
+.menu-slide-title strong { display: block; color: var(--royal); font-size: 19px; }
+.menu-now { font-size: 12px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+/* Flèches latérales rondes, centrées verticalement (style carrousel d'images) */
+.menu-nav.side { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; box-shadow: 0 3px 12px rgba(27, 34, 69, 0.14); }
+.menu-nav.side.prev { left: -6px; }
+.menu-nav.side.next { right: -6px; }
+/* Pastilles de navigation */
+.menu-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
 .menu-dot { width: 9px; height: 9px; border-radius: 50%; border: none; background: #d3d8e6; cursor: pointer; padding: 0; transition: 0.15s; }
 .menu-dot.active { background: var(--royal); transform: scale(1.25); }
+
+/* Éditeur de menu : en-tête de navigation + glissé à chaque changement */
+.menu-carousel-head { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; margin-bottom: 4px; }
+.menu-carousel-title { text-align: center; display: flex; flex-direction: column; gap: 2px; min-width: 220px; }
+.menu-carousel-title strong { color: var(--royal); font-size: 18px; }
+.menu-pos { font-size: 12px; color: #959cb3; }
+@keyframes menuSlideIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+.menu-anim { animation: menuSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
 @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 

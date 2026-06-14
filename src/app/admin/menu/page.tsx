@@ -174,7 +174,7 @@ export default function MenuPage() {
         </div>
       ) : (
         <>
-          <div className="menu-carousel-head admin">
+          <div className="menu-carousel-head">
             <button className="menu-nav" onClick={() => go(idx - 1)} disabled={idx === 0} aria-label="Semaine précédente">
               ‹
             </button>
@@ -195,6 +195,7 @@ export default function MenuPage() {
             )}
           </div>
 
+          <div className="menu-anim" key={draft.id}>
           <div className="menu-editor-head">
             <div className="field" style={{ maxWidth: 220 }}>
               <label>Lundi de la semaine</label>
@@ -239,6 +240,7 @@ export default function MenuPage() {
             <button className="abtn primary" onClick={save} disabled={saving}>
               {saving ? "…" : "Enregistrer"}
             </button>
+          </div>
           </div>
         </>
       )}

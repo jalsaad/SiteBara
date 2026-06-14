@@ -16,8 +16,46 @@ export interface PublicWeek {
   days: MenuDay[];
 }
 
-// Carrousel de semaines : la semaine en cours (première de la liste) est
-// affichée par défaut ; les flèches ‹ › font défiler les semaines suivantes.
+function WeekTable({ week }: { week: PublicWeek }) {
+  const jours = week.days.filter((d) => d.potage || d.plat || d.veggie || d.dessert);
+  if (jours.length === 0) {
+    return (
+      <p className="lead" style={{ textAlign: "center", paddingTop: 20 }}>
+        Menu à venir pour {week.label.toLowerCase()}.
+      </p>
+    );
+  }
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <table className="pub-table" style={{ maxWidth: "100%", minWidth: 720 }}>
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Potage</th>
+            <th>Plat du jour</th>
+            <th>Alternative végé</th>
+            <th>Dessert</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jours.map((m) => (
+            <tr key={m.day}>
+              <td style={{ fontWeight: 600, color: "var(--royal)" }}>{m.day}</td>
+              <td>{m.potage}</td>
+              <td>{m.plat}</td>
+              <td>{m.veggie}</td>
+              <td>{m.dessert}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// Carrousel glissant : la semaine en cours (1re de la liste) est affichée par
+// défaut ; les boutons ronds ‹ › font glisser les tableaux comme un carrousel
+// d'images.
 export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
   const [i, setI] = useState(0);
 
@@ -30,66 +68,49 @@ export default function MenuWeeks({ weeks }: { weeks: PublicWeek[] }) {
   }
 
   const idx = Math.min(i, weeks.length - 1);
-  const week = weeks[idx];
-  const jours = week.days.filter((d) => d.potage || d.plat || d.veggie || d.dessert);
+  const multi = weeks.length > 1;
 
   return (
     <div className="menu-carousel">
-      <div className="menu-carousel-head">
-        <button
-          className="menu-nav"
-          onClick={() => setI(idx - 1)}
-          disabled={idx === 0}
-          aria-label="Semaine précédente"
-        >
-          ‹
-        </button>
-        <div className="menu-carousel-title">
-          <strong>{week.label}</strong>
-          {idx === 0 && <span className="menu-now">semaine en cours</span>}
+      <div className="menu-stage">
+        {multi && (
+          <button
+            className="menu-nav side prev"
+            onClick={() => setI(idx - 1)}
+            disabled={idx === 0}
+            aria-label="Semaine précédente"
+          >
+            ‹
+          </button>
+        )}
+
+        <div className="menu-viewport">
+          <div className="menu-track" style={{ transform: `translateX(-${idx * 100}%)` }}>
+            {weeks.map((w, n) => (
+              <div className="menu-slide" key={w.id} aria-hidden={n !== idx}>
+                <div className="menu-slide-title">
+                  <strong>{w.label}</strong>
+                  {n === 0 && <span className="menu-now">semaine en cours</span>}
+                </div>
+                <WeekTable week={w} />
+              </div>
+            ))}
+          </div>
         </div>
-        <button
-          className="menu-nav"
-          onClick={() => setI(idx + 1)}
-          disabled={idx >= weeks.length - 1}
-          aria-label="Semaine suivante"
-        >
-          ›
-        </button>
+
+        {multi && (
+          <button
+            className="menu-nav side next"
+            onClick={() => setI(idx + 1)}
+            disabled={idx >= weeks.length - 1}
+            aria-label="Semaine suivante"
+          >
+            ›
+          </button>
+        )}
       </div>
 
-      {jours.length === 0 ? (
-        <p className="lead" style={{ textAlign: "center" }}>
-          Menu à venir pour {week.label.toLowerCase()}.
-        </p>
-      ) : (
-        <div style={{ overflowX: "auto" }}>
-          <table className="pub-table" style={{ maxWidth: "100%", minWidth: 720 }}>
-            <thead>
-              <tr>
-                <th>Jour</th>
-                <th>Potage</th>
-                <th>Plat du jour</th>
-                <th>Alternative végé</th>
-                <th>Dessert</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jours.map((m) => (
-                <tr key={m.day}>
-                  <td style={{ fontWeight: 600, color: "var(--royal)" }}>{m.day}</td>
-                  <td>{m.potage}</td>
-                  <td>{m.plat}</td>
-                  <td>{m.veggie}</td>
-                  <td>{m.dessert}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {weeks.length > 1 && (
+      {multi && (
         <div className="menu-dots">
           {weeks.map((w, n) => (
             <button
