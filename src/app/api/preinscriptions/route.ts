@@ -2,6 +2,7 @@ import {
   createPreRegistration,
   listPreRegistrations,
 } from "@/lib/messages";
+import { notifyPreRegistration } from "@/lib/email";
 import { requireRole } from "@/lib/auth";
 
 export async function POST(request: Request) {
@@ -21,6 +22,9 @@ export async function POST(request: Request) {
     level,
     message,
   });
+  // Notification best-effort : un échec d'e-mail ne doit pas faire échouer la
+  // demande (elle reste consultable dans /admin/messages).
+  await notifyPreRegistration(reg).catch(() => {});
   return Response.json({ ok: true, id: reg.id }, { status: 201 });
 }
 
