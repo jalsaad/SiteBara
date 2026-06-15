@@ -2,7 +2,12 @@ import { createPage, listPages } from "@/lib/pages";
 import { slugify } from "@/lib/article-types";
 import { requireRole } from "@/lib/auth";
 
-export async function GET() {
+// Liste de toutes les pages (brouillons inclus) — réservé à l'éditeur (ADMIN).
+// Le site public n'utilise jamais cette route : le menu de navigation lit
+// `listPages()` côté serveur (cf. src/app/(public)/layout.tsx).
+export async function GET(request: Request) {
+  const auth = await requireRole(request, "ADMIN");
+  if (auth instanceof Response) return auth;
   return Response.json(await listPages());
 }
 

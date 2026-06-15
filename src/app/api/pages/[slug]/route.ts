@@ -1,10 +1,15 @@
 import { deletePage, getPage, savePage } from "@/lib/pages";
 import { requireRole } from "@/lib/auth";
 
+// Contenu complet d'une page (brouillon inclus) — réservé à l'éditeur (ADMIN).
+// Le rendu public passe par getPage() côté serveur et filtre `published`
+// (cf. src/app/(public)/p/[slug]/page.tsx), sans jamais appeler cette route.
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const auth = await requireRole(request, "ADMIN");
+  if (auth instanceof Response) return auth;
   const { slug } = await params;
   const page = await getPage(slug);
   if (!page) {
