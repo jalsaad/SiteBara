@@ -7,7 +7,7 @@ type NavLink = { href: string; label: string };
 
 const LINKS: NavLink[] = [
   { href: "/", label: "Accueil" },
-  { href: "/filieres", label: "Filières" },
+  { href: "/filieres", label: "Options" },
   { href: "/calendrier", label: "Calendrier" },
   { href: "/actualites", label: "Actus" },
   { href: "/restaurant", label: "Restaurant" },

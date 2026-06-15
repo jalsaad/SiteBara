@@ -4,9 +4,9 @@ import type { CSSProperties } from "react";
 import ContentHero from "@/components/ContentHero";
 
 export const metadata: Metadata = {
-  title: "Nos filières & options",
+  title: "Nos options",
   description:
-    "Du premier au troisième degré, enseignement général de transition, DASPA et 7ᵉ préparatoire : découvrez les filières et options de l'Athénée Royal Jules Bara à Tournai.",
+    "Du premier au troisième degré, enseignement général de transition, DASPA et 7ᵉ préparatoire : découvrez les options de l'Athénée Royal Jules Bara à Tournai.",
 };
 
 // Degrés de l'enseignement secondaire (Fédération Wallonie-Bruxelles).
@@ -63,7 +63,7 @@ export default function FilieresPage() {
         eyebrow="Enseignement secondaire · Tournai"
         title={
           <>
-            Nos filières <em>& options</em>
+            Nos <em>options</em>
           </>
         }
         sub="Un parcours général de transition, du premier au troisième degré, pour préparer chaque élève aux études supérieures dans un cadre exigeant et bienveillant."

@@ -23,10 +23,10 @@ Ton rôle : répondre aux questions des élèves, parents et visiteurs à propos
 
 Informations dont tu disposes :
 - Adresse : Rue Duquesnoy 24, 7500 Tournai. Téléphone : 069 89 06 02. E-mail : direction@atheneejulesbara.be.
-- Filières : enseignement général du 1er au 3e degré, DASPA (élèves primo-arrivants) et 7e préparatoire. Les grilles horaires sont sur la page « Filières ».
+- Options : enseignement général du 1er au 3e degré, DASPA (élèves primo-arrivants) et 7e préparatoire. Les grilles horaires sont sur la page « Options ».
 - Préinscriptions : possibles en ligne via la page « Préinscription » du site.
 - Le site propose aussi : un calendrier scolaire, les menus du restaurant scolaire, et les actualités de l'école.
-- Outils numériques : Google Classroom, APSchool, et l'espace MyBara.
+- Outils numériques : Google Classroom, APSchool, et l'espace École en ligne.
 - L'école met en avant trois valeurs : apprendre, s'ouvrir, s'accomplir. Fondée en 1595.
 
 Règles :
@@ -47,7 +47,7 @@ const DEMO_RULES: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["horaire", "grille", "filière", "filiere", "option", "daspa", "préparatoire", "degré"],
     answer:
-      "L'Athénée propose l'enseignement général du 1er au 3e degré, le DASPA et une 7e préparatoire. Vous trouverez le détail des grilles horaires sur la page « Filières ».",
+      "L'Athénée propose l'enseignement général du 1er au 3e degré, le DASPA et une 7e préparatoire. Vous trouverez le détail des grilles horaires sur la page « Options ».",
   },
   {
     keywords: ["contact", "téléphone", "telephone", "mail", "e-mail", "adresse", "joindre", "secrétariat", "secretariat"],
@@ -67,7 +67,7 @@ const DEMO_RULES: { keywords: string[]; answer: string }[] = [
   {
     keywords: ["numérique", "numerique", "classroom", "apschool", "mybara", "informatique"],
     answer:
-      "L'école utilise Google Classroom, APSchool et l'espace de travail en ligne MyBara pour le suivi des élèves et la communication avec les familles.",
+      "L'école utilise Google Classroom, APSchool et l'espace de travail École en ligne pour le suivi des élèves et la communication avec les familles.",
   },
   {
     keywords: ["bonjour", "salut", "coucou", "hello", "bonsoir"],

@@ -8,7 +8,7 @@ import PdfBuilder from "@/components/PdfBuilder";
 export const metadata: Metadata = {
   title: "Applis & outils",
   description:
-    "Accès rapides aux espaces numériques de l'Athénée Royal Jules Bara (Google Classroom, APSchool, MyBara) et outils pratiques : générateur de QR code, conversion d'images en PDF.",
+    "Accès rapides aux espaces numériques de l'Athénée Royal Jules Bara (Google Classroom, APSchool, École en ligne) et outils pratiques : générateur de QR code, conversion d'images en PDF.",
 };
 
 // Accès aux espaces numériques externes.
@@ -39,10 +39,10 @@ const ACCES: {
   },
   {
     icon: "💻",
-    titre: "MyBara",
+    titre: "École en ligne",
     desc: "Espace de travail en ligne de l'établissement.",
-    href: "https://atheneejulesbara.be",
-    cta: "Ouvrir",
+    href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
+    cta: "Se connecter",
     color: "var(--orange)",
   },
 ];

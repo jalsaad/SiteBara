@@ -31,12 +31,17 @@ export default async function HomePage() {
               bienveillant.
             </p>
             <div className="hero-btns">
-              <Link className="btn btn-orange" href="/preinscription">
+              <Link className="btn btn-ghost" href="/preinscription">
                 Préinscriptions ouvertes →
               </Link>
-              <Link className="btn btn-ghost" href="/#mission">
-                Découvrir l&apos;école
-              </Link>
+              <a
+                className="btn btn-orange"
+                href="https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                École en ligne →
+              </a>
             </div>
             <div className="hero-stats">
               <div>
@@ -108,7 +113,7 @@ export default async function HomePage() {
           <div className="access">
             <Link className="acard reveal" style={{ "--c": "var(--royal)" } as React.CSSProperties} href="/filieres">
               <div className="ic">🎓</div>
-              <h3 className="serif">Nos filières</h3>
+              <h3 className="serif">Nos options</h3>
               <p>
                 Grilles horaires du premier au troisième degré, DASPA et 7ᵉ
                 préparatoire.
@@ -125,8 +130,8 @@ export default async function HomePage() {
               <div className="ic">💻</div>
               <h3 className="serif">École numérique</h3>
               <p>
-                Google Classroom, APSchool et l&apos;espace de travail en ligne
-                MyBara.
+                Google Classroom, APSchool et l&apos;espace de travail École en
+                ligne.
               </p>
               <span className="go">Se connecter →</span>
             </a>
@@ -148,7 +153,7 @@ export default async function HomePage() {
                 <span>Google Classroom</span>
                 <span>APSchool</span>
                 <span>Tableaux interactifs</span>
-                <span>MyBara</span>
+                <span>École en ligne</span>
               </div>
             </div>
             <div className="reveal">
@@ -175,7 +180,7 @@ export default async function HomePage() {
                     <b>Suivi en ligne</b>
                     <span>
                       Parents et élèves suivent les résultats et communications
-                      via MyBara.
+                      via École en ligne.
                     </span>
                   </div>
                 </li>

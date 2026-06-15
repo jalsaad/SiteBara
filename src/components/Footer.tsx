@@ -31,7 +31,7 @@ export default function Footer() {
         </div>
         <div>
           <h4>L&apos;école</h4>
-          <Link href="/filieres">Nos filières</Link>
+          <Link href="/filieres">Nos options</Link>
           <Link href="/restaurant">Restaurant scolaire</Link>
           <Link href="/#mission">Projet d&apos;établissement</Link>
           <a href="#">Les professeurs</a>
