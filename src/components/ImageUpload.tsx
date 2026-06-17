@@ -5,10 +5,14 @@
 // l'URL publique via `onChange`. `kind` adapte l'aperçu et les formats acceptés.
 
 import { useRef, useState } from "react";
+import { isVideoUrl } from "@/lib/article-types";
 
+const IMG = "image/png,image/jpeg,image/webp,image/gif";
+const VID = "video/mp4,video/webm";
 const ACCEPT = {
-  image: "image/png,image/jpeg,image/webp,image/gif",
-  video: "video/mp4,video/webm",
+  image: IMG,
+  video: VID,
+  media: `${IMG},${VID}`,
 };
 
 export default function ImageUpload({
@@ -18,7 +22,7 @@ export default function ImageUpload({
 }: {
   value: string | null;
   onChange: (url: string | null) => void;
-  kind?: "image" | "video";
+  kind?: "image" | "video" | "media";
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -40,13 +44,22 @@ export default function ImageUpload({
     onChange(url);
   }
 
-  const choose = kind === "video" ? "🎬 Choisir une vidéo" : "📷 Choisir une image";
+  const choose =
+    kind === "video"
+      ? "🎬 Choisir une vidéo"
+      : kind === "media"
+        ? "📎 Choisir une image ou une vidéo"
+        : "📷 Choisir une image";
+
+  // Le rendu d'aperçu : vidéo si kind=video, ou si kind=media et URL vidéo.
+  const showVideo =
+    kind === "video" || (kind === "media" && !!value && isVideoUrl(value));
 
   return (
     <div className="img-up">
       {value ? (
         <div className="img-up-prev">
-          {kind === "video" ? (
+          {showVideo ? (
             <video src={value} muted loop playsInline autoPlay />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element

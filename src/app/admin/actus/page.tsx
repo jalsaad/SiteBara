@@ -387,13 +387,14 @@ export default function ActusManager() {
             </div>
             <div className="field">
               <label>
-                Galerie d&apos;images
+                Galerie (images et vidéos)
                 {draft.images.length > 0 && ` (${draft.images.length})`}
               </label>
               <div className="gal-edit">
                 {draft.images.map((src, i) => (
                   <ImageUpload
                     key={i}
+                    kind="media"
                     value={src}
                     onChange={(url) =>
                       setDraft({
@@ -407,14 +408,15 @@ export default function ActusManager() {
                 ))}
               </div>
               <ImageUpload
+                kind="media"
                 value={null}
                 onChange={(url) =>
                   url && setDraft({ ...draft, images: [...draft.images, url] })
                 }
               />
               <p className="ihint">
-                Photos supplémentaires affichées en bas de l&apos;article (au
-                cas où plusieurs images sont nécessaires).
+                Médias supplémentaires (photos ou vidéos) affichés en bas de
+                l&apos;article, au cas où plusieurs seraient nécessaires.
               </p>
             </div>
             <div className="field">

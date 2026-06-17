@@ -54,6 +54,11 @@ export interface ArticleInput {
   status?: ArticleStatus;
 }
 
+// Une URL de média est considérée comme une vidéo d'après son extension.
+export function isVideoUrl(url: string): boolean {
+  return /\.(mp4|webm)(\?|#|$)/i.test(url);
+}
+
 export function slugify(s: string): string {
   return s
     .normalize("NFD")

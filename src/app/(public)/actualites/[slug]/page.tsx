@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getArticle, formatDateFr } from "@/lib/articles";
 import { shade, CATEGORY_ICONS } from "@/lib/colors";
+import { isVideoUrl } from "@/lib/article-types";
 
 export const dynamic = "force-dynamic";
 
@@ -58,10 +59,14 @@ export default async function ArticlePage({
         </article>
         {article.images.length > 0 && (
           <div className="pub-gal" style={{ marginTop: 36 }}>
-            {article.images.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={i} src={src} alt="" />
-            ))}
+            {article.images.map((src, i) =>
+              isVideoUrl(src) ? (
+                <video key={i} src={src} controls playsInline preload="metadata" />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={i} src={src} alt="" />
+              )
+            )}
           </div>
         )}
         <p style={{ marginTop: 40 }}>
