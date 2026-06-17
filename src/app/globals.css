@@ -433,10 +433,10 @@ body::before {
 .art-gal .gal-item:hover img, .art-gal .gal-item:hover video { transform: scale(1.06); }
 .art-gal .gal-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; display: grid; place-items: center; background: rgba(27, 34, 69, 0.55); color: #fff; border-radius: 50%; font-size: 16px; padding-left: 3px; pointer-events: none; }
 
-.lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(10, 12, 24, 0.92); display: grid; place-items: center; padding: 30px; animation: lbfade 0.2s ease; }
+.lightbox { position: fixed; inset: 0; z-index: 3000; background: rgba(10, 12, 24, 0.92); display: grid; place-items: center; padding: 16px; animation: lbfade 0.2s ease; }
 @keyframes lbfade { from { opacity: 0; } to { opacity: 1; } }
-.lb-stage { max-width: 92vw; max-height: 88vh; }
-.lb-stage img, .lb-stage video { max-width: 92vw; max-height: 88vh; width: auto; height: auto; border-radius: 10px; display: block; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+.lb-stage { max-width: 96vw; max-height: 94vh; display: grid; place-items: center; }
+.lb-stage img, .lb-stage video { max-width: 96vw; max-height: 94vh; width: auto; height: auto; object-fit: contain; border-radius: 10px; display: block; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
 .lb-close { position: fixed; top: 20px; right: 24px; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 20px; cursor: pointer; }
 .lb-close:hover { background: rgba(255, 255, 255, 0.25); }
 .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 30px; cursor: pointer; display: grid; place-items: center; }

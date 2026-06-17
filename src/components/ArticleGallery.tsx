@@ -6,6 +6,7 @@
 // avec contrôles n'apparaît qu'en grand.
 
 import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { isVideoUrl } from "@/lib/article-types";
 
 export default function ArticleGallery({ images }: { images: string[] }) {
@@ -61,13 +62,14 @@ export default function ArticleGallery({ images }: { images: string[] }) {
         ))}
       </div>
 
-      {open !== null && (
-        <div
-          className="lightbox"
-          onClick={close}
-          role="dialog"
-          aria-modal="true"
-        >
+      {open !== null &&
+        createPortal(
+          <div
+            className="lightbox"
+            onClick={close}
+            role="dialog"
+            aria-modal="true"
+          >
           <button className="lb-close" onClick={close} aria-label="Fermer">
             ✕
           </button>
@@ -108,8 +110,9 @@ export default function ArticleGallery({ images }: { images: string[] }) {
               {open + 1} / {images.length}
             </div>
           )}
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }
