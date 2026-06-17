@@ -33,6 +33,8 @@ export interface Article {
   excerpt: string;
   body: string;
   image: string | null;
+  video: string | null;
+  images: string[];
   color: string;
   status: ArticleStatus;
   publishedAt: string | null;
@@ -46,6 +48,8 @@ export interface ArticleInput {
   excerpt: string;
   body?: string;
   image?: string | null;
+  video?: string | null;
+  images?: string[];
   color?: string;
   status?: ArticleStatus;
 }

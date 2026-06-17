@@ -44,9 +44,26 @@ export default async function ArticlePage({
         </div>
       </section>
       <section className="wrap section" style={{ maxWidth: 860 }}>
+        {article.video && (
+          <video
+            className="article-video"
+            src={article.video}
+            controls
+            playsInline
+            preload="metadata"
+          />
+        )}
         <article style={{ fontSize: 17, whiteSpace: "pre-line" }}>
           {article.body || article.excerpt}
         </article>
+        {article.images.length > 0 && (
+          <div className="pub-gal" style={{ marginTop: 36 }}>
+            {article.images.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={i} src={src} alt="" />
+            ))}
+          </div>
+        )}
         <p style={{ marginTop: 40 }}>
           <Link className="btn btn-ghost" style={{ borderColor: "var(--line)", color: "var(--royal)" }} href="/actualites">
             ← Toutes les actualités

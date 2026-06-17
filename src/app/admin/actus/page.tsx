@@ -21,6 +21,8 @@ interface Draft {
   excerpt: string;
   body: string;
   image: string | null;
+  video: string | null;
+  images: string[];
   color: string;
   status: ArticleStatus;
 }
@@ -31,6 +33,8 @@ const EMPTY: Draft = {
   excerpt: "",
   body: "",
   image: null,
+  video: null,
+  images: [],
   color: "#284193",
   status: "DRAFT",
 };
@@ -86,6 +90,8 @@ export default function ActusManager() {
           excerpt: draft.excerpt,
           body: draft.body,
           image: draft.image,
+          video: draft.video,
+          images: draft.images,
           color: draft.color,
           status: draft.status,
         }),
@@ -169,6 +175,8 @@ export default function ActusManager() {
       excerpt: a.excerpt,
       body: a.body,
       image: a.image,
+      video: a.video,
+      images: a.images,
       color: a.color,
       status: a.status,
     });
@@ -365,6 +373,49 @@ export default function ActusManager() {
                 value={draft.image}
                 onChange={(url) => setDraft({ ...draft, image: url })}
               />
+            </div>
+            <div className="field">
+              <label>Vidéo (optionnelle)</label>
+              <ImageUpload
+                kind="video"
+                value={draft.video}
+                onChange={(url) => setDraft({ ...draft, video: url })}
+              />
+              <p className="ihint">
+                Affichée dans l&apos;article. MP4 ou WebM, 25 Mo maximum.
+              </p>
+            </div>
+            <div className="field">
+              <label>
+                Galerie d&apos;images
+                {draft.images.length > 0 && ` (${draft.images.length})`}
+              </label>
+              <div className="gal-edit">
+                {draft.images.map((src, i) => (
+                  <ImageUpload
+                    key={i}
+                    value={src}
+                    onChange={(url) =>
+                      setDraft({
+                        ...draft,
+                        images: url
+                          ? draft.images.map((g, idx) => (idx === i ? url : g))
+                          : draft.images.filter((_, idx) => idx !== i),
+                      })
+                    }
+                  />
+                ))}
+              </div>
+              <ImageUpload
+                value={null}
+                onChange={(url) =>
+                  url && setDraft({ ...draft, images: [...draft.images, url] })
+                }
+              />
+              <p className="ihint">
+                Photos supplémentaires affichées en bas de l&apos;article (au
+                cas où plusieurs images sont nécessaires).
+              </p>
             </div>
             <div className="field">
               <label>Couleur d&apos;accent</label>

@@ -32,6 +32,8 @@ const seed: Article[] = [
       "Nos élèves de 3e degré ont brillé lors de la grande finale d'éloquence.",
     body: "Nos élèves de 3e degré ont brillé lors de la grande finale d'éloquence organisée à Tournai.",
     image: null,
+    video: null,
+    images: [],
     color: "#284193",
     status: "PUBLISHED",
     publishedAt: "2026-04-03T10:00:00.000Z",
@@ -54,6 +56,8 @@ const seed: Article[] = [
       "Un projet pédagogique immersif autour de la nature et du vivant.",
     body: "Un projet pédagogique immersif autour de la nature et du vivant, mené avec l'ensemble des classes.",
     image: null,
+    video: null,
+    images: [],
     color: "#0f9e75",
     status: "PUBLISHED",
     publishedAt: "2026-03-18T10:00:00.000Z",
@@ -69,6 +73,8 @@ const seed: Article[] = [
       "Venez découvrir l'établissement et rencontrer l'équipe pédagogique.",
     body: "Venez découvrir l'établissement et rencontrer l'équipe pédagogique lors de nos journées portes ouvertes.",
     image: null,
+    video: null,
+    images: [],
     color: "#f57a20",
     status: "PUBLISHED",
     publishedAt: "2026-03-02T10:00:00.000Z",
@@ -84,6 +90,8 @@ const seed: Article[] = [
       "Brouillon en cours de rédaction pour le séjour culturel de mai.",
     body: "",
     image: null,
+    video: null,
+    images: [],
     color: "#1b2245",
     status: "DRAFT",
     publishedAt: null,
@@ -107,12 +115,17 @@ function memId(): string {
 
 const useDb = !!process.env.DATABASE_URL;
 
-type PrismaArticle = Omit<Article, "publishedAt" | "createdAt" | "shares"> & {
+type PrismaArticle = Omit<
+  Article,
+  "publishedAt" | "createdAt" | "shares" | "images"
+> & {
   publishedAt: Date | null;
   createdAt: Date;
-  // Colonne Json — optionnelle pour rester compatible avec un client Prisma
-  // généré avant la migration « shares » (régénérer via `npx prisma generate`).
+  // Colonnes Json — optionnelles pour rester compatible avec un client Prisma
+  // généré avant les migrations « shares »/« images » (régénérer via
+  // `npx prisma generate`).
   shares?: unknown;
+  images?: unknown;
 };
 
 async function prisma() {
@@ -136,6 +149,7 @@ function fromDb(a: PrismaArticle): Article {
     publishedAt: a.publishedAt ? a.publishedAt.toISOString() : null,
     createdAt: a.createdAt.toISOString(),
     shares: Array.isArray(a.shares) ? (a.shares as SocialShare[]) : [],
+    images: Array.isArray(a.images) ? (a.images as string[]) : [],
   };
 }
 
@@ -217,6 +231,8 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
     excerpt: input.excerpt,
     body: input.body ?? "",
     image: input.image ?? null,
+    video: input.video ?? null,
+    images: input.images ?? [],
     color: input.color ?? "#284193",
     status,
   };

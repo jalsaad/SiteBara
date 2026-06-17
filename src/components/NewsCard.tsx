@@ -18,6 +18,7 @@ export default function NewsCard({ article }: { article: Article }) {
           {!article.image && (
             <div className="ic">{CATEGORY_ICONS[article.category] ?? "📰"}</div>
           )}
+          {article.video && <span className="play-badge">▶</span>}
           <span className="cat">{article.category}</span>
         </div>
         <div className="bd">
