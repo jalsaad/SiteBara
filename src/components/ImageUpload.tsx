@@ -19,29 +19,51 @@ export default function ImageUpload({
   value,
   onChange,
   kind = "image",
+  multiple = false,
+  onMany,
 }: {
   value: string | null;
   onChange: (url: string | null) => void;
   kind?: "image" | "video" | "media";
+  // Sélection multiple : les URL téléversées sont renvoyées via `onMany`.
+  multiple?: boolean;
+  onMany?: (urls: string[]) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function upload(file: File) {
-    setBusy(true);
-    setError(null);
+  async function uploadOne(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append("file", file);
     const res = await fetch("/api/upload", { method: "POST", body: fd });
-    setBusy(false);
     if (!res.ok) {
       const { error: msg } = await res.json().catch(() => ({ error: null }));
       setError(msg ?? "Échec du téléversement");
-      return;
+      return null;
     }
     const { url } = (await res.json()) as { url: string };
-    onChange(url);
+    return url;
+  }
+
+  async function upload(file: File) {
+    setBusy(true);
+    setError(null);
+    const url = await uploadOne(file);
+    setBusy(false);
+    if (url) onChange(url);
+  }
+
+  async function uploadMany(files: File[]) {
+    setBusy(true);
+    setError(null);
+    const urls: string[] = [];
+    for (const file of files) {
+      const url = await uploadOne(file);
+      if (url) urls.push(url);
+    }
+    setBusy(false);
+    if (urls.length) onMany?.(urls);
   }
 
   const choose =
@@ -92,10 +114,15 @@ export default function ImageUpload({
         ref={inputRef}
         type="file"
         accept={ACCEPT[kind]}
+        multiple={multiple}
         hidden
         onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f) upload(f);
+          const files = e.target.files ? Array.from(e.target.files) : [];
+          if (multiple && onMany) {
+            if (files.length) uploadMany(files);
+          } else if (files[0]) {
+            upload(files[0]);
+          }
           e.target.value = "";
         }}
       />

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getArticle, formatDateFr } from "@/lib/articles";
 import { shade, CATEGORY_ICONS } from "@/lib/colors";
-import { isVideoUrl } from "@/lib/article-types";
+import ArticleGallery from "@/components/ArticleGallery";
 
 export const dynamic = "force-dynamic";
 
@@ -45,30 +45,10 @@ export default async function ArticlePage({
         </div>
       </section>
       <section className="wrap section" style={{ maxWidth: 860 }}>
-        {article.video && (
-          <video
-            className="article-video"
-            src={article.video}
-            controls
-            playsInline
-            preload="metadata"
-          />
-        )}
         <article style={{ fontSize: 17, whiteSpace: "pre-line" }}>
           {article.body || article.excerpt}
         </article>
-        {article.images.length > 0 && (
-          <div className="pub-gal" style={{ marginTop: 36 }}>
-            {article.images.map((src, i) =>
-              isVideoUrl(src) ? (
-                <video key={i} src={src} controls playsInline preload="metadata" />
-              ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={i} src={src} alt="" />
-              )
-            )}
-          </div>
-        )}
+        <ArticleGallery images={article.images} />
         <p style={{ marginTop: 40 }}>
           <Link className="btn btn-ghost" style={{ borderColor: "var(--line)", color: "var(--royal)" }} href="/actualites">
             ← Toutes les actualités

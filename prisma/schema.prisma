@@ -64,9 +64,8 @@ model Article {
   body        String        @default("")
   // Image de couverture (URL renvoyée par /api/upload, ex. /uploads/xxx.jpg)
   image       String?
-  // Vidéo associée (URL renvoyée par /api/upload, ex. /uploads/xxx.mp4)
-  video       String?
-  // Galerie d'images optionnelle : tableau d'URL ["/uploads/x.jpg", …]
+  // Galerie de médias optionnelle : tableau d'URL d'images et/ou vidéos
+  // ["/uploads/x.jpg", "/uploads/y.mp4", …]
   images      Json          @default("[]")
   color       String        @default("#284193")
   status      ArticleStatus @default(DRAFT)

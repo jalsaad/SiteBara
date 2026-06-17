@@ -152,7 +152,6 @@ body::before {
 .ncard .cat { position: absolute; top: 14px; left: 14px; background: rgba(255, 253, 249, 0.94); color: var(--marine); font-size: 11.5px; font-weight: 600; padding: 6px 13px; border-radius: 8px; letter-spacing: 0.03em; z-index: 2; }
 .ncard .play-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 52px; height: 52px; display: grid; place-items: center; background: rgba(27, 34, 69, 0.55); color: #fff; font-size: 18px; border-radius: 50%; z-index: 2; padding-left: 4px; transition: 0.3s; }
 .ncard:hover .play-badge { background: var(--orange); transform: translate(-50%, -50%) scale(1.08); }
-.article-video { width: 100%; border-radius: var(--radius); margin-bottom: 30px; background: #000; display: block; }
 .ncard .bd { padding: 22px 24px 26px; }
 .ncard .date { font-size: 12px; color: var(--orange); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
 .ncard h3 { font-family: var(--font-fraunces), serif; font-size: 21px; font-weight: 500; margin: 9px 0 9px; line-height: 1.22; }
@@ -423,8 +422,29 @@ body::before {
 .pub-table th { background: var(--halo); font-weight: 600; color: var(--royal); }
 .pub-gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 @media (max-width: 700px) { .pub-gal { grid-template-columns: repeat(2, 1fr); } }
-.pub-gal div, .pub-gal img { aspect-ratio: 1; border-radius: 14px; box-shadow: var(--shadow-sm); }
-.pub-gal img { width: 100%; object-fit: cover; display: block; }
+.pub-gal div, .pub-gal img, .pub-gal video { aspect-ratio: 1; border-radius: 14px; box-shadow: var(--shadow-sm); }
+.pub-gal img, .pub-gal video { width: 100%; object-fit: cover; display: block; background: #000; }
+
+/* Galerie cliquable d'une actualité + lightbox */
+.art-gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 36px; }
+@media (max-width: 700px) { .art-gal { grid-template-columns: repeat(2, 1fr); } }
+.art-gal .gal-item { position: relative; aspect-ratio: 1; border: none; margin: 0; padding: 0; background: #000; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); cursor: pointer; display: block; }
+.art-gal .gal-item img, .art-gal .gal-item video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+.art-gal .gal-item:hover img, .art-gal .gal-item:hover video { transform: scale(1.06); }
+.art-gal .gal-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 46px; height: 46px; display: grid; place-items: center; background: rgba(27, 34, 69, 0.55); color: #fff; border-radius: 50%; font-size: 16px; padding-left: 3px; pointer-events: none; }
+
+.lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(10, 12, 24, 0.92); display: grid; place-items: center; padding: 30px; animation: lbfade 0.2s ease; }
+@keyframes lbfade { from { opacity: 0; } to { opacity: 1; } }
+.lb-stage { max-width: 92vw; max-height: 88vh; }
+.lb-stage img, .lb-stage video { max-width: 92vw; max-height: 88vh; width: auto; height: auto; border-radius: 10px; display: block; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+.lb-close { position: fixed; top: 20px; right: 24px; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 20px; cursor: pointer; }
+.lb-close:hover { background: rgba(255, 255, 255, 0.25); }
+.lb-nav { position: fixed; top: 50%; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 30px; cursor: pointer; display: grid; place-items: center; }
+.lb-nav:hover { background: rgba(255, 255, 255, 0.25); }
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+.lb-count { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); color: rgba(255, 255, 255, 0.8); font-size: 14px; }
+@media (max-width: 700px) { .lb-nav { width: 42px; height: 42px; font-size: 24px; } }
 .pub-contact { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 38px 42px; max-width: 560px; box-shadow: var(--shadow-sm); }
 .pub-contact h2 { font-family: var(--font-fraunces), serif; font-weight: 500; font-size: 28px; margin-bottom: 18px; }
 .pub-contact .rowc { display: flex; gap: 12px; align-items: center; font-size: 15.5px; margin-bottom: 12px; color: var(--ink-soft); }

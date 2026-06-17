@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Article } from "@/lib/article-types";
-import { formatDateFr } from "@/lib/article-types";
+import { formatDateFr, isVideoUrl } from "@/lib/article-types";
 import { shade, CATEGORY_ICONS } from "@/lib/colors";
 
 export default function NewsCard({ article }: { article: Article }) {
@@ -18,7 +18,9 @@ export default function NewsCard({ article }: { article: Article }) {
           {!article.image && (
             <div className="ic">{CATEGORY_ICONS[article.category] ?? "📰"}</div>
           )}
-          {article.video && <span className="play-badge">▶</span>}
+          {article.images.some(isVideoUrl) && (
+            <span className="play-badge">▶</span>
+          )}
           <span className="cat">{article.category}</span>
         </div>
         <div className="bd">

@@ -21,7 +21,6 @@ interface Draft {
   excerpt: string;
   body: string;
   image: string | null;
-  video: string | null;
   images: string[];
   color: string;
   status: ArticleStatus;
@@ -33,7 +32,6 @@ const EMPTY: Draft = {
   excerpt: "",
   body: "",
   image: null,
-  video: null,
   images: [],
   color: "#284193",
   status: "DRAFT",
@@ -90,7 +88,6 @@ export default function ActusManager() {
           excerpt: draft.excerpt,
           body: draft.body,
           image: draft.image,
-          video: draft.video,
           images: draft.images,
           color: draft.color,
           status: draft.status,
@@ -175,7 +172,6 @@ export default function ActusManager() {
       excerpt: a.excerpt,
       body: a.body,
       image: a.image,
-      video: a.video,
       images: a.images,
       color: a.color,
       status: a.status,
@@ -375,17 +371,6 @@ export default function ActusManager() {
               />
             </div>
             <div className="field">
-              <label>Vidéo (optionnelle)</label>
-              <ImageUpload
-                kind="video"
-                value={draft.video}
-                onChange={(url) => setDraft({ ...draft, video: url })}
-              />
-              <p className="ihint">
-                Affichée dans l&apos;article. MP4 ou WebM, 25 Mo maximum.
-              </p>
-            </div>
-            <div className="field">
               <label>
                 Galerie (images et vidéos)
                 {draft.images.length > 0 && ` (${draft.images.length})`}
@@ -409,14 +394,17 @@ export default function ActusManager() {
               </div>
               <ImageUpload
                 kind="media"
+                multiple
                 value={null}
-                onChange={(url) =>
-                  url && setDraft({ ...draft, images: [...draft.images, url] })
+                onChange={() => {}}
+                onMany={(urls) =>
+                  setDraft({ ...draft, images: [...draft.images, ...urls] })
                 }
               />
               <p className="ihint">
-                Médias supplémentaires (photos ou vidéos) affichés en bas de
-                l&apos;article, au cas où plusieurs seraient nécessaires.
+                Photos et/ou vidéos affichées en bas de l&apos;article. Vous
+                pouvez en sélectionner plusieurs à la fois (MP4/WebM 25 Mo,
+                images 5 Mo).
               </p>
             </div>
             <div className="field">
