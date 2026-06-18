@@ -93,6 +93,7 @@ export interface HeroData {
   btn2: string;
   link2: string;
   color: string;
+  textColor: string; // couleur du texte (vide = blanc par défaut)
   bg: "gradient" | "solid" | "texture";
   effects: boolean;
   anim: boolean;
@@ -187,6 +188,7 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
     btn2: "",
     link2: "#",
     color: "#284193",
+    textColor: "",
     bg: "gradient",
     effects: true,
     anim: true,

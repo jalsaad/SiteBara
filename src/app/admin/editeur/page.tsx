@@ -24,7 +24,7 @@ import {
   blockId as bid,
   CORE_PAGE_SLUGS,
 } from "@/lib/page-types";
-import { shade, hexA, ACCENT_COLORS } from "@/lib/colors";
+import { shade, hexA, ACCENT_COLORS, TEXT_COLORS } from "@/lib/colors";
 import {
   overlayStyle,
   borderPath,
@@ -88,7 +88,10 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
     const bp = borderPath(d.border);
     const hasVideo = !!d.video;
     return (
-      <div className={`r-hero${d.anim ? " r-anim" : ""}`} style={{ background: bg }}>
+      <div
+        className={`r-hero${d.anim ? " r-anim" : ""}`}
+        style={{ background: bg, ...(d.textColor ? { color: d.textColor } : {}) }}
+      >
         {hasVideo && (
           <video
             key={d.video}
@@ -220,7 +223,10 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
     return (
       <div
         className="r-hero"
-        style={{ background: `linear-gradient(160deg,${shade(d.color ?? "#284193")},${d.color ?? "#284193"})` }}
+        style={{
+          background: `linear-gradient(160deg,${shade(d.color ?? "#284193")},${d.color ?? "#284193"})`,
+          ...(d.textColor ? { color: d.textColor } : {}),
+        }}
       >
         <div className="rh-in">
           <span className="p">{d.eyebrow}</span>
@@ -634,6 +640,34 @@ function Editor() {
     </div>
   );
 
+  // Champ couleur : pastilles + sélecteur libre (n'importe quelle couleur).
+  const colorField = (
+    k: keyof BlockData,
+    label: string,
+    palette: string[] = ACCENT_COLORS
+  ) => (
+    <div className="field" key={k}>
+      <label>{label}</label>
+      <div className="swatches">
+        {palette.map((c) => (
+          <span
+            key={c}
+            className={`swatch${selected?.data[k] === c ? " on" : ""}`}
+            style={{ background: c }}
+            onClick={() => upd(k, c)}
+          />
+        ))}
+        <input
+          type="color"
+          className="swatch-pick"
+          title="Couleur personnalisée"
+          value={(selected?.data[k] as string) || "#284193"}
+          onChange={(e) => upd(k, e.target.value)}
+        />
+      </div>
+    </div>
+  );
+
   const tog = (k: keyof BlockData, label: string) => (
     <div className="field tog" key={k}>
       <label>{label}</label>
@@ -867,19 +901,8 @@ function Editor() {
                 {txt("btn2", "Texte (vide = masqué)")}
                 {txt("link2", "Lien (URL)")}
                 <div className="isub">Arrière-plan</div>
-                <div className="field">
-                  <label>Couleur d&apos;accent</label>
-                  <div className="swatches">
-                    {ACCENT_COLORS.map((c) => (
-                      <span
-                        key={c}
-                        className={`swatch${selected.data.color === c ? " on" : ""}`}
-                        style={{ background: c }}
-                        onClick={() => upd("color", c)}
-                      />
-                    ))}
-                  </div>
-                </div>
+                {colorField("color", "Couleur d'accent / fond")}
+                {colorField("textColor", "Couleur du texte", TEXT_COLORS)}
                 <div className="field">
                   <label>Style</label>
                   <div className="seg">
@@ -1124,25 +1147,26 @@ function Editor() {
                         listSet<CardItem>("cards", cardItems, i, { href: e.target.value })
                       }
                     />
-                    <div className="seg" style={{ marginTop: 6 }}>
-                      {(
-                        [
-                          ["var(--royal)", "Bleu"],
-                          ["var(--orange)", "Orange"],
-                          ["var(--teal)", "Vert"],
-                          ["var(--gold)", "Or"],
-                        ] as const
-                      ).map(([v, l]) => (
-                        <button
-                          key={v}
-                          className={c.color === v ? "on" : ""}
+                    <div className="swatches" style={{ marginTop: 6 }}>
+                      {ACCENT_COLORS.map((cc) => (
+                        <span
+                          key={cc}
+                          className={`swatch${c.color === cc ? " on" : ""}`}
+                          style={{ background: cc }}
                           onClick={() =>
-                            listSet<CardItem>("cards", cardItems, i, { color: v })
+                            listSet<CardItem>("cards", cardItems, i, { color: cc })
                           }
-                        >
-                          {l}
-                        </button>
+                        />
                       ))}
+                      <input
+                        type="color"
+                        className="swatch-pick"
+                        title="Couleur personnalisée"
+                        value={/^#/.test(c.color) ? c.color : "#284193"}
+                        onChange={(e) =>
+                          listSet<CardItem>("cards", cardItems, i, { color: e.target.value })
+                        }
+                      />
                     </div>
                   </div>
                 ))}
@@ -1258,19 +1282,8 @@ function Editor() {
                   Astuce : entourez un mot d&apos;*astérisques* pour l&apos;accent.
                 </div>
                 {txt("sub", "Sous-titre", true)}
-                <div className="field">
-                  <label>Couleur</label>
-                  <div className="swatches">
-                    {ACCENT_COLORS.map((c) => (
-                      <span
-                        key={c}
-                        className={`swatch${selected.data.color === c ? " on" : ""}`}
-                        style={{ background: c }}
-                        onClick={() => upd("color", c)}
-                      />
-                    ))}
-                  </div>
-                </div>
+                {colorField("color", "Couleur de fond")}
+                {colorField("textColor", "Couleur du texte", TEXT_COLORS)}
               </>
             )}
             {selected.type === "newslist" && (

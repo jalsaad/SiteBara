@@ -137,6 +137,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
               title={renderTitle(d.title ?? "")}
               sub={d.sub}
               color={d.color || "#284193"}
+              textColor={d.textColor}
             />
           );
         }
@@ -232,7 +233,11 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
               )}
               <div
                 className="hero-in"
-                style={{ gridTemplateColumns: "1fr", padding: "84px 30px" }}
+                style={{
+                  gridTemplateColumns: "1fr",
+                  padding: "84px 30px",
+                  ...(d.textColor ? { color: d.textColor } : {}),
+                }}
               >
                 <div className="reveal in">
                   {d.pill && (

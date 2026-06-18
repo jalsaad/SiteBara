@@ -8,11 +8,13 @@ export default function ContentHero({
   title,
   sub,
   color = "#1b2245",
+  textColor,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   sub?: string;
   color?: string;
+  textColor?: string;
 }) {
   return (
     <section
@@ -21,7 +23,11 @@ export default function ContentHero({
     >
       <div
         className="hero-in"
-        style={{ gridTemplateColumns: "1fr", padding: "72px 30px 84px" }}
+        style={{
+          gridTemplateColumns: "1fr",
+          padding: "72px 30px 84px",
+          ...(textColor ? { color: textColor } : {}),
+        }}
       >
         <div className="reveal in">
           <span className="pill">
