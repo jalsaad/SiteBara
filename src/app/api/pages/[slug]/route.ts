@@ -38,8 +38,8 @@ export async function PUT(
   return Response.json(page);
 }
 
-// Suppression d'une page — réservé aux administrateurs.
-// La page d'accueil composée ne peut pas être supprimée.
+// Suppression d'une page composée — réservé aux administrateurs.
+// La page d'accueil (rendue sur « / ») ne peut pas être supprimée.
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }

@@ -7,7 +7,16 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Article } from "@/lib/article-types";
-import type { Block, BlockData, BlockType, GridRow } from "@/lib/page-types";
+import type {
+  Block,
+  BlockData,
+  BlockType,
+  GridRow,
+  HeroStat,
+  PillarItem,
+  CardItem,
+  CheckItem,
+} from "@/lib/page-types";
 import {
   BLOCK_LABELS as LABELS,
   BLOCK_TEMPLATES as TEMPLATES,
@@ -30,26 +39,17 @@ interface PageMeta {
 }
 
 const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
-  { type: "hero", icon: "🖼️", desc: "Image + titre" },
+  { type: "hero", icon: "🖼️", desc: "Bannière + stats" },
+  { type: "pillars", icon: "🏛️", desc: "Intro + piliers" },
+  { type: "cards", icon: "🧩", desc: "Cartes d'accès" },
+  { type: "split", icon: "↔️", desc: "Deux colonnes" },
   { type: "text", icon: "📝", desc: "Paragraphe riche" },
   { type: "news", icon: "📰", desc: "Auto, 3 articles" },
   { type: "grid", icon: "🗂️", desc: "Tableau" },
   { type: "gallery", icon: "🏞️", desc: "Photos" },
+  { type: "quote", icon: "❝", desc: "Citation" },
+  { type: "cta", icon: "📣", desc: "Appel à l'action" },
   { type: "contact", icon: "📍", desc: "Coordonnées" },
-];
-
-// Pages « système » du menu : mises en page sur mesure (héros vidéo, menus du
-// restaurant, outils, formulaires…) gérées dans le code, donc non éditables par
-// blocs. Listées dans l'éditeur pour retrouver TOUS les éléments du menu ; on
-// les ouvre/prévisualise telles quelles. À garder synchronisé avec Nav.tsx.
-const SYSTEM_PAGES: { label: string; href: string }[] = [
-  { label: "Accueil", href: "/" },
-  { label: "Options", href: "/filieres" },
-  { label: "Calendrier", href: "/calendrier" },
-  { label: "Actualités", href: "/actualites" },
-  { label: "Restaurant", href: "/restaurant" },
-  { label: "Applis & outils", href: "/applis" },
-  { label: "Contact", href: "/contact" },
 ];
 
 /* ---------------- rendu d'un bloc dans le canvas ---------------- */
@@ -130,7 +130,94 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
             <a className="b">{d.btn1} →</a>
             {d.btn2 && <a className="b2">{d.btn2}</a>}
           </div>
+          {d.stats && d.stats.length > 0 && (
+            <div className="rstats">
+              {d.stats.map((s, i) => (
+                <div key={i}>
+                  <b>{s.n}</b>
+                  <span>{s.l}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+      </div>
+    );
+  }
+  if (block.type === "pillars") {
+    const items = d.pillars ?? [];
+    return (
+      <div className="r-text">
+        <p style={{ fontWeight: 600, marginBottom: 14 }}>
+          {renderTitle(d.intro ?? "")}
+        </p>
+        <div className="r-cards">
+          {items.map((p, i) => (
+            <div className="rc" key={i}>
+              <div className="rc-ic">{String(i + 1).padStart(2, "0")}</div>
+              <b>{p.title}</b>
+              <p>{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (block.type === "cards") {
+    const items = d.cards ?? [];
+    return (
+      <div className="r-text">
+        <h3>{renderTitle(d.title ?? "")}</h3>
+        <div className="r-cards">
+          {items.map((c, i) => (
+            <div className="rc" key={i} style={{ "--c": c.color } as React.CSSProperties}>
+              <div className="rc-ic">{c.icon}</div>
+              <b>{c.title}</b>
+              <p>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (block.type === "split") {
+    const items = d.checks ?? [];
+    return (
+      <div className="r-text">
+        <h3>{renderTitle(d.title ?? "")}</h3>
+        <div className="r-tags">
+          {(d.tags ?? []).map((t, i) => (
+            <span key={i}>{t}</span>
+          ))}
+        </div>
+        <ul className="r-checks">
+          {items.map((c, i) => (
+            <li key={i}>
+              <b>✓ {c.title}</b> — {c.desc}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  if (block.type === "quote") {
+    return (
+      <div className="r-text">
+        <blockquote style={{ fontStyle: "italic", fontSize: 18 }}>
+          « {d.quote} »
+        </blockquote>
+        <p style={{ marginTop: 8, color: "var(--ink-soft)" }}>{d.who}</p>
+      </div>
+    );
+  }
+  if (block.type === "cta") {
+    return (
+      <div className="r-cta">
+        <div>
+          <b>{d.title}</b>
+          <p>{d.body}</p>
+        </div>
+        <a className="b">{d.btn} →</a>
       </div>
     );
   }
@@ -227,7 +314,8 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
 function Editor() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const slug = searchParams.get("page") ?? "accueil";
+  const pageParam = searchParams.get("page");
+  const slug = pageParam ?? "";
 
   const [pages, setPages] = useState<PageMeta[]>([]);
   const [pageTitle, setPageTitle] = useState("");
@@ -257,12 +345,23 @@ function Editor() {
   }
 
   useEffect(() => {
-    // Liste des pages (panneau de gauche) — setState dans le .then (asynchrone).
+    // Liste des pages (panneau de gauche). Sans page sélectionnée, on bascule
+    // sur la première page disponible.
     fetch("/api/pages")
       .then((r) => (r.ok ? r.json() : null))
-      .then((list) => list && setPages(list))
+      .then((list: PageMeta[] | null) => {
+        if (!list) return;
+        setPages(list);
+        if (!pageParam && list.length) {
+          router.replace(`/admin/editeur?page=${list[0].slug}`);
+        }
+      })
       .catch(() => {});
+  }, [pageParam, router]);
+
+  useEffect(() => {
     // Contenu de la page courante.
+    if (!slug) return;
     fetch(`/api/pages/${slug}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((page) => {
@@ -310,7 +409,9 @@ function Editor() {
     if (res.ok) {
       toast("Page supprimée");
       await refreshPages();
-      if (target === slug) router.replace("/admin/editeur?page=accueil");
+      // Si on supprime la page courante, on laisse l'effet rebasculer sur la
+      // première page disponible.
+      if (target === slug) router.replace("/admin/editeur");
     } else {
       const data = await res.json().catch(() => ({}));
       toast(data.error ?? "Suppression impossible");
@@ -318,6 +419,10 @@ function Editor() {
   }
 
   async function persist(publish: boolean) {
+    if (!slug) {
+      toast("Créez ou sélectionnez une page d'abord");
+      return;
+    }
     setSaving(true);
     const res = await fetch(`/api/pages/${slug}`, {
       method: "PUT",
@@ -441,6 +546,22 @@ function Editor() {
   const gridRemoveRow = (i: number) =>
     upd("rows", gridRows.filter((_, idx) => idx !== i));
 
+  /* listes d'objets éditables (piliers, cartes, points, stats…) */
+  const listOf = <T,>(key: keyof BlockData): T[] =>
+    (selected?.data[key] as T[] | undefined) ?? [];
+  const listSet = <T,>(key: string, list: T[], i: number, patch: Partial<T>) =>
+    upd(key, list.map((it, idx) => (idx === i ? { ...it, ...patch } : it)));
+  const listAdd = <T,>(key: string, list: T[], item: T) =>
+    upd(key, [...list, item]);
+  const listDel = <T,>(key: string, list: T[], i: number) =>
+    upd(key, list.filter((_, idx) => idx !== i));
+
+  const heroStats = listOf<HeroStat>("stats");
+  const pillarItems = listOf<PillarItem>("pillars");
+  const cardItems = listOf<CardItem>("cards");
+  const splitChecks = listOf<CheckItem>("checks");
+  const splitTags = listOf<string>("tags");
+
   /* champs de l'inspecteur */
   const txt = (k: keyof BlockData, label: string, area = false) => (
     <div className="field" key={k}>
@@ -491,7 +612,7 @@ function Editor() {
     <div className="editor">
       {/* palette */}
       <aside className="palette">
-        <div className="lbl">Pages composées (éditables)</div>
+        <div className="lbl">Pages du site</div>
         <div className="pglist">
           {pages.map((p) => (
             <div
@@ -526,29 +647,6 @@ function Editor() {
         >
           + Nouvelle page
         </button>
-
-        <div className="lbl" style={{ marginTop: 22 }}>Pages du menu (système)</div>
-        <div className="pglist">
-          {SYSTEM_PAGES.map((p) => (
-            <a
-              key={p.href}
-              className="pgitem sys"
-              href={p.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="Page système — ouvrir dans un nouvel onglet"
-            >
-              <span className="st sys" />
-              <span className="pt">{p.label}</span>
-              <span className="ext">↗</span>
-            </a>
-          ))}
-        </div>
-        <div className="ihint">
-          Ces pages ont une mise en page sur mesure (héros, menus du restaurant,
-          outils, formulaires) : elles s&apos;ouvrent telles quelles et ne
-          s&apos;éditent pas par blocs.
-        </div>
 
         <div className="lbl" style={{ marginTop: 22 }}>Titre de la page</div>
         <div className="field">
@@ -844,9 +942,258 @@ function Editor() {
                     </div>
                   </>
                 )}
+                <div className="isub">Statistiques</div>
+                {heroStats.map((s, i) => (
+                  <div className="field rowedit" key={i}>
+                    <input
+                      value={s.n}
+                      placeholder="430+"
+                      onChange={(e) =>
+                        listSet<HeroStat>("stats", heroStats, i, { n: e.target.value })
+                      }
+                    />
+                    <input
+                      value={s.l}
+                      placeholder="Ans d'histoire"
+                      onChange={(e) =>
+                        listSet<HeroStat>("stats", heroStats, i, { l: e.target.value })
+                      }
+                    />
+                    <button
+                      className="del"
+                      title="Retirer"
+                      onClick={() => listDel<HeroStat>("stats", heroStats, i)}
+                    >
+                      🗑
+                    </button>
+                  </div>
+                ))}
+                <button
+                  className="abtn ghost sm"
+                  onClick={() => listAdd<HeroStat>("stats", heroStats, { n: "", l: "" })}
+                >
+                  + Statistique
+                </button>
                 <div className="isub">Effets &amp; animations</div>
                 {tog("effects", "Halos décoratifs")}
                 {tog("anim", "Animations d'apparition")}
+              </>
+            )}
+            {selected.type === "pillars" && (
+              <>
+                {txt("intro", "Phrase d'introduction", true)}
+                <div className="isub">Piliers</div>
+                {pillarItems.map((p, i) => (
+                  <div className="itemcard" key={i}>
+                    <div className="itemcard-head">
+                      <span>Pilier {i + 1}</span>
+                      <button
+                        className="del"
+                        title="Retirer"
+                        onClick={() => listDel<PillarItem>("pillars", pillarItems, i)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                    <input
+                      value={p.title}
+                      placeholder="Titre"
+                      onChange={(e) =>
+                        listSet<PillarItem>("pillars", pillarItems, i, { title: e.target.value })
+                      }
+                    />
+                    <textarea
+                      value={p.desc}
+                      placeholder="Description"
+                      onChange={(e) =>
+                        listSet<PillarItem>("pillars", pillarItems, i, { desc: e.target.value })
+                      }
+                    />
+                  </div>
+                ))}
+                <button
+                  className="abtn ghost sm"
+                  onClick={() =>
+                    listAdd<PillarItem>("pillars", pillarItems, { title: "", desc: "" })
+                  }
+                >
+                  + Pilier
+                </button>
+              </>
+            )}
+            {selected.type === "cards" && (
+              <>
+                {txt("eyebrow", "Sur-titre")}
+                {txt("title", "Titre")}
+                {txt("lead", "Phrase d'introduction", true)}
+                <div className="isub">Cartes</div>
+                {cardItems.map((c, i) => (
+                  <div className="itemcard" key={i}>
+                    <div className="itemcard-head">
+                      <span>Carte {i + 1}</span>
+                      <button
+                        className="del"
+                        title="Retirer"
+                        onClick={() => listDel<CardItem>("cards", cardItems, i)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                    <div className="rowedit">
+                      <input
+                        style={{ maxWidth: 60 }}
+                        value={c.icon}
+                        placeholder="🎓"
+                        onChange={(e) =>
+                          listSet<CardItem>("cards", cardItems, i, { icon: e.target.value })
+                        }
+                      />
+                      <input
+                        value={c.title}
+                        placeholder="Titre"
+                        onChange={(e) =>
+                          listSet<CardItem>("cards", cardItems, i, { title: e.target.value })
+                        }
+                      />
+                    </div>
+                    <textarea
+                      value={c.desc}
+                      placeholder="Description"
+                      onChange={(e) =>
+                        listSet<CardItem>("cards", cardItems, i, { desc: e.target.value })
+                      }
+                    />
+                    <input
+                      value={c.href}
+                      placeholder="Lien (ex. /filieres)"
+                      onChange={(e) =>
+                        listSet<CardItem>("cards", cardItems, i, { href: e.target.value })
+                      }
+                    />
+                    <div className="seg" style={{ marginTop: 6 }}>
+                      {(
+                        [
+                          ["var(--royal)", "Bleu"],
+                          ["var(--orange)", "Orange"],
+                          ["var(--teal)", "Vert"],
+                          ["var(--gold)", "Or"],
+                        ] as const
+                      ).map(([v, l]) => (
+                        <button
+                          key={v}
+                          className={c.color === v ? "on" : ""}
+                          onClick={() =>
+                            listSet<CardItem>("cards", cardItems, i, { color: v })
+                          }
+                        >
+                          {l}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                <button
+                  className="abtn ghost sm"
+                  onClick={() =>
+                    listAdd<CardItem>("cards", cardItems, {
+                      icon: "✨",
+                      title: "Nouvelle carte",
+                      desc: "",
+                      href: "#",
+                      color: "var(--royal)",
+                    })
+                  }
+                >
+                  + Carte
+                </button>
+              </>
+            )}
+            {selected.type === "split" && (
+              <>
+                {txt("eyebrow", "Sur-titre")}
+                {txt("title", "Titre")}
+                {txt("icon", "Icône (emoji)")}
+                <div className="isub">Étiquettes</div>
+                {splitTags.map((t, i) => (
+                  <div className="field rowedit" key={i}>
+                    <input
+                      value={t}
+                      placeholder="Étiquette"
+                      onChange={(e) =>
+                        upd(
+                          "tags",
+                          splitTags.map((x, idx) => (idx === i ? e.target.value : x))
+                        )
+                      }
+                    />
+                    <button
+                      className="del"
+                      title="Retirer"
+                      onClick={() =>
+                        upd("tags", splitTags.filter((_, idx) => idx !== i))
+                      }
+                    >
+                      🗑
+                    </button>
+                  </div>
+                ))}
+                <button
+                  className="abtn ghost sm"
+                  onClick={() => upd("tags", [...splitTags, ""])}
+                >
+                  + Étiquette
+                </button>
+                <div className="isub">Points clés</div>
+                {splitChecks.map((c, i) => (
+                  <div className="itemcard" key={i}>
+                    <div className="itemcard-head">
+                      <span>Point {i + 1}</span>
+                      <button
+                        className="del"
+                        title="Retirer"
+                        onClick={() => listDel<CheckItem>("checks", splitChecks, i)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                    <input
+                      value={c.title}
+                      placeholder="Titre"
+                      onChange={(e) =>
+                        listSet<CheckItem>("checks", splitChecks, i, { title: e.target.value })
+                      }
+                    />
+                    <textarea
+                      value={c.desc}
+                      placeholder="Description"
+                      onChange={(e) =>
+                        listSet<CheckItem>("checks", splitChecks, i, { desc: e.target.value })
+                      }
+                    />
+                  </div>
+                ))}
+                <button
+                  className="abtn ghost sm"
+                  onClick={() =>
+                    listAdd<CheckItem>("checks", splitChecks, { title: "", desc: "" })
+                  }
+                >
+                  + Point clé
+                </button>
+              </>
+            )}
+            {selected.type === "quote" && (
+              <>
+                {txt("quote", "Citation", true)}
+                {txt("who", "Auteur")}
+              </>
+            )}
+            {selected.type === "cta" && (
+              <>
+                {txt("title", "Titre")}
+                {txt("body", "Texte", true)}
+                {txt("btn", "Texte du bouton")}
+                {txt("link", "Lien du bouton")}
               </>
             )}
             {selected.type === "text" && (

@@ -8,6 +8,8 @@ import { blockId } from "./page-types";
 
 export type { Block, PageData } from "./page-types";
 
+// Page d'accueil du site (« / ») — désormais ÉDITABLE via l'éditeur : la route
+// `/` rend cette page composée (slug « accueil ») via PageBlocks.
 const seed: PageData[] = [
   {
     slug: "accueil",
@@ -19,8 +21,8 @@ const seed: PageData[] = [
         type: "hero",
         data: {
           pill: "Établissement d'enseignement · Fondé en 1595",
-          title: "Apprendre, *s'ouvrir*, s'accomplir",
-          sub: "Au cœur de Tournai, un athénée où chaque élève est accompagné individuellement vers la réussite.",
+          title: "Apprendre, *s'ouvrir*, s'accomplir.",
+          sub: "Au cœur de Tournai, un athénée où chaque élève est accompagné individuellement vers la réussite, dans un cadre moderne et bienveillant.",
           btn1: "École en ligne",
           link1:
             "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
@@ -30,17 +32,127 @@ const seed: PageData[] = [
           bg: "texture",
           effects: true,
           anim: true,
+          video: "/hero.mp4",
+          overlay: "grain",
+          overlayOpacity: 40,
+          border: "none",
+          borderColor: "#f7f2e9",
+          borderBg: "",
+          stats: [
+            { n: "430+", l: "Ans d'histoire" },
+            { n: "950", l: "Élèves heureux" },
+            { n: "100%", l: "Personnels investis" },
+          ],
+        },
+      },
+      {
+        id: blockId(),
+        type: "pillars",
+        data: {
+          intro:
+            "Depuis plus de quatre siècles, l'Athénée Royal Jules Bara forme des esprits *curieux, ouverts et autonomes*.",
+          pillars: [
+            {
+              title: "Apprendre",
+              desc: "Des approches pédagogiques diversifiées et ludiques, du matériel moderne et un suivi personnalisé de chaque élève.",
+            },
+            {
+              title: "S'ouvrir",
+              desc: "Échanges, projets citoyens, langues et culture : une école tournée vers le monde et la diversité.",
+            },
+            {
+              title: "S'accomplir",
+              desc: "Développer l'autonomie et la confiance pour que chacun trouve sa voie et révèle son potentiel.",
+            },
+          ],
+        },
+      },
+      {
+        id: blockId(),
+        type: "cards",
+        data: {
+          eyebrow: "Accès rapides",
+          title: "Tout ce dont vous avez besoin, *en un clic*",
+          lead: "Élèves, parents et enseignants accèdent directement aux ressources essentielles de l'établissement.",
+          cards: [
+            {
+              icon: "🎓",
+              title: "Nos options",
+              desc: "Grilles horaires du premier au troisième degré, DASPA et 7ᵉ préparatoire.",
+              href: "/filieres",
+              color: "var(--royal)",
+            },
+            {
+              icon: "📅",
+              title: "Calendrier",
+              desc: "Dates clés, congés et événements de l'année scolaire en cours.",
+              href: "/calendrier",
+              color: "var(--orange)",
+            },
+            {
+              icon: "💻",
+              title: "École numérique",
+              desc: "Google Classroom, APSchool et l'espace de travail École en ligne.",
+              href: "/applis",
+              color: "var(--teal)",
+            },
+            {
+              icon: "🍽️",
+              title: "Restaurant",
+              desc: "Menus de la semaine et informations sur la cantine scolaire.",
+              href: "/restaurant",
+              color: "var(--gold)",
+            },
+          ],
+        },
+      },
+      {
+        id: blockId(),
+        type: "split",
+        data: {
+          eyebrow: "Une école résolument numérique",
+          title: "Des outils modernes au service de la *pédagogie*",
+          icon: "💻",
+          tags: [
+            "Google Classroom",
+            "APSchool",
+            "Tableaux interactifs",
+            "École en ligne",
+          ],
+          checks: [
+            {
+              title: "Classes connectées",
+              desc: "Matériel moderne et environnements numériques de travail.",
+            },
+            {
+              title: "Suivi en ligne",
+              desc: "Parents et élèves suivent les résultats et communications via École en ligne.",
+            },
+            {
+              title: "Accompagnement adapté",
+              desc: "Prise en charge des troubles de l'apprentissage et école des devoirs.",
+            },
+          ],
         },
       },
       { id: blockId(), type: "news", data: { title: "Dernières actualités" } },
       {
         id: blockId(),
-        type: "contact",
+        type: "quote",
         data: {
-          title: "Nous trouver",
-          addr: "Rue Duquesnoy 24, 7500 Tournai",
-          tel: "069 89 06 02",
-          mail: "direction@atheneejulesbara.be",
+          quote:
+            "Une école n'est pas un lieu où l'on entasse des savoirs, mais où l'on apprend à devenir soi-même.",
+          who: "— L'équipe pédagogique, Athénée Royal Jules Bara",
+        },
+      },
+      {
+        id: blockId(),
+        type: "cta",
+        data: {
+          title: "Envie de rejoindre l'aventure Bara ?",
+          body: "Les préinscriptions pour la prochaine rentrée sont ouvertes. Venez nous rencontrer.",
+          btn: "Je m'inscris",
+          link: "/preinscription",
         },
       },
     ],

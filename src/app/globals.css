@@ -325,6 +325,29 @@ body::before {
 .r-text { padding: 32px; }
 .r-text h3 { font-family: var(--font-fraunces), serif; font-size: 23px; font-weight: 500; margin-bottom: 10px; }
 .r-text p { font-size: 14px; color: var(--ink-soft); }
+/* aperçus canvas : stats du héros, cartes, étiquettes, points, CTA */
+.r-hero .rstats { display: flex; gap: 22px; margin-top: 18px; position: relative; z-index: 3; }
+.r-hero .rstats div { display: flex; flex-direction: column; }
+.r-hero .rstats b { font-family: var(--font-fraunces), serif; font-size: 22px; }
+.r-hero .rstats span { font-size: 11px; opacity: 0.8; }
+.r-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 6px; }
+.r-cards .rc { border: 1px solid var(--line); border-left: 3px solid var(--c, var(--royal)); border-radius: 11px; padding: 12px 14px; }
+.r-cards .rc-ic { font-size: 22px; margin-bottom: 4px; }
+.r-cards .rc b { font-size: 14px; display: block; }
+.r-cards .rc p { font-size: 12px; color: var(--ink-soft); margin-top: 3px; }
+.r-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.r-tags span { font-size: 11px; background: var(--halo); color: var(--royal); padding: 3px 9px; border-radius: 7px; }
+.r-checks { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.r-cta { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 32px; background: linear-gradient(135deg, var(--royal), var(--marine)); color: #fff; border-radius: 14px; }
+.r-cta b { font-family: var(--font-fraunces), serif; font-size: 19px; }
+.r-cta p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+.r-cta .b { background: #fff; color: var(--royal); padding: 9px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+/* inspecteur : lignes et cartes d'items éditables */
+.rowedit { display: flex; gap: 6px; align-items: center; }
+.rowedit input { flex: 1; }
+.itemcard { border: 1px solid var(--line); border-radius: 10px; padding: 10px; margin-bottom: 8px; display: flex; flex-direction: column; gap: 6px; }
+.itemcard-head { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.itemcard .del, .rowedit .del { opacity: 1; width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0; }
 .r-news { padding: 28px 32px; }
 .r-news .h { font-family: var(--font-fraunces), serif; font-size: 20px; margin-bottom: 15px; }
 .r-news .row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }

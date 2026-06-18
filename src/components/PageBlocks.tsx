@@ -113,6 +113,16 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                       </a>
                     )}
                   </div>
+                  {d.stats && d.stats.length > 0 && (
+                    <div className="hero-stats">
+                      {d.stats.map((s, i) => (
+                        <div key={i}>
+                          <div className="n serif">{s.n}</div>
+                          <div className="l">{s.l}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
@@ -187,6 +197,122 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                         style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }}
                       />
                     ))}
+              </div>
+            </section>
+          );
+        }
+        if (b.type === "pillars") {
+          const items = d.pillars ?? [];
+          return (
+            <section className="mission" key={b.id}>
+              <div className="mission-in">
+                {d.intro && (
+                  <p className="big serif reveal">{renderTitle(d.intro)}</p>
+                )}
+                {items.map((p, i) => (
+                  <div className="pillar reveal" key={i}>
+                    <div className="num">{String(i + 1).padStart(2, "0")}</div>
+                    <h3 className="serif">{p.title}</h3>
+                    <p>{p.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          );
+        }
+        if (b.type === "cards") {
+          const items = d.cards ?? [];
+          return (
+            <section className="wrap section" key={b.id}>
+              <div className="shead reveal">
+                {d.eyebrow && <span className="eyebrow">{d.eyebrow}</span>}
+                <h2 className="serif">{renderTitle(d.title ?? "")}</h2>
+                {d.lead && <p className="lead">{d.lead}</p>}
+              </div>
+              <div className="access">
+                {items.map((c, i) => (
+                  <a
+                    className="acard reveal"
+                    key={i}
+                    style={{ "--c": c.color || "var(--royal)" } as React.CSSProperties}
+                    href={c.href || "#"}
+                  >
+                    <div className="ic">{c.icon}</div>
+                    <h3 className="serif">{c.title}</h3>
+                    <p>{c.desc}</p>
+                    <span className="go">Découvrir →</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          );
+        }
+        if (b.type === "split") {
+          const items = d.checks ?? [];
+          const tags = d.tags ?? [];
+          return (
+            <section className="wrap section" key={b.id}>
+              <div className="split">
+                <div className="split-visual reveal">
+                  <div className="ic">{d.icon || "💡"}</div>
+                  <div className="tags">
+                    {tags.map((t, i) => (
+                      <span key={i}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="reveal">
+                  {d.eyebrow && <span className="eyebrow">{d.eyebrow}</span>}
+                  <h2
+                    className="serif"
+                    style={{ fontSize: "clamp(28px,3.6vw,40px)", lineHeight: 1.1 }}
+                  >
+                    {renderTitle(d.title ?? "")}
+                  </h2>
+                  <ul className="flist">
+                    {items.map((c, i) => (
+                      <li key={i}>
+                        <span className="ck">✓</span>
+                        <div>
+                          <b>{c.title}</b>
+                          <span>{c.desc}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </section>
+          );
+        }
+        if (b.type === "quote") {
+          return (
+            <section className="wrap section" key={b.id}>
+              <div className="quote reveal">
+                <div className="mark serif">&ldquo;</div>
+                <blockquote>{d.quote}</blockquote>
+                <div className="who">{d.who}</div>
+              </div>
+            </section>
+          );
+        }
+        if (b.type === "cta") {
+          return (
+            <section className="wrap cta-band" key={b.id}>
+              <div className="banner reveal">
+                <div className="bc">
+                  <h2 className="serif">{d.title}</h2>
+                  {d.body && <p>{d.body}</p>}
+                </div>
+                {d.btn && (
+                  <a
+                    className="btn btn-light"
+                    style={{ position: "relative", zIndex: 2 }}
+                    href={d.link || "#"}
+                  >
+                    {d.btn} →
+                  </a>
+                )}
               </div>
             </section>
           );
