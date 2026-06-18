@@ -15,6 +15,7 @@ const seed: PageData[] = [
     slug: "accueil",
     title: "Accueil",
     published: true,
+    order: 0,
     blocks: [
       {
         id: blockId(),
@@ -166,6 +167,7 @@ seed.push({
   slug: "projet-pedagogique",
   title: "Notre projet",
   published: true,
+  order: 50,
   blocks: [
     {
       id: blockId(),
@@ -204,6 +206,7 @@ seed.push({
   slug: "filieres",
   title: "Options",
   published: true,
+  order: 10,
   blocks: [
     {
       id: blockId(),
@@ -328,6 +331,7 @@ seed.push({
   slug: "calendrier",
   title: "Calendrier",
   published: true,
+  order: 20,
   blocks: [
     {
       id: blockId(),
@@ -420,6 +424,7 @@ seed.push({
   slug: "actualites",
   title: "Actualités",
   published: true,
+  order: 30,
   blocks: [
     {
       id: blockId(),
@@ -454,6 +459,7 @@ seed.push({
   slug: "restaurant",
   title: "Restaurant",
   published: true,
+  order: 40,
   blocks: [
     {
       id: blockId(),
@@ -547,6 +553,7 @@ export async function getPage(slug: string): Promise<PageData | null> {
       slug: page.slug,
       title: page.title,
       published: page.published,
+      order: page.order,
       blocks: page.blocks.map((b) => ({
         id: b.id,
         type: b.type as Block["type"],
@@ -558,39 +565,70 @@ export async function getPage(slug: string): Promise<PageData | null> {
 }
 
 export async function listPages(): Promise<
-  { slug: string; title: string; published: boolean }[]
+  { slug: string; title: string; published: boolean; order: number }[]
 > {
   if (useDb) {
     const db = await prisma();
     const pages = await db.page.findMany({
-      select: { slug: true, title: true, published: true },
-      orderBy: { createdAt: "asc" },
+      select: { slug: true, title: true, published: true, order: true },
+      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
     });
     return pages;
   }
-  return memStore().map(({ slug, title, published }) => ({
-    slug,
-    title,
-    published,
-  }));
+  return memStore()
+    .map(({ slug, title, published, order }) => ({ slug, title, published, order }))
+    .sort((a, b) => a.order - b.order);
+}
+
+// Prochaine valeur d'ordre (place la nouvelle page en fin de menu).
+async function nextOrder(): Promise<number> {
+  if (useDb) {
+    const db = await prisma();
+    const top = await db.page.findFirst({
+      orderBy: { order: "desc" },
+      select: { order: true },
+    });
+    return (top?.order ?? 0) + 10;
+  }
+  const store = memStore();
+  return store.reduce((m, p) => Math.max(m, p.order), 0) + 10;
 }
 
 export async function createPage(
   slug: string,
   title: string
 ): Promise<PageData | null> {
+  const order = await nextOrder();
   if (useDb) {
     const db = await prisma();
     const exists = await db.page.findUnique({ where: { slug } });
     if (exists) return null;
-    await db.page.create({ data: { slug, title, published: false } });
+    await db.page.create({ data: { slug, title, published: false, order } });
     return (await getPage(slug))!;
   }
   const store = memStore();
   if (store.some((p) => p.slug === slug)) return null;
-  const page: PageData = { slug, title, published: false, blocks: [] };
+  const page: PageData = { slug, title, published: false, order, blocks: [] };
   store.push(page);
   return page;
+}
+
+// Réordonne les pages selon la liste de slugs fournie (ordre du menu).
+export async function reorderPages(slugs: string[]): Promise<void> {
+  if (useDb) {
+    const db = await prisma();
+    await Promise.all(
+      slugs.map((slug, i) =>
+        db.page.update({ where: { slug }, data: { order: i * 10 } }).catch(() => null)
+      )
+    );
+    return;
+  }
+  const store = memStore();
+  slugs.forEach((slug, i) => {
+    const p = store.find((x) => x.slug === slug);
+    if (p) p.order = i * 10;
+  });
 }
 
 export async function deletePage(slug: string): Promise<boolean> {
@@ -622,6 +660,7 @@ export async function savePage(
         slug,
         title: input.title ?? slug,
         published: input.publish ?? false,
+        order: await nextOrder(),
       },
       update: {
         ...(input.title ? { title: input.title } : {}),
@@ -643,7 +682,13 @@ export async function savePage(
   const store = memStore();
   let page = store.find((p) => p.slug === slug);
   if (!page) {
-    page = { slug, title: input.title ?? slug, published: false, blocks: [] };
+    page = {
+      slug,
+      title: input.title ?? slug,
+      published: false,
+      order: await nextOrder(),
+      blocks: [],
+    };
     store.push(page);
   }
   if (input.title) page.title = input.title;

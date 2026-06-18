@@ -397,14 +397,6 @@ export type BlockUncheckedUpdateManyWithoutPageNestedInput = {
   deleteMany?: Prisma.BlockScalarWhereInput | Prisma.BlockScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type BlockCreateWithoutPageInput = {
   id?: string
   order: number

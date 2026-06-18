@@ -38,6 +38,7 @@ interface PageMeta {
   slug: string;
   title: string;
   published: boolean;
+  order: number;
 }
 
 const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
@@ -387,6 +388,7 @@ function Editor() {
   const dragType = useRef<BlockType | null>(null);
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
+  const dragPage = useRef<string | null>(null);
   // Modifications non enregistrées sur la page courante.
   const dirty = useRef(false);
   const toast = useToast();
@@ -574,6 +576,27 @@ function Editor() {
     toast("Bloc dupliqué");
   }
 
+  // Glisser-déposer pour réordonner les pages dans le menu.
+  async function dropPage(targetSlug: string) {
+    const from = dragPage.current;
+    dragPage.current = null;
+    if (!from || from === targetSlug) return;
+    const order = pages.map((p) => p.slug);
+    const fromIdx = order.indexOf(from);
+    const toIdx = order.indexOf(targetSlug);
+    if (fromIdx < 0 || toIdx < 0) return;
+    order.splice(fromIdx, 1);
+    order.splice(toIdx, 0, from);
+    const bySlug = new Map(pages.map((p) => [p.slug, p]));
+    setPages(order.map((s) => bySlug.get(s)!));
+    const res = await fetch("/api/pages/reorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slugs: order }),
+    });
+    toast(res.ok ? "Ordre du menu mis à jour" : "Réordonnancement impossible");
+  }
+
   function upd(key: string, value: unknown) {
     if (!selected) return;
     dirty.current = true;
@@ -701,13 +724,21 @@ function Editor() {
       {/* palette */}
       <aside className="palette">
         <div className="lbl">Pages du site</div>
+        <div className="ihint" style={{ marginTop: -4 }}>
+          Glissez-déposez pour changer l&apos;ordre dans le menu.
+        </div>
         <div className="pglist">
           {pages.map((p) => (
             <div
               key={p.slug}
               className={`pgitem${p.slug === slug ? " on" : ""}`}
               onClick={() => switchPage(p.slug)}
+              draggable
+              onDragStart={() => (dragPage.current = p.slug)}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => dropPage(p.slug)}
             >
+              <span className="pgrip" title="Glisser pour réordonner">⠿</span>
               <span
                 className={`st ${p.published ? "pub" : "draft"}`}
                 title={p.published ? "Publiée" : "Brouillon"}

@@ -157,6 +157,7 @@ export interface PageData {
   slug: string;
   title: string;
   published: boolean;
+  order: number;
   blocks: Block[];
 }
 

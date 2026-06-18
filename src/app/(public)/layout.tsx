@@ -8,12 +8,18 @@ import { CORE_PAGE_SLUGS } from "@/lib/page-types";
 export default async function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  // Pages composées publiées → entrées du menu. On exclut les pages « cœur »
-  // (accueil, options, calendrier, actualités, restaurant) : elles ont déjà
-  // leur lien fixe dans la nav et leur propre route.
+  // Menu de navigation : toutes les pages publiées, dans l'ordre défini par
+  // glisser-déposer dans l'éditeur. Chaque slug pointe vers sa route (les pages
+  // « cœur » ont une route dédiée, les autres sont rendues sur /p/[slug]).
+  const pageHref = (slug: string) =>
+    slug === "accueil"
+      ? "/"
+      : CORE_PAGE_SLUGS.includes(slug)
+        ? `/${slug}`
+        : `/p/${slug}`;
   const pages = (await listPages())
-    .filter((p) => p.published && !CORE_PAGE_SLUGS.includes(p.slug))
-    .map((p) => ({ href: `/p/${p.slug}`, label: p.title }));
+    .filter((p) => p.published)
+    .map((p) => ({ href: pageHref(p.slug), label: p.title }));
 
   return (
     <>

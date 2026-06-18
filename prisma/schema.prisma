@@ -37,6 +37,8 @@ model Page {
   slug      String   @unique
   title     String
   published Boolean  @default(false)
+  // Ordre d'affichage dans le menu de navigation (drag-and-drop éditeur).
+  order     Int      @default(0)
   blocks    Block[]
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())

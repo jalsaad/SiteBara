@@ -5,20 +5,16 @@ import { useEffect, useState } from "react";
 
 type NavLink = { href: string; label: string };
 
-const LINKS: NavLink[] = [
-  { href: "/", label: "Accueil" },
-  { href: "/filieres", label: "Options" },
-  { href: "/calendrier", label: "Calendrier" },
-  { href: "/actualites", label: "Actus" },
-  { href: "/restaurant", label: "Restaurant" },
+// Entrées fixes du menu (routes spéciales non gérées par l'éditeur), ajoutées
+// après les pages éditables.
+const FIXED_LINKS: NavLink[] = [
   { href: "/applis", label: "Applis" },
+  { href: "/contact", label: "Contact" },
 ];
-
-const CONTACT: NavLink = { href: "/contact", label: "Contact" };
 
 export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
-  const links = [...LINKS, ...pages, CONTACT];
+  const links = [...pages, ...FIXED_LINKS];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
