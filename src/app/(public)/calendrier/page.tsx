@@ -3,45 +3,54 @@ import type { Metadata } from "next";
 import ContentHero from "@/components/ContentHero";
 
 export const metadata: Metadata = {
-  title: "Calendrier scolaire",
+  title: "Calendrier scolaire 2026-2027",
   description:
-    "Congés, vacances et dates clés de l'année scolaire à l'Athénée Royal Jules Bara, selon le calendrier officiel de la Fédération Wallonie-Bruxelles.",
+    "Congés, vacances et dates clés de l'année scolaire 2026-2027 à l'Athénée Royal Jules Bara, selon le calendrier officiel de la Fédération Wallonie-Bruxelles. PDF à consulter et ajout des vacances à votre agenda.",
 };
 
-// Calendrier officiel de la Fédération Wallonie-Bruxelles — année 2025-2026.
+// Fichiers du calendrier officiel FW-B (dans public/).
+const PDF_URL = "/calendrier-2026-2027.pdf";
+const ICS_URL = "/calendrier-vacances-2026-2027.ics";
+
+// Calendrier officiel de la Fédération Wallonie-Bruxelles — année 2026-2027
+// (source : Cal_Obli_26-27.ics).
 const CONGES = [
-  ["Rentrée scolaire", "Lundi 25 août 2025"],
-  ["Fête de la Communauté française", "Samedi 27 septembre 2025"],
-  ["Congé d'automne (Toussaint)", "Du 20 au 31 octobre 2025"],
-  ["Vacances d'hiver (Noël)", "Du 22 décembre 2025 au 4 janvier 2026"],
-  ["Congé de détente (Carnaval)", "Du 16 au 27 février 2026"],
-  ["Vacances de printemps (Pâques)", "Du 20 avril au 1er mai 2026"],
-  ["Ascension", "Jeudi 14 & vendredi 15 mai 2026"],
-  ["Lundi de Pentecôte", "Lundi 25 mai 2026"],
-  ["Vacances d'été", "À partir du 1er juillet 2026"],
+  ["Rentrée scolaire", "Lundi 24 août 2026"],
+  ["Fête de la Communauté française", "Dimanche 27 septembre 2026"],
+  ["Congé d'automne (Toussaint)", "Du 19 au 30 octobre 2026"],
+  ["Fête des morts", "Lundi 2 novembre 2026"],
+  ["Commémoration du 11 novembre (Armistice)", "Mercredi 11 novembre 2026"],
+  ["Vacances d'hiver (Noël)", "Du 21 décembre 2026 au 1ᵉʳ janvier 2027"],
+  ["Mardi Gras", "Mardi 9 février 2027"],
+  ["Congé de détente (Carnaval)", "Du 22 février au 5 mars 2027"],
+  ["Lundi de Pâques", "Lundi 29 mars 2027"],
+  ["Vacances de printemps (Pâques)", "Du 26 avril au 7 mai 2027"],
+  ["Jeudi de l'Ascension", "Jeudi 6 mai 2027"],
+  ["Lundi de Pentecôte", "Lundi 17 mai 2027"],
+  ["Vacances d'été", "À partir du 2 juillet 2027"],
 ];
 
 // Temps forts de fin d'année (indicatifs — confirmés par l'établissement).
 const EVENEMENTS = [
   {
-    date: "16 → 26 juin",
-    titre: "Session d'examens de juin",
+    date: "Juin 2027",
+    titre: "Session d'examens",
     desc: "Évaluations de fin d'année pour l'ensemble des degrés.",
   },
   {
-    date: "27 juin",
+    date: "Fin juin 2027",
     titre: "Remise des bulletins & proclamation",
     desc: "Réunion de parents et proclamation des résultats de la rhétorique.",
   },
   {
-    date: "30 juin",
+    date: "1ᵉʳ juillet 2027",
     titre: "Dernier jour de cours",
-    desc: "Clôture de l'année scolaire 2025-2026.",
+    desc: "Clôture de l'année scolaire 2026-2027.",
   },
   {
-    date: "24 août",
-    titre: "Rentrée 2026-2027",
-    desc: "Reprise des cours pour la nouvelle année scolaire (date indicative FW-B).",
+    date: "Fin août 2027",
+    titre: "Rentrée 2027-2028",
+    desc: "Reprise des cours pour la nouvelle année scolaire.",
   },
 ];
 
@@ -49,7 +58,7 @@ export default function CalendrierPage() {
   return (
     <main>
       <ContentHero
-        eyebrow="Année scolaire 2025-2026"
+        eyebrow="Année scolaire 2026-2027"
         title={
           <>
             Calendrier <em>scolaire</em>
@@ -68,10 +77,32 @@ export default function CalendrierPage() {
           </h2>
           <p className="lead">
             Calendrier de la Fédération Wallonie-Bruxelles pour l&apos;année
-            2025-2026. Les jours fériés légaux sont inclus dans les périodes de
+            2026-2027. Les jours fériés légaux sont inclus dans les périodes de
             congé.
           </p>
         </div>
+
+        {/* actions : consulter le PDF, ajouter à son agenda */}
+        <div className="cal-actions reveal">
+          <a
+            className="btn btn-ghost"
+            style={{ borderColor: "var(--line)", color: "var(--royal)" }}
+            href={PDF_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            📄 Consulter le calendrier (PDF)
+          </a>
+          <a className="btn btn-orange" href={ICS_URL} download>
+            📅 Ajouter les vacances à mon agenda
+          </a>
+        </div>
+        <p className="cal-actions-hint">
+          Le fichier « .ics » s&apos;ouvre dans votre application d&apos;agenda
+          (Google Agenda, Apple Calendrier, Outlook…) pour importer toutes les
+          dates en un clic.
+        </p>
+
         <table className="pub-table reveal">
           <thead>
             <tr>

@@ -420,6 +420,8 @@ body::before {
 .pub-table { width: 100%; max-width: 760px; border-collapse: collapse; font-size: 15px; background: var(--paper); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
 .pub-table td, .pub-table th { border: 1px solid var(--line); padding: 13px 18px; text-align: left; }
 .pub-table th { background: var(--halo); font-weight: 600; color: var(--royal); }
+.cal-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 10px; }
+.cal-actions-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 26px; max-width: 640px; }
 .pub-gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 @media (max-width: 700px) { .pub-gal { grid-template-columns: repeat(2, 1fr); } }
 .pub-gal div, .pub-gal img, .pub-gal video { aspect-ratio: 1; border-radius: 14px; box-shadow: var(--shadow-sm); }
