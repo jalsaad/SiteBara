@@ -414,7 +414,8 @@ seed.push({
   ],
 });
 
-// Actualités (/actualites) — liste automatique gérée dans /admin/actus.
+// Actualités (/actualites) — en-tête et habillage éditables ; la liste des
+// articles (bloc newslist) reste alimentée par /admin/actus.
 seed.push({
   slug: "actualites",
   title: "Actualités",
@@ -422,11 +423,27 @@ seed.push({
   blocks: [
     {
       id: blockId(),
-      type: "newslist",
+      type: "banner",
       data: {
         eyebrow: "Vie de l'école",
         title: "Toutes les *actualités*",
-        lead: "Événements, projets et informations pratiques de l'Athénée Royal Jules Bara.",
+        sub: "Événements, projets et informations pratiques de l'Athénée Royal Jules Bara.",
+        color: "#284193",
+      },
+    },
+    {
+      id: blockId(),
+      type: "newslist",
+      data: { eyebrow: "", title: "", lead: "" },
+    },
+    {
+      id: blockId(),
+      type: "cta",
+      data: {
+        title: "Une info à partager ?",
+        body: "Un projet, un événement, une réussite ? Faites-le savoir au service communication.",
+        btn: "Nous contacter",
+        link: "/contact",
       },
     },
   ],

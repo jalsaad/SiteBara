@@ -59,15 +59,20 @@ async function NewsListBlock({
   lead?: string;
 }) {
   const news = await listArticles({ publishedOnly: true });
+  // En-tête optionnel : s'il est vide, on n'affiche que la grille (l'en-tête
+  // peut alors être un bloc « En-tête de page » distinct, comme les autres pages).
+  const hasHead = !!(eyebrow || title || lead);
   return (
     <section className="news-band">
       <div className="wrap section">
-        <div className="shead reveal in">
-          {eyebrow && <span className="eyebrow">{eyebrow}</span>}
-          <h2 className="serif">{renderTitle(title ?? "")}</h2>
-          {lead && <p className="lead">{lead}</p>}
-        </div>
-        <div className="news-grid" style={{ marginTop: 42 }}>
+        {hasHead && (
+          <div className="shead reveal in">
+            {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+            {title && <h2 className="serif">{renderTitle(title)}</h2>}
+            {lead && <p className="lead">{lead}</p>}
+          </div>
+        )}
+        <div className="news-grid" style={hasHead ? { marginTop: 42 } : undefined}>
           {news.map((a) => (
             <NewsCard key={a.id} article={a} />
           ))}

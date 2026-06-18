@@ -1288,10 +1288,10 @@ function Editor() {
             )}
             {selected.type === "newslist" && (
               <>
-                {txt("eyebrow", "Sur-titre")}
-                {txt("title", "Titre")}
-                {txt("lead", "Phrase d'introduction", true)}
-                {info("La liste des articles est automatique (gérée dans « Actus »).")}
+                {info("La liste des articles est automatique (gérée dans « Actus »). Laissez l'en-tête vide pour utiliser un bloc « En-tête de page » à la place.")}
+                {txt("eyebrow", "Sur-titre (facultatif)")}
+                {txt("title", "Titre (facultatif)")}
+                {txt("lead", "Phrase d'introduction (facultatif)", true)}
               </>
             )}
             {selected.type === "menu" && (
