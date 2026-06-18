@@ -3,9 +3,24 @@
 export type BlockType = "hero" | "text" | "news" | "grid" | "gallery" | "contact";
 
 // Effet graphique en premier plan de la bannière (avec opacité réglable).
-export type HeroOverlay = "none" | "grain" | "dots" | "diagonal" | "vignette";
+export type HeroOverlay =
+  | "none"
+  | "grain"
+  | "dots"
+  | "diagonal"
+  | "vignette"
+  | "grid"
+  | "scanlines"
+  | "glow";
 // Style de la bordure inférieure de la bannière.
-export type HeroBorder = "none" | "wave" | "slant" | "curve";
+export type HeroBorder =
+  | "none"
+  | "wave"
+  | "slant"
+  | "curve"
+  | "rounded"
+  | "zigzag"
+  | "peaks";
 
 export interface HeroData {
   pill: string;
@@ -23,6 +38,8 @@ export interface HeroData {
   overlay: HeroOverlay; // effet graphique en premier plan
   overlayOpacity: number; // 0–100, transparence de l'effet
   border: HeroBorder; // style de la bordure inférieure
+  borderColor: string; // couleur de la forme de bordure (défaut crème)
+  borderBg: string; // couleur d'arrière-plan de la bordure (vide = transparent)
 }
 
 export interface GridRow {
@@ -82,6 +99,8 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
     overlay: "none",
     overlayOpacity: 35,
     border: "none",
+    borderColor: "#f7f2e9",
+    borderBg: "",
   },
   text: {
     title: "Titre de section",

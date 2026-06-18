@@ -70,7 +70,15 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
     return (
       <div className={`r-hero${d.anim ? " r-anim" : ""}`} style={{ background: bg }}>
         {hasVideo && (
-          <video className="rv" src={d.video} autoPlay muted loop playsInline />
+          <video
+            key={d.video}
+            className="rv"
+            src={d.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
         )}
         {hasVideo && (
           <span
@@ -80,7 +88,6 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
             }}
           />
         )}
-        {d.effects && <span className="rgrain" />}
         {d.effects && (
           <>
             <span className="rb rb1" />
@@ -95,7 +102,10 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            <path d={bp} fill="var(--cream)" />
+            {d.borderBg && (
+              <rect x="0" y="0" width="1200" height="120" fill={d.borderBg} />
+            )}
+            <path d={bp} fill={d.borderColor || "var(--cream)"} />
           </svg>
         )}
         <div className="rh-in">
@@ -715,7 +725,7 @@ function Editor() {
                 </div>
                 <div className="isub">Effet graphique (premier plan)</div>
                 <div className="field">
-                  <div className="seg">
+                  <div className="seg wrap">
                     {OVERLAY_OPTIONS.map(({ value, label }) => (
                       <button
                         key={value}
@@ -748,7 +758,7 @@ function Editor() {
                 )}
                 <div className="isub">Bordure inférieure</div>
                 <div className="field">
-                  <div className="seg">
+                  <div className="seg wrap">
                     {BORDER_OPTIONS.map(({ value, label }) => (
                       <button
                         key={value}
@@ -762,8 +772,43 @@ function Editor() {
                     ))}
                   </div>
                 </div>
+                {(selected.data.border ?? "none") !== "none" && (
+                  <>
+                    <div className="field colorrow">
+                      <label>Couleur de la bordure</label>
+                      <input
+                        type="color"
+                        value={(selected.data.borderColor as string) || "#f7f2e9"}
+                        onChange={(e) => upd("borderColor", e.target.value)}
+                      />
+                    </div>
+                    <div className="field colorrow">
+                      <label>Arrière-plan de la bordure</label>
+                      <span className="colorrow-ctl">
+                        <input
+                          type="color"
+                          value={(selected.data.borderBg as string) || "#ffffff"}
+                          onChange={(e) => upd("borderBg", e.target.value)}
+                        />
+                        {selected.data.borderBg ? (
+                          <button
+                            type="button"
+                            className="abtn ghost sm"
+                            onClick={() => upd("borderBg", "")}
+                          >
+                            Transparent
+                          </button>
+                        ) : (
+                          <span className="ihint" style={{ margin: 0 }}>
+                            Transparent (laisse voir la bannière)
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  </>
+                )}
                 <div className="isub">Effets &amp; animations</div>
-                {tog("effects", "Effets visuels (halos, grain)")}
+                {tog("effects", "Halos décoratifs")}
                 {tog("anim", "Animations d'apparition")}
               </>
             )}

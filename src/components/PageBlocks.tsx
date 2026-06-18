@@ -57,6 +57,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
             <section className="hero" key={b.id}>
               {d.video && (
                 <video
+                  key={d.video}
                   className="hero-video"
                   autoPlay
                   muted
@@ -77,7 +78,10 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                   preserveAspectRatio="none"
                   aria-hidden="true"
                 >
-                  <path d={bp} fill="var(--cream)" />
+                  {d.borderBg && (
+                    <rect x="0" y="0" width="1200" height="120" fill={d.borderBg} />
+                  )}
+                  <path d={bp} fill={d.borderColor || "var(--cream)"} />
                 </svg>
               )}
               <div
