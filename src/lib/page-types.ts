@@ -2,8 +2,12 @@
 
 export type BlockType =
   | "hero"
+  | "banner"
   | "text"
   | "news"
+  | "newslist"
+  | "menu"
+  | "downloads"
   | "grid"
   | "gallery"
   | "contact"
@@ -12,6 +16,18 @@ export type BlockType =
   | "split"
   | "quote"
   | "cta";
+
+// Slugs des pages « cœur » : elles ont leur propre route (/, /filieres,
+// /calendrier, /actualites, /restaurant) mais sont éditables comme pages
+// composées. Exclues du menu auto des pages composées (déjà dans la nav) et
+// non supprimables.
+export const CORE_PAGE_SLUGS = [
+  "accueil",
+  "filieres",
+  "calendrier",
+  "actualites",
+  "restaurant",
+];
 
 // Effet graphique en premier plan de la bannière (avec opacité réglable).
 export type HeroOverlay =
@@ -58,6 +74,14 @@ export interface CardItem {
 export interface CheckItem {
   title: string;
   desc: string;
+}
+
+// Bouton de téléchargement / lien d'action (ex. calendrier PDF, .ics).
+export interface DownloadItem {
+  label: string;
+  href: string;
+  download: boolean; // true = téléchargement direct (ex. .ics)
+  primary: boolean; // true = bouton orange
 }
 
 export interface HeroData {
@@ -112,9 +136,14 @@ export type BlockData = Partial<HeroData> & {
   // Bloc « Citation ».
   quote?: string;
   who?: string;
-  // Bloc « Appel à l'action » : bouton.
+  // Bloc « Appel à l'action » / « Menu » : bouton.
   btn?: string;
   link?: string;
+  // Bloc « Menu du restaurant » : phrase au-dessus du bouton de réservation.
+  note?: string;
+  // Bloc « Téléchargements » : boutons + note.
+  downloads?: DownloadItem[];
+  hint?: string;
 };
 
 export interface Block {
@@ -132,8 +161,12 @@ export interface PageData {
 
 export const BLOCK_LABELS: Record<BlockType, string> = {
   hero: "Bannière",
+  banner: "En-tête de page",
   text: "Texte",
-  news: "Actualités",
+  news: "Actualités (3)",
+  newslist: "Liste des actualités",
+  menu: "Menu du restaurant",
+  downloads: "Téléchargements",
   grid: "Grille horaire",
   gallery: "Galerie",
   contact: "Contact",
@@ -228,6 +261,32 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
     body: "Phrase incitative.",
     btn: "Bouton",
     link: "/preinscription",
+  },
+  banner: {
+    eyebrow: "Sur-titre",
+    title: "Titre de la *page*",
+    sub: "Sous-titre descriptif de la page.",
+    color: "#284193",
+  },
+  newslist: {
+    eyebrow: "Vie de l'école",
+    title: "Toutes les *actualités*",
+    lead: "Événements, projets et informations pratiques.",
+  },
+  menu: {
+    eyebrow: "Menu de la semaine",
+    title: "Au menu *au restaurant*",
+    lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements.",
+    note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.",
+    btn: "🍽 Réserver vos repas sur APSchool",
+    link: "https://www.apschool.be",
+  },
+  downloads: {
+    title: "",
+    downloads: [
+      { label: "📄 Consulter (PDF)", href: "#", download: false, primary: false },
+    ],
+    hint: "",
   },
 };
 

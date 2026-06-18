@@ -1,5 +1,6 @@
 import { deletePage, getPage, savePage } from "@/lib/pages";
 import { requireRole } from "@/lib/auth";
+import { CORE_PAGE_SLUGS } from "@/lib/page-types";
 
 // Contenu complet d'une page (brouillon inclus) — réservé à l'éditeur (ADMIN).
 // Le rendu public passe par getPage() côté serveur et filtre `published`
@@ -47,9 +48,9 @@ export async function DELETE(
   const auth = await requireRole(request, "ADMIN");
   if (auth instanceof Response) return auth;
   const { slug } = await params;
-  if (slug === "accueil") {
+  if (CORE_PAGE_SLUGS.includes(slug)) {
     return Response.json(
-      { error: "La page d'accueil ne peut pas être supprimée" },
+      { error: "Cette page du menu ne peut pas être supprimée" },
       { status: 400 }
     );
   }

@@ -196,6 +196,305 @@ seed.push({
   ],
 });
 
+// ---- Pages « cœur » du menu, désormais éditables (rendues sur leurs routes
+// dédiées /filieres, /calendrier, /actualites, /restaurant). ----
+
+// Options (/filieres)
+seed.push({
+  slug: "filieres",
+  title: "Options",
+  published: true,
+  blocks: [
+    {
+      id: blockId(),
+      type: "banner",
+      data: {
+        eyebrow: "Enseignement secondaire · Tournai",
+        title: "Nos *options*",
+        sub: "Un parcours général de transition, du premier au troisième degré, pour préparer chaque élève aux études supérieures dans un cadre exigeant et bienveillant.",
+        color: "#284193",
+      },
+    },
+    {
+      id: blockId(),
+      type: "cards",
+      data: {
+        eyebrow: "Les trois degrés",
+        title: "Un parcours *progressif*",
+        lead: "De l'entrée en secondaire jusqu'à la rhétorique, chaque degré construit l'autonomie et affine l'orientation de l'élève.",
+        cards: [
+          {
+            icon: "🧭",
+            title: "Premier degré",
+            desc: "1re & 2e — commun et différencié. Tronc commun, activités complémentaires au choix et dispositif différencié (1D/2D).",
+            href: "#",
+            color: "var(--royal)",
+          },
+          {
+            icon: "🔬",
+            title: "Deuxième degré",
+            desc: "3e & 4e — transition générale. Renforcement en sciences, langues modernes, sciences économiques et humaines.",
+            href: "#",
+            color: "var(--teal)",
+          },
+          {
+            icon: "🎓",
+            title: "Troisième degré",
+            desc: "5e & 6e — transition générale. Approfondissement des options en vue des études supérieures.",
+            href: "#",
+            color: "var(--orange)",
+          },
+        ],
+      },
+    },
+    {
+      id: blockId(),
+      type: "grid",
+      data: {
+        title: "Grille horaire — premier degré commun",
+        th1: "Cours",
+        th2: "Périodes / semaine",
+        rows: [
+          { c: "Formation religieuse / morale", p: "2" },
+          { c: "Français", p: "6" },
+          { c: "Mathématiques", p: "4" },
+          { c: "Langue moderne I (néerlandais / anglais)", p: "4" },
+          { c: "Étude du milieu (histoire-géographie)", p: "4" },
+          { c: "Sciences", p: "3" },
+          { c: "Éducation physique", p: "3" },
+          { c: "Éducation artistique & technologique", p: "2" },
+          { c: "Activités complémentaires au choix", p: "4" },
+        ],
+      },
+    },
+    {
+      id: blockId(),
+      type: "split",
+      data: {
+        eyebrow: "Options aux 2e & 3e degrés",
+        title: "Construire son *orientation*",
+        icon: "🎓",
+        tags: ["Sciences", "Langues", "Mathématiques", "Sciences économiques", "Latin"],
+        checks: [
+          { title: "Sciences (sciences générales)", desc: "" },
+          { title: "Mathématiques renforcées", desc: "" },
+          { title: "Langues modernes (néerlandais · anglais · espagnol)", desc: "" },
+          { title: "Sciences économiques", desc: "" },
+          { title: "Sciences sociales & humaines", desc: "" },
+          { title: "Latin", desc: "" },
+        ],
+      },
+    },
+    {
+      id: blockId(),
+      type: "cards",
+      data: {
+        eyebrow: "Dispositifs",
+        title: "*DASPA* & 7ᵉ préparatoire",
+        lead: "",
+        cards: [
+          {
+            icon: "🌍",
+            title: "DASPA",
+            desc: "Dispositif d'Accueil et de Scolarisation des élèves Primo-Arrivants : intégration progressive, apprentissage intensif du français.",
+            href: "#",
+            color: "var(--teal)",
+          },
+          {
+            icon: "📚",
+            title: "7ᵉ préparatoire",
+            desc: "Année préparatoire à l'enseignement supérieur : renforcement des prérequis (mathématiques, sciences, langues).",
+            href: "#",
+            color: "var(--gold)",
+          },
+        ],
+      },
+    },
+    {
+      id: blockId(),
+      type: "cta",
+      data: {
+        title: "Une question sur l'orientation ?",
+        body: "L'équipe pédagogique vous reçoit pour construire le parcours le mieux adapté à votre enfant.",
+        btn: "Préinscription",
+        link: "/preinscription",
+      },
+    },
+  ],
+});
+
+// Calendrier (/calendrier)
+seed.push({
+  slug: "calendrier",
+  title: "Calendrier",
+  published: true,
+  blocks: [
+    {
+      id: blockId(),
+      type: "banner",
+      data: {
+        eyebrow: "Année scolaire 2026-2027",
+        title: "Calendrier *scolaire*",
+        sub: "Congés, vacances et temps forts de l'année, selon le calendrier officiel de la Fédération Wallonie-Bruxelles.",
+        color: "#f57a20",
+      },
+    },
+    {
+      id: blockId(),
+      type: "downloads",
+      data: {
+        title: "",
+        downloads: [
+          {
+            label: "📄 Consulter le calendrier (PDF)",
+            href: "/calendrier-2026-2027.pdf",
+            download: false,
+            primary: false,
+          },
+          {
+            label: "📅 Ajouter les vacances à mon agenda",
+            href: "/calendrier-vacances-2026-2027.ics",
+            download: true,
+            primary: true,
+          },
+        ],
+        hint: "Le fichier « .ics » s'ouvre dans votre application d'agenda (Google Agenda, Apple Calendrier, Outlook…) pour importer toutes les dates en un clic.",
+      },
+    },
+    {
+      id: blockId(),
+      type: "grid",
+      data: {
+        title: "Congés & vacances 2026-2027",
+        th1: "Période",
+        th2: "Dates",
+        rows: [
+          { c: "Rentrée scolaire", p: "Lundi 24 août 2026" },
+          { c: "Fête de la Communauté française", p: "Dimanche 27 septembre 2026" },
+          { c: "Congé d'automne (Toussaint)", p: "Du 19 au 30 octobre 2026" },
+          { c: "Fête des morts", p: "Lundi 2 novembre 2026" },
+          { c: "Commémoration du 11 novembre", p: "Mercredi 11 novembre 2026" },
+          { c: "Vacances d'hiver (Noël)", p: "Du 21 décembre 2026 au 1ᵉʳ janvier 2027" },
+          { c: "Mardi Gras", p: "Mardi 9 février 2027" },
+          { c: "Congé de détente (Carnaval)", p: "Du 22 février au 5 mars 2027" },
+          { c: "Lundi de Pâques", p: "Lundi 29 mars 2027" },
+          { c: "Vacances de printemps (Pâques)", p: "Du 26 avril au 7 mai 2027" },
+          { c: "Jeudi de l'Ascension", p: "Jeudi 6 mai 2027" },
+          { c: "Lundi de Pentecôte", p: "Lundi 17 mai 2027" },
+          { c: "Vacances d'été", p: "À partir du 2 juillet 2027" },
+        ],
+      },
+    },
+    {
+      id: blockId(),
+      type: "split",
+      data: {
+        eyebrow: "Temps forts",
+        title: "Prochains *rendez-vous*",
+        icon: "📅",
+        tags: [],
+        checks: [
+          { title: "Juin 2027 — Session d'examens", desc: "Évaluations de fin d'année pour l'ensemble des degrés." },
+          { title: "Fin juin 2027 — Bulletins & proclamation", desc: "Réunion de parents et proclamation des résultats de la rhétorique." },
+          { title: "1ᵉʳ juillet 2027 — Dernier jour de cours", desc: "Clôture de l'année scolaire 2026-2027." },
+          { title: "Fin août 2027 — Rentrée 2027-2028", desc: "Reprise des cours pour la nouvelle année scolaire." },
+        ],
+      },
+    },
+    {
+      id: blockId(),
+      type: "cta",
+      data: {
+        title: "Une question sur le calendrier ?",
+        body: "Le secrétariat vous renseigne sur les dates et l'organisation de l'année.",
+        btn: "Nous contacter",
+        link: "/contact",
+      },
+    },
+  ],
+});
+
+// Actualités (/actualites) — liste automatique gérée dans /admin/actus.
+seed.push({
+  slug: "actualites",
+  title: "Actualités",
+  published: true,
+  blocks: [
+    {
+      id: blockId(),
+      type: "newslist",
+      data: {
+        eyebrow: "Vie de l'école",
+        title: "Toutes les *actualités*",
+        lead: "Événements, projets et informations pratiques de l'Athénée Royal Jules Bara.",
+      },
+    },
+  ],
+});
+
+// Restaurant (/restaurant) — menu automatique géré dans /admin/menu.
+seed.push({
+  slug: "restaurant",
+  title: "Restaurant",
+  published: true,
+  blocks: [
+    {
+      id: blockId(),
+      type: "banner",
+      data: {
+        eyebrow: "Vie quotidienne · Restaurant scolaire",
+        title: "Le *restaurant* scolaire",
+        sub: "Des repas chauds, équilibrés et préparés sur place chaque jour, avec une alternative végétarienne quotidienne.",
+        color: "#c79a4b",
+      },
+    },
+    {
+      id: blockId(),
+      type: "menu",
+      data: {
+        eyebrow: "Menu de la semaine",
+        title: "Au menu *au restaurant*",
+        lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements. Une alternative végétarienne est proposée chaque jour.",
+        note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.",
+        btn: "🍽 Réserver vos repas sur APSchool",
+        link: "https://www.apschool.be",
+      },
+    },
+    {
+      id: blockId(),
+      type: "cards",
+      data: {
+        eyebrow: "Infos pratiques",
+        title: "Bon à *savoir*",
+        lead: "",
+        cards: [
+          {
+            icon: "🕛",
+            title: "Horaires",
+            desc: "Service du midi de 11h45 à 13h15, en deux pauses selon les degrés. Restaurant fermé le mercredi après-midi.",
+            href: "#",
+            color: "var(--royal)",
+          },
+          {
+            icon: "💳",
+            title: "Tarifs & paiement",
+            desc: "Repas complet (potage + plat + dessert) à tarif démocratique. Paiement sans espèces via le compte APSchool de l'élève.",
+            href: "#",
+            color: "var(--orange)",
+          },
+          {
+            icon: "🥗",
+            title: "Alternative & allergènes",
+            desc: "Une alternative végétarienne chaque jour. Les fiches allergènes sont affichées au self et disponibles au secrétariat.",
+            href: "#",
+            color: "var(--teal)",
+          },
+        ],
+      },
+    },
+  ],
+});
+
 const g = globalThis as unknown as { __baraPages?: PageData[] };
 function memStore(): PageData[] {
   if (!g.__baraPages) g.__baraPages = structuredClone(seed);

@@ -16,11 +16,13 @@ import type {
   PillarItem,
   CardItem,
   CheckItem,
+  DownloadItem,
 } from "@/lib/page-types";
 import {
   BLOCK_LABELS as LABELS,
   BLOCK_TEMPLATES as TEMPLATES,
   blockId as bid,
+  CORE_PAGE_SLUGS,
 } from "@/lib/page-types";
 import { shade, hexA, ACCENT_COLORS } from "@/lib/colors";
 import {
@@ -40,15 +42,19 @@ interface PageMeta {
 
 const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "hero", icon: "🖼️", desc: "Bannière + stats" },
+  { type: "banner", icon: "🏷️", desc: "En-tête de page" },
   { type: "pillars", icon: "🏛️", desc: "Intro + piliers" },
   { type: "cards", icon: "🧩", desc: "Cartes d'accès" },
   { type: "split", icon: "↔️", desc: "Deux colonnes" },
   { type: "text", icon: "📝", desc: "Paragraphe riche" },
-  { type: "news", icon: "📰", desc: "Auto, 3 articles" },
   { type: "grid", icon: "🗂️", desc: "Tableau" },
   { type: "gallery", icon: "🏞️", desc: "Photos" },
   { type: "quote", icon: "❝", desc: "Citation" },
   { type: "cta", icon: "📣", desc: "Appel à l'action" },
+  { type: "downloads", icon: "📥", desc: "Boutons fichiers" },
+  { type: "news", icon: "📰", desc: "Auto, 3 articles" },
+  { type: "newslist", icon: "🗞️", desc: "Toutes les actus" },
+  { type: "menu", icon: "🍽️", desc: "Menu du resto" },
   { type: "contact", icon: "📍", desc: "Coordonnées" },
 ];
 
@@ -207,6 +213,53 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
           « {d.quote} »
         </blockquote>
         <p style={{ marginTop: 8, color: "var(--ink-soft)" }}>{d.who}</p>
+      </div>
+    );
+  }
+  if (block.type === "banner") {
+    return (
+      <div
+        className="r-hero"
+        style={{ background: `linear-gradient(160deg,${shade(d.color ?? "#284193")},${d.color ?? "#284193"})` }}
+      >
+        <div className="rh-in">
+          <span className="p">{d.eyebrow}</span>
+          <h3>{renderTitle(d.title ?? "")}</h3>
+          <div className="s">{d.sub}</div>
+        </div>
+      </div>
+    );
+  }
+  if (block.type === "downloads") {
+    const items = d.downloads ?? [];
+    return (
+      <div className="r-text">
+        {d.title && <h3>{renderTitle(d.title)}</h3>}
+        <div className="rbtns">
+          {items.map((it, i) => (
+            <a key={i} className={it.primary ? "b" : "b2"}>
+              {it.label}
+            </a>
+          ))}
+        </div>
+        {d.hint && <p style={{ marginTop: 8 }}>{d.hint}</p>}
+      </div>
+    );
+  }
+  if (block.type === "newslist") {
+    return (
+      <div className="r-text">
+        <h3>{renderTitle(d.title ?? "")}</h3>
+        <p>🗞️ Liste automatique de toutes les actualités publiées (gérées dans « Actus »).</p>
+      </div>
+    );
+  }
+  if (block.type === "menu") {
+    return (
+      <div className="r-text">
+        <h3>{renderTitle(d.title ?? "")}</h3>
+        <p>🍽️ Menu de la semaine — affiché automatiquement (géré dans « Menu »).</p>
+        {d.btn && <div className="rbtns"><a className="b">{d.btn} →</a></div>}
       </div>
     );
   }
@@ -561,6 +614,7 @@ function Editor() {
   const cardItems = listOf<CardItem>("cards");
   const splitChecks = listOf<CheckItem>("checks");
   const splitTags = listOf<string>("tags");
+  const downloadItems = listOf<DownloadItem>("downloads");
 
   /* champs de l'inspecteur */
   const txt = (k: keyof BlockData, label: string, area = false) => (
@@ -625,7 +679,7 @@ function Editor() {
                 title={p.published ? "Publiée" : "Brouillon"}
               />
               <span className="pt">{p.title}</span>
-              {p.slug !== "accueil" && (
+              {!CORE_PAGE_SLUGS.includes(p.slug) && (
                 <button
                   className="del"
                   title="Supprimer la page"
@@ -1194,6 +1248,121 @@ function Editor() {
                 {txt("body", "Texte", true)}
                 {txt("btn", "Texte du bouton")}
                 {txt("link", "Lien du bouton")}
+              </>
+            )}
+            {selected.type === "banner" && (
+              <>
+                {txt("eyebrow", "Sur-titre")}
+                {txt("title", "Titre")}
+                <div className="ihint">
+                  Astuce : entourez un mot d&apos;*astérisques* pour l&apos;accent.
+                </div>
+                {txt("sub", "Sous-titre", true)}
+                <div className="field">
+                  <label>Couleur</label>
+                  <div className="swatches">
+                    {ACCENT_COLORS.map((c) => (
+                      <span
+                        key={c}
+                        className={`swatch${selected.data.color === c ? " on" : ""}`}
+                        style={{ background: c }}
+                        onClick={() => upd("color", c)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+            {selected.type === "newslist" && (
+              <>
+                {txt("eyebrow", "Sur-titre")}
+                {txt("title", "Titre")}
+                {txt("lead", "Phrase d'introduction", true)}
+                {info("La liste des articles est automatique (gérée dans « Actus »).")}
+              </>
+            )}
+            {selected.type === "menu" && (
+              <>
+                {txt("eyebrow", "Sur-titre")}
+                {txt("title", "Titre")}
+                {txt("lead", "Phrase d'introduction", true)}
+                {info("Le menu de la semaine est automatique (géré dans « Menu »).")}
+                <div className="isub">Réservation</div>
+                {txt("note", "Phrase au-dessus du bouton", true)}
+                {txt("btn", "Texte du bouton (vide = masqué)")}
+                {txt("link", "Lien du bouton")}
+              </>
+            )}
+            {selected.type === "downloads" && (
+              <>
+                {txt("title", "Titre (facultatif)")}
+                <div className="isub">Boutons</div>
+                {downloadItems.map((it, i) => (
+                  <div className="itemcard" key={i}>
+                    <div className="itemcard-head">
+                      <span>Bouton {i + 1}</span>
+                      <button
+                        className="del"
+                        title="Retirer"
+                        onClick={() => listDel<DownloadItem>("downloads", downloadItems, i)}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                    <input
+                      value={it.label}
+                      placeholder="Texte du bouton"
+                      onChange={(e) =>
+                        listSet<DownloadItem>("downloads", downloadItems, i, { label: e.target.value })
+                      }
+                    />
+                    <input
+                      value={it.href}
+                      placeholder="Lien / fichier (ex. /calendrier-2026-2027.pdf)"
+                      onChange={(e) =>
+                        listSet<DownloadItem>("downloads", downloadItems, i, { href: e.target.value })
+                      }
+                    />
+                    <div className="field tog" style={{ margin: 0 }}>
+                      <label>Bouton principal (orange)</label>
+                      <button
+                        className={`switch${it.primary ? " on" : ""}`}
+                        onClick={() =>
+                          listSet<DownloadItem>("downloads", downloadItems, i, { primary: !it.primary })
+                        }
+                        aria-label="Bouton principal"
+                      >
+                        <span></span>
+                      </button>
+                    </div>
+                    <div className="field tog" style={{ margin: 0 }}>
+                      <label>Téléchargement direct (.ics, .pdf…)</label>
+                      <button
+                        className={`switch${it.download ? " on" : ""}`}
+                        onClick={() =>
+                          listSet<DownloadItem>("downloads", downloadItems, i, { download: !it.download })
+                        }
+                        aria-label="Téléchargement direct"
+                      >
+                        <span></span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  className="abtn ghost sm"
+                  onClick={() =>
+                    listAdd<DownloadItem>("downloads", downloadItems, {
+                      label: "Nouveau bouton",
+                      href: "#",
+                      download: false,
+                      primary: false,
+                    })
+                  }
+                >
+                  + Bouton
+                </button>
+                {txt("hint", "Note sous les boutons", true)}
               </>
             )}
             {selected.type === "text" && (

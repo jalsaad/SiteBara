@@ -1,7 +1,10 @@
 // Rendu public (pleine largeur) des blocs composés dans l'éditeur.
 
 import NewsCard from "@/components/NewsCard";
+import ContentHero from "@/components/ContentHero";
+import MenuWeeks from "@/components/MenuWeeks";
 import { listArticles } from "@/lib/articles";
+import { getPublicMenus } from "@/lib/menu";
 import type { Block } from "@/lib/page-types";
 import { shade, hexA } from "@/lib/colors";
 import { overlayStyle, borderPath } from "@/lib/hero";
@@ -44,11 +47,154 @@ async function NewsBlock({ title }: { title?: string }) {
   );
 }
 
+// Liste complète des actualités publiées (page /actualites). Contenu géré dans
+// /admin/actus — seuls les intitulés de la section sont éditables.
+async function NewsListBlock({
+  eyebrow,
+  title,
+  lead,
+}: {
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+}) {
+  const news = await listArticles({ publishedOnly: true });
+  return (
+    <section className="news-band">
+      <div className="wrap section">
+        <div className="shead reveal in">
+          {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+          <h2 className="serif">{renderTitle(title ?? "")}</h2>
+          {lead && <p className="lead">{lead}</p>}
+        </div>
+        <div className="news-grid" style={{ marginTop: 42 }}>
+          {news.map((a) => (
+            <NewsCard key={a.id} article={a} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Menu de la semaine du restaurant (page /restaurant). Contenu géré dans
+// /admin/menu — seuls les intitulés et le bouton de réservation sont éditables.
+async function MenuBlock({
+  eyebrow,
+  title,
+  lead,
+  note,
+  btn,
+  link,
+}: {
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  note?: string;
+  btn?: string;
+  link?: string;
+}) {
+  const weeks = await getPublicMenus();
+  return (
+    <section className="wrap section">
+      <div className="shead reveal">
+        {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+        <h2 className="serif">{renderTitle(title ?? "")}</h2>
+        {lead && <p className="lead">{lead}</p>}
+      </div>
+      <div className="reveal">
+        <MenuWeeks weeks={weeks} />
+      </div>
+      {(note || btn) && (
+        <div className="resto-reserve reveal">
+          {note && <p>{note}</p>}
+          {btn && (
+            <a
+              className="btn btn-orange"
+              href={link || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {btn} →
+            </a>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export default function PageBlocks({ blocks }: { blocks: Block[] }) {
   return (
     <>
       {blocks.map((b) => {
         const d = b.data;
+        if (b.type === "banner") {
+          return (
+            <ContentHero
+              key={b.id}
+              eyebrow={d.eyebrow ?? ""}
+              title={renderTitle(d.title ?? "")}
+              sub={d.sub}
+              color={d.color || "#284193"}
+            />
+          );
+        }
+        if (b.type === "newslist") {
+          return (
+            <NewsListBlock
+              key={b.id}
+              eyebrow={d.eyebrow}
+              title={d.title}
+              lead={d.lead}
+            />
+          );
+        }
+        if (b.type === "menu") {
+          return (
+            <MenuBlock
+              key={b.id}
+              eyebrow={d.eyebrow}
+              title={d.title}
+              lead={d.lead}
+              note={d.note}
+              btn={d.btn}
+              link={d.link}
+            />
+          );
+        }
+        if (b.type === "downloads") {
+          const items = d.downloads ?? [];
+          return (
+            <section className="wrap section" key={b.id} style={{ paddingBottom: 0 }}>
+              {d.title && (
+                <div className="shead reveal">
+                  <h2 className="serif">{renderTitle(d.title)}</h2>
+                </div>
+              )}
+              <div className="cal-actions reveal">
+                {items.map((it, i) => (
+                  <a
+                    key={i}
+                    className={`btn ${it.primary ? "btn-orange" : "btn-ghost"}`}
+                    style={
+                      it.primary
+                        ? undefined
+                        : { borderColor: "var(--line)", color: "var(--royal)" }
+                    }
+                    href={it.href || "#"}
+                    {...(it.download
+                      ? { download: true }
+                      : { target: "_blank", rel: "noopener noreferrer" })}
+                  >
+                    {it.label}
+                  </a>
+                ))}
+              </div>
+              {d.hint && <p className="cal-actions-hint">{d.hint}</p>}
+            </section>
+          );
+        }
         if (b.type === "hero") {
           const color = d.color ?? "#1b2245";
           const ov = overlayStyle(d.overlay, d.overlayOpacity);

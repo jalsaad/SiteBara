@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import NewsCard from "@/components/NewsCard";
-import { listArticles } from "@/lib/articles";
+import { getPage } from "@/lib/pages";
+import PageBlocks from "@/components/PageBlocks";
 
 export const metadata: Metadata = {
   title: "Actualités",
@@ -10,28 +10,22 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
+// Page éditable via l'éditeur (page composée « actualites ») ; la liste des
+// articles reste alimentée par /admin/actus (bloc « Liste des actualités »).
 export default async function ActualitesPage() {
-  const news = await listArticles({ publishedOnly: true });
-
+  const page = await getPage("actualites");
+  if (!page || page.blocks.length === 0) {
+    return (
+      <main className="wrap section">
+        <div className="shead">
+          <h1 className="serif">Actualités</h1>
+        </div>
+      </main>
+    );
+  }
   return (
-    <main className="news-band">
-      <div className="wrap section">
-        <div className="shead reveal in">
-          <span className="eyebrow">Vie de l&apos;école</span>
-          <h2 className="serif">
-            Toutes les <em>actualités</em>
-          </h2>
-          <p className="lead">
-            Événements, projets et informations pratiques de l&apos;Athénée
-            Royal Jules Bara.
-          </p>
-        </div>
-        <div className="news-grid" style={{ marginTop: 42 }}>
-          {news.map((a) => (
-            <NewsCard key={a.id} article={a} />
-          ))}
-        </div>
-      </div>
+    <main>
+      <PageBlocks blocks={page.blocks} />
     </main>
   );
 }
