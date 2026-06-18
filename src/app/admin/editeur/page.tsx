@@ -38,6 +38,20 @@ const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "contact", icon: "📍", desc: "Coordonnées" },
 ];
 
+// Pages « système » du menu : mises en page sur mesure (héros vidéo, menus du
+// restaurant, outils, formulaires…) gérées dans le code, donc non éditables par
+// blocs. Listées dans l'éditeur pour retrouver TOUS les éléments du menu ; on
+// les ouvre/prévisualise telles quelles. À garder synchronisé avec Nav.tsx.
+const SYSTEM_PAGES: { label: string; href: string }[] = [
+  { label: "Accueil", href: "/" },
+  { label: "Options", href: "/filieres" },
+  { label: "Calendrier", href: "/calendrier" },
+  { label: "Actualités", href: "/actualites" },
+  { label: "Restaurant", href: "/restaurant" },
+  { label: "Applis & outils", href: "/applis" },
+  { label: "Contact", href: "/contact" },
+];
+
 /* ---------------- rendu d'un bloc dans le canvas ---------------- */
 
 function renderTitle(title: string) {
@@ -477,7 +491,7 @@ function Editor() {
     <div className="editor">
       {/* palette */}
       <aside className="palette">
-        <div className="lbl">Pages du site</div>
+        <div className="lbl">Pages composées (éditables)</div>
         <div className="pglist">
           {pages.map((p) => (
             <div
@@ -512,6 +526,29 @@ function Editor() {
         >
           + Nouvelle page
         </button>
+
+        <div className="lbl" style={{ marginTop: 22 }}>Pages du menu (système)</div>
+        <div className="pglist">
+          {SYSTEM_PAGES.map((p) => (
+            <a
+              key={p.href}
+              className="pgitem sys"
+              href={p.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Page système — ouvrir dans un nouvel onglet"
+            >
+              <span className="st sys" />
+              <span className="pt">{p.label}</span>
+              <span className="ext">↗</span>
+            </a>
+          ))}
+        </div>
+        <div className="ihint">
+          Ces pages ont une mise en page sur mesure (héros, menus du restaurant,
+          outils, formulaires) : elles s&apos;ouvrent telles quelles et ne
+          s&apos;éditent pas par blocs.
+        </div>
 
         <div className="lbl" style={{ marginTop: 22 }}>Titre de la page</div>
         <div className="field">
