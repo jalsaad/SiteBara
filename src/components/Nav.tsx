@@ -7,10 +7,7 @@ type NavLink = { href: string; label: string };
 
 // Entrées fixes du menu (routes spéciales non gérées par l'éditeur), ajoutées
 // après les pages éditables.
-const FIXED_LINKS: NavLink[] = [
-  { href: "/applis", label: "Applis" },
-  { href: "/contact", label: "Contact" },
-];
+const FIXED_LINKS: NavLink[] = [{ href: "/contact", label: "Contact" }];
 
 export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);

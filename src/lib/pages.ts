@@ -518,6 +518,70 @@ seed.push({
   ],
 });
 
+// Applis & outils (/applis) — en-tête et accès éditables ; la section « Outils
+// pratiques » (QR code, images→PDF) est un bloc VERROUILLÉ non éditable.
+seed.push({
+  slug: "applis",
+  title: "Applis",
+  published: true,
+  order: 45,
+  blocks: [
+    {
+      id: blockId(),
+      type: "banner",
+      data: {
+        eyebrow: "Espaces numériques & outils",
+        title: "Applis *& outils*",
+        sub: "Retrouvez en un endroit les accès aux plateformes de l'école et quelques outils pratiques, directement utilisables depuis votre navigateur.",
+        color: "#284193",
+      },
+    },
+    {
+      id: blockId(),
+      type: "cards",
+      data: {
+        eyebrow: "Accès rapides",
+        title: "Vos espaces *numériques*",
+        lead: "Élèves, parents et enseignants accèdent directement aux plateformes de l'établissement.",
+        cards: [
+          {
+            icon: "🎓",
+            title: "Google Classroom",
+            desc: "Cours, travaux et communications entre enseignants et élèves.",
+            href: "https://classroom.google.com",
+            color: "var(--royal)",
+          },
+          {
+            icon: "🍽️",
+            title: "APSchool",
+            desc: "Repas, paiements et gestion du compte de l'élève.",
+            href: "https://www.apschool.be",
+            color: "var(--teal)",
+          },
+          {
+            icon: "💻",
+            title: "École en ligne",
+            desc: "Espace de travail en ligne de l'établissement.",
+            href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
+            color: "var(--orange)",
+          },
+        ],
+      },
+    },
+    { id: blockId(), type: "tools", data: {} },
+    {
+      id: blockId(),
+      type: "cta",
+      data: {
+        title: "Un accès ne fonctionne pas ?",
+        body: "Le secrétariat vous aide à récupérer vos identifiants ou à configurer votre espace numérique.",
+        btn: "Nous contacter",
+        link: "/contact",
+      },
+    },
+  ],
+});
+
 const g = globalThis as unknown as { __baraPages?: PageData[] };
 function memStore(): PageData[] {
   if (!g.__baraPages) g.__baraPages = structuredClone(seed);

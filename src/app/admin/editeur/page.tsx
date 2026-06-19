@@ -23,6 +23,7 @@ import {
   BLOCK_TEMPLATES as TEMPLATES,
   blockId as bid,
   CORE_PAGE_SLUGS,
+  LOCKED_BLOCK_TYPES,
 } from "@/lib/page-types";
 import { shade, hexA, ACCENT_COLORS, TEXT_COLORS } from "@/lib/colors";
 import {
@@ -258,6 +259,17 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
       <div className="r-text">
         <h3>{renderTitle(d.title ?? "")}</h3>
         <p>🗞️ Liste automatique de toutes les actualités publiées (gérées dans « Actus »).</p>
+      </div>
+    );
+  }
+  if (block.type === "tools") {
+    return (
+      <div className="r-text">
+        <h3>🔒 Outils pratiques</h3>
+        <p>
+          Générateur de QR code + conversion d&apos;images en PDF. Section
+          verrouillée : non modifiable depuis l&apos;éditeur.
+        </p>
       </div>
     );
   }
@@ -555,15 +567,17 @@ function Editor() {
   }
 
   function del(id: string) {
+    const b = blocks.find((x) => x.id === id);
+    if (b && LOCKED_BLOCK_TYPES.includes(b.type)) return;
     dirty.current = true;
-    setBlocks(blocks.filter((b) => b.id !== id));
+    setBlocks(blocks.filter((x) => x.id !== id));
     if (selectedId === id) setSelectedId(null);
     toast("Bloc supprimé");
   }
 
   function dup(id: string) {
     const i = blocks.findIndex((b) => b.id === id);
-    if (i === -1) return;
+    if (i === -1 || LOCKED_BLOCK_TYPES.includes(blocks[i].type)) return;
     dirty.current = true;
     const copy: Block = {
       id: bid(),
@@ -852,7 +866,9 @@ function Editor() {
                 </div>
               </div>
             )}
-            {blocks.map((b, i) => (
+            {blocks.map((b, i) => {
+              const locked = LOCKED_BLOCK_TYPES.includes(b.type);
+              return (
               <div key={b.id}>
                 {dropIndex === i && <div className="drop-line" />}
                 <div
@@ -871,31 +887,37 @@ function Editor() {
                   }}
                 >
                   <span className="grip" title="Déplacer">⠿</span>
-                  <span className="tag">{LABELS[b.type]}</span>
-                  <div className="tools">
-                    <button
-                      title="Dupliquer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dup(b.id);
-                      }}
-                    >
-                      ⧉
-                    </button>
-                    <button
-                      title="Supprimer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        del(b.id);
-                      }}
-                    >
-                      🗑
-                    </button>
-                  </div>
+                  <span className="tag">
+                    {LABELS[b.type]}
+                    {locked && " 🔒"}
+                  </span>
+                  {!locked && (
+                    <div className="tools">
+                      <button
+                        title="Dupliquer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dup(b.id);
+                        }}
+                      >
+                        ⧉
+                      </button>
+                      <button
+                        title="Supprimer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          del(b.id);
+                        }}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                  )}
                   <BlockPreview block={b} news={news} />
                 </div>
               </div>
-            ))}
+              );
+            })}
             {dropIndex === blocks.length && blocks.length > 0 && (
               <div className="drop-line" />
             )}
@@ -915,6 +937,14 @@ function Editor() {
         {selected && (
           <>
             <div className="ih">{LABELS[selected.type]} · Propriétés</div>
+            {selected.type === "tools" && (
+              <div className="ihint">
+                🔒 Section verrouillée. Les outils pratiques (générateur de QR
+                code, conversion d&apos;images en PDF) sont gérés dans le code et
+                ne sont ni modifiables ni supprimables depuis l&apos;éditeur. Vous
+                pouvez seulement déplacer ce bloc dans la page.
+              </div>
+            )}
             {selected.type === "hero" && (
               <>
                 <div className="isub">Contenu</div>

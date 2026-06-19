@@ -3,6 +3,8 @@
 import NewsCard from "@/components/NewsCard";
 import ContentHero from "@/components/ContentHero";
 import MenuWeeks from "@/components/MenuWeeks";
+import QrGenerator from "@/components/QrGenerator";
+import PdfBuilder from "@/components/PdfBuilder";
 import { listArticles } from "@/lib/articles";
 import { getPublicMenus } from "@/lib/menu";
 import type { Block } from "@/lib/page-types";
@@ -167,6 +169,30 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
               btn={d.btn}
               link={d.link}
             />
+          );
+        }
+        if (b.type === "tools") {
+          // Bloc verrouillé : section « Outils pratiques » (QR code + images→PDF),
+          // entièrement côté navigateur. Non éditable dans l'éditeur.
+          return (
+            <section className="news-band" key={b.id}>
+              <div className="wrap section">
+                <div className="shead reveal">
+                  <span className="eyebrow">Outils pratiques</span>
+                  <h2 className="serif">
+                    À utiliser <em>en un clic</em>
+                  </h2>
+                  <p className="lead">
+                    Ces outils fonctionnent entièrement dans votre navigateur :
+                    aucune donnée n&apos;est envoyée sur un serveur.
+                  </p>
+                </div>
+                <div className="tool-grid">
+                  <QrGenerator />
+                  <PdfBuilder />
+                </div>
+              </div>
+            </section>
           );
         }
         if (b.type === "downloads") {

@@ -15,7 +15,12 @@ export type BlockType =
   | "cards"
   | "split"
   | "quote"
-  | "cta";
+  | "cta"
+  | "tools";
+
+// Blocs « verrouillés » : présents dans une page mais ni modifiables ni
+// supprimables dans l'éditeur (contenu géré dans le code). Absents de la palette.
+export const LOCKED_BLOCK_TYPES: BlockType[] = ["tools"];
 
 // Slugs des pages « cœur » : elles ont leur propre route (/, /filieres,
 // /calendrier, /actualites, /restaurant) mais sont éditables comme pages
@@ -27,6 +32,7 @@ export const CORE_PAGE_SLUGS = [
   "calendrier",
   "actualites",
   "restaurant",
+  "applis",
 ];
 
 // Effet graphique en premier plan de la bannière (avec opacité réglable).
@@ -177,6 +183,7 @@ export const BLOCK_LABELS: Record<BlockType, string> = {
   split: "Deux colonnes",
   quote: "Citation",
   cta: "Appel à l'action",
+  tools: "Outils pratiques",
 };
 
 export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
@@ -291,6 +298,8 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
     ],
     hint: "",
   },
+  // Bloc verrouillé : contenu fixe (QR code + images→PDF), pas de données éditables.
+  tools: {},
 };
 
 export function blockId(): string {
