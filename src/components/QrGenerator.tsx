@@ -173,7 +173,8 @@ export default function QrGenerator() {
 
   const [dark, setDark] = useState("#1b2245");
   const [light, setLight] = useState("#ffffff");
-  const [logo, setLogo] = useState<string | null>(null);
+  // Logo officiel de l'école au centre par défaut (monogramme Jules Bara).
+  const [logo, setLogo] = useState<string | null>("/qr-logo.png");
   const [size, setSize] = useState(512);
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -452,9 +453,9 @@ export default function QrGenerator() {
             <button
               type="button"
               className="abtn ghost sm"
-              onClick={() => setLogo("/logo-dark.png")}
+              onClick={() => setLogo("/qr-logo.png")}
             >
-              Logo de l&apos;école
+              Logo Jules Bara
             </button>
             {logo && (
               <>
