@@ -124,6 +124,7 @@ export type BlockData = Partial<HeroData> & {
   tel?: string;
   mail?: string;
   images?: string[];
+  portrait?: boolean; // galerie en mode portrait (grilles A4, pas de crop carré)
   // Bloc « Grille horaire » : en-têtes de colonnes + lignes éditables.
   th1?: string;
   th2?: string;

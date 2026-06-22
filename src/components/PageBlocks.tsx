@@ -3,8 +3,7 @@
 import NewsCard from "@/components/NewsCard";
 import ContentHero from "@/components/ContentHero";
 import MenuWeeks from "@/components/MenuWeeks";
-import QrGenerator from "@/components/QrGenerator";
-import PdfBuilder from "@/components/PdfBuilder";
+import ToolLauncher from "@/components/ToolLauncher";
 import { listArticles } from "@/lib/articles";
 import { getPublicMenus } from "@/lib/menu";
 import type { Block } from "@/lib/page-types";
@@ -187,10 +186,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                     aucune donnée n&apos;est envoyée sur un serveur.
                   </p>
                 </div>
-                <div className="tool-grid">
-                  <QrGenerator />
-                  <PdfBuilder />
-                </div>
+                <ToolLauncher />
               </div>
             </section>
           );
@@ -362,16 +358,19 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
         if (b.type === "gallery") {
           const cols = ["#284193", "#f57a20", "#0f9e75", "#1b2245", "#7c4dff", "#284193", "#0f9e75", "#f57a20"];
           const images = d.images ?? [];
+          const galClass = d.portrait ? "pub-gal pub-gal-portrait" : "pub-gal";
           return (
             <section className="wrap section" key={b.id}>
               <div className="shead reveal">
                 <h2 className="serif">{d.title}</h2>
               </div>
-              <div className="pub-gal reveal">
+              <div className={`${galClass} reveal`}>
                 {images.length > 0
                   ? images.map((src, i) => (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img key={i} src={src} alt="" />
+                      <a key={i} href={src} target="_blank" rel="noopener noreferrer">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={src} alt="" />
+                      </a>
                     ))
                   : cols.map((c, i) => (
                       <div
