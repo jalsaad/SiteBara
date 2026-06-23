@@ -64,7 +64,18 @@ body::before {
 .nav-links a:hover::after { transform: scaleX(1); }
 .nav-cta { background: var(--orange); color: #fff; font-size: 14px; font-weight: 600; padding: 11px 22px; border-radius: 11px; transition: 0.25s; box-shadow: 0 6px 18px rgba(245, 122, 32, 0.32); }
 .nav-cta:hover { background: var(--orange-deep); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(245, 122, 32, 0.4); }
-@media (max-width: 980px) { .nav-links { display: none; } .nav-logo { height: 54px; } }
+/* hamburger */
+.nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; padding: 8px; background: none; border: none; cursor: pointer; flex-shrink: 0; }
+.nav-hamburger span { display: block; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.25s; }
+.nav.open .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav.open .nav-hamburger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav.open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* menu mobile déroulant */
+.nav-mobile { border-top: 1px solid var(--line); padding: 12px 20px 20px; display: flex; flex-direction: column; gap: 2px; }
+.nav-mobile a { font-size: 16px; font-weight: 500; color: var(--ink); padding: 13px 16px; border-radius: 10px; transition: background 0.15s, color 0.15s; }
+.nav-mobile a:hover { background: var(--halo); color: var(--marine); }
+.nav-mobile-cta { margin-top: 10px; text-align: center; justify-content: center; }
+@media (max-width: 980px) { .nav-links { display: none; } .nav-cta { display: none; } .nav-hamburger { display: flex; } .nav-logo { height: 54px; } }
 
 /* héro */
 .hero { position: relative; overflow: hidden; background: var(--marine); }
@@ -169,6 +180,23 @@ body::before {
 
 /* bandeau CTA */
 .cta-band { padding-bottom: 90px; }
+
+/* diffusion en direct */
+.live-band { background: #0d0f1a; color: #fff; min-height: 100vh; display: flex; align-items: center; }
+.live-inner { max-width: 1180px; margin: 0 auto; padding: 60px 30px; width: 100%; }
+.live-head { margin-bottom: 28px; }
+.live-title { color: #fff; font-size: clamp(22px, 3vw, 36px); margin-top: 12px; }
+.live-desc { color: #a0aec0; margin-top: 8px; font-size: 16px; font-weight: 300; }
+.live-badge { display: inline-flex; align-items: center; gap: 8px; background: #e53e3e; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 5px 14px 5px 10px; border-radius: 99px; }
+.live-badge::before { content: ""; width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: live-pulse 1.4s ease-in-out infinite; flex-shrink: 0; }
+@keyframes live-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.75); } }
+.live-player { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6); background: #000; }
+.live-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+.live-player:fullscreen { border-radius: 0; }
+.live-player:fullscreen iframe { width: 100%; height: 100%; }
+.live-fs-btn { position: absolute; bottom: 14px; right: 14px; background: rgba(0, 0, 0, 0.55); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; z-index: 10; backdrop-filter: blur(6px); }
+.live-fs-btn:hover { background: rgba(0, 0, 0, 0.8); }
+@media (max-width: 600px) { .live-inner { padding: 40px 16px; } .live-fs-btn { bottom: 8px; right: 8px; padding: 5px 10px; font-size: 12px; } }
 .banner { background: linear-gradient(140deg, var(--marine), var(--royal)); color: #fff; border-radius: 28px; padding: 64px 56px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 36px; flex-wrap: wrap; box-shadow: var(--shadow-lg); }
 .banner::before { content: ""; position: absolute; top: -60%; left: -5%; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(245, 122, 32, 0.4), transparent 60%); }
 .banner::after { content: ""; position: absolute; bottom: -50%; right: 5%; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, rgba(199, 154, 75, 0.3), transparent 60%); }

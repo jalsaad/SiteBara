@@ -16,7 +16,8 @@ export type BlockType =
   | "split"
   | "quote"
   | "cta"
-  | "tools";
+  | "tools"
+  | "live";
 
 // Blocs « verrouillés » : présents dans une page mais ni modifiables ni
 // supprimables dans l'éditeur (contenu géré dans le code). Absents de la palette.
@@ -152,6 +153,11 @@ export type BlockData = Partial<HeroData> & {
   // Bloc « Téléchargements » : boutons + note.
   downloads?: DownloadItem[];
   hint?: string;
+  // Bloc « Diffusion en direct » : embed YouTube.
+  liveActive?: boolean;
+  liveVideoId?: string;
+  liveTitle?: string;
+  liveDesc?: string;
 };
 
 export interface Block {
@@ -185,6 +191,7 @@ export const BLOCK_LABELS: Record<BlockType, string> = {
   quote: "Citation",
   cta: "Appel à l'action",
   tools: "Outils pratiques",
+  live: "Diffusion en direct",
 };
 
 export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
@@ -301,6 +308,12 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
   },
   // Bloc verrouillé : contenu fixe (QR code + images→PDF), pas de données éditables.
   tools: {},
+  live: {
+    liveActive: false,
+    liveVideoId: "",
+    liveTitle: "Événement en direct",
+    liveDesc: "",
+  },
 };
 
 export function blockId(): string {

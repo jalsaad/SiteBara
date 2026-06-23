@@ -58,6 +58,7 @@ const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "newslist", icon: "🗞️", desc: "Toutes les actus" },
   { type: "menu", icon: "🍽️", desc: "Menu du resto" },
   { type: "contact", icon: "📍", desc: "Coordonnées" },
+  { type: "live", icon: "📡", desc: "YouTube en direct" },
 ];
 
 /* ---------------- rendu d'un bloc dans le canvas ---------------- */
@@ -368,6 +369,26 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
                 <div key={i} style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }} />
               ))}
         </div>
+      </div>
+    );
+  }
+  if (block.type === "live") {
+    return (
+      <div className="r-text">
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+          <span style={{
+            background: d.liveActive ? "#e53e3e" : "#94a3b8",
+            color: "#fff", fontSize: 10, fontWeight: 700,
+            letterSpacing: "0.12em", textTransform: "uppercase",
+            padding: "3px 10px", borderRadius: 99,
+          }}>
+            {d.liveActive ? "● En direct" : "○ Inactif"}
+          </span>
+        </div>
+        <h3 style={{ marginBottom: 4 }}>{d.liveTitle || "Diffusion en direct"}</h3>
+        <p style={{ color: "var(--ink-soft)", fontSize: 12 }}>
+          {d.liveVideoId ? `▶ youtube : ${d.liveVideoId}` : "⚠️ Aucun ID YouTube configuré"}
+        </p>
       </div>
     );
   }
@@ -1520,6 +1541,28 @@ function Editor() {
                 {txt("addr", "Adresse")}
                 {txt("tel", "Téléphone")}
                 {txt("mail", "E-mail")}
+              </>
+            )}
+            {selected.type === "live" && (
+              <>
+                {tog("liveActive", "🔴 Diffusion active (visible sur le site)")}
+                {info("Le bloc n'apparaît sur le site que lorsque la diffusion est activée. Désactivez-le dès que l'événement est terminé.")}
+                <div className="isub">Flux vidéo</div>
+                {txt("liveVideoId", "ID ou URL YouTube")}
+                <div className="ihint">
+                  Collez l&apos;URL complète (ex. https://youtu.be/dQw4w9WgXcQ)
+                  ou l&apos;ID seul (ex. dQw4w9WgXcQ).
+                </div>
+                <div
+                  className="field"
+                  style={{ fontSize: 12.5, color: "#b45309", background: "#fffbeb", border: "1px solid #fde68a", padding: 11, borderRadius: 9 }}
+                >
+                  ⚠️ <b>Erreur 153 ?</b> Dans YouTube Studio, ouvrez le direct → <b>Modifier</b> → section <b>Autres options</b> → cochez <b>Autoriser l&apos;intégration</b>.
+                  Sans ce réglage, YouTube bloque la lecture dans la page.
+                </div>
+                <div className="isub">Informations de l&apos;événement</div>
+                {txt("liveTitle", "Titre de l'événement")}
+                {txt("liveDesc", "Description courte (facultatif)", true)}
               </>
             )}
           </>

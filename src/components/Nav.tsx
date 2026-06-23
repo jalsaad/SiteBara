@@ -11,6 +11,7 @@ const FIXED_LINKS: NavLink[] = [{ href: "/contact", label: "Contact" }];
 
 export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const links = [...pages, ...FIXED_LINKS];
 
   useEffect(() => {
@@ -20,10 +21,17 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  const close = () => setMenuOpen(false);
+
   return (
-    <header className={`nav${scrolled ? " scrolled" : ""}`}>
+    <header className={`nav${scrolled ? " scrolled" : ""}${menuOpen ? " open" : ""}`}>
       <div className="nav-in">
-        <Link href="/">
+        <Link href="/" onClick={close}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="nav-logo"
@@ -41,7 +49,29 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
         <Link className="nav-cta" href="/preinscription">
           Préinscription
         </Link>
+        <button
+          className="nav-hamburger"
+          onClick={() => setMenuOpen((o) => !o)}
+          aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={menuOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
+      {menuOpen && (
+        <nav className="nav-mobile" aria-label="Navigation mobile">
+          {links.map((l) => (
+            <Link key={l.label} href={l.href} onClick={close}>
+              {l.label}
+            </Link>
+          ))}
+          <Link className="btn btn-orange nav-mobile-cta" href="/preinscription" onClick={close}>
+            Préinscription →
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }

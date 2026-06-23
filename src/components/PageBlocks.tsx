@@ -1,9 +1,16 @@
 // Rendu public (pleine largeur) des blocs composés dans l'éditeur.
 
+function ytId(raw: string): string {
+  if (!raw) return "";
+  const m = raw.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : raw.trim();
+}
+
 import NewsCard from "@/components/NewsCard";
 import ContentHero from "@/components/ContentHero";
 import MenuWeeks from "@/components/MenuWeeks";
 import ToolLauncher from "@/components/ToolLauncher";
+import LivePlayer from "@/components/LivePlayer";
 import { listArticles } from "@/lib/articles";
 import { getPublicMenus } from "@/lib/menu";
 import type { Block } from "@/lib/page-types";
@@ -494,6 +501,23 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                     {d.btn} →
                   </a>
                 )}
+              </div>
+            </section>
+          );
+        }
+        if (b.type === "live") {
+          if (!d.liveActive) return null;
+          const videoId = ytId(d.liveVideoId ?? "");
+          if (!videoId) return null;
+          return (
+            <section className="live-band" key={b.id}>
+              <div className="live-inner">
+                <div className="live-head">
+                  <span className="live-badge">En direct</span>
+                  {d.liveTitle && <h2 className="serif live-title">{d.liveTitle}</h2>}
+                  {d.liveDesc && <p className="live-desc">{d.liveDesc}</p>}
+                </div>
+                <LivePlayer videoId={videoId} title={d.liveTitle} />
               </div>
             </section>
           );
