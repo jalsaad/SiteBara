@@ -418,6 +418,11 @@ function Editor() {
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [news, setNews] = useState<Article[]>([]);
   const [saving, setSaving] = useState(false);
+  const [groqKeyMasked, setGroqKeyMasked] = useState("");
+  const [groqKeySet, setGroqKeySet] = useState(false);
+  const [groqInput, setGroqInput] = useState("");
+  const [showGroqInput, setShowGroqInput] = useState(false);
+  const [savingKey, setSavingKey] = useState(false);
   const dragType = useRef<BlockType | null>(null);
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
@@ -432,6 +437,56 @@ function Editor() {
       .then(setNews)
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    fetch("/api/config")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!d) return;
+        setGroqKeySet(d.groqKeySet);
+        setGroqKeyMasked(d.groqKeyMasked ?? "");
+      })
+      .catch(() => {});
+  }, []);
+
+  async function saveGroqKey() {
+    if (!groqInput.trim()) return;
+    setSavingKey(true);
+    const res = await fetch("/api/config", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ groqApiKey: groqInput.trim() }),
+    });
+    setSavingKey(false);
+    if (res.ok) {
+      const d = await fetch("/api/config").then((r) => r.json()).catch(() => null);
+      setGroqKeySet(d?.groqKeySet ?? true);
+      setGroqKeyMasked(d?.groqKeyMasked ?? maskLocal(groqInput.trim()));
+      setGroqInput("");
+      setShowGroqInput(false);
+      toast("Clé Groq enregistrée ✓");
+    } else {
+      toast("Erreur lors de l'enregistrement");
+    }
+  }
+
+  async function clearGroqKey() {
+    await fetch("/api/config", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ groqApiKey: "" }),
+    });
+    setGroqKeySet(false);
+    setGroqKeyMasked("");
+    setShowGroqInput(false);
+    setGroqInput("");
+    toast("Clé Groq supprimée");
+  }
+
+  function maskLocal(k: string): string {
+    if (k.length <= 8) return "·".repeat(k.length);
+    return k.slice(0, 5) + "···" + k.slice(-4);
+  }
 
   async function refreshPages() {
     const res = await fetch("/api/pages");
@@ -857,6 +912,55 @@ function Editor() {
         >
           Aperçu public {published ? "↗" : "(brouillon) ↗"}
         </a>
+
+        {/* ── Julia — Clé Groq ── */}
+        <div className="lbl" style={{ marginTop: 28 }}>Julia — Clé API Groq</div>
+        <div className="julia-key-section">
+          {groqKeySet && !showGroqInput ? (
+            <div className="julia-key-status">
+              <span className="julia-key-ok">✓</span>
+              <code className="julia-key-mask">{groqKeyMasked}</code>
+              <button className="abtn ghost sm" onClick={() => setShowGroqInput(true)}>Modifier</button>
+              <button className="abtn ghost sm" onClick={clearGroqKey}>Effacer</button>
+            </div>
+          ) : !showGroqInput ? (
+            <div className="julia-key-status">
+              <span className="julia-key-none">⚠ Non configurée</span>
+              <button className="abtn ghost sm" onClick={() => setShowGroqInput(true)}>Ajouter</button>
+            </div>
+          ) : null}
+          {showGroqInput && (
+            <div className="julia-key-form">
+              <input
+                type="password"
+                className="julia-key-input"
+                placeholder="Collez votre clé Groq…"
+                value={groqInput}
+                onChange={(e) => setGroqInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && saveGroqKey()}
+                autoComplete="off"
+              />
+              <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+                <button
+                  className="abtn primary sm"
+                  onClick={saveGroqKey}
+                  disabled={savingKey || !groqInput.trim()}
+                >
+                  {savingKey ? "…" : "Enregistrer"}
+                </button>
+                <button
+                  className="abtn ghost sm"
+                  onClick={() => { setShowGroqInput(false); setGroqInput(""); }}
+                >
+                  Annuler
+                </button>
+              </div>
+              <p className="julia-key-hint">
+                Obtenez une clé sur <a href="https://console.groq.com" target="_blank" rel="noreferrer">console.groq.com</a>
+              </p>
+            </div>
+          )}
+        </div>
       </aside>
 
       {/* canvas */}

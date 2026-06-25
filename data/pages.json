@@ -1,0 +1,1521 @@
+[
+  {
+    "slug": "accueil",
+    "title": "Accueil",
+    "published": true,
+    "order": 0,
+    "blocks": [
+      {
+        "id": "b1j0x45",
+        "type": "hero",
+        "data": {
+          "pill": "Établissement d'enseignement · Fondé en 1595",
+          "title": "Apprendre, *s'ouvrir*, s'accomplir.",
+          "sub": "Au cœur de Tournai, un athénée où chaque élève est accompagné individuellement vers la réussite, dans un cadre moderne et bienveillant.",
+          "btn1": "École en ligne",
+          "link1": "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
+          "btn2": "Préinscriptions ouvertes",
+          "link2": "/preinscription",
+          "color": "#1b2245",
+          "bg": "texture",
+          "effects": true,
+          "anim": true,
+          "video": "/hero.mp4",
+          "overlay": "grain",
+          "overlayOpacity": 40,
+          "border": "none",
+          "borderColor": "#f7f2e9",
+          "borderBg": "",
+          "stats": [
+            {
+              "n": "430+",
+              "l": "Ans d'histoire"
+            },
+            {
+              "n": "950",
+              "l": "Élèves heureux"
+            },
+            {
+              "n": "100%",
+              "l": "Personnels investis"
+            }
+          ]
+        }
+      },
+      {
+        "id": "b6piytu",
+        "type": "pillars",
+        "data": {
+          "intro": "Depuis plus de quatre siècles, l'Athénée Royal Jules Bara forme des esprits *curieux, ouverts et autonomes*.",
+          "pillars": [
+            {
+              "title": "Apprendre",
+              "desc": "Des approches pédagogiques diversifiées et ludiques, du matériel moderne et un suivi personnalisé de chaque élève."
+            },
+            {
+              "title": "S'ouvrir",
+              "desc": "Échanges, projets citoyens, langues et culture : une école tournée vers le monde et la diversité."
+            },
+            {
+              "title": "S'accomplir",
+              "desc": "Développer l'autonomie et la confiance pour que chacun trouve sa voie et révèle son potentiel."
+            }
+          ]
+        }
+      },
+      {
+        "id": "b0slq8i",
+        "type": "cards",
+        "data": {
+          "eyebrow": "Accès rapides",
+          "title": "Tout ce dont vous avez besoin, *en un clic*",
+          "lead": "Élèves, parents et enseignants accèdent directement aux ressources essentielles de l'établissement.",
+          "cards": [
+            {
+              "icon": "🎓",
+              "title": "Nos options",
+              "desc": "Grilles horaires du premier au troisième degré, DASPA et 7ᵉ préparatoire.",
+              "href": "/filieres",
+              "color": "var(--royal)"
+            },
+            {
+              "icon": "📅",
+              "title": "Calendrier",
+              "desc": "Dates clés, congés et événements de l'année scolaire en cours.",
+              "href": "/calendrier",
+              "color": "var(--orange)"
+            },
+            {
+              "icon": "💻",
+              "title": "École numérique",
+              "desc": "Google Classroom, APSchool et l'espace de travail École en ligne.",
+              "href": "/applis",
+              "color": "var(--teal)"
+            },
+            {
+              "icon": "🍽️",
+              "title": "Restaurant",
+              "desc": "Menus de la semaine et informations sur la cantine scolaire.",
+              "href": "/restaurant",
+              "color": "var(--gold)"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bodgfwq",
+        "type": "split",
+        "data": {
+          "eyebrow": "Une école résolument numérique",
+          "title": "Des outils modernes au service de la *pédagogie*",
+          "icon": "💻",
+          "tags": [
+            "Google Classroom",
+            "APSchool",
+            "Tableaux interactifs",
+            "École en ligne"
+          ],
+          "checks": [
+            {
+              "title": "Classes connectées",
+              "desc": "Matériel moderne et environnements numériques de travail."
+            },
+            {
+              "title": "Suivi en ligne",
+              "desc": "Parents et élèves suivent les résultats et communications via École en ligne."
+            },
+            {
+              "title": "Accompagnement adapté",
+              "desc": "Prise en charge des troubles de l'apprentissage et école des devoirs."
+            }
+          ]
+        }
+      },
+      {
+        "id": "blqic1z",
+        "type": "news",
+        "data": {
+          "title": "Dernières actualités"
+        }
+      },
+      {
+        "id": "b0jontc",
+        "type": "quote",
+        "data": {
+          "quote": "Une école n'est pas un lieu où l'on entasse des savoirs, mais où l'on apprend à devenir soi-même.",
+          "who": "— L'équipe pédagogique, Athénée Royal Jules Bara"
+        }
+      },
+      {
+        "id": "bcufq3w",
+        "type": "cta",
+        "data": {
+          "title": "Envie de rejoindre l'aventure Bara ?",
+          "body": "Les préinscriptions pour la prochaine rentrée sont ouvertes. Venez nous rencontrer.",
+          "btn": "Je m'inscris",
+          "link": "/preinscription"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "projet-pedagogique",
+    "title": "Notre projet",
+    "published": true,
+    "order": 50,
+    "blocks": [
+      {
+        "id": "brc6yjl",
+        "type": "hero",
+        "data": {
+          "pill": "Projet d'établissement",
+          "title": "Notre *projet* pédagogique",
+          "sub": "Une école bienveillante et exigeante, tournée vers l'autonomie, l'ouverture et la réussite de chaque élève.",
+          "btn1": "Préinscription",
+          "link1": "/preinscription",
+          "btn2": "",
+          "link2": "#",
+          "color": "#1b2245",
+          "bg": "gradient",
+          "effects": true,
+          "anim": true
+        }
+      },
+      {
+        "id": "b2cyzba",
+        "type": "text",
+        "data": {
+          "title": "Apprendre, s'ouvrir, s'accomplir",
+          "body": "Des approches pédagogiques diversifiées et un suivi personnalisé, une école tournée vers le monde et la diversité, et le développement de l'autonomie pour que chacun trouve sa voie."
+        }
+      },
+      {
+        "id": "blgjlwp",
+        "type": "gallery",
+        "data": {
+          "title": "La vie à Bara"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "filieres",
+    "title": "Options",
+    "published": true,
+    "order": 10,
+    "blocks": [
+      {
+        "id": "bfw695n",
+        "type": "banner",
+        "data": {
+          "eyebrow": "Enseignement secondaire · Tournai",
+          "title": "Nos *options*",
+          "sub": "Un parcours général de transition, du premier au troisième degré, pour préparer chaque élève aux études supérieures dans un cadre exigeant et bienveillant.",
+          "color": "#1b2245"
+        }
+      },
+      {
+        "id": "bkc3p8a",
+        "type": "cards",
+        "data": {
+          "eyebrow": "Les trois degrés",
+          "title": "Un parcours *progressif*",
+          "lead": "De l'entrée en secondaire jusqu'à la rhétorique, chaque degré construit l'autonomie et affine l'orientation de l'élève.",
+          "cards": [
+            {
+              "icon": "🧭",
+              "title": "Premier degré",
+              "desc": "1re & 2e — tronc commun et différencié. Activités complémentaires au choix et dispositif différencié (1D/2D).",
+              "href": "#1er-degre",
+              "color": "var(--royal)"
+            },
+            {
+              "icon": "🔬",
+              "title": "Deuxième degré",
+              "desc": "3e & 4e — transition générale. Sciences, langues modernes, sciences économiques et humaines.",
+              "href": "#2e-degre",
+              "color": "var(--teal)"
+            },
+            {
+              "icon": "🎓",
+              "title": "Troisième degré",
+              "desc": "5e & 6e — transition générale. Approfondissement des options en vue des études supérieures.",
+              "href": "#3e-degre",
+              "color": "var(--orange)"
+            }
+          ]
+        }
+      },
+      {
+        "id": "1er-degre",
+        "type": "text",
+        "data": {
+          "title": "Premier degré — 1ʳᵉ & 2ᵉ année",
+          "body": "Le premier degré est commun à tous les élèves. Il comprend un tronc commun enrichi d'activités complémentaires au choix (4 périodes). Un dispositif différencié (1D/2D) permet d'adapter le parcours aux besoins de chaque élève."
+        }
+      },
+      {
+        "id": "bw8wbx6",
+        "type": "grid",
+        "data": {
+          "title": "Grille horaire — tronc commun 1ᵉʳ & 2ᵉ degré (2026-2027)",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Néerlandais ou Anglais",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "5"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Initiation scientifique",
+              "p": "3"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Éducation musicale",
+              "p": "1"
+            },
+            {
+              "c": "Éducation plastique",
+              "p": "1"
+            },
+            {
+              "c": "Activités complémentaires au choix",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "32"
+            }
+          ]
+        }
+      },
+      {
+        "id": "b9gxo73",
+        "type": "grid",
+        "data": {
+          "title": "2ᵉ année — activités complémentaires au choix (4 périodes)",
+          "th1": "Activité",
+          "th2": "Périodes",
+          "rows": [
+            {
+              "c": "Latin",
+              "p": "4"
+            },
+            {
+              "c": "Activités de langue",
+              "p": "4"
+            },
+            {
+              "c": "Activités scientifiques",
+              "p": "2"
+            },
+            {
+              "c": "Activités économiques",
+              "p": "2"
+            },
+            {
+              "c": "Activités sportives",
+              "p": "2"
+            },
+            {
+              "c": "Activités informatiques",
+              "p": "2"
+            },
+            {
+              "c": "Activités mathématiques",
+              "p": "2"
+            },
+            {
+              "c": "Français renforcé",
+              "p": "2"
+            }
+          ]
+        }
+      },
+      {
+        "id": "2e-degre",
+        "type": "text",
+        "data": {
+          "title": "Deuxième degré — 3ᵉ & 4ᵉ année",
+          "body": "Le deuxième degré propose un enseignement général de transition. Les élèves choisissent une dominante parmi : Classique (Latin), Scientifique, Langues modernes, Sciences économiques."
+        }
+      },
+      {
+        "id": "bvll0hr",
+        "type": "grid",
+        "data": {
+          "title": "2ᵉ degré — Dominante Classique / Latin",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "5"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "2"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "2"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Latin (option)",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bq2wau0",
+        "type": "grid",
+        "data": {
+          "title": "2ᵉ degré — Dominante Scientifique",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "5"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "2"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Laboratoire",
+              "p": "2"
+            },
+            {
+              "c": "TOTAL",
+              "p": "35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bvji1c7",
+        "type": "grid",
+        "data": {
+          "title": "2ᵉ degré — Dominante Langues modernes",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "5"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Renforcement Langue 1",
+              "p": "1"
+            },
+            {
+              "c": "Renforcement Langue 2",
+              "p": "1"
+            },
+            {
+              "c": "TOTAL",
+              "p": "32"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bsiwk65",
+        "type": "grid",
+        "data": {
+          "title": "2ᵉ degré — Dominante Sciences économiques",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "5"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Sciences économiques (option)",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "34"
+            }
+          ]
+        }
+      },
+      {
+        "id": "3e-degre",
+        "type": "text",
+        "data": {
+          "title": "Troisième degré — 5ᵉ & 6ᵉ année",
+          "body": "Le troisième degré approfondit l'option choisie en 2ᵉ degré. Six options sont disponibles : Latin, Langues modernes, Sciences générales, Histoire (sciences humaines), Sciences économiques, Géographie."
+        }
+      },
+      {
+        "id": "buomo21",
+        "type": "grid",
+        "data": {
+          "title": "3ᵉ degré — Option Latin (Humanités classiques)",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "2"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Activités de physique",
+              "p": "1"
+            },
+            {
+              "c": "Latin (option)",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "32"
+            }
+          ]
+        }
+      },
+      {
+        "id": "b4sx5ei",
+        "type": "grid",
+        "data": {
+          "title": "3ᵉ degré — Option Langues modernes",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Langue 3 (Espagnol ou Allemand)",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "2"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Renforcement Langue 1",
+              "p": "1"
+            },
+            {
+              "c": "Renforcement Langue 2",
+              "p": "1"
+            },
+            {
+              "c": "Renforcement Langue 3",
+              "p": "1"
+            },
+            {
+              "c": "TOTAL",
+              "p": "34"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bwpgqch",
+        "type": "grid",
+        "data": {
+          "title": "3ᵉ degré — Option Sciences générales",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "4"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "2"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Laboratoire",
+              "p": "2"
+            },
+            {
+              "c": "Activités de physique",
+              "p": "1"
+            },
+            {
+              "c": "TOTAL",
+              "p": "31"
+            }
+          ]
+        }
+      },
+      {
+        "id": "b2s3dis",
+        "type": "grid",
+        "data": {
+          "title": "3ᵉ degré — Option Histoire (Sciences humaines)",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "2"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Histoire (option)",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "31"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bx2ywt5",
+        "type": "grid",
+        "data": {
+          "title": "3ᵉ degré — Option Sciences économiques",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "6"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Sciences économiques (option)",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "35"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bg9l32q",
+        "type": "grid",
+        "data": {
+          "title": "3ᵉ degré — Option Géographie",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "5"
+            },
+            {
+              "c": "Langue 1 (Néerlandais ou Anglais)",
+              "p": "4"
+            },
+            {
+              "c": "Langue 2",
+              "p": "4"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "2"
+            },
+            {
+              "c": "Histoire",
+              "p": "2"
+            },
+            {
+              "c": "Géographie",
+              "p": "2"
+            },
+            {
+              "c": "Sciences : Biologie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Chimie",
+              "p": "1"
+            },
+            {
+              "c": "Sciences : Physique",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "3"
+            },
+            {
+              "c": "Géographie (option)",
+              "p": "4"
+            },
+            {
+              "c": "TOTAL",
+              "p": "31"
+            }
+          ]
+        }
+      },
+      {
+        "id": "b3ej0sx",
+        "type": "cards",
+        "data": {
+          "eyebrow": "Dispositifs spéciaux",
+          "title": "*DASPA* & 7ᵉ préparatoire",
+          "lead": "",
+          "cards": [
+            {
+              "icon": "🌍",
+              "title": "DASPA",
+              "desc": "Dispositif d'Accueil et de Scolarisation des élèves Primo-Arrivants : intégration progressive et apprentissage intensif du français.",
+              "href": "#daspa",
+              "color": "var(--teal)"
+            },
+            {
+              "icon": "📚",
+              "title": "7ᵉ préparatoire",
+              "desc": "Année préparatoire à l'enseignement supérieur : renforcement des prérequis en mathématiques, sciences et langues.",
+              "href": "#7e-prep",
+              "color": "var(--gold)"
+            }
+          ]
+        }
+      },
+      {
+        "id": "daspa",
+        "type": "text",
+        "data": {
+          "title": "DASPA — Primo-arrivants (classes passerelles)",
+          "body": "Le DASPA accueille les élèves nouvellement arrivés en Belgique qui ne maîtrisent pas encore suffisamment le français. L'objectif est leur intégration optimale dans le système éducatif, avec un accompagnement pédagogique adapté et un apprentissage intensif du français langue étrangère."
+        }
+      },
+      {
+        "id": "btax05c",
+        "type": "grid",
+        "data": {
+          "title": "DASPA — Grille horaire (2026-2027)",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Religion / Morale / Éducation à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Éducation à la philosophie et à la citoyenneté",
+              "p": "1"
+            },
+            {
+              "c": "Français",
+              "p": "7"
+            },
+            {
+              "c": "Français langue étrangère (FLE)",
+              "p": "8"
+            },
+            {
+              "c": "Langue 1",
+              "p": "2"
+            },
+            {
+              "c": "Sciences",
+              "p": "2"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "6"
+            },
+            {
+              "c": "Histoire",
+              "p": "1"
+            },
+            {
+              "c": "Géographie",
+              "p": "1"
+            },
+            {
+              "c": "Éducation physique",
+              "p": "2"
+            },
+            {
+              "c": "TOTAL",
+              "p": "31"
+            }
+          ]
+        }
+      },
+      {
+        "id": "7e-prep",
+        "type": "text",
+        "data": {
+          "title": "7ᵉ préparatoire à l'enseignement supérieur",
+          "body": "La 7ᵉ préparatoire est une année après la rhétorique pour consolider les bases avant l'enseignement supérieur, avec un accent fort sur les mathématiques et les sciences."
+        }
+      },
+      {
+        "id": "bxj6tt9",
+        "type": "grid",
+        "data": {
+          "title": "7ᵉ préparatoire — Grille horaire (2026-2027)",
+          "th1": "Cours",
+          "th2": "Périodes / semaine",
+          "rows": [
+            {
+              "c": "Physique",
+              "p": "6"
+            },
+            {
+              "c": "Chimie",
+              "p": "4"
+            },
+            {
+              "c": "Biologie",
+              "p": "3"
+            },
+            {
+              "c": "Mathématiques",
+              "p": "14"
+            },
+            {
+              "c": "Informatique",
+              "p": "2"
+            },
+            {
+              "c": "Anglais",
+              "p": "2"
+            },
+            {
+              "c": "TOTAL",
+              "p": "31"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bvuvisj",
+        "type": "cta",
+        "data": {
+          "title": "Une question sur l'orientation ?",
+          "body": "L'équipe pédagogique vous reçoit pour construire le parcours le mieux adapté à votre enfant.",
+          "btn": "Préinscription",
+          "link": "/preinscription"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "calendrier",
+    "title": "Calendrier",
+    "published": true,
+    "order": 20,
+    "blocks": [
+      {
+        "id": "b8xj085",
+        "type": "banner",
+        "data": {
+          "eyebrow": "Année scolaire 2026-2027",
+          "title": "Calendrier *scolaire*",
+          "sub": "Congés, vacances et temps forts de l'année, selon le calendrier officiel de la Fédération Wallonie-Bruxelles.",
+          "color": "#1b2245"
+        }
+      },
+      {
+        "id": "b8q7svk",
+        "type": "downloads",
+        "data": {
+          "title": "",
+          "downloads": [
+            {
+              "label": "📄 Consulter le calendrier (PDF)",
+              "href": "/calendrier-2026-2027.pdf",
+              "download": false,
+              "primary": false
+            },
+            {
+              "label": "📅 Ajouter les vacances à mon agenda",
+              "href": "/calendrier-vacances-2026-2027.ics",
+              "download": true,
+              "primary": true
+            }
+          ],
+          "hint": "Le fichier « .ics » s'ouvre dans votre application d'agenda (Google Agenda, Apple Calendrier, Outlook…) pour importer toutes les dates en un clic."
+        }
+      },
+      {
+        "id": "bqz3q8k",
+        "type": "grid",
+        "data": {
+          "title": "Congés & vacances 2026-2027",
+          "th1": "Période",
+          "th2": "Dates",
+          "rows": [
+            {
+              "c": "Rentrée scolaire",
+              "p": "Lundi 24 août 2026"
+            },
+            {
+              "c": "Fête de la Communauté française",
+              "p": "Dimanche 27 septembre 2026"
+            },
+            {
+              "c": "Congé d'automne (Toussaint)",
+              "p": "Du 19 au 30 octobre 2026"
+            },
+            {
+              "c": "Fête des morts",
+              "p": "Lundi 2 novembre 2026"
+            },
+            {
+              "c": "Commémoration du 11 novembre",
+              "p": "Mercredi 11 novembre 2026"
+            },
+            {
+              "c": "Vacances d'hiver (Noël)",
+              "p": "Du 21 décembre 2026 au 1ᵉʳ janvier 2027"
+            },
+            {
+              "c": "Mardi Gras",
+              "p": "Mardi 9 février 2027"
+            },
+            {
+              "c": "Congé de détente (Carnaval)",
+              "p": "Du 22 février au 5 mars 2027"
+            },
+            {
+              "c": "Lundi de Pâques",
+              "p": "Lundi 29 mars 2027"
+            },
+            {
+              "c": "Vacances de printemps (Pâques)",
+              "p": "Du 26 avril au 7 mai 2027"
+            },
+            {
+              "c": "Jeudi de l'Ascension",
+              "p": "Jeudi 6 mai 2027"
+            },
+            {
+              "c": "Lundi de Pentecôte",
+              "p": "Lundi 17 mai 2027"
+            },
+            {
+              "c": "Vacances d'été",
+              "p": "À partir du 2 juillet 2027"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bunrzp0",
+        "type": "split",
+        "data": {
+          "eyebrow": "Temps forts",
+          "title": "Prochains *rendez-vous*",
+          "icon": "📅",
+          "tags": [],
+          "checks": [
+            {
+              "title": "Juin 2027 — Session d'examens",
+              "desc": "Évaluations de fin d'année pour l'ensemble des degrés."
+            },
+            {
+              "title": "Fin juin 2027 — Bulletins & proclamation",
+              "desc": "Réunion de parents et proclamation des résultats de la rhétorique."
+            },
+            {
+              "title": "1ᵉʳ juillet 2027 — Dernier jour de cours",
+              "desc": "Clôture de l'année scolaire 2026-2027."
+            },
+            {
+              "title": "Fin août 2027 — Rentrée 2027-2028",
+              "desc": "Reprise des cours pour la nouvelle année scolaire."
+            }
+          ]
+        }
+      },
+      {
+        "id": "b1ffe26",
+        "type": "cta",
+        "data": {
+          "title": "Une question sur le calendrier ?",
+          "body": "Le secrétariat vous renseigne sur les dates et l'organisation de l'année.",
+          "btn": "Nous contacter",
+          "link": "/contact"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "actualites",
+    "title": "Actualités",
+    "published": true,
+    "order": 30,
+    "blocks": [
+      {
+        "id": "bju10dy",
+        "type": "banner",
+        "data": {
+          "eyebrow": "Vie de l'école",
+          "title": "Toutes les *actualités*",
+          "sub": "Événements, projets et informations pratiques de l'Athénée Royal Jules Bara.",
+          "color": "#1b2245"
+        }
+      },
+      {
+        "id": "bhootv3",
+        "type": "newslist",
+        "data": {
+          "eyebrow": "",
+          "title": "",
+          "lead": ""
+        }
+      },
+      {
+        "id": "b2e3pu3",
+        "type": "cta",
+        "data": {
+          "title": "Une info à partager ?",
+          "body": "Un projet, un événement, une réussite ? Faites-le savoir au service communication.",
+          "btn": "Nous contacter",
+          "link": "/contact"
+        }
+      }
+    ]
+  },
+  {
+    "slug": "restaurant",
+    "title": "Restaurant",
+    "published": true,
+    "order": 40,
+    "blocks": [
+      {
+        "id": "by4e5i1",
+        "type": "banner",
+        "data": {
+          "eyebrow": "Vie quotidienne · Restaurant scolaire",
+          "title": "Le *restaurant* scolaire",
+          "sub": "Des repas chauds, équilibrés et préparés sur place chaque jour, avec une alternative végétarienne quotidienne.",
+          "color": "#1b2245"
+        }
+      },
+      {
+        "id": "bllwwle",
+        "type": "menu",
+        "data": {
+          "eyebrow": "Menu de la semaine",
+          "title": "Au menu *au restaurant*",
+          "lead": "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements. Une alternative végétarienne est proposée chaque jour.",
+          "note": "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.",
+          "btn": "🍽 Réserver vos repas sur APSchool",
+          "link": "https://www.apschool.be"
+        }
+      },
+      {
+        "id": "bmsb484",
+        "type": "cards",
+        "data": {
+          "eyebrow": "Infos pratiques",
+          "title": "Bon à *savoir*",
+          "lead": "",
+          "cards": [
+            {
+              "icon": "🕛",
+              "title": "Horaires",
+              "desc": "Service du midi de 11h45 à 13h15, en deux pauses selon les degrés. Restaurant fermé le mercredi après-midi.",
+              "href": "#",
+              "color": "var(--royal)"
+            },
+            {
+              "icon": "💳",
+              "title": "Tarifs & paiement",
+              "desc": "Repas complet (potage + plat + dessert) à tarif démocratique. Paiement sans espèces via le compte APSchool de l'élève.",
+              "href": "#",
+              "color": "var(--orange)"
+            },
+            {
+              "icon": "🥗",
+              "title": "Alternative & allergènes",
+              "desc": "Une alternative végétarienne chaque jour. Les fiches allergènes sont affichées au self et disponibles au secrétariat.",
+              "href": "#",
+              "color": "var(--teal)"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "slug": "applis",
+    "title": "Applis",
+    "published": true,
+    "order": 45,
+    "blocks": [
+      {
+        "id": "b2noc31",
+        "type": "banner",
+        "data": {
+          "eyebrow": "Espaces numériques & outils",
+          "title": "Applis *& outils*",
+          "sub": "Retrouvez en un endroit les accès aux plateformes de l'école et quelques outils pratiques, directement utilisables depuis votre navigateur.",
+          "color": "#1b2245"
+        }
+      },
+      {
+        "id": "bn0rng5",
+        "type": "cards",
+        "data": {
+          "eyebrow": "Accès rapides",
+          "title": "Vos espaces *numériques*",
+          "lead": "Élèves, parents et enseignants accèdent directement aux plateformes de l'établissement.",
+          "cards": [
+            {
+              "icon": "🎓",
+              "title": "Google Classroom",
+              "desc": "Cours, travaux et communications entre enseignants et élèves.",
+              "href": "https://classroom.google.com",
+              "color": "var(--royal)"
+            },
+            {
+              "icon": "🍽️",
+              "title": "APSchool",
+              "desc": "Repas, paiements et gestion du compte de l'élève.",
+              "href": "https://www.apschool.be",
+              "color": "var(--teal)"
+            },
+            {
+              "icon": "💻",
+              "title": "École en ligne",
+              "desc": "Espace de travail en ligne de l'établissement.",
+              "href": "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
+              "color": "var(--orange)"
+            }
+          ]
+        }
+      },
+      {
+        "id": "bs9rz7h",
+        "type": "tools",
+        "data": {}
+      },
+      {
+        "id": "bnipqtt",
+        "type": "cta",
+        "data": {
+          "title": "Un accès ne fonctionne pas ?",
+          "body": "Le secrétariat vous aide à récupérer vos identifiants ou à configurer votre espace numérique.",
+          "btn": "Nous contacter",
+          "link": "/contact"
+        }
+      }
+    ]
+  }
+]

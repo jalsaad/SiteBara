@@ -3,6 +3,8 @@
 // magasin mémoire de démonstration.
 
 import "server-only";
+import fs from "fs";
+import path from "path";
 import type { Block, PageData } from "./page-types";
 import { blockId } from "./page-types";
 
@@ -926,10 +928,33 @@ seed.push({
   ],
 });
 
+// Persistance JSON sur disque (mode sans base de données).
+// Sauvegarde dans data/pages.json — persiste entre les redémarrages du serveur.
+const DATA_FILE = path.join(process.cwd(), "data", "pages.json");
+
+function saveStore(store: PageData[]): void {
+  // Écriture asynchrone pour ne pas bloquer le thread Node.js (filesystem réseau).
+  const data = JSON.stringify(store, null, 2);
+  fs.promises
+    .mkdir(path.dirname(DATA_FILE), { recursive: true })
+    .then(() => fs.promises.writeFile(DATA_FILE, data, "utf8"))
+    .catch((e) => console.error("[pages] Impossible de sauvegarder pages.json :", e));
+}
+
 const g = globalThis as unknown as { __baraPages?: PageData[] };
 function memStore(): PageData[] {
-  if (!g.__baraPages) g.__baraPages = structuredClone(seed);
-  return g.__baraPages;
+  if (!g.__baraPages) {
+    // Lecture unique au démarrage (synchrone, une seule fois grâce au cache globalThis)
+    try {
+      const raw = fs.readFileSync(DATA_FILE, "utf8");
+      g.__baraPages = JSON.parse(raw);
+    } catch {
+      // Fichier absent ou corrompu → on repart du seed et on le persiste
+      g.__baraPages = structuredClone(seed);
+      saveStore(g.__baraPages);
+    }
+  }
+  return g.__baraPages!;
 }
 
 const useDb = !!process.env.DATABASE_URL;
@@ -1018,6 +1043,7 @@ export async function createPage(
   if (store.some((p) => p.slug === slug)) return null;
   const page: PageData = { slug, title, published: false, order, blocks: [] };
   store.push(page);
+  saveStore(store);
   return page;
 }
 
@@ -1037,6 +1063,7 @@ export async function reorderPages(slugs: string[]): Promise<void> {
     const p = store.find((x) => x.slug === slug);
     if (p) p.order = i * 10;
   });
+  saveStore(store);
 }
 
 export async function deletePage(slug: string): Promise<boolean> {
@@ -1053,6 +1080,7 @@ export async function deletePage(slug: string): Promise<boolean> {
   const i = store.findIndex((p) => p.slug === slug);
   if (i === -1) return false;
   store.splice(i, 1);
+  saveStore(store);
   return true;
 }
 
@@ -1102,5 +1130,6 @@ export async function savePage(
   if (input.title) page.title = input.title;
   if (input.publish !== undefined) page.published = input.publish;
   page.blocks = structuredClone(input.blocks);
+  saveStore(store);
   return page;
 }
