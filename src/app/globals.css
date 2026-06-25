@@ -444,6 +444,14 @@ body::before {
 .colorrow-ctl { display: flex; align-items: center; gap: 10px; }
 .abtn.ghost.sm { padding: 5px 10px; font-size: 12px; }
 .abtn.primary.sm { padding: 5px 10px; font-size: 12px; }
+.palette-actions { display: flex; gap: 6px; padding: 10px 0 14px; position: sticky; top: 0; background: #fff; z-index: 2; border-bottom: 1px solid #e8eaf2; margin: 0 -16px 14px; padding: 10px 16px; }
+.palette-actions .abtn { font-size: 12px; padding: 7px 10px; flex: 1; justify-content: center; }
+.julia-key-toggle { width: 100%; display: flex; align-items: center; gap: 6px; background: #f5f6fb; border: 1px solid #e1e4ee; border-radius: 9px; padding: 8px 12px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-top: 14px; text-align: left; }
+.julia-key-toggle span:first-child { flex: 1; }
+.julia-toggle-indicator { font-size: 13px; }
+.julia-toggle-indicator.ok { color: #27ae60; }
+.julia-toggle-indicator.warn { color: #e67e22; }
+.julia-toggle-arrow { font-size: 10px; color: #aaa; }
 .julia-key-section { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
 .julia-key-status { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .julia-key-ok { color: #27ae60; font-size: 13px; font-weight: 700; }

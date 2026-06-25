@@ -423,6 +423,7 @@ function Editor() {
   const [groqInput, setGroqInput] = useState("");
   const [showGroqInput, setShowGroqInput] = useState(false);
   const [savingKey, setSavingKey] = useState(false);
+  const [showJuliaSection, setShowJuliaSection] = useState(false);
   const dragType = useRef<BlockType | null>(null);
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
@@ -813,6 +814,34 @@ function Editor() {
     <div className="editor">
       {/* palette */}
       <aside className="palette">
+        {/* ── Barre d'actions sticky ── */}
+        <div className="palette-actions">
+          <button
+            className="abtn save"
+            style={{ flex: 1, justifyContent: "center" }}
+            disabled={saving}
+            onClick={() => persist(false)}
+          >
+            {saving ? "…" : "Enregistrer"}
+          </button>
+          <button
+            className="abtn primary"
+            style={{ flex: 1, justifyContent: "center" }}
+            disabled={saving}
+            onClick={() => persist(true)}
+          >
+            Publier
+          </button>
+          <a
+            className="abtn ghost"
+            style={{ flex: 1, justifyContent: "center" }}
+            href={`/p/${slug}`}
+            target="_blank"
+          >
+            {published ? "↗" : "↗"}
+          </a>
+        </div>
+
         <div className="lbl">Pages du site</div>
         <div className="ihint" style={{ marginTop: -4 }}>
           Glissez-déposez pour changer l&apos;ordre dans le menu.
@@ -887,80 +916,78 @@ function Editor() {
             </div>
           </div>
         ))}
-        <div className="lbl" style={{ marginTop: 22 }}>Actions</div>
+        {/* ── Julia — Clé Groq (collapsible) ── */}
         <button
-          className="abtn save"
-          style={{ width: "100%", justifyContent: "center", marginBottom: 8 }}
-          disabled={saving}
-          onClick={() => persist(false)}
+          className="julia-key-toggle"
+          onClick={() => setShowJuliaSection((v) => !v)}
         >
-          {saving ? "…" : "Enregistrer"}
+          <span>Julia — Clé API Groq</span>
+          <span className={`julia-toggle-indicator ${groqKeySet ? "ok" : "warn"}`}>
+            {groqKeySet ? "✓" : "⚠"}
+          </span>
+          <span className="julia-toggle-arrow">{showJuliaSection ? "▲" : "▼"}</span>
         </button>
-        <button
-          className="abtn primary"
-          style={{ width: "100%", justifyContent: "center", marginBottom: 8 }}
-          disabled={saving}
-          onClick={() => persist(true)}
-        >
-          Publier
-        </button>
-        <a
-          className="abtn ghost"
-          style={{ width: "100%", justifyContent: "center" }}
-          href={`/p/${slug}`}
-          target="_blank"
-        >
-          Aperçu public {published ? "↗" : "(brouillon) ↗"}
-        </a>
-
-        {/* ── Julia — Clé Groq ── */}
-        <div className="lbl" style={{ marginTop: 28 }}>Julia — Clé API Groq</div>
-        <div className="julia-key-section">
-          {groqKeySet && !showGroqInput ? (
-            <div className="julia-key-status">
-              <span className="julia-key-ok">✓</span>
-              <code className="julia-key-mask">{groqKeyMasked}</code>
-              <button className="abtn ghost sm" onClick={() => setShowGroqInput(true)}>Modifier</button>
-              <button className="abtn ghost sm" onClick={clearGroqKey}>Effacer</button>
-            </div>
-          ) : !showGroqInput ? (
-            <div className="julia-key-status">
-              <span className="julia-key-none">⚠ Non configurée</span>
-              <button className="abtn ghost sm" onClick={() => setShowGroqInput(true)}>Ajouter</button>
-            </div>
-          ) : null}
-          {showGroqInput && (
-            <div className="julia-key-form">
-              <input
-                type="password"
-                className="julia-key-input"
-                placeholder="Collez votre clé Groq…"
-                value={groqInput}
-                onChange={(e) => setGroqInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && saveGroqKey()}
-                autoComplete="off"
-              />
-              <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
-                <button
-                  className="abtn primary sm"
-                  onClick={saveGroqKey}
-                  disabled={savingKey || !groqInput.trim()}
-                >
-                  {savingKey ? "…" : "Enregistrer"}
-                </button>
+        {showJuliaSection && (
+          <div className="julia-key-section">
+            {groqKeySet && !showGroqInput ? (
+              <div className="julia-key-status">
+                <code className="julia-key-mask">{groqKeyMasked}</code>
                 <button
                   className="abtn ghost sm"
-                  onClick={() => { setShowGroqInput(false); setGroqInput(""); }}
-                >
-                  Annuler
-                </button>
+                  onClick={() => {
+                    if (confirm("Modifier la clé Groq ? La clé actuelle sera remplacée.")) {
+                      setShowGroqInput(true);
+                    }
+                  }}
+                >Modifier</button>
+                <button
+                  className="abtn ghost sm"
+                  onClick={() => {
+                    if (confirm("Effacer la clé Groq ? Julia passera en mode démo sans IA.")) {
+                      clearGroqKey();
+                    }
+                  }}
+                >Effacer</button>
               </div>
-              <p className="julia-key-hint">
-                Obtenez une clé sur <a href="https://console.groq.com" target="_blank" rel="noreferrer">console.groq.com</a>
-              </p>
-            </div>
-          )}
-        </div>
+            ) : !showGroqInput ? (
+              <div className="julia-key-status">
+                <span className="julia-key-none">Non configurée</span>
+                <button className="abtn ghost sm" onClick={() => setShowGroqInput(true)}>Ajouter</button>
+              </div>
+            ) : null}
+            {showGroqInput && (
+              <div className="julia-key-form">
+                <input
+                  type="password"
+                  className="julia-key-input"
+                  placeholder="Collez votre clé Groq…"
+                  value={groqInput}
+                  onChange={(e) => setGroqInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && saveGroqKey()}
+                  autoComplete="off"
+                />
+                <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+                  <button
+                    className="abtn primary sm"
+                    onClick={saveGroqKey}
+                    disabled={savingKey || !groqInput.trim()}
+                  >
+                    {savingKey ? "…" : "Enregistrer"}
+                  </button>
+                  <button
+                    className="abtn ghost sm"
+                    onClick={() => { setShowGroqInput(false); setGroqInput(""); }}
+                  >
+                    Annuler
+                  </button>
+                </div>
+                <p className="julia-key-hint">
+                  Obtenez une clé sur <a href="https://console.groq.com" target="_blank" rel="noreferrer">console.groq.com</a>
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </aside>
 
       {/* canvas */}
