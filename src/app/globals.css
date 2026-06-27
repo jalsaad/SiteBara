@@ -231,7 +231,24 @@ body::before {
 .menu-day h3 { color: var(--royal); font-size: 17px; margin-bottom: 12px; }
 .menu-day .field { margin-bottom: 12px; }
 .menu-editor-head { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; }
-.abtn.danger { color: #c0392b; }
+.abtn.danger { color: #c0392b; border-color: #f5c6c6; }
+.abtn.danger:hover { background: #fdecea; }
+.msg-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px 19px; border-bottom: 1px solid #eef0f6; transition: background 0.15s; }
+.msg-row:last-child { border-bottom: none; }
+.msg-row:hover { background: #f8f9fc; }
+.msg-body { flex: 1 1 0; min-width: 0; width: 0; }
+.msg-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; padding-top: 4px; }
+.msg-meta .dt { font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+.msg-card { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+.msg-sender { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.msg-name { font-weight: 700; font-size: 14.5px; color: var(--ink); }
+.msg-email { font-size: 12.5px; color: var(--royal); text-decoration: none; }
+.msg-email:hover { text-decoration: underline; }
+.msg-phone { font-size: 12.5px; color: #959cb3; }
+.msg-subject { font-size: 13px; font-weight: 600; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; }
+.msg-text { font-size: 13.5px; color: var(--ink); line-height: 1.6; margin: 4px 0 0; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; display: block; width: 100%; background: #f5f6fb; border-left: 3px solid #d2d7e3; padding: 8px 12px; border-radius: 0 7px 7px 0; box-sizing: border-box; }
+.msg-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.trash-badge { position: absolute; top: -6px; right: -6px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: 700; border-radius: 99px; padding: 1px 5px; min-width: 16px; text-align: center; }
 
 /* Boutons ronds de navigation — partagés éditeur + page publique */
 .menu-nav { width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid var(--line, #e6e8f0); background: #fff; color: var(--royal); font-size: 24px; line-height: 1; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; justify-content: center; }

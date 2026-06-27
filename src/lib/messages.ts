@@ -1,7 +1,11 @@
 // Messages de contact et préinscriptions — CÔTÉ SERVEUR UNIQUEMENT.
-// Prisma si DATABASE_URL, sinon magasin mémoire (mode démo).
+// Prisma si DATABASE_URL, sinon persistance fichier data/messages.json.
 
 import "server-only";
+import fs from "fs";
+import path from "path";
+
+export type MessageStatus = "active" | "archived" | "trash";
 
 export interface ContactMessage {
   id: string;
@@ -10,6 +14,7 @@ export interface ContactMessage {
   subject: string;
   message: string;
   createdAt: string;
+  status: MessageStatus;
 }
 
 export interface PreRegistration {
@@ -21,16 +26,57 @@ export interface PreRegistration {
   level: string;
   message: string | null;
   createdAt: string;
+  status: MessageStatus;
 }
 
-const g = globalThis as unknown as {
-  __baraContacts?: ContactMessage[];
-  __baraPrereg?: PreRegistration[];
-};
+interface Store {
+  contacts: ContactMessage[];
+  preregs: PreRegistration[];
+}
 
-function id(): string {
+/* ─────────── persistance fichier ─────────── */
+
+const DATA_FILE = path.join(process.cwd(), "data", "messages.json");
+
+const g = globalThis as unknown as { __baraMessages?: Store };
+
+function memStore(): Store {
+  if (!g.__baraMessages) {
+    try {
+      const raw = fs.readFileSync(DATA_FILE, "utf8");
+      const parsed = JSON.parse(raw) as Store;
+      // migration : ajoute status manquant sur anciens enregistrements
+      parsed.contacts = (parsed.contacts ?? []).map((m) => ({
+        ...m,
+        status: m.status ?? "active",
+      }));
+      parsed.preregs = (parsed.preregs ?? []).map((m) => ({
+        ...m,
+        status: m.status ?? "active",
+      }));
+      g.__baraMessages = parsed;
+    } catch {
+      g.__baraMessages = { contacts: [], preregs: [] };
+      saveStore(g.__baraMessages);
+    }
+  }
+  return g.__baraMessages!;
+}
+
+function saveStore(store: Store): void {
+  g.__baraMessages = store;
+  const data = JSON.stringify(store, null, 2);
+  fs.promises
+    .mkdir(path.dirname(DATA_FILE), { recursive: true })
+    .then(() => fs.promises.writeFile(DATA_FILE, data, "utf8"))
+    .catch((e) => console.error("[messages] Impossible de sauvegarder messages.json :", e));
+}
+
+function newId(): string {
   return "m" + Math.random().toString(36).slice(2, 10);
 }
+
+/* ─────────── Prisma (si DATABASE_URL) ─────────── */
 
 const useDb = !!process.env.DATABASE_URL;
 
@@ -41,15 +87,13 @@ async function prisma() {
     __baraPrisma?: InstanceType<typeof PrismaClient>;
   };
   if (!gp.__baraPrisma) {
-    const adapter = new PrismaPg({
-      connectionString: process.env.DATABASE_URL!,
-    });
+    const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
     gp.__baraPrisma = new PrismaClient({ adapter });
   }
   return gp.__baraPrisma;
 }
 
-/* --------------------------- contact --------------------------- */
+/* ═══════════════ contact ═══════════════ */
 
 export async function createContactMessage(input: {
   name: string;
@@ -60,30 +104,48 @@ export async function createContactMessage(input: {
   if (useDb) {
     const db = await prisma();
     const row = await db.contactMessage.create({ data: input });
-    return { ...row, createdAt: row.createdAt.toISOString() };
+    return { ...row, createdAt: row.createdAt.toISOString(), status: "active" };
   }
-  if (!g.__baraContacts) g.__baraContacts = [];
+  const store = memStore();
   const msg: ContactMessage = {
-    id: id(),
+    id: newId(),
     ...input,
     createdAt: new Date().toISOString(),
+    status: "active",
   };
-  g.__baraContacts.unshift(msg);
+  store.contacts.unshift(msg);
+  saveStore(store);
   return msg;
 }
 
 export async function listContactMessages(): Promise<ContactMessage[]> {
   if (useDb) {
     const db = await prisma();
-    const rows = await db.contactMessage.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-    return rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString() }));
+    const rows = await db.contactMessage.findMany({ orderBy: { createdAt: "desc" } });
+    return rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), status: "active" as MessageStatus }));
   }
-  return g.__baraContacts ?? [];
+  return memStore().contacts;
 }
 
-/* ------------------------ préinscription ------------------------ */
+export async function updateContactStatus(id: string, status: MessageStatus): Promise<boolean> {
+  const store = memStore();
+  const msg = store.contacts.find((m) => m.id === id);
+  if (!msg) return false;
+  msg.status = status;
+  saveStore(store);
+  return true;
+}
+
+export async function deleteContactForever(id: string): Promise<boolean> {
+  const store = memStore();
+  const idx = store.contacts.findIndex((m) => m.id === id);
+  if (idx === -1) return false;
+  store.contacts.splice(idx, 1);
+  saveStore(store);
+  return true;
+}
+
+/* ═══════════════ préinscription ═══════════════ */
 
 export async function createPreRegistration(input: {
   lastName: string;
@@ -105,11 +167,11 @@ export async function createPreRegistration(input: {
         message: input.message ?? null,
       },
     });
-    return { ...row, createdAt: row.createdAt.toISOString() };
+    return { ...row, createdAt: row.createdAt.toISOString(), status: "active" };
   }
-  if (!g.__baraPrereg) g.__baraPrereg = [];
+  const store = memStore();
   const reg: PreRegistration = {
-    id: id(),
+    id: newId(),
     lastName: input.lastName,
     firstName: input.firstName,
     email: input.email,
@@ -117,18 +179,36 @@ export async function createPreRegistration(input: {
     level: input.level,
     message: input.message ?? null,
     createdAt: new Date().toISOString(),
+    status: "active",
   };
-  g.__baraPrereg.unshift(reg);
+  store.preregs.unshift(reg);
+  saveStore(store);
   return reg;
 }
 
 export async function listPreRegistrations(): Promise<PreRegistration[]> {
   if (useDb) {
     const db = await prisma();
-    const rows = await db.preRegistration.findMany({
-      orderBy: { createdAt: "desc" },
-    });
-    return rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString() }));
+    const rows = await db.preRegistration.findMany({ orderBy: { createdAt: "desc" } });
+    return rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), status: "active" as MessageStatus }));
   }
-  return g.__baraPrereg ?? [];
+  return memStore().preregs;
+}
+
+export async function updatePreRegStatus(id: string, status: MessageStatus): Promise<boolean> {
+  const store = memStore();
+  const reg = store.preregs.find((m) => m.id === id);
+  if (!reg) return false;
+  reg.status = status;
+  saveStore(store);
+  return true;
+}
+
+export async function deletePreRegForever(id: string): Promise<boolean> {
+  const store = memStore();
+  const idx = store.preregs.findIndex((m) => m.id === id);
+  if (idx === -1) return false;
+  store.preregs.splice(idx, 1);
+  saveStore(store);
+  return true;
 }

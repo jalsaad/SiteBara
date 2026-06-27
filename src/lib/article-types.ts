@@ -18,11 +18,11 @@ export interface SocialShare {
 export const SOCIAL_NETWORKS: {
   id: SocialNetwork;
   label: string;
-  icon: string;
+  icon: string; // chemin vers /public/icons/
 }[] = [
-  { id: "facebook", label: "Facebook", icon: "📘" },
-  { id: "instagram", label: "Instagram", icon: "📸" },
-  { id: "linkedin", label: "LinkedIn", icon: "💼" },
+  { id: "facebook",  label: "Facebook",  icon: "/icons/facebook.svg"  },
+  { id: "instagram", label: "Instagram", icon: "/icons/instagram.svg" },
+  { id: "linkedin",  label: "LinkedIn",  icon: "/icons/linkedin.svg"  },
 ];
 
 export interface Article {

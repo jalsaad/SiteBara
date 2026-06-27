@@ -16,10 +16,9 @@ export default function Footer() {
             qualité au cœur de Tournai depuis 1595.
           </p>
           <div className="social">
-            <a aria-label="X" href="#">𝕏</a>
             <a aria-label="Facebook" href="#">f</a>
             <a aria-label="Instagram" href="#">◉</a>
-            <a aria-label="YouTube" href="#">▶</a>
+            <a aria-label="LinkedIn" href="#">in</a>
           </div>
         </div>
         <div>

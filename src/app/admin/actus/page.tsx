@@ -245,7 +245,8 @@ export default function ActusManager() {
                           s.status === "SIMULATED" ? " (simulation)" : ""
                         }${s.status === "FAILED" ? " (échec)" : ""}`}
                       >
-                        {n.icon}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={n.icon} alt={n.label} style={{ width: 18, height: 18, borderRadius: 4 }} />
                       </span>
                     );
                   })}
@@ -292,7 +293,8 @@ export default function ActusManager() {
                     )
                   }
                 >
-                  <span className="ni">{n.icon}</span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={n.icon} alt={n.label} className="ni" style={{ width: 38, height: 38, borderRadius: 8, objectFit: "contain" }} />
                   <span>
                     <span className="nl">{n.label}</span>
                     <span className="nd">
