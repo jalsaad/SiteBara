@@ -100,7 +100,7 @@ export async function requireRole(
 
 export function sessionCookie(token: string, remember = false): string {
   const ttl = remember ? REMEMBER_TTL_MS : SESSION_TTL_MS;
-  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  const secure = process.env.SECURE_COOKIES === "true" ? "; Secure" : "";
   return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${ttl / 1000}${secure}`;
 }
 
