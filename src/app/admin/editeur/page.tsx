@@ -424,6 +424,16 @@ function Editor() {
   const [showGroqInput, setShowGroqInput] = useState(false);
   const [savingKey, setSavingKey] = useState(false);
   const [showJuliaSection, setShowJuliaSection] = useState(false);
+  const [showSocialSection, setShowSocialSection] = useState(false);
+  const [socialCfg, setSocialCfg] = useState({
+    facebookPageId: "", facebookPageIdSet: false,
+    facebookPageToken: "", facebookPageTokenSet: false,
+    instagramAccountId: "", instagramAccountIdSet: false,
+    linkedinOrgId: "", linkedinOrgIdSet: false,
+    linkedinAccessToken: "", linkedinAccessTokenSet: false,
+  });
+  const [socialInputs, setSocialInputs] = useState<Record<string, string>>({});
+  const [savingSocial, setSavingSocial] = useState(false);
   const dragType = useRef<BlockType | null>(null);
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
@@ -446,6 +456,7 @@ function Editor() {
         if (!d) return;
         setGroqKeySet(d.groqKeySet);
         setGroqKeyMasked(d.groqKeyMasked ?? "");
+        if (d.social) setSocialCfg(d.social);
       })
       .catch(() => {});
   }, []);
@@ -487,6 +498,31 @@ function Editor() {
   function maskLocal(k: string): string {
     if (k.length <= 8) return "·".repeat(k.length);
     return k.slice(0, 5) + "···" + k.slice(-4);
+  }
+
+  async function saveSocialField(field: string, value: string) {
+    setSavingSocial(true);
+    await fetch("/api/config", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [field]: value }),
+    });
+    const d = await fetch("/api/config").then((r) => r.json()).catch(() => null);
+    if (d?.social) setSocialCfg(d.social);
+    setSocialInputs((p) => { const n = { ...p }; delete n[field]; return n; });
+    setSavingSocial(false);
+    toast("Enregistré ✓");
+  }
+
+  async function clearSocialField(field: string) {
+    await fetch("/api/config", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [field]: "" }),
+    });
+    const d = await fetch("/api/config").then((r) => r.json()).catch(() => null);
+    if (d?.social) setSocialCfg(d.social);
+    toast("Supprimé");
   }
 
   async function refreshPages() {
@@ -988,6 +1024,84 @@ function Editor() {
             )}
           </div>
         )}
+
+        {/* ── Réseaux sociaux — identifiants (collapsible) ── */}
+        {(() => {
+          const sc = socialCfg;
+          const allSet = sc.facebookPageIdSet && sc.facebookPageTokenSet && sc.linkedinOrgIdSet && sc.linkedinAccessTokenSet;
+          const anySet = sc.facebookPageIdSet || sc.facebookPageTokenSet || sc.instagramAccountIdSet || sc.linkedinOrgIdSet || sc.linkedinAccessTokenSet;
+          const fields: { key: string; label: string; hint: string; setKey: keyof typeof sc }[] = [
+            { key: "facebookPageId",      label: "Facebook — ID de page",       hint: "Ex : 123456789012345",         setKey: "facebookPageIdSet" },
+            { key: "facebookPageToken",   label: "Facebook/Instagram — Token",  hint: "Token de page Meta (Graph API)", setKey: "facebookPageTokenSet" },
+            { key: "instagramAccountId",  label: "Instagram — ID de compte",    hint: "Ex : 17841400000000000",        setKey: "instagramAccountIdSet" },
+            { key: "linkedinOrgId",       label: "LinkedIn — ID organisation",  hint: "Ex : 12345678",                 setKey: "linkedinOrgIdSet" },
+            { key: "linkedinAccessToken", label: "LinkedIn — Token d'accès",    hint: "Token OAuth LinkedIn",          setKey: "linkedinAccessTokenSet" },
+          ];
+          return (
+            <>
+              <button
+                className="julia-key-toggle"
+                onClick={() => setShowSocialSection((v) => !v)}
+              >
+                <span>Réseaux sociaux</span>
+                <span className={`julia-toggle-indicator ${allSet ? "ok" : anySet ? "warn" : "warn"}`}>
+                  {allSet ? "✓" : anySet ? "~" : "⚠"}
+                </span>
+                <span className="julia-toggle-arrow">{showSocialSection ? "▲" : "▼"}</span>
+              </button>
+              {showSocialSection && (
+                <div className="julia-key-section">
+                  <p className="julia-key-hint" style={{ marginBottom: 10 }}>
+                    Ces identifiants permettent la publication directe sur vos pages depuis l'espace actualités.
+                  </p>
+                  {fields.map(({ key, label, hint, setKey }) => {
+                    const isSet = !!sc[setKey];
+                    const maskedVal = sc[key as keyof typeof sc] as string;
+                    const inputVal = socialInputs[key] ?? "";
+                    const editing = key in socialInputs;
+                    return (
+                      <div key={key} style={{ marginBottom: 10 }}>
+                        <div style={{ fontSize: 11, fontWeight: 600, color: "var(--ink-soft)", marginBottom: 4 }}>{label}</div>
+                        {isSet && !editing ? (
+                          <div className="julia-key-status">
+                            <code className="julia-key-mask">{maskedVal}</code>
+                            <button className="abtn ghost sm" onClick={() => setSocialInputs((p) => ({ ...p, [key]: "" }))}>Modifier</button>
+                            <button className="abtn ghost sm" onClick={() => { if (confirm(`Supprimer ce champ ?`)) clearSocialField(key); }}>✕</button>
+                          </div>
+                        ) : !editing ? (
+                          <div className="julia-key-status">
+                            <span className="julia-key-none">Non configuré</span>
+                            <button className="abtn ghost sm" onClick={() => setSocialInputs((p) => ({ ...p, [key]: "" }))}>Ajouter</button>
+                          </div>
+                        ) : (
+                          <div className="julia-key-form" style={{ marginTop: 0 }}>
+                            <input
+                              type="password"
+                              className="julia-key-input"
+                              placeholder={hint}
+                              value={inputVal}
+                              onChange={(e) => setSocialInputs((p) => ({ ...p, [key]: e.target.value }))}
+                              onKeyDown={(e) => e.key === "Enter" && inputVal.trim() && saveSocialField(key, inputVal)}
+                              autoComplete="off"
+                            />
+                            <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
+                              <button
+                                className="abtn primary sm"
+                                disabled={savingSocial || !inputVal.trim()}
+                                onClick={() => saveSocialField(key, inputVal)}
+                              >{savingSocial ? "…" : "Enregistrer"}</button>
+                              <button className="abtn ghost sm" onClick={() => setSocialInputs((p) => { const n = { ...p }; delete n[key]; return n; })}>Annuler</button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          );
+        })()}
       </aside>
 
       {/* canvas */}

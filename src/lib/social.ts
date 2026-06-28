@@ -16,6 +16,7 @@
 import "server-only";
 import type { Article, SocialNetwork, SocialShare } from "./article-types";
 import { SOCIAL_NETWORKS } from "./article-types";
+import { getSocialConfig } from "./config";
 
 const SITE_URL = (process.env.SITE_URL ?? "https://atheneejulesbara.be").replace(
   /\/$/,
@@ -48,8 +49,9 @@ const simulated = (network: SocialNetwork) =>
 /* --------------------------- connecteurs --------------------------- */
 
 async function toFacebook(article: Article): Promise<SocialShare> {
-  const pageId = process.env.FACEBOOK_PAGE_ID;
-  const token = process.env.FACEBOOK_PAGE_TOKEN;
+  const sc = getSocialConfig();
+  const pageId = sc.facebookPageId;
+  const token = sc.facebookPageToken;
   if (!pageId || !token) return simulated("facebook");
   try {
     const res = await fetch(`https://graph.facebook.com/v21.0/${pageId}/feed`, {
@@ -72,8 +74,9 @@ async function toFacebook(article: Article): Promise<SocialShare> {
 }
 
 async function toInstagram(article: Article): Promise<SocialShare> {
-  const accountId = process.env.INSTAGRAM_ACCOUNT_ID;
-  const token = process.env.FACEBOOK_PAGE_TOKEN;
+  const sc = getSocialConfig();
+  const accountId = sc.instagramAccountId;
+  const token = sc.facebookPageToken;
   if (!accountId || !token) return simulated("instagram");
   try {
     // L'API Instagram exige un média : on publie l'image Open Graph de l'article.
@@ -113,8 +116,9 @@ async function toInstagram(article: Article): Promise<SocialShare> {
 }
 
 async function toLinkedIn(article: Article): Promise<SocialShare> {
-  const orgId = process.env.LINKEDIN_ORG_ID;
-  const token = process.env.LINKEDIN_ACCESS_TOKEN;
+  const sc = getSocialConfig();
+  const orgId = sc.linkedinOrgId;
+  const token = sc.linkedinAccessToken;
   if (!orgId || !token) return simulated("linkedin");
   try {
     const res = await fetch("https://api.linkedin.com/rest/posts", {
