@@ -167,7 +167,10 @@ export default function JuliaChat() {
       {open && (
         <div className="julia-panel" role="dialog" aria-label="Julia, assistante de l'école">
           <div className="julia-head">
-            <span className="julia-avatar">J</span>
+            <span className="julia-avatar">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/favicon.ico" alt="Julia" className="julia-avatar-img" />
+            </span>
             <div className="julia-head-info">
               <b>Julia</b>
               <span>Assistante IA</span>
