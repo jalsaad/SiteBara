@@ -26,14 +26,13 @@ export default function Footer() {
           <Link href="/actualites">Actualités</Link>
           <Link href="/calendrier">Calendrier scolaire</Link>
           <Link href="/preinscription">Inscription</Link>
-          <a href="#">Galerie photo</a>
+          <Link href="/applis">Applis</Link>
         </div>
         <div>
           <h4>L&apos;école</h4>
           <Link href="/filieres">Nos options</Link>
           <Link href="/restaurant">Restaurant scolaire</Link>
-          <Link href="/#mission">Projet d&apos;établissement</Link>
-          <a href="#">Les professeurs</a>
+          <Link href="/p/notre-projet">Notre projet</Link>
         </div>
         <div>
           <h4>Contact</h4>
