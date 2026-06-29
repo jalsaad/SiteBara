@@ -93,7 +93,7 @@ const pages = [
           cards: [
             { icon: "🎓", title: "Nos options", desc: "Grilles horaires du premier au troisième degré, DASPA et 7ᵉ préparatoire.", href: "/filieres", color: "var(--royal)" },
             { icon: "📅", title: "Calendrier", desc: "Dates clés, congés et événements de l'année scolaire en cours.", href: "/calendrier", color: "var(--orange)" },
-            { icon: "💻", title: "École numérique", desc: "Google Classroom, APSchool et l'espace de travail École en ligne.", href: "/applis", color: "var(--teal)" },
+            { icon: "💻", title: "École numérique", desc: "Google Classroom et l'espace de travail École en ligne.", href: "/applis", color: "var(--teal)" },
             { icon: "🍽️", title: "Restaurant", desc: "Menus de la semaine et informations sur la cantine scolaire.", href: "/restaurant", color: "var(--gold)" },
           ],
         },
@@ -104,7 +104,7 @@ const pages = [
           eyebrow: "Une école résolument numérique",
           title: "Des outils modernes au service de la *pédagogie*",
           icon: "💻",
-          tags: ["Google Classroom", "APSchool", "Tableaux interactifs", "École en ligne"],
+          tags: ["Google Classroom", "Tableaux interactifs", "École en ligne"],
           checks: [
             { title: "Classes connectées", desc: "Matériel moderne et environnements numériques de travail." },
             { title: "Suivi en ligne", desc: "Parents et élèves suivent les résultats et communications via École en ligne." },
@@ -243,14 +243,14 @@ const pages = [
     order: 40,
     blocks: [
       { type: "banner", data: { eyebrow: "Vie quotidienne · Restaurant scolaire", title: "Le *restaurant* scolaire", sub: "Des repas chauds, équilibrés et préparés sur place chaque jour, avec une alternative végétarienne quotidienne.", color: "#c79a4b" } },
-      { type: "menu", data: { eyebrow: "Menu de la semaine", title: "Au menu *au restaurant*", lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements. Une alternative végétarienne est proposée chaque jour.", note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.", btn: "🍽 Réserver vos repas sur APSchool", link: "https://www.apschool.be" } },
+      { type: "menu", data: { eyebrow: "Menu de la semaine", title: "Au menu *au restaurant*", lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements. Une alternative végétarienne est proposée chaque jour.", note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.", btn: "🍽 Réserver vos repas sur École en ligne", link: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara" } },
       {
         type: "cards",
         data: {
           eyebrow: "Infos pratiques", title: "Bon à *savoir*", lead: "",
           cards: [
             { icon: "🕛", title: "Horaires", desc: "Service du midi de 11h45 à 13h15, en deux pauses selon les degrés.", href: "#", color: "var(--royal)" },
-            { icon: "💳", title: "Tarifs & paiement", desc: "Repas complet à tarif démocratique. Paiement sans espèces via APSchool.", href: "#", color: "var(--orange)" },
+            { icon: "💳", title: "Tarifs & paiement", desc: "Repas complet à tarif démocratique. Paiement sans espèces via École en ligne.", href: "#", color: "var(--orange)" },
             { icon: "🥗", title: "Alternative & allergènes", desc: "Une alternative végétarienne chaque jour. Fiches allergènes disponibles au secrétariat.", href: "#", color: "var(--teal)" },
           ],
         },
@@ -270,7 +270,7 @@ const pages = [
           eyebrow: "Accès rapides", title: "Vos espaces *numériques*", lead: "Élèves, parents et enseignants accèdent directement aux plateformes de l'établissement.",
           cards: [
             { icon: "🎓", title: "Google Classroom", desc: "Cours, travaux et communications entre enseignants et élèves.", href: "https://classroom.google.com", color: "var(--royal)" },
-            { icon: "🍽️", title: "APSchool", desc: "Repas, paiements et gestion du compte de l'élève.", href: "https://www.apschool.be", color: "var(--teal)" },
+            { icon: "💻", title: "École en ligne", desc: "Espace de travail, repas, paiements et activités extrascolaires de l'élève.", href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara", color: "var(--teal)" },
             { icon: "💻", title: "École en ligne", desc: "Espace de travail en ligne de l'établissement.", href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara", color: "var(--orange)" },
           ],
         },

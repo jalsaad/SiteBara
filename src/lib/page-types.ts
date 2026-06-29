@@ -296,8 +296,8 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
     title: "Au menu *au restaurant*",
     lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements.",
     note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.",
-    btn: "🍽 Réserver vos repas sur APSchool",
-    link: "https://www.apschool.be",
+    btn: "🍽 Réserver vos repas sur École en ligne",
+    link: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
   },
   downloads: {
     title: "",

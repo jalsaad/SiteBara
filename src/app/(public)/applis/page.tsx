@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Applis & outils",
   description:
-    "Accès rapides aux espaces numériques de l'Athénée Royal Jules Bara (Google Classroom, APSchool, École en ligne) et outils pratiques : générateur de QR code, conversion d'images en PDF.",
+    "Accès rapides aux espaces numériques de l'Athénée Royal Jules Bara (Google Classroom, École en ligne) et outils pratiques : générateur de QR code, conversion d'images en PDF.",
 };
 
 // Page éditable via l'éditeur (page composée « applis ») ; la section « Outils

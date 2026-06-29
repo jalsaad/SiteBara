@@ -95,7 +95,7 @@ const seed: PageData[] = [
             {
               icon: "💻",
               title: "École numérique",
-              desc: "Google Classroom, APSchool et l'espace de travail École en ligne.",
+              desc: "Google Classroom et l'espace de travail École en ligne.",
               href: "/applis",
               color: "var(--teal)",
             },
@@ -118,7 +118,6 @@ const seed: PageData[] = [
           icon: "💻",
           tags: [
             "Google Classroom",
-            "APSchool",
             "Tableaux interactifs",
             "École en ligne",
           ],
@@ -825,8 +824,8 @@ seed.push({
         title: "Au menu *au restaurant*",
         lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements. Une alternative végétarienne est proposée chaque jour.",
         note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.",
-        btn: "🍽 Réserver vos repas sur APSchool",
-        link: "https://www.apschool.be",
+        btn: "🍽 Réserver vos repas sur École en ligne",
+        link: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
       },
     },
     {
@@ -847,7 +846,7 @@ seed.push({
           {
             icon: "💳",
             title: "Tarifs & paiement",
-            desc: "Repas complet (potage + plat + dessert) à tarif démocratique. Paiement sans espèces via le compte APSchool de l'élève.",
+            desc: "Repas complet (potage + plat + dessert) à tarif démocratique. Paiement sans espèces via le compte École en ligne de l'élève.",
             href: "#",
             color: "var(--orange)",
           },
@@ -898,18 +897,11 @@ seed.push({
             color: "var(--royal)",
           },
           {
-            icon: "🍽️",
-            title: "APSchool",
-            desc: "Repas, paiements et gestion du compte de l'élève.",
-            href: "https://www.apschool.be",
-            color: "var(--teal)",
-          },
-          {
             icon: "💻",
             title: "École en ligne",
-            desc: "Espace de travail en ligne de l'établissement.",
+            desc: "Espace de travail, repas, paiements et activités extrascolaires de l'élève.",
             href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
-            color: "var(--orange)",
+            color: "var(--teal)",
           },
         ],
       },

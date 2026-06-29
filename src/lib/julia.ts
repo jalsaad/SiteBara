@@ -59,8 +59,7 @@ DASPA — classes passerelles (primo-arrivants, 31p) :
 
 ═══ OUTILS NUMÉRIQUES ═══
 - Google Classroom : cours et travaux (classroom.google.com, compte @atheneejulesbara.be)
-- APSchool : commande repas et paiements (apschool.be)
-- École en ligne : espace de travail élèves (code établissement V01154-3)
+- École en ligne : commande repas, paiements, activités extrascolaires et espace de travail élèves (code établissement V01154-3)
 - Ces accès sont disponibles sur la page « Applis » du site.
 
 ═══ AUTRES PAGES DU SITE ═══
@@ -117,9 +116,9 @@ const DEMO_RULES: DemoRule[] = [
     suggs: ["Quelles sont les heures d'ouverture ?", "Comment s'inscrire ?", "Où se trouve l'école ?"],
   },
   {
-    keywords: ["restaurant", "cantine", "menu", "repas", "manger", "apschool"],
-    answer: "Les menus de la semaine du restaurant scolaire sont disponibles sur la page « Restaurant » du site. Les repas se commandent et se paient en ligne via APSchool (apschool.be).",
-    suggs: ["Comment accéder à APSchool ?", "Quel est le prix des repas ?", "Peut-on manger tous les jours ?"],
+    keywords: ["restaurant", "cantine", "menu", "repas", "manger", "école en ligne", "portefeuille"],
+    answer: "Les menus de la semaine du restaurant scolaire sont disponibles sur la page « Restaurant » du site. Les repas se commandent et se paient en ligne via « École en ligne » (espace de l'établissement).",
+    suggs: ["Comment accéder à École en ligne ?", "Quel est le prix des repas ?", "Peut-on manger tous les jours ?"],
   },
   {
     keywords: ["calendrier", "congé", "conge", "vacances", "date", "rentrée"],
@@ -128,8 +127,8 @@ const DEMO_RULES: DemoRule[] = [
   },
   {
     keywords: ["numérique", "numerique", "classroom", "google", "école en ligne", "applis", "plateforme"],
-    answer: "L'école utilise Google Classroom (cours et travaux), APSchool (repas et paiements) et l'espace École en ligne (code V01154-3). Tous ces accès sont regroupés sur la page « Applis ».",
-    suggs: ["Comment accéder à Google Classroom ?", "Comment activer mon compte APSchool ?", "Que trouve-t-on dans l'École en ligne ?"],
+    answer: "L'école utilise Google Classroom (cours et travaux) et École en ligne (repas, paiements, activités extrascolaires et espace de travail — code V01154-3). Tous ces accès sont regroupés sur la page « Applis ».",
+    suggs: ["Comment accéder à Google Classroom ?", "Comment accéder à École en ligne ?", "Que trouve-t-on dans l'École en ligne ?"],
   },
   {
     keywords: ["bonjour", "salut", "coucou", "hello", "bonsoir", "hallo", "goedag"],
