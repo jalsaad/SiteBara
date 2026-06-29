@@ -1,13 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type NavLink = { href: string; label: string };
 
 export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function openContact() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setContactOpen(true);
+  }
+  function scheduleClose() {
+    closeTimer.current = setTimeout(() => setContactOpen(false), 200);
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -45,13 +55,21 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
             <Link key={l.label} href={l.href}>{l.label}</Link>
           ))}
           {/* Dropdown Contact / Préinscription */}
-          <div className="nav-dropdown">
-            <button className="nav-dropdown-trigger">
+          <div
+            className={`nav-dropdown${contactOpen ? " open" : ""}`}
+            onMouseEnter={openContact}
+            onMouseLeave={scheduleClose}
+          >
+            <button
+              className="nav-dropdown-trigger"
+              onClick={() => setContactOpen((o) => !o)}
+              aria-expanded={contactOpen}
+            >
               Contact <span className="nav-chevron">▾</span>
             </button>
             <div className="nav-submenu">
-              <Link href="/contact">Contact</Link>
-              <Link href="/preinscription">Préinscription</Link>
+              <Link href="/contact" onClick={close}>Contact</Link>
+              <Link href="/preinscription" onClick={close}>Préinscription</Link>
             </div>
           </div>
         </nav>
