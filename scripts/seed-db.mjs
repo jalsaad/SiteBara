@@ -264,18 +264,32 @@ const pages = [
     order: 45,
     blocks: [
       { type: "banner", data: { eyebrow: "Espaces numériques & outils", title: "Applis *& outils*", sub: "Retrouvez en un endroit les accès aux plateformes de l'école et quelques outils pratiques.", color: "#284193" } },
-      {
-        type: "cards",
-        data: {
-          eyebrow: "Accès rapides", title: "Vos espaces *numériques*", lead: "Élèves, parents et enseignants accèdent directement aux plateformes de l'établissement.",
-          cards: [
-            { icon: "🎓", title: "Google Classroom", desc: "Cours, travaux et communications entre enseignants et élèves.", href: "https://classroom.google.com", color: "var(--royal)" },
-            { icon: "💻", title: "École en ligne", desc: "Espace de travail, repas, paiements et activités extrascolaires de l'élève.", href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara", color: "var(--teal)" },
-            { icon: "💻", title: "École en ligne", desc: "Espace de travail en ligne de l'établissement.", href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara", color: "var(--orange)" },
-          ],
-        },
-      },
+      { type: "cards", data: { eyebrow: "Accès rapides", title: "Vos espaces *numériques*", lead: "Élèves, parents et enseignants accèdent directement aux plateformes de l'établissement.", cards: [
+        { icon: "🎓", title: "Google Classroom", desc: "Cours, travaux et communications entre enseignants et élèves.", href: "https://classroom.google.com", color: "var(--royal)" },
+        { icon: "💻", title: "École en ligne", desc: "Espace de travail, repas, paiements et activités extrascolaires de l'élève.", href: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara", color: "var(--teal)" },
+      ]}},
+      { type: "cards", data: { eyebrow: "Suite Google", title: "Créer, rédiger, *calculer*", lead: "Les outils Google intégrés à votre compte scolaire @atheneejulesbara.be.", cards: [
+        { icon: "📝", title: "Google Docs", desc: "Traitement de texte collaboratif en temps réel.", href: "https://docs.google.com", color: "var(--royal)" },
+        { icon: "📊", title: "Google Sheets", desc: "Tableur et graphiques en ligne, partageable instantanément.", href: "https://sheets.google.com", color: "var(--teal)" },
+        { icon: "🎞️", title: "Google Slides", desc: "Présentations collaboratives accessibles depuis n'importe quel appareil.", href: "https://slides.google.com", color: "var(--orange)" },
+        { icon: "🧪", title: "Google Colab", desc: "Notebooks Python interactifs dans le navigateur — idéal pour les sciences et la data.", href: "https://colab.research.google.com", color: "var(--gold)" },
+      ]}},
+      { type: "cards", data: { eyebrow: "Création & design", title: "Concevoir, *illustrer*, communiquer", lead: "Des outils accessibles sans installation pour créer des visuels et des supports de communication.", cards: [
+        { icon: "🎨", title: "Canva", desc: "Création de visuels, affiches, infographies et présentations avec des centaines de modèles.", href: "https://www.canva.com", color: "var(--royal)" },
+        { icon: "🖼️", title: "Pixlr", desc: "Retouche photo et montage graphique en ligne, alternative gratuite à Photoshop.", href: "https://pixlr.com", color: "var(--teal)" },
+      ]}},
+      { type: "cards", data: { eyebrow: "Coding & logique", title: "Apprendre à *programmer*, pas à pas", lead: "Des plateformes ludiques pour initier élèves et enseignants à la pensée computationnelle.", cards: [
+        { icon: "🐱", title: "Scratch", desc: "Programmation par blocs pour créer des animations, jeux et histoires interactives.", href: "https://scratch.mit.edu", color: "var(--royal)" },
+        { icon: "💡", title: "Code.org", desc: "Cours et défis de programmation gratuits, du primaire au secondaire.", href: "https://code.org", color: "var(--orange)" },
+        { icon: "🧩", title: "Blockly.games", desc: "Jeux éducatifs de Google pour apprendre la logique de programmation pas à pas.", href: "https://blockly.games", color: "var(--teal)" },
+      ]}},
       { type: "tools", data: {} },
+      { type: "cards", data: { eyebrow: "Apprentissage", title: "Réviser, *explorer*, progresser", lead: "Des ressources éducatives gratuites et complémentaires aux cours.", cards: [
+        { icon: "📐", title: "GeoGebra", desc: "Géométrie, algèbre et graphiques interactifs — incontournable en math au secondaire belge.", href: "https://www.geogebra.org", color: "var(--royal)" },
+        { icon: "🎓", title: "Khan Academy", desc: "Des milliers de cours vidéo gratuits en français : maths, sciences, histoire, économie…", href: "https://fr.khanacademy.org", color: "var(--orange)" },
+        { icon: "⚗️", title: "PhET Simulations", desc: "Simulations interactives en physique, chimie et biologie — idéal pour visualiser les concepts.", href: "https://phet.colorado.edu/fr", color: "var(--teal)" },
+        { icon: "🃏", title: "Quizlet", desc: "Fiches de révision, jeux de mémorisation et tests — créez ou réutilisez des sets existants.", href: "https://quizlet.com", color: "var(--gold)" },
+      ]}},
       { type: "cta", data: { title: "Un accès ne fonctionne pas ?", body: "Le secrétariat vous aide à récupérer vos identifiants ou à configurer votre espace numérique.", btn: "Nous contacter", link: "/contact" } },
     ],
   },
