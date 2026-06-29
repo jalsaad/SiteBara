@@ -76,6 +76,11 @@ export default function JuliaChat() {
     return () => window.removeEventListener("julia:open", handler);
   }, []);
 
+  // Masquer le bouton nav quand le panel est ouvert
+  useEffect(() => {
+    document.body.classList.toggle("julia-panel-open", open);
+  }, [open]);
+
   // Restaurer l'historique depuis localStorage
   useEffect(() => {
     try {
@@ -165,7 +170,7 @@ export default function JuliaChat() {
             <span className="julia-avatar">J</span>
             <div className="julia-head-info">
               <b>Julia</b>
-              <span>Assistante · Jules Bara</span>
+              <span>Assistante IA</span>
             </div>
             <button className="julia-reset-btn" onClick={reset} title="Nouvelle conversation">
               ↺
