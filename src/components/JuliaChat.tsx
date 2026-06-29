@@ -76,9 +76,9 @@ export default function JuliaChat() {
     return () => window.removeEventListener("julia:open", handler);
   }, []);
 
-  // Masquer le bouton nav quand le panel est ouvert
+  // Notifier la nav de l'état ouvert/fermé
   useEffect(() => {
-    document.body.classList.toggle("julia-panel-open", open);
+    window.dispatchEvent(new CustomEvent(open ? "julia:opened" : "julia:closed"));
   }, [open]);
 
   // Restaurer l'historique depuis localStorage

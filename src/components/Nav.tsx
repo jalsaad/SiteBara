@@ -9,6 +9,7 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [juliaOpen, setJuliaOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function openContact() {
@@ -24,6 +25,17 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onOpen = () => setJuliaOpen(true);
+    const onClose = () => setJuliaOpen(false);
+    window.addEventListener("julia:opened", onOpen);
+    window.addEventListener("julia:closed", onClose);
+    return () => {
+      window.removeEventListener("julia:opened", onOpen);
+      window.removeEventListener("julia:closed", onClose);
+    };
   }, []);
 
   useEffect(() => {
@@ -74,10 +86,12 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
           </div>
         </nav>
 
-        <button className="nav-julia-btn" onClick={openJulia}>
-          <span className="julia-spark">✦</span>
-          Demandez à Julia
-        </button>
+        {!juliaOpen && (
+          <button className="nav-julia-btn" onClick={openJulia}>
+            <span className="julia-spark">✦</span>
+            Demandez à Julia
+          </button>
+        )}
 
         <button
           className="nav-hamburger"
