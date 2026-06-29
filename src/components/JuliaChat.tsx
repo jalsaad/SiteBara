@@ -69,6 +69,13 @@ export default function JuliaChat() {
   const [busy, setBusy] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Ouverture depuis le bouton nav "Demandez à Julia"
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener("julia:open", handler);
+    return () => window.removeEventListener("julia:open", handler);
+  }, []);
+
   // Restaurer l'historique depuis localStorage
   useEffect(() => {
     try {
