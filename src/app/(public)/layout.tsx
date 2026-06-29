@@ -25,7 +25,7 @@ export default async function PublicLayout({
     <>
       <Nav pages={pages} />
       {children}
-      <Footer />
+      <Footer pages={pages} />
       <Reveal />
       <JuliaChat />
     </>

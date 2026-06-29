@@ -1,6 +1,15 @@
 import Link from "next/link";
 
-export default function Footer() {
+type NavLink = { href: string; label: string };
+
+// Retourne le lien d'une page par son label exact, ou le fallback si absente.
+function pageLink(pages: NavLink[], label: string, fallback: string): string {
+  return pages.find((p) => p.label === label)?.href ?? fallback;
+}
+
+export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
+  const notreProjetHref = pageLink(pages, "Notre projet", "/p/notre-projet");
+
   return (
     <footer className="footer">
       <div className="wrap footer-grid">
@@ -32,7 +41,7 @@ export default function Footer() {
           <h4>L&apos;école</h4>
           <Link href="/filieres">Nos options</Link>
           <Link href="/restaurant">Restaurant scolaire</Link>
-          <Link href="/p/notre-projet">Notre projet</Link>
+          <Link href={notreProjetHref}>Notre projet</Link>
         </div>
         <div>
           <h4>Contact</h4>
