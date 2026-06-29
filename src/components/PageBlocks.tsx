@@ -425,7 +425,12 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                     style={{ "--c": c.color || "var(--royal)" } as React.CSSProperties}
                     href={c.href || "#"}
                   >
-                    <div className="ic">{c.icon}</div>
+                    <div className="ic">
+                      {c.icon?.startsWith("/")
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={c.icon} alt={c.title} className="ic-logo" />
+                        : c.icon}
+                    </div>
                     <h3 className="serif">{c.title}</h3>
                     <p>{c.desc}</p>
                     <span className="go">Découvrir →</span>

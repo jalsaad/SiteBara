@@ -151,8 +151,9 @@ body::before {
 .acard::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--c, var(--royal)); transform: scaleX(0); transform-origin: left; transition: 0.35s; }
 .acard:hover { transform: translateY(-7px); box-shadow: var(--shadow); border-color: transparent; }
 .acard:hover::before { transform: scaleX(1); }
-.acard .ic { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; font-size: 27px; margin-bottom: 20px; background: var(--cream); transition: 0.3s; }
+.acard .ic { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; font-size: 27px; margin-bottom: 20px; background: var(--cream); transition: 0.3s; overflow: hidden; }
 .acard:hover .ic { transform: rotate(-6deg) scale(1.08); }
+.acard .ic-logo { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
 .acard h3 { font-family: var(--font-fraunces), serif; font-size: 21px; font-weight: 500; margin-bottom: 8px; }
 .acard p { font-size: 14.5px; color: var(--ink-soft); font-weight: 300; }
 .acard .go { margin-top: 18px; font-size: 13.5px; font-weight: 600; color: var(--c, var(--royal)); display: inline-flex; gap: 7px; align-items: center; transition: 0.25s; }
