@@ -572,7 +572,9 @@ body::before {
 .doc-overlay-name { color: #fff; font-size: 12.5px; font-weight: 600; line-height: 1.3; text-shadow: 0 1px 4px rgba(0,0,0,0.6); word-break: break-word; }
 .doc-overlay-desc { color: rgba(255,255,255,0.75); font-size: 11px; margin-top: 2px; line-height: 1.3; }
 /* Lightbox document — plein écran, fond sombre */
-.lb-veil { position: fixed; inset: 0; background: rgba(8,10,26,0.93); z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 12px; }
+.lb-veil { position: fixed; inset: 0; background: rgba(8,10,26,0.93); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 12px; }
+.lb-close-float { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.12); cursor: pointer; font-size: 20px; color: #fff; display: flex; align-items: center; justify-content: center; transition: background 0.18s; z-index: 1; }
+.lb-close-float:hover { background: rgba(255,255,255,0.28); }
 .lb-box { background: #1c1e2b; border-radius: 16px; width: 100%; max-width: 1060px; max-height: 94vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.7); }
 .lb-head { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; background: #1c1e2b; }
 .lb-title { flex: 1; font-weight: 600; font-size: 14px; color: #e8eaf5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

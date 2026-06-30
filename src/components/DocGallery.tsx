@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface DocItem {
   label: string;
@@ -47,8 +48,9 @@ function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) 
       )}&embedded=true`
     : item.href;
 
-  return (
+  const modal = (
     <div className="lb-veil" onClick={onClose}>
+      <button className="lb-close-float" onClick={onClose} aria-label="Fermer">✕</button>
       <div className="lb-box" onClick={(e) => e.stopPropagation()}>
         <div className="lb-head">
           <span className="lb-title">{item.label}</span>
@@ -82,6 +84,9 @@ function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) 
       </div>
     </div>
   );
+
+  // Portal sur document.body : échappe tout contexte d'empilement parent
+  return createPortal(modal, document.body);
 }
 
 export default function DocGallery({ items, hint }: { items: DocItem[]; hint?: string }) {
