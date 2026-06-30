@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="18" fill="white"/>
+  <defs>
+    <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4BB8F5"/>
+      <stop offset="100%" stop-color="#2B52E0"/>
+    </linearGradient>
+  </defs>
+  <!-- point du i -->
+  <circle cx="54" cy="28" r="5" fill="#4BB8F5"/>
+  <!-- pi -->
+  <text x="8" y="76" font-family="Arial Rounded MT Bold,Arial Black,sans-serif" font-weight="900" font-size="56" fill="url(#pg)">pi</text>
+  <!-- x orange -->
+  <text x="62" y="76" font-family="Arial Rounded MT Bold,Arial Black,sans-serif" font-weight="900" font-size="56" fill="#F5A623">x</text>
+</svg>
