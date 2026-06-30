@@ -61,7 +61,7 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
           <div className="footer-eu">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logos/union-europeenne.svg" alt="Union Européenne" className="footer-eu-logo" />
-            <span>Cofinancé par<br/>l&apos;UE</span>
+            <span>Cofinancé par l&apos;UE</span>
           </div>
         </div>
       </div>
