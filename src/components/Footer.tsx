@@ -55,6 +55,15 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
             direction@atheneejulesbara.be
           </a>
         </div>
+        <div className="footer-partners">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logos/wbe.svg" alt="Wallonie-Bruxelles Enseignement" className="footer-partner-logo" />
+          <div className="footer-eu">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logos/union-europeenne.svg" alt="Union Européenne" className="footer-eu-logo" />
+            <span>Cofinancé par<br/>l&apos;Union européenne</span>
+          </div>
+        </div>
       </div>
       <div className="copy wrap">
         © 2026 Athénée Royal Jules Bara · Apprendre · S&apos;ouvrir ·

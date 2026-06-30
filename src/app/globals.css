@@ -229,7 +229,12 @@ body::before {
 /* pied de page */
 .footer { background: var(--marine); color: #9aa6cf; padding: 72px 0 34px; position: relative; overflow: hidden; }
 .footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--orange), var(--gold), var(--royal)); }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 46px; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr auto; gap: 46px; align-items: start; }
+.footer-partners { display: flex; flex-direction: column; align-items: flex-end; gap: 20px; }
+.footer-partner-logo { height: 36px; width: auto; opacity: 0.85; }
+.footer-eu { display: flex; align-items: center; gap: 10px; }
+.footer-eu-logo { height: 44px; width: auto; border-radius: 4px; }
+.footer-eu span { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.4; text-align: left; max-width: 10ch; }
 .footer h4 { color: #fff; font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: 0.08em; text-transform: uppercase; }
 .footer a, .footer p { font-size: 14.5px; color: #9aa6cf; margin-bottom: 11px; transition: 0.2s; font-weight: 300; display: block; }
 .footer a:hover { color: var(--orange); transform: translateX(3px); }
@@ -301,7 +306,7 @@ body::before {
 .menu-pos { font-size: 12px; color: #959cb3; }
 @keyframes menuSlideIn { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
 .menu-anim { animation: menuSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-@media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-partners { align-items: flex-start; } }
 @media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
 
 /* ============ ADMIN ============ */
