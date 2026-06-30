@@ -516,7 +516,10 @@ body::before {
 .actus-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
 .actus-head h2 { font-family: var(--font-fraunces), serif; font-weight: 500; font-size: 28px; }
 .atable { background: #fff; border: 1px solid #e1e4ee; border-radius: 15px; overflow: hidden; }
-.arow { display: grid; grid-template-columns: 60px 1fr 120px 105px 90px 158px; align-items: center; gap: 14px; padding: 15px 19px; border-bottom: 1px solid #eef0f6; transition: 0.15s; }
+.arow { display: grid; grid-template-columns: 28px 60px 1fr 120px 105px 90px 158px; align-items: center; gap: 14px; padding: 15px 19px; border-bottom: 1px solid #eef0f6; transition: background 0.15s; cursor: default; }
+.drag-handle { font-size: 18px; color: #c5c9d9; cursor: grab; user-select: none; text-align: center; }
+.drag-handle:active { cursor: grabbing; }
+.arow.drag-over { background: #eef2ff; border-top: 2px solid var(--royal); }
 .arow:last-child { border-bottom: none; }
 .arow:hover { background: #f8f9fc; }
 .arow .thumb { width: 50px; height: 50px; border-radius: 10px; }
@@ -529,8 +532,8 @@ body::before {
 .arow .acts { display: flex; gap: 6px; }
 .arow .acts button { width: 33px; height: 33px; border-radius: 9px; border: 1px solid #e1e4ee; display: grid; place-items: center; color: var(--ink-soft); transition: 0.15s; }
 .arow .acts button:hover { background: var(--royal); color: #fff; border-color: var(--royal); }
-.ahead-row { display: grid; grid-template-columns: 60px 1fr 120px 105px 90px 158px; gap: 14px; padding: 13px 19px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #959cb3; background: #f8f9fc; border-bottom: 1px solid #eef0f6; font-weight: 600; }
-@media (max-width: 760px) { .ahead-row { display: none; } .arow { grid-template-columns: 50px 1fr; } }
+.ahead-row { display: grid; grid-template-columns: 28px 60px 1fr 120px 105px 90px 158px; gap: 14px; padding: 13px 19px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #959cb3; background: #f8f9fc; border-bottom: 1px solid #eef0f6; font-weight: 600; }
+@media (max-width: 760px) { .ahead-row { display: none; } .arow { grid-template-columns: 28px 50px 1fr; } }
 
 /* diffusion réseaux sociaux */
 .shared-nets { display: flex; gap: 3px; margin-top: 6px; font-size: 13px; cursor: default; }

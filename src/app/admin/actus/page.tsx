@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   Article,
   ArticleStatus,
@@ -51,6 +51,8 @@ export default function ActusManager() {
   const [shareFor, setShareFor] = useState<Article | null>(null);
   const [shareNets, setShareNets] = useState<SocialNetwork[]>(ALL_NETWORKS);
   const [sharing, setSharing] = useState(false);
+  const dragIdx = useRef<number | null>(null);
+  const [dragOver, setDragOver] = useState<number | null>(null);
   const toast = useToast();
 
   async function refresh() {
@@ -164,6 +166,26 @@ export default function ActusManager() {
     refresh();
   }
 
+  async function drop(toIdx: number) {
+    if (dragIdx.current === null || dragIdx.current === toIdx) {
+      dragIdx.current = null;
+      setDragOver(null);
+      return;
+    }
+    const next = [...articles];
+    const [moved] = next.splice(dragIdx.current, 1);
+    next.splice(toIdx, 0, moved);
+    setArticles(next);
+    dragIdx.current = null;
+    setDragOver(null);
+    const items = next.map((a, i) => ({ id: a.id, priority: next.length - i }));
+    await fetch("/api/articles/reorder", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(items),
+    });
+  }
+
   function edit(a: Article) {
     setDraft({
       id: a.id,
@@ -196,6 +218,7 @@ export default function ActusManager() {
       <div className="atable">
         <div className="ahead-row">
           <span></span>
+          <span></span>
           <span>Titre</span>
           <span>Catégorie</span>
           <span>Date</span>
@@ -212,8 +235,17 @@ export default function ActusManager() {
             Aucun article pour le moment.
           </div>
         )}
-        {articles.map((a) => (
-          <div className="arow" key={a.id}>
+        {articles.map((a, i) => (
+          <div
+            className={`arow${dragOver === i ? " drag-over" : ""}`}
+            key={a.id}
+            draggable
+            onDragStart={() => { dragIdx.current = i; }}
+            onDragOver={(e) => { e.preventDefault(); setDragOver(i); }}
+            onDragLeave={() => setDragOver(null)}
+            onDrop={() => drop(i)}
+          >
+            <span className="drag-handle" title="Glisser pour réordonner">⠿</span>
             <div
               className="thumb"
               style={

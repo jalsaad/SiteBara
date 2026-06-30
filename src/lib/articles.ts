@@ -11,6 +11,8 @@ import "server-only";
 import type { Article, ArticleInput, SocialShare } from "./article-types";
 import { slugify } from "./article-types";
 
+type ReorderItem = { id: string; priority: number };
+
 export type {
   Article,
   ArticleInput,
@@ -19,6 +21,7 @@ export type {
   SocialShare,
 } from "./article-types";
 export { slugify, formatDateFr } from "./article-types";
+export type { ReorderItem };
 
 /* ------------------- magasin mémoire (mode démo) ------------------- */
 
@@ -159,7 +162,7 @@ export async function listArticles(opts?: {
     const db = await prisma();
     const rows = await db.article.findMany({
       where: opts?.publishedOnly ? { status: "PUBLISHED" } : undefined,
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ priority: "desc" }, { publishedAt: "desc" }, { createdAt: "desc" }],
       take: opts?.limit,
     });
     return rows.map(fromDb);
@@ -285,6 +288,23 @@ export async function updateArticle(
   }
   Object.assign(a, input);
   return a;
+}
+
+export async function reorderArticles(items: ReorderItem[]): Promise<void> {
+  if (useDb) {
+    const db = await prisma();
+    await Promise.all(
+      items.map((item) =>
+        db.article.update({ where: { id: item.id }, data: { priority: item.priority } as never })
+      )
+    );
+    return;
+  }
+  const store = memStore();
+  for (const item of items) {
+    const a = store.find((x) => x.id === item.id);
+    if (a) (a as Article & { priority: number }).priority = item.priority;
+  }
 }
 
 export async function deleteArticle(id: string): Promise<boolean> {
