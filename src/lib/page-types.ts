@@ -183,7 +183,7 @@ export const BLOCK_LABELS: Record<BlockType, string> = {
   news: "Actualités (3)",
   newslist: "Liste des actualités",
   menu: "Menu du restaurant",
-  downloads: "Téléchargements",
+  downloads: "Documents",
   grid: "Grille horaire",
   gallery: "Galerie",
   contact: "Contact",

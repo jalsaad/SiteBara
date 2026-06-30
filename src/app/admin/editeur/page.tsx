@@ -53,7 +53,7 @@ const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "gallery", icon: "🏞️", desc: "Photos" },
   { type: "quote", icon: "❝", desc: "Citation" },
   { type: "cta", icon: "📣", desc: "Appel à l'action" },
-  { type: "downloads", icon: "📥", desc: "Boutons fichiers" },
+  { type: "downloads", icon: "📁", desc: "Documents / Galerie" },
   { type: "news", icon: "📰", desc: "Auto, 3 articles" },
   { type: "newslist", icon: "🗞️", desc: "Toutes les actus" },
   { type: "menu", icon: "🍽️", desc: "Menu du resto" },
@@ -1682,45 +1682,45 @@ function Editor() {
                         }
                       />
                     )}
-                    <div style={{ display: "flex", gap: 6 }}>
+                    <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 9, border: "1.5px dashed #b8c0d6", cursor: "pointer", fontSize: 12.5, color: "#4a5478", background: "#f4f6fb" }}>
+                      <span style={{ fontSize: 18 }}>📤</span>
+                      <span>Charger un fichier depuis l&apos;ordinateur</span>
+                      <span style={{ marginLeft: "auto", fontSize: 11, color: "#98a2b3" }}>PDF · Word · Excel · Image…</span>
                       <input
-                        value={it.href}
-                        placeholder="Lien / fichier (ex. /document.pdf)"
-                        style={{ flex: 1 }}
-                        onChange={(e) =>
-                          listSet<DownloadItem>("downloads", downloadItems, i, { href: e.target.value })
-                        }
+                        type="file"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.jpg,.jpeg,.png,.gif,.webp"
+                        style={{ display: "none" }}
+                        onChange={async (e) => {
+                          const f = e.target.files?.[0];
+                          if (!f) return;
+                          const fd = new FormData();
+                          fd.append("file", f);
+                          const res = await fetch("/api/upload", { method: "POST", body: fd });
+                          const data = await res.json().catch(() => ({}));
+                          if (res.ok) {
+                            listSet<DownloadItem>("downloads", downloadItems, i, {
+                              href: data.url,
+                              ...(!it.label ? { label: f.name.replace(/\.[^.]+$/, "") } : {}),
+                            });
+                            toast("Fichier téléversé ✓");
+                          } else {
+                            toast(data.error ?? "Erreur lors du téléversement");
+                          }
+                        }}
                       />
-                      <label
-                        className="abtn ghost sm"
-                        style={{ cursor: "pointer", flexShrink: 0, gap: 4 }}
-                        title="Téléverser un fichier"
-                      >
-                        📤
-                        <input
-                          type="file"
-                          accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.jpg,.jpeg,.png,.gif,.webp"
-                          style={{ display: "none" }}
-                          onChange={async (e) => {
-                            const f = e.target.files?.[0];
-                            if (!f) return;
-                            const fd = new FormData();
-                            fd.append("file", f);
-                            const res = await fetch("/api/upload", { method: "POST", body: fd });
-                            const data = await res.json().catch(() => ({}));
-                            if (res.ok) {
-                              listSet<DownloadItem>("downloads", downloadItems, i, {
-                                href: data.url,
-                                ...(!it.label ? { label: f.name.replace(/\.[^.]+$/, "") } : {}),
-                              });
-                              toast("Fichier téléversé ✓");
-                            } else {
-                              toast(data.error ?? "Erreur lors du téléversement");
-                            }
-                          }}
-                        />
-                      </label>
+                    </label>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, margin: "2px 0" }}>
+                      <span style={{ flex: 1, height: 1, background: "#e3e7f0" }} />
+                      <span style={{ fontSize: 11, color: "#b0b8cc" }}>ou entrer l&apos;URL</span>
+                      <span style={{ flex: 1, height: 1, background: "#e3e7f0" }} />
                     </div>
+                    <input
+                      value={it.href}
+                      placeholder="https://… ou /uploads/document.pdf"
+                      onChange={(e) =>
+                        listSet<DownloadItem>("downloads", downloadItems, i, { href: e.target.value })
+                      }
+                    />
                     {!selected.data.docGallery && (
                       <>
                         <div className="field tog" style={{ margin: 0 }}>
