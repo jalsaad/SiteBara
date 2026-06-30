@@ -89,6 +89,7 @@ export interface DownloadItem {
   href: string;
   download: boolean; // true = téléchargement direct (ex. .ics)
   primary: boolean; // true = bouton orange
+  desc?: string; // galerie de docs : description courte sous le nom
 }
 
 export interface HeroData {
@@ -150,9 +151,10 @@ export type BlockData = Partial<HeroData> & {
   link?: string;
   // Bloc « Menu du restaurant » : phrase au-dessus du bouton de réservation.
   note?: string;
-  // Bloc « Téléchargements » : boutons + note.
+  // Bloc « Téléchargements » : boutons + note. docGallery = mode galerie de documents.
   downloads?: DownloadItem[];
   hint?: string;
+  docGallery?: boolean;
   // Bloc « Diffusion en direct » : embed YouTube.
   liveActive?: boolean;
   liveVideoId?: string;

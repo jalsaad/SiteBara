@@ -230,10 +230,10 @@ body::before {
 .footer { background: var(--marine); color: #9aa6cf; padding: 72px 0 34px; position: relative; overflow: hidden; }
 .footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--orange), var(--gold), var(--royal)); }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr auto; gap: 46px; align-items: start; }
-.footer-partners { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.footer-partner-logo { height: 160px; width: auto; opacity: 0.9; display: block; }
-.footer-eu { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-.footer-eu-logo { height: 44px; width: auto; border-radius: 3px; display: block;}
+.footer-partners { display: flex; flex-direction: column; align-items:flex-end; gap: 6px; }
+.footer-partner-logo { height: 50px; width: auto; opacity: 0.9; display:block;}
+.footer-eu { display: flex; flex-direction: column; align-items:flex-end; gap: 6px; }
+.footer-eu-logo { height: 62px; width: auto; display: block;}
 .footer-eu span { font-size: 11px; color: rgba(255,255,255,0.65); line-height: 1.4; text-align: right; }
 .footer h4 { color: #fff; font-size: 13px; font-weight: 600; margin-bottom: 18px; letter-spacing: 0.08em; text-transform: uppercase; }
 .footer a, .footer p { font-size: 14.5px; color: #9aa6cf; margin-bottom: 11px; transition: 0.2s; font-weight: 300; display: block; }
@@ -248,7 +248,7 @@ body::before {
 .credit span { font-size: 11.5px; color: #6b76a0; }
 .credit a { display: inline-flex; opacity: 0.4; transition: opacity 0.2s; }
 .credit a:hover { opacity: 0.85; }
-.credit img { height: 20px; width: auto; display: block; }
+.credit img { height: 35px; width: auto; display: block; }
 
 /* Gestionnaire des menus de la semaine (admin) */
 .menu-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 22px; }
@@ -558,6 +558,16 @@ body::before {
 .pub-table th { background: var(--halo); font-weight: 600; color: var(--royal); }
 .cal-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 10px; }
 .cal-actions-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 26px; max-width: 640px; }
+/* Galerie de documents (bloc téléchargements mode galerie) */
+.doc-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 24px 0 10px; }
+.doc-card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow-sm); }
+.doc-card-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.doc-card-body { flex: 1; }
+.doc-card-name { font-weight: 600; font-size: 14px; color: var(--ink); line-height: 1.35; }
+.doc-card-desc { font-size: 13px; color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
+.doc-card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.doc-btn { font-size: 13px !important; padding: 7px 14px !important; }
+@media (max-width: 600px) { .doc-gallery { grid-template-columns: 1fr; } }
 .pub-gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 @media (max-width: 700px) { .pub-gal { grid-template-columns: repeat(2, 1fr); } }
 .pub-gal div, .pub-gal img, .pub-gal video { aspect-ratio: 1; border-radius: 14px; box-shadow: var(--shadow-sm); }

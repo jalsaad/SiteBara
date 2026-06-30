@@ -13,17 +13,31 @@ import { requireRole } from "@/lib/auth";
 // Écriture sur disque → exécution Node obligatoire (jamais sur l'edge).
 export const runtime = "nodejs";
 
-const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 Mo (images)
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;  // 5 Mo (images)
 const MAX_VIDEO_BYTES = 25 * 1024 * 1024; // 25 Mo (vidéo d'arrière-plan)
+const MAX_DOC_BYTES   = 20 * 1024 * 1024; // 20 Mo (documents)
 
 // Type MIME → extension de fichier autorisée.
 const ALLOWED: Record<string, string> = {
+  // Images
   "image/jpeg": "jpg",
   "image/png": "png",
   "image/webp": "webp",
   "image/gif": "gif",
+  // Vidéos
   "video/mp4": "mp4",
   "video/webm": "webm",
+  // Documents
+  "application/pdf": "pdf",
+  "application/msword": "doc",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
+  "application/vnd.ms-excel": "xls",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+  "application/vnd.ms-powerpoint": "ppt",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation": "pptx",
+  "application/vnd.oasis.opendocument.text": "odt",
+  "application/vnd.oasis.opendocument.spreadsheet": "ods",
+  "application/vnd.oasis.opendocument.presentation": "odp",
 };
 
 export async function POST(request: Request) {
@@ -47,13 +61,16 @@ export async function POST(request: Request) {
     );
   }
   const isVideo = file.type.startsWith("video/");
-  const max = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+  const isDoc = !file.type.startsWith("image/") && !isVideo;
+  const max = isVideo ? MAX_VIDEO_BYTES : isDoc ? MAX_DOC_BYTES : MAX_IMAGE_BYTES;
   if (file.size > max) {
     return Response.json(
       {
         error: isVideo
           ? "Vidéo trop volumineuse (25 Mo maximum)"
-          : "Image trop volumineuse (5 Mo maximum)",
+          : isDoc
+            ? "Document trop volumineux (20 Mo maximum)"
+            : "Image trop volumineuse (5 Mo maximum)",
       },
       { status: 413 }
     );

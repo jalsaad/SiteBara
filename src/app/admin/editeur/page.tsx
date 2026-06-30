@@ -241,6 +241,22 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
   }
   if (block.type === "downloads") {
     const items = d.downloads ?? [];
+    if (d.docGallery) {
+      return (
+        <div className="r-text">
+          {d.title && <h3>{renderTitle(d.title)}</h3>}
+          <div style={{ display: "flex", flexDirection: "column", gap: 7, marginTop: 8 }}>
+            {items.map((it, i) => (
+              <div key={i} style={{ display: "flex", gap: 8, alignItems: "center", padding: "7px 10px", background: "#eef2ff", borderRadius: 8, fontSize: 12 }}>
+                <span>📄</span>
+                <span style={{ flex: 1, fontWeight: 600 }}>{it.label || "Document"}</span>
+                <span style={{ color: "#6b76a0", fontSize: 11 }}>Voir · DL</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="r-text">
         {d.title && <h3>{renderTitle(d.title)}</h3>}
@@ -1636,11 +1652,12 @@ function Editor() {
             {selected.type === "downloads" && (
               <>
                 {txt("title", "Titre (facultatif)")}
-                <div className="isub">Boutons</div>
+                {tog("docGallery", "Galerie de documents")}
+                <div className="isub">{selected.data.docGallery ? "Documents" : "Boutons"}</div>
                 {downloadItems.map((it, i) => (
                   <div className="itemcard" key={i}>
                     <div className="itemcard-head">
-                      <span>Bouton {i + 1}</span>
+                      <span>{selected.data.docGallery ? `Document ${i + 1}` : `Bouton ${i + 1}`}</span>
                       <button
                         className="del"
                         title="Retirer"
@@ -1651,58 +1668,103 @@ function Editor() {
                     </div>
                     <input
                       value={it.label}
-                      placeholder="Texte du bouton"
+                      placeholder={selected.data.docGallery ? "Nom du document" : "Texte du bouton"}
                       onChange={(e) =>
                         listSet<DownloadItem>("downloads", downloadItems, i, { label: e.target.value })
                       }
                     />
-                    <input
-                      value={it.href}
-                      placeholder="Lien / fichier (ex. /calendrier-2026-2027.pdf)"
-                      onChange={(e) =>
-                        listSet<DownloadItem>("downloads", downloadItems, i, { href: e.target.value })
-                      }
-                    />
-                    <div className="field tog" style={{ margin: 0 }}>
-                      <label>Bouton principal (orange)</label>
-                      <button
-                        className={`switch${it.primary ? " on" : ""}`}
-                        onClick={() =>
-                          listSet<DownloadItem>("downloads", downloadItems, i, { primary: !it.primary })
+                    {selected.data.docGallery && (
+                      <input
+                        value={it.desc ?? ""}
+                        placeholder="Description courte (facultatif)"
+                        onChange={(e) =>
+                          listSet<DownloadItem>("downloads", downloadItems, i, { desc: e.target.value })
                         }
-                        aria-label="Bouton principal"
-                      >
-                        <span></span>
-                      </button>
-                    </div>
-                    <div className="field tog" style={{ margin: 0 }}>
-                      <label>Téléchargement direct (.ics, .pdf…)</label>
-                      <button
-                        className={`switch${it.download ? " on" : ""}`}
-                        onClick={() =>
-                          listSet<DownloadItem>("downloads", downloadItems, i, { download: !it.download })
+                      />
+                    )}
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <input
+                        value={it.href}
+                        placeholder="Lien / fichier (ex. /document.pdf)"
+                        style={{ flex: 1 }}
+                        onChange={(e) =>
+                          listSet<DownloadItem>("downloads", downloadItems, i, { href: e.target.value })
                         }
-                        aria-label="Téléchargement direct"
+                      />
+                      <label
+                        className="abtn ghost sm"
+                        style={{ cursor: "pointer", flexShrink: 0, gap: 4 }}
+                        title="Téléverser un fichier"
                       >
-                        <span></span>
-                      </button>
+                        📤
+                        <input
+                          type="file"
+                          accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odt,.ods,.odp,.jpg,.jpeg,.png,.gif,.webp"
+                          style={{ display: "none" }}
+                          onChange={async (e) => {
+                            const f = e.target.files?.[0];
+                            if (!f) return;
+                            const fd = new FormData();
+                            fd.append("file", f);
+                            const res = await fetch("/api/upload", { method: "POST", body: fd });
+                            const data = await res.json().catch(() => ({}));
+                            if (res.ok) {
+                              listSet<DownloadItem>("downloads", downloadItems, i, {
+                                href: data.url,
+                                ...(!it.label ? { label: f.name.replace(/\.[^.]+$/, "") } : {}),
+                              });
+                              toast("Fichier téléversé ✓");
+                            } else {
+                              toast(data.error ?? "Erreur lors du téléversement");
+                            }
+                          }}
+                        />
+                      </label>
                     </div>
+                    {!selected.data.docGallery && (
+                      <>
+                        <div className="field tog" style={{ margin: 0 }}>
+                          <label>Bouton principal (orange)</label>
+                          <button
+                            className={`switch${it.primary ? " on" : ""}`}
+                            onClick={() =>
+                              listSet<DownloadItem>("downloads", downloadItems, i, { primary: !it.primary })
+                            }
+                            aria-label="Bouton principal"
+                          >
+                            <span></span>
+                          </button>
+                        </div>
+                        <div className="field tog" style={{ margin: 0 }}>
+                          <label>Téléchargement direct (.ics, .pdf…)</label>
+                          <button
+                            className={`switch${it.download ? " on" : ""}`}
+                            onClick={() =>
+                              listSet<DownloadItem>("downloads", downloadItems, i, { download: !it.download })
+                            }
+                            aria-label="Téléchargement direct"
+                          >
+                            <span></span>
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
                 <button
                   className="abtn ghost sm"
                   onClick={() =>
                     listAdd<DownloadItem>("downloads", downloadItems, {
-                      label: "Nouveau bouton",
+                      label: "",
                       href: "#",
                       download: false,
                       primary: false,
                     })
                   }
                 >
-                  + Bouton
+                  {selected.data.docGallery ? "+ Document" : "+ Bouton"}
                 </button>
-                {txt("hint", "Note sous les boutons", true)}
+                {txt("hint", "Note sous les éléments", true)}
               </>
             )}
             {selected.type === "text" && (
