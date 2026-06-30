@@ -303,8 +303,9 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
   },
   downloads: {
     title: "",
+    docGallery: true,
     downloads: [
-      { label: "📄 Consulter (PDF)", href: "#", download: false, primary: false },
+      { label: "", href: "#", download: false, primary: false },
     ],
     hint: "",
   },

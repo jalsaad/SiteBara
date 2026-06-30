@@ -1652,12 +1652,11 @@ function Editor() {
             {selected.type === "downloads" && (
               <>
                 {txt("title", "Titre (facultatif)")}
-                {tog("docGallery", "Galerie de documents")}
-                <div className="isub">{selected.data.docGallery ? "Documents" : "Boutons"}</div>
+                <div className="isub">Documents</div>
                 {downloadItems.map((it, i) => (
                   <div className="itemcard" key={i}>
                     <div className="itemcard-head">
-                      <span>{selected.data.docGallery ? `Document ${i + 1}` : `Bouton ${i + 1}`}</span>
+                      <span>Document {i + 1}</span>
                       <button
                         className="del"
                         title="Retirer"
@@ -1668,20 +1667,18 @@ function Editor() {
                     </div>
                     <input
                       value={it.label}
-                      placeholder={selected.data.docGallery ? "Nom du document" : "Texte du bouton"}
+                      placeholder="Nom du document"
                       onChange={(e) =>
                         listSet<DownloadItem>("downloads", downloadItems, i, { label: e.target.value })
                       }
                     />
-                    {selected.data.docGallery && (
-                      <input
-                        value={it.desc ?? ""}
-                        placeholder="Description courte (facultatif)"
-                        onChange={(e) =>
-                          listSet<DownloadItem>("downloads", downloadItems, i, { desc: e.target.value })
-                        }
-                      />
-                    )}
+                    <input
+                      value={it.desc ?? ""}
+                      placeholder="Description courte (facultatif)"
+                      onChange={(e) =>
+                        listSet<DownloadItem>("downloads", downloadItems, i, { desc: e.target.value })
+                      }
+                    />
                     <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 9, border: "1.5px dashed #b8c0d6", cursor: "pointer", fontSize: 12.5, color: "#4a5478", background: "#f4f6fb" }}>
                       <span style={{ fontSize: 18 }}>📤</span>
                       <span>Charger un fichier depuis l&apos;ordinateur</span>
@@ -1721,34 +1718,6 @@ function Editor() {
                         listSet<DownloadItem>("downloads", downloadItems, i, { href: e.target.value })
                       }
                     />
-                    {!selected.data.docGallery && (
-                      <>
-                        <div className="field tog" style={{ margin: 0 }}>
-                          <label>Bouton principal (orange)</label>
-                          <button
-                            className={`switch${it.primary ? " on" : ""}`}
-                            onClick={() =>
-                              listSet<DownloadItem>("downloads", downloadItems, i, { primary: !it.primary })
-                            }
-                            aria-label="Bouton principal"
-                          >
-                            <span></span>
-                          </button>
-                        </div>
-                        <div className="field tog" style={{ margin: 0 }}>
-                          <label>Téléchargement direct (.ics, .pdf…)</label>
-                          <button
-                            className={`switch${it.download ? " on" : ""}`}
-                            onClick={() =>
-                              listSet<DownloadItem>("downloads", downloadItems, i, { download: !it.download })
-                            }
-                            aria-label="Téléchargement direct"
-                          >
-                            <span></span>
-                          </button>
-                        </div>
-                      </>
-                    )}
                   </div>
                 ))}
                 <button
@@ -1762,7 +1731,7 @@ function Editor() {
                     })
                   }
                 >
-                  {selected.data.docGallery ? "+ Document" : "+ Bouton"}
+                  Ajouter un document
                 </button>
                 {txt("hint", "Note sous les éléments", true)}
               </>
