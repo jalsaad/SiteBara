@@ -56,8 +56,10 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
           </a>
         </div>
         <div className="footer-partners">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logos/wbe.svg" alt="Wallonie-Bruxelles Enseignement" className="footer-partner-logo" />
+          <a href="https://www.wbe.be/" target="_blank" rel="noopener noreferrer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logos/wbe.svg" alt="Wallonie-Bruxelles Enseignement" className="footer-partner-logo" />
+          </a>
           <div className="footer-eu">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logos/union-europeenne.svg" alt="Union Européenne" className="footer-eu-logo" />
