@@ -126,6 +126,7 @@ export const ArticleScalarFieldEnum = {
   publishedAt: 'publishedAt',
   shares: 'shares',
   authorId: 'authorId',
+  priority: 'priority',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
