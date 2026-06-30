@@ -29,6 +29,57 @@ function isOffice(href: string) {
   return ["doc","docx","xls","xlsx","ppt","pptx","odt","ods","odp"].includes(extOf(href));
 }
 
+/* Miniature d'un document : aperçu réel pour images/PDF/Office */
+function DocThumbnail({ href }: { href: string }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  const { icon, color } = docTypeInfo(href);
+
+  if (isImg(href)) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={href} alt="" className="doc-thumb-img" />;
+  }
+
+  if (mounted && isPdf(href)) {
+    return (
+      <div className="doc-thumb-preview">
+        <iframe
+          src={`${href}#toolbar=0&navpanes=0&scrollbar=0`}
+          className="doc-thumb-frame"
+          title="aperçu"
+          tabIndex={-1}
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
+  if (mounted && isOffice(href)) {
+    const abs = window.location.origin + (href.startsWith("/") ? href : "/" + href);
+    const src = `https://docs.google.com/viewer?url=${encodeURIComponent(abs)}&embedded=true`;
+    return (
+      <div className="doc-thumb-preview">
+        <iframe
+          src={src}
+          className="doc-thumb-frame"
+          title="aperçu"
+          tabIndex={-1}
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
+  /* Fallback avant montage ou type non prévisualisable */
+  return (
+    <div className="doc-thumb-icon-wrap" style={{ background: color }}>
+      <span className="doc-thumb-icon">{icon}</span>
+    </div>
+  );
+}
+
+/* Lightbox plein écran avec portal */
 function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) {
   const { icon } = docTypeInfo(item.href);
 
@@ -58,7 +109,6 @@ function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) 
           <a className="btn btn-orange lb-dl" href={item.href} download={item.label || true}>
             ⬇ Télécharger
           </a>
-          <button className="lb-close" onClick={onClose} aria-label="Fermer">✕</button>
         </div>
         <div className="lb-content">
           {isImg(item.href) && (
@@ -85,7 +135,6 @@ function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) 
     </div>
   );
 
-  // Portal sur document.body : échappe tout contexte d'empilement parent
   return createPortal(modal, document.body);
 }
 
@@ -95,34 +144,22 @@ export default function DocGallery({ items, hint }: { items: DocItem[]; hint?: s
   return (
     <>
       <div className="doc-gallery reveal">
-        {items.map((it, i) => {
-          const { icon, color } = docTypeInfo(it.href);
-          const image = isImg(it.href);
-          return (
-            <button
-              key={i}
-              className="doc-card"
-              onClick={() => setOpen(it)}
-              title={it.label}
-            >
-              {/* Miniature */}
-              <div className="doc-thumb" style={image ? undefined : { background: color }}>
-                {image
-                  ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={it.href} alt="" className="doc-thumb-img" />
-                  )
-                  : <span className="doc-thumb-icon">{icon}</span>
-                }
-              </div>
-              {/* Overlay au survol */}
-              <div className="doc-overlay" aria-hidden="true">
-                <span className="doc-overlay-name">{it.label || "Document"}</span>
-                {it.desc && <span className="doc-overlay-desc">{it.desc}</span>}
-              </div>
-            </button>
-          );
-        })}
+        {items.map((it, i) => (
+          <button
+            key={i}
+            className="doc-card"
+            onClick={() => setOpen(it)}
+            title={it.label}
+          >
+            <div className="doc-thumb">
+              <DocThumbnail href={it.href} />
+            </div>
+            <div className="doc-overlay" aria-hidden="true">
+              <span className="doc-overlay-name">{it.label || "Document"}</span>
+              {it.desc && <span className="doc-overlay-desc">{it.desc}</span>}
+            </div>
+          </button>
+        ))}
       </div>
       {hint && <p className="cal-actions-hint">{hint}</p>}
       {open && <DocLightbox item={open} onClose={() => setOpen(null)} />}
