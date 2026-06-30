@@ -24,23 +24,27 @@ function extOf(href: string) {
 }
 function isImg(href: string) { return ["jpg","jpeg","png","gif","webp","svg"].includes(extOf(href)); }
 function isPdf(href: string) { return extOf(href) === "pdf"; }
-function isOffice(href: string) { return ["doc","docx","xls","xlsx","ppt","pptx","odt","ods","odp"].includes(extOf(href)); }
+function isOffice(href: string) {
+  return ["doc","docx","xls","xlsx","ppt","pptx","odt","ods","odp"].includes(extOf(href));
+}
 
 function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) {
   const { icon } = docTypeInfo(item.href);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    document.addEventListener("keydown", handler);
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
-      document.removeEventListener("keydown", handler);
+      document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
   }, [onClose]);
 
   const viewerUrl = isOffice(item.href)
-    ? `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + (item.href.startsWith("/") ? item.href : "/" + item.href))}&embedded=true`
+    ? `https://docs.google.com/viewer?url=${encodeURIComponent(
+        window.location.origin + (item.href.startsWith("/") ? item.href : "/" + item.href)
+      )}&embedded=true`
     : item.href;
 
   return (
@@ -67,10 +71,10 @@ function DocLightbox({ item, onClose }: { item: DocItem; onClose: () => void }) 
           )}
           {!isImg(item.href) && !isPdf(item.href) && !isOffice(item.href) && (
             <div className="lb-nopreview">
-              <div style={{ fontSize: 72 }}>{icon}</div>
-              <p style={{ marginTop: 16, fontWeight: 600 }}>{item.label}</p>
-              <p style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 6 }}>
-                Aucun aperçu disponible pour ce type de fichier.
+              <div style={{ fontSize: 80 }}>{icon}</div>
+              <p style={{ marginTop: 18, fontWeight: 600, color: "#e0e4f0" }}>{item.label}</p>
+              <p style={{ fontSize: 13, color: "#7a85a8", marginTop: 6 }}>
+                Aucun aperçu disponible — téléchargez le fichier pour l&apos;ouvrir.
               </p>
             </div>
           )}
@@ -96,18 +100,20 @@ export default function DocGallery({ items, hint }: { items: DocItem[]; hint?: s
               onClick={() => setOpen(it)}
               title={it.label}
             >
+              {/* Miniature */}
               <div className="doc-thumb" style={image ? undefined : { background: color }}>
                 {image
                   ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={it.href} alt={it.label} className="doc-thumb-img" />
+                    <img src={it.href} alt="" className="doc-thumb-img" />
                   )
-                  : <span style={{ fontSize: 42 }}>{icon}</span>
+                  : <span className="doc-thumb-icon">{icon}</span>
                 }
               </div>
-              <div className="doc-card-body">
-                <div className="doc-card-name">{it.label || "Document"}</div>
-                {it.desc && <div className="doc-card-desc">{it.desc}</div>}
+              {/* Overlay au survol */}
+              <div className="doc-overlay" aria-hidden="true">
+                <span className="doc-overlay-name">{it.label || "Document"}</span>
+                {it.desc && <span className="doc-overlay-desc">{it.desc}</span>}
               </div>
             </button>
           );

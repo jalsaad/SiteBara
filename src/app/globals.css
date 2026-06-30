@@ -558,28 +558,32 @@ body::before {
 .pub-table th { background: var(--halo); font-weight: 600; color: var(--royal); }
 .cal-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 10px; }
 .cal-actions-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 26px; max-width: 640px; }
-/* Galerie de documents — miniatures cliquables */
-.doc-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin: 24px 0 10px; }
-.doc-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; cursor: pointer; text-align: left; padding: 0; transition: box-shadow 0.2s, transform 0.15s; }
-.doc-card:hover { box-shadow: 0 6px 20px rgba(40,65,147,.14); transform: translateY(-2px); }
-.doc-thumb { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+/* Galerie de documents — style photo (tuiles carrées) */
+.doc-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin: 24px 0 10px; }
+.doc-card { aspect-ratio: 1; border-radius: 10px; overflow: hidden; cursor: pointer; padding: 0; border: none; position: relative; display: block; transition: transform 0.18s, box-shadow 0.18s; }
+.doc-card:hover { transform: scale(1.03); box-shadow: 0 8px 28px rgba(0,0,0,0.22); z-index: 1; }
+.doc-card:focus-visible { outline: 3px solid var(--royal); outline-offset: 2px; }
+.doc-thumb { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 .doc-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.doc-card-body { padding: 10px 12px 12px; }
-.doc-card-name { font-weight: 600; font-size: 13px; color: var(--ink); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.doc-card-desc { font-size: 12px; color: var(--ink-soft); margin-top: 3px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-/* Lightbox document */
-.lb-veil { position: fixed; inset: 0; background: rgba(10,15,35,0.80); z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 16px; }
-.lb-box { background: #fff; border-radius: 18px; width: 100%; max-width: 920px; max-height: 92vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5); }
-.lb-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
-.lb-title { flex: 1; font-weight: 600; font-size: 14px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lb-dl { font-size: 13px !important; padding: 7px 16px !important; flex-shrink: 0; text-decoration: none; }
-.lb-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: #f4f6fb; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1; }
-.lb-close:hover { background: #e3e7f2; }
-.lb-content { flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center; min-height: 0; background: #f4f6fb; }
+.doc-thumb-icon { font-size: 52px; line-height: 1; }
+/* Overlay nom au survol */
+.doc-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,12,34,0.80) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 10px 10px 10px; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.doc-card:hover .doc-overlay { opacity: 1; }
+.doc-overlay-name { color: #fff; font-size: 12.5px; font-weight: 600; line-height: 1.3; text-shadow: 0 1px 4px rgba(0,0,0,0.6); word-break: break-word; }
+.doc-overlay-desc { color: rgba(255,255,255,0.75); font-size: 11px; margin-top: 2px; line-height: 1.3; }
+/* Lightbox document — plein écran, fond sombre */
+.lb-veil { position: fixed; inset: 0; background: rgba(8,10,26,0.93); z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 12px; }
+.lb-box { background: #1c1e2b; border-radius: 16px; width: 100%; max-width: 1060px; max-height: 94vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.7); }
+.lb-head { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; background: #1c1e2b; }
+.lb-title { flex: 1; font-weight: 600; font-size: 14px; color: #e8eaf5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-dl { font-size: 13px !important; padding: 7px 18px !important; flex-shrink: 0; text-decoration: none; }
+.lb-close { width: 34px; height: 34px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08); cursor: pointer; font-size: 15px; color: #c0c8e8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.lb-close:hover { background: rgba(255,255,255,0.16); }
+.lb-content { flex: 1; overflow: auto; display: flex; align-items: center; justify-content: center; min-height: 0; background: #13141f; }
 .lb-img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-.lb-iframe { width: 100%; height: 76vh; border: none; display: block; }
-.lb-nopreview { text-align: center; padding: 56px 32px; color: var(--ink-soft); }
-@media (max-width: 600px) { .doc-gallery { grid-template-columns: repeat(2, 1fr); } .lb-box { border-radius: 12px; max-height: 95vh; } .lb-iframe { height: 65vh; } }
+.lb-iframe { width: 100%; height: 78vh; border: none; display: block; background: #fff; }
+.lb-nopreview { text-align: center; padding: 60px 32px; }
+@media (max-width: 640px) { .doc-gallery { grid-template-columns: repeat(2, 1fr); gap: 6px; } .lb-box { border-radius: 10px; max-height: 96vh; } .lb-iframe { height: 66vh; } }
 .pub-gal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 @media (max-width: 700px) { .pub-gal { grid-template-columns: repeat(2, 1fr); } }
 .pub-gal div, .pub-gal img, .pub-gal video { aspect-ratio: 1; border-radius: 14px; box-shadow: var(--shadow-sm); }
