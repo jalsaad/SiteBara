@@ -11,22 +11,13 @@ import ContentHero from "@/components/ContentHero";
 import MenuWeeks from "@/components/MenuWeeks";
 import ToolLauncher from "@/components/ToolLauncher";
 import LivePlayer from "@/components/LivePlayer";
+import DocGallery from "@/components/DocGallery";
 import { listArticles } from "@/lib/articles";
 import { getPublicMenus } from "@/lib/menu";
 import type { Block } from "@/lib/page-types";
 import { shade, hexA } from "@/lib/colors";
 import { overlayStyle, borderPath } from "@/lib/hero";
 
-function docTypeInfo(href: string): { icon: string; color: string } {
-  const ext = (href || "").split(".").pop()?.toLowerCase() ?? "";
-  if (["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext)) return { icon: "🖼️", color: "#7c4dff" };
-  if (ext === "pdf") return { icon: "📄", color: "#e53935" };
-  if (["doc", "docx"].includes(ext)) return { icon: "📝", color: "#1565c0" };
-  if (["xls", "xlsx"].includes(ext)) return { icon: "📊", color: "#2e7d32" };
-  if (["ppt", "pptx"].includes(ext)) return { icon: "📑", color: "#e65100" };
-  if (["ods", "odt", "odp"].includes(ext)) return { icon: "📃", color: "#00838f" };
-  return { icon: "📁", color: "#546e7a" };
-}
 
 function renderTitle(title: string) {
   const parts = title.split(/\*(.+?)\*/g);
@@ -219,39 +210,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                     <h2 className="serif">{renderTitle(d.title)}</h2>
                   </div>
                 )}
-                <div className="doc-gallery reveal">
-                  {items.map((it, i) => {
-                    const { icon, color } = docTypeInfo(it.href);
-                    return (
-                      <div className="doc-card" key={i}>
-                        <div className="doc-card-icon" style={{ background: color }}>{icon}</div>
-                        <div className="doc-card-body">
-                          <div className="doc-card-name">{it.label}</div>
-                          {it.desc && <div className="doc-card-desc">{it.desc}</div>}
-                        </div>
-                        <div className="doc-card-actions">
-                          <a
-                            className="btn btn-ghost doc-btn"
-                            href={it.href || "#"}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ borderColor: "var(--line)", color: "var(--royal)" }}
-                          >
-                            Visualiser
-                          </a>
-                          <a
-                            className="btn btn-orange doc-btn"
-                            href={it.href || "#"}
-                            download
-                          >
-                            Télécharger
-                          </a>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                {d.hint && <p className="cal-actions-hint">{d.hint}</p>}
+                <DocGallery items={items} hint={d.hint} />
               </section>
             );
           }
