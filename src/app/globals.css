@@ -244,7 +244,7 @@ body::before {
 .social a { width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255, 255, 255, 0.15); display: grid; place-items: center; font-size: 17px; color: #c3cbe6; margin: 0; transition: 0.25s; }
 .social a:hover { background: var(--orange); border-color: var(--orange); color: #fff; transform: translateY(-3px); }
 /* Bouton « Qui est Jules Bara ? » dans le footer — apparence identique aux liens */
-.footer-modal-link { background: none; border: none; cursor: pointer; font-size: 14.5px; color: #9aa6cf; font-weight: 300; display: block; transition: 0.2s; margin-bottom: 11px; padding: 0; text-align: left; line-height: inherit; }
+.footer-modal-link { background: none; border: none; cursor: pointer; font-size: 14.5px; color: #9aa6cf; font-weight: 300; font-family: inherit; display: block; transition: 0.2s; margin-bottom: 11px; padding: 0; text-align: left; line-height: inherit; }
 .footer-modal-link:hover { color: var(--orange); transform: translateX(3px); }
 /* Lightbox Jules Bara */
 .jb-veil { position: fixed; inset: 0; background: rgba(8,10,26,0.93); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; }
