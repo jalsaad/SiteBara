@@ -2,10 +2,6 @@ import { createSessionToken, sessionCookie } from "@/lib/auth";
 import { authenticate, getUserWithCodes, removeCode } from "@/lib/users";
 import { setPendingChallenge, verifyChallenge } from "@/lib/twofactor";
 
-// Connexion en deux temps :
-//  1. e-mail + mot de passe → si OK, un chiffre (0–9) est retourné comme défi.
-//  2. e-mail + code → si le code est dans la liste de l'utilisateur ET commence
-//     par le chiffre demandé, la session est créée et le code consommé.
 export async function POST(request: Request) {
   const { email, password, code, remember } = await request
     .json()
@@ -44,6 +40,19 @@ export async function POST(request: Request) {
     return Response.json({ error: "Identifiants incorrects" }, { status: 401 });
   }
 
-  const digit = setPendingChallenge(user.email, user.role);
+  const userWithCodes = await getUserWithCodes(user.email);
+  const digit = setPendingChallenge(
+    user.email,
+    user.role,
+    userWithCodes?.codes ?? []
+  );
+
+  if (digit === null) {
+    return Response.json(
+      { noCodesLeft: true },
+      { status: 403 }
+    );
+  }
+
   return Response.json({ challenge: true, digit });
 }

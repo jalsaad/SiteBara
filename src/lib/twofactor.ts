@@ -30,9 +30,20 @@ function key(email: string): string {
   return email.trim().toLowerCase();
 }
 
-/** Génère un challenge et retourne le chiffre requis (0–9). */
-export function setPendingChallenge(email: string, role: Role): number {
-  const digit = randomInt(0, 10);
+/**
+ * Génère un challenge à partir des premières lettres des codes disponibles.
+ * Retourne le chiffre requis, ou null si la liste de codes est vide.
+ */
+export function setPendingChallenge(
+  email: string,
+  role: Role,
+  availableCodes: string[]
+): number | null {
+  const digits = [...new Set(
+    availableCodes.map((c) => c[0]).filter((ch) => /\d/.test(ch))
+  )].map(Number);
+  if (digits.length === 0) return null;
+  const digit = digits[randomInt(0, digits.length)];
   store().set(key(email), {
     digit,
     role,

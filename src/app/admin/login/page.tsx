@@ -37,6 +37,8 @@ function LoginForm() {
     if (res.ok && data.challenge) {
       setDigit(data.digit);
       setStage("code");
+    } else if (data.noCodesLeft) {
+      setError("Votre liste de codes est épuisée. Contactez un administrateur pour en générer de nouveaux.");
     } else {
       setError(data.error ?? "Connexion impossible");
     }
