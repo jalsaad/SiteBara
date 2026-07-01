@@ -135,7 +135,7 @@ async function ensureSeeded() {
         email: s.email,
         name: s.name,
         role: s.role,
-        codes: s.codes,
+        codes: { set: s.codes },
         passwordHash: hashPassword(s.password),
       },
     });
@@ -193,6 +193,20 @@ export async function createUser(input: {
   codes?: string[];
 }): Promise<User | null> {
   const email = input.email.trim().toLowerCase();
+  if (useDb) {
+    const db = await prisma();
+    if (await db.user.findUnique({ where: { email } })) return null;
+    const row = (await db.user.create({
+      data: {
+        email,
+        name: input.name.trim(),
+        role: input.role,
+        codes: { set: input.codes ?? [] },
+        passwordHash: hashPassword(input.password),
+      } as never,
+    })) as PrismaUser;
+    return stripUser(fromDb(row));
+  }
   const data = {
     email,
     name: input.name.trim(),
@@ -200,12 +214,6 @@ export async function createUser(input: {
     codes: input.codes ?? [],
     passwordHash: hashPassword(input.password),
   };
-  if (useDb) {
-    const db = await prisma();
-    if (await db.user.findUnique({ where: { email } })) return null;
-    const row = (await db.user.create({ data })) as PrismaUser;
-    return stripUser(fromDb(row));
-  }
   const store = memStore();
   if (store.some((u) => u.email.toLowerCase() === email)) return null;
   const row: UserRow = {
@@ -226,15 +234,22 @@ export async function updateUser(
   id: string,
   input: { name?: string; role?: Role; password?: string; codes?: string[] }
 ): Promise<User | null> {
-  const data: { name?: string; role?: Role; passwordHash?: string; codes?: string[] } = {};
-  if (input.name !== undefined) data.name = input.name.trim();
-  if (input.role !== undefined) data.role = input.role;
-  if (input.password) data.passwordHash = hashPassword(input.password);
-  if (input.codes !== undefined) data.codes = input.codes;
+  // Données communes aux deux chemins (memStore + DB)
+  const name    = input.name !== undefined ? input.name.trim() : undefined;
+  const role    = input.role;
+  const pwHash  = input.password ? hashPassword(input.password) : undefined;
+  const codes   = input.codes;
+
   if (useDb) {
     const db = await prisma();
+    // Prisma 7 : les champs tableau PostgreSQL exigent { set: [...] }
+    const dbData: Record<string, unknown> = {};
+    if (name    !== undefined) dbData.name         = name;
+    if (role    !== undefined) dbData.role         = role;
+    if (pwHash  !== undefined) dbData.passwordHash = pwHash;
+    if (codes   !== undefined) dbData.codes        = { set: codes };
     try {
-      const row = (await db.user.update({ where: { id }, data })) as PrismaUser;
+      const row = (await db.user.update({ where: { id }, data: dbData as never })) as PrismaUser;
       return stripUser(fromDb(row));
     } catch {
       return null;
@@ -242,10 +257,10 @@ export async function updateUser(
   }
   const row = memStore().find((u) => u.id === id);
   if (!row) return null;
-  if (data.name !== undefined) row.name = data.name;
-  if (data.role !== undefined) row.role = data.role;
-  if (data.passwordHash !== undefined) row.passwordHash = data.passwordHash;
-  if (data.codes !== undefined) row.codes = data.codes;
+  if (name   !== undefined) row.name         = name;
+  if (role   !== undefined) row.role         = role;
+  if (pwHash !== undefined) row.passwordHash = pwHash;
+  if (codes  !== undefined) row.codes        = codes;
   return stripUser(row);
 }
 
@@ -297,7 +312,7 @@ export async function removeCode(id: string, code: string): Promise<void> {
     if (!row) return;
     await db.user.update({
       where: { id },
-      data: { codes: row.codes.filter((c) => c !== code) },
+      data: { codes: { set: row.codes.filter((c) => c !== code) } } as never,
     });
     return;
   }
