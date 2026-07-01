@@ -8,15 +8,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASS }}
-          port: 22
-          script: |
-            cd /var/www/bara
-            git pull origin main
-            npm run build
-            pm2 restart bara
+      - name: Trigger deploy webhook
+        run: |
+          curl -sf -X POST "${{ secrets.DEPLOY_WEBHOOK_URL }}" \
+            -H "x-deploy-secret: ${{ secrets.DEPLOY_SECRET }}" \
+            --max-time 15 \
+            --retry 3 \
+            --retry-delay 5
