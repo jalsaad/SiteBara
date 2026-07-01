@@ -140,9 +140,10 @@ export type BlockData = Partial<HeroData> & {
   pillars?: PillarItem[];
   // Bloc « Cartes » (accès rapides).
   cards?: CardItem[];
-  // Bloc « Deux colonnes » (école numérique) : étiquettes + liste à coches.
+  // Bloc « Deux colonnes » (école numérique) : étiquettes + liste à coches + image de fond optionnelle.
   tags?: string[];
   checks?: CheckItem[];
+  img?: string;
   // Bloc « Citation ».
   quote?: string;
   who?: string;

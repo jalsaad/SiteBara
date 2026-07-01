@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import JuliaSiriAura from "@/components/JuliaSiriAura";
 
 interface Msg {
   role: "user" | "assistant";
@@ -64,6 +65,7 @@ function extractSuggs(raw: string): { display: string; suggs: string[] } {
 
 export default function JuliaChat() {
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [suggs, setSuggs] = useState<string[]>([]);
   const [input, setInput] = useState("");
@@ -157,13 +159,42 @@ export default function JuliaChat() {
 
   return (
     <>
-      <button
-        className="julia-fab"
-        onClick={() => setOpen(o => !o)}
-        aria-label={open ? "Fermer Julia" : "Ouvrir Julia"}
-      >
-        {open ? "✕" : "💬"}
-      </button>
+      {/* ---- Bouton flottant ---- */}
+      {(() => {
+        const auraOn    = open || hovered;
+        const showClose = open && hovered;   // Julia ouverte + survol → ✕
+        const showLogo  = auraOn && !showClose; // sinon logo si animation active
+        return (
+          <button
+            className={`julia-fab${auraOn ? " julia-active" : ""}`}
+            onClick={() => setOpen(o => !o)}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            aria-label={open ? "Fermer Julia" : "Ouvrir Julia"}
+          >
+            <JuliaSiriAura active={auraOn} />
+
+            {/* Favicon blanc semi-transparent par-dessus l'animation */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/favicon.ico"
+              alt="" aria-hidden="true"
+              className="julia-fab-logo"
+              style={{ opacity: showLogo ? 0.68 : 0 }}
+            />
+
+            {/* 💬 — visible uniquement quand l'animation est inactive */}
+            <span className="julia-fab-icon" style={{ opacity: auraOn ? 0 : 1 }} aria-hidden="true">
+              💬
+            </span>
+
+            {/* ✕ — visible quand Julia est ouverte ET survolée */}
+            <span className="julia-fab-icon julia-fab-close" style={{ opacity: showClose ? 1 : 0 }} aria-hidden="true">
+              ✕
+            </span>
+          </button>
+        );
+      })()}
 
       {open && (
         <div className="julia-panel" role="dialog" aria-label="Julia, assistante de l'école">

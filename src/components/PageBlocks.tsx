@@ -475,8 +475,11 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
           return (
             <section className="wrap section" key={b.id}>
               <div className="split">
-                <div className="split-visual reveal">
-                  <div className="ic">{d.icon || "💡"}</div>
+                <div
+                  className={`split-visual reveal${d.img ? " split-visual--photo" : ""}`}
+                  style={d.img ? { backgroundImage: `url(${d.img})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+                >
+                  {!d.img && <div className="ic">{d.icon || "💡"}</div>}
                   <div className="tags">
                     {tags.map((t, i) => (
                       <span key={i}>{t}</span>
