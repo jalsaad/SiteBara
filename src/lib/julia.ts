@@ -28,6 +28,24 @@ Ton rôle : répondre aux questions des élèves, parents et visiteurs à propos
 
 ═══ L'ÉCOLE ═══
 Fondée en 1595, l'Athénée Royal Jules Bara accueille environ 950 élèves. Trois valeurs : Apprendre (pédagogie diversifiée, suivi personnalisé), S'ouvrir (projets pluridisciplinaires, citoyenneté), S'accomplir (autonomie, épanouissement).
+Projet d'établissement : « Conduire chacun vers sa propre Excellence ».
+
+═══ JULES BARA — L'HOMME ═══
+Jules Bara est né à Tournai le 23 août 1835. Après des études secondaires à l'Athénée, il obtient un doctorat en droit à l'ULB en 1857, puis le titre de docteur agrégé en 1859 (thèse sur les rapports de l'État et des religions). Il devient professeur à l'ULB et avocat au barreau de Bruxelles. Élu député en 1862 à 27 ans, il le reste jusqu'en 1894, puis devient sénateur. Il fut deux fois ministre de la Justice (1865-1870 et 1878-1884) et reçut le titre de ministre d'État de Léopold II en 1884. Il décède en 1900.
+Ses combats principaux : indépendance de l'État vis-à-vis de l'Église, défense de l'école laïque, abolition de l'article 1781 du Code civil (jugé humiliant pour les ouvriers). Il s'opposa au suffrage universel, ce qui lui coûta son siège de député en 1894.
+En 1979, le ministre de l'Éducation demanda aux écoles de choisir le nom d'une personnalité. Le professeur Polomé proposa Jules Bara (ancien élève) et Louis Gallait (peintre) : Jules Bara fut choisi. L'établissement porte donc son nom depuis 1980.
+
+═══ HISTORIQUE DE L'ÉTABLISSEMENT ═══
+- 1595 : Fondation du Collegium Tornacense par les Jésuites, à la demande de la ville de Tournai. Bâtiments rue des Allemands, puis rue du Quesnoy (7 bâtiments construits entre 1609 et 1644).
+- 1775 : Dissolution de l'ordre jésuite par bulle papale ; les bâtiments sont vendus puis saisis à la Révolution française.
+- 1795 : Annexion à la France → « Collège National », relancé par deux professeurs (abbés Bouly et Moch).
+- 1817 : Titre d'« Athénée », réservé aux meilleures écoles secondaires belges.
+- 1830 : Indépendance belge ; accent sur les langues modernes et les sciences commerciales.
+- 1923 : Ouverture aux jeunes filles.
+- 1924 : Enseignement moral indépendant.
+- Seconde Guerre mondiale : perturbations temporaires, dommages superficiels aux bâtiments.
+- 1979-1980 : Adoption du nom « Athénée Royal Jules Bara ».
+- 1995 : Célébration du 400e anniversaire.
 
 ═══ GRILLES HORAIRES (périodes/semaine) ═══
 1er degré — tronc commun (1ère & 2ème, 32p) :
@@ -57,18 +75,50 @@ DASPA — classes passerelles (primo-arrivants, 31p) :
   Mathématiques 14 · Physique 6 · Chimie 4 · Biologie 3 · Informatique 2 · Anglais 2.
   Objectif : consolider les prérequis pour les études supérieures scientifiques et techniques.
 
+═══ SERVICES & VIE SCOLAIRE ═══
+
+ÉCOLE DES DEVOIRS
+Structure d'accueil pour les élèves de 6 à 18 ans, en dehors des heures scolaires. Mission sociale, culturelle et éducative : accompagner les élèves dans leurs devoirs et leur développement citoyen. Renseignements : 069 89 06 02.
+
+ÉCOLE NUMÉRIQUE
+L'Athénée participe au programme « École numérique » (2011, gouvernements wallon et FWB) visant à intégrer les TIC dans l'enseignement. Deux axes : éducation par le numérique (outils comme support d'apprentissage) et éducation au numérique (codage, maîtrise des médias). S'inscrit dans la stratégie Digital Wallonia.
+Outils numériques : Google Classroom (cours, @atheneejulesbara.be) · École en ligne (repas, paiements, code V01154-3) — page « Applis » du site.
+
+TROUBLES DE L'APPRENTISSAGE
+« Chaque élève avec ses capacités et ses difficultés trouve sa place chez nous. » Une logopède travaille en collaboration avec les enseignants et les parents pour identifier les difficultés (dyslexie, TDAH, dyscalculie…), élaborer des plans d'aménagements raisonnables et adapter les stratégies pédagogiques. Renseignements : 069 89 06 02.
+
+INTERNATS PARTENAIRES
+L'école collabore avec deux internats régionaux :
+- Internat Mixte d'Antoing
+- Internat Walter Ravez
+Pour modalités d'accueil, tarifs et admission : contacter le secrétariat.
+
+═══ COMMUNAUTÉ SCOLAIRE ═══
+
+UNION DES ANCIENS ÉLÈVES
+Rassemble tous les anciens élèves. Cotisations annuelles : 10 € (Base/Sympathisant) · 20 € (Silver) · 30 € (Gold) · 50 € (Diamond). Paiement par virement. Présence sur Facebook.
+
+ASSOCIATION DES PARENTS D'ÉLÈVES
+Partenaire actif de la vie scolaire, représente les familles et dialogue avec l'équipe pédagogique. Site : apbara.be · Facebook. Contact : direction@atheneejulesbara.be.
+
+PROJETS PÉDAGOGIQUES
+Entreprise pédagogique « C'est Bio Bara » : créée par deux enseignants de l'option Sciences économiques pour stimuler l'esprit d'entreprendre. Parts à 5 € ou 10 €. Contacter la direction pour participer.
+
 ═══ OUTILS NUMÉRIQUES ═══
 - Google Classroom : cours et travaux (classroom.google.com, compte @atheneejulesbara.be)
 - École en ligne : commande repas, paiements, activités extrascolaires et espace de travail élèves (code établissement V01154-3)
 - Ces accès sont disponibles sur la page « Applis » du site.
 
-═══ AUTRES PAGES DU SITE ═══
-- page « Options » : toutes les grilles horaires détaillées
-- page « Préinscription » : formulaire d'inscription en ligne
-- page « Calendrier » : dates, congés, événements de l'année scolaire
-- page « Restaurant » : menus hebdomadaires du restaurant scolaire
-- page « Actualités » : événements et nouvelles de l'école
-- page « Contact » : formulaire de contact et coordonnées
+═══ PAGES DU SITE ═══
+- « Options » : toutes les grilles horaires détaillées
+- « Préinscription » : formulaire d'inscription en ligne
+- « Calendrier » : dates, congés, événements de l'année scolaire
+- « Restaurant » : menus hebdomadaires du restaurant scolaire
+- « Actualités » : événements et nouvelles de l'école
+- « Contact » : formulaire de contact et coordonnées
+- « Documents » : galerie de documents téléchargeables (PDF, Word, etc.)
+Pages accessibles via le footer du site (lightboxes informationnelles) :
+  Qui est Jules Bara ? · Historique · Projets · Projet d'établissement · Règlement d'ordre intérieur · École des devoirs · École numérique · Troubles d'apprentissage · Union des Anciens · Association des parents · Internat
 
 ═══ RÈGLES ═══
 - Réponds UNIQUEMENT aux questions en lien avec l'école. Pour une demande hors sujet, redirige poliment.
@@ -137,8 +187,53 @@ const DEMO_RULES: DemoRule[] = [
   },
   {
     keywords: ["valeur", "projet", "établissement", "mission", "histoire", "fondé", "1595"],
-    answer: "Fondé en 1595, l'Athénée Royal Jules Bara accueille environ 950 élèves autour de trois valeurs : Apprendre (pédagogie diversifiée), S'ouvrir (projets citoyens), S'accomplir (épanouissement personnel).",
-    suggs: ["Quelles options propose l'école ?", "Comment s'inscrire ?", "Où se situe l'école ?"],
+    answer: "Fondé en 1595, l'Athénée Royal Jules Bara accueille environ 950 élèves autour de trois valeurs : Apprendre (pédagogie diversifiée), S'ouvrir (projets citoyens), S'accomplir (épanouissement personnel). Le projet d'établissement est résumé en une devise : « Conduire chacun vers sa propre Excellence ».",
+    suggs: ["Quelles options propose l'école ?", "Comment s'inscrire ?", "Qui est Jules Bara ?"],
+  },
+  {
+    keywords: ["jules bara", "bara", "homme", "personnage", "patronyme", "nom de l'école", "pourquoi jules"],
+    answer: "Jules Bara (1835-1900) est un juriste et homme politique tournaisien, ancien élève de l'Athénée. Deux fois ministre de la Justice, il a défendu l'école laïque et l'indépendance de l'État vis-à-vis de l'Église. L'établissement porte son nom depuis 1980. Vous pouvez en savoir plus en cliquant sur « Qui est Jules Bara ? » dans le bas de page du site.",
+    suggs: ["Quelle est l'histoire de l'école ?", "Quand a été fondée l'école ?", "Comment s'inscrire ?"],
+  },
+  {
+    keywords: ["historique", "histoire de l'école", "ancien", "fondation", "jésuite", "1595", "collège"],
+    answer: "L'Athénée a été fondé en 1595 comme Collegium Tornacense par les Jésuites. Après la Révolution française, il devient « Collège National » (1795), puis reçoit le titre d'« Athénée » en 1817. Il ouvre ses portes aux jeunes filles en 1923 et adopte le nom « Athénée Royal Jules Bara » en 1979. Retrouvez l'historique complet en bas du site.",
+    suggs: ["Qui est Jules Bara ?", "Quelles sont les valeurs de l'école ?", "Comment s'inscrire ?"],
+  },
+  {
+    keywords: ["devoirs", "école des devoirs", "soutien scolaire", "aide aux devoirs", "après l'école"],
+    answer: "L'École des devoirs de l'Athénée accueille les élèves de 6 à 18 ans en dehors des heures scolaires. Elle propose un soutien pédagogique et un encadrement éducatif bienveillant, dans un cadre social et culturel enrichissant. Pour en savoir plus, contactez-nous au 069 89 06 02.",
+    suggs: ["Quels sont les horaires ?", "Comment s'inscrire à l'école des devoirs ?", "Autres services de l'école ?"],
+  },
+  {
+    keywords: ["trouble", "dyslexie", "tdah", "dyscalculie", "haut potentiel", "hp", "dys", "aménagement", "logopède", "difficulté"],
+    answer: "L'Athénée accompagne tous les élèves, quelles que soient leurs difficultés. Une logopède travaille avec les enseignants et les parents pour identifier les troubles d'apprentissage (dyslexie, TDAH…) et mettre en place des aménagements raisonnables individualisés. Contactez la direction au 069 89 06 02 pour un suivi personnalisé.",
+    suggs: ["Comment contacter la logopède ?", "Qu'est-ce qu'un aménagement raisonnable ?", "Autres services de l'école ?"],
+  },
+  {
+    keywords: ["internat", "hébergement", "logement", "dormir", "pensionnaire", "interne"],
+    answer: "L'Athénée collabore avec deux internats de la région : l'Internat Mixte d'Antoing et l'Internat Walter Ravez. Pour les modalités d'accueil, les tarifs et les conditions d'admission, contactez le secrétariat au 069 89 06 02.",
+    suggs: ["Où se trouvent les internats ?", "Quel est le coût de l'internat ?", "Comment s'inscrire à l'école ?"],
+  },
+  {
+    keywords: ["anciens élèves", "alumni", "union des anciens", "ancien élève", "cotisation"],
+    answer: "L'Union des Anciens Élèves rassemble tous ceux qui ont fréquenté l'Athénée. Vous pouvez adhérer dès 10 € (Base/Sympathisant), 20 € (Silver), 30 € (Gold) ou 50 € (Diamond), par virement bancaire. Retrouvez l'Union sur Facebook ou contactez la direction.",
+    suggs: ["Comment adhérer à l'Union ?", "Quels sont les avantages ?", "Comment contacter l'école ?"],
+  },
+  {
+    keywords: ["association des parents", "parents", "apbara", "ape", "comité des parents"],
+    answer: "L'Association des parents d'élèves est un partenaire actif de la vie scolaire. Elle représente les familles et dialogue avec l'équipe pédagogique. Retrouvez-la sur apbara.be et sur Facebook, ou contactez la direction à direction@atheneejulesbara.be.",
+    suggs: ["Comment contacter l'association ?", "Quelles activités organise-t-elle ?", "Comment s'impliquer ?"],
+  },
+  {
+    keywords: ["règlement", "roi", "règlement d'ordre intérieur", "règles", "discipline", "sanction"],
+    answer: "Le Règlement d'Ordre Intérieur (ROI) définit les droits et devoirs de tous les membres de la communauté scolaire. Il couvre les absences, les sanctions, les modalités d'évaluation et les droits des élèves et des parents. Contactez le secrétariat au 069 89 06 02 pour obtenir le document.",
+    suggs: ["Comment signaler une absence ?", "Quels sont les droits des élèves ?", "Comment contacter l'école ?"],
+  },
+  {
+    keywords: ["bio bara", "entreprise pédagogique", "projet économique", "sciences économiques"],
+    answer: "« C'est Bio Bara » est une entreprise pédagogique créée par deux enseignants de l'option Sciences économiques pour stimuler l'esprit d'entreprendre. Les élèves peuvent acquérir des parts à 5 € ou 10 €. Contactez la direction pour participer.",
+    suggs: ["Qu'est-ce que l'option Sciences économiques ?", "Comment rejoindre le projet ?", "Autres projets de l'école ?"],
   },
 ];
 
