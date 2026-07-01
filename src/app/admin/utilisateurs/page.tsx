@@ -39,6 +39,71 @@ function dateFr(iso: string) {
   });
 }
 
+function printCodesPDF(user: User) {
+  const win = window.open("", "_blank", "width=900,height=700");
+  if (!win) return;
+  const date = new Date().toLocaleDateString("fr-BE", {
+    day: "numeric", month: "long", year: "numeric",
+  });
+  const codesHtml = user.codes.length > 0
+    ? user.codes.map((c, i) =>
+        `<div class="ci"><span class="cn">${String(i + 1).padStart(2, "0")}</span>`
+        + `<span class="cv">${c}</span><span class="ck">☐</span></div>`
+      ).join("")
+    : `<p class="empty">Aucun code disponible — générez-en depuis l'interface d'administration.</p>`;
+
+  win.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
+<title>Codes de validation — ${user.name}</title>
+<style>
+@page{margin:18mm 20mm}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;color:#1b2245;background:#fff}
+header{display:flex;align-items:center;gap:18px;border-bottom:3px solid #284193;padding-bottom:14px;margin-bottom:18px}
+header img{height:58px;width:auto}
+.ht h1{font-size:13.5pt;color:#284193;font-weight:700;line-height:1.3}
+.ht p{font-size:9pt;color:#667085;margin-top:5px}
+.meta{background:#f3f5fb;border:1px solid #dce3f0;border-radius:7px;padding:11px 15px;margin-bottom:18px;font-size:9.5pt;line-height:1.8}
+.meta b{color:#284193}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.ci{border:1px solid #dce3f0;border-radius:7px;padding:9px 12px;display:flex;align-items:center;gap:9px;background:#fff;break-inside:avoid}
+.cn{font-size:7.5pt;color:#bbb;min-width:18px}
+.cv{font-family:"Courier New",Courier,monospace;font-size:12.5pt;font-weight:700;flex:1;letter-spacing:2px;color:#1b2245}
+.ck{font-size:15pt;color:#d0d5e8}
+.empty{grid-column:1/-1;padding:20px;text-align:center;color:#667085;font-style:italic}
+.warn{border:2px solid #f57a20;border-radius:7px;padding:12px 16px;font-size:9pt;display:flex;gap:10px;line-height:1.6}
+.warn b{color:#f57a20}
+footer{margin-top:22px;padding-top:11px;border-top:1px solid #dce3f0;font-size:8pt;color:#aaa;display:flex;justify-content:space-between}
+</style></head><body>
+<header>
+  <img src="${window.location.origin}/logo-dark.png" alt="Athénée Royal Jules Bara"/>
+  <div class="ht">
+    <h1>Codes de validation pour la console BARA admin</h1>
+    <p>Code à usage unique &nbsp;·&nbsp; Liste personnelle et confidentielle</p>
+  </div>
+</header>
+<div class="meta">
+  <b>Propriétaire :</b> ${user.name} &nbsp;&nbsp;
+  <b>E-mail :</b> ${user.email} &nbsp;&nbsp;
+  <b>Rôle :</b> ${ROLE_LABEL[user.role]} &nbsp;&nbsp;
+  <b>Générée le :</b> ${date} &nbsp;&nbsp;
+  <b>Codes disponibles :</b> ${user.codes.length}
+</div>
+<div class="grid">${codesHtml}</div>
+<div class="warn">
+  <span style="font-size:16pt">⚠</span>
+  <div><b>Instructions :</b> Barrez chaque code immédiatement après utilisation.
+  Conservez cette liste en lieu sûr et ne la partagez avec personne.
+  En cas de perte, contactez immédiatement un administrateur pour régénérer vos codes.</div>
+</div>
+<footer>
+  <span>Athénée Royal Jules Bara — Usage strictement interne</span>
+  <span>© ${new Date().getFullYear()}</span>
+</footer>
+<script>window.onload=()=>window.print()</script>
+</body></html>`);
+  win.document.close();
+}
+
 const CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 /** Génère un code du type : chiffre 0–9 + 5 caractères alphanumériques. */
@@ -202,6 +267,14 @@ export default function UsersPage() {
             <div className="acts">
               <button title="Modifier / gérer les codes" onClick={() => edit(u)}>✏️</button>
               <button
+                title="Exporter les codes en PDF"
+                onClick={() => printCodesPDF(u)}
+                disabled={(u.codes ?? []).length === 0}
+                style={(u.codes ?? []).length === 0 ? { opacity: 0.35, cursor: "default" } : undefined}
+              >
+                🖨️
+              </button>
+              <button
                 title={u.email === me ? "Vous ne pouvez pas supprimer votre propre compte" : "Supprimer"}
                 onClick={() => remove(u)}
                 disabled={u.email === me}
@@ -276,15 +349,35 @@ export default function UsersPage() {
                 <label style={{ fontWeight: 600, fontSize: 14 }}>
                   Codes de connexion ({draft.codes.length})
                 </label>
-                <button
-                  type="button"
-                  className="abtn ghost"
-                  style={{ fontSize: 12, padding: "4px 10px" }}
-                  onClick={generateCodes}
-                  title="Génère 20 nouveaux codes (2 par chiffre 0–9)"
-                >
-                  ✨ Générer 20 codes
-                </button>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button
+                    type="button"
+                    className="abtn ghost"
+                    style={{ fontSize: 12, padding: "4px 10px" }}
+                    onClick={generateCodes}
+                    title="Génère 20 nouveaux codes (2 par chiffre 0–9)"
+                  >
+                    ✨ Générer 20 codes
+                  </button>
+                  {draft.id && draft.codes.length > 0 && (
+                    <button
+                      type="button"
+                      className="abtn ghost"
+                      style={{ fontSize: 12, padding: "4px 10px" }}
+                      onClick={() => printCodesPDF({
+                        id: draft.id!,
+                        email: draft.email,
+                        name: draft.name,
+                        role: draft.role,
+                        codes: draft.codes,
+                        createdAt: "",
+                      })}
+                      title="Exporter la liste en PDF"
+                    >
+                      🖨️ PDF
+                    </button>
+                  )}
+                </div>
               </div>
 
               {draft.codes.length > 0 && (
