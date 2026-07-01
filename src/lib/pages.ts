@@ -101,7 +101,7 @@ const seed: PageData[] = [
             },
             {
               icon: "🍽️",
-              title: "Restaurant",
+              title: "Menu",
               desc: "Menus de la semaine et informations sur la cantine scolaire.",
               href: "/restaurant",
               color: "var(--gold)",
@@ -799,10 +799,10 @@ seed.push({
   ],
 });
 
-// Restaurant (/restaurant) — menu automatique géré dans /admin/menu.
+// Menu (/restaurant) — menu automatique géré dans /admin/menu.
 seed.push({
   slug: "restaurant",
-  title: "Restaurant",
+  title: "Menu",
   published: true,
   order: 40,
   blocks: [
@@ -810,9 +810,9 @@ seed.push({
       id: blockId(),
       type: "banner",
       data: {
-        eyebrow: "Vie quotidienne · Restaurant scolaire",
-        title: "Le *restaurant* scolaire",
-        sub: "Des repas chauds, équilibrés et préparés sur place chaque jour, avec une alternative végétarienne quotidienne.",
+        eyebrow: "Vie quotidienne · Menu scolaire",
+        title: "Le *menu* scolaire",
+        sub: "Des repas chauds, équilibrés et préparés sur place chaque jour.",
         color: "#c79a4b",
       },
     },
@@ -821,8 +821,8 @@ seed.push({
       type: "menu",
       data: {
         eyebrow: "Menu de la semaine",
-        title: "Au menu *au restaurant*",
-        lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements. Une alternative végétarienne est proposée chaque jour.",
+        title: "Au *menu* cette semaine",
+        lead: "Menus indicatifs, susceptibles d'évoluer selon les approvisionnements.",
         note: "Repas commandés et payés en ligne, sans espèces, via le compte de l'élève.",
         btn: "🍽 Réserver vos repas sur École en ligne",
         link: "https://www9.ecoleenligne.be/V01154-3/membres/login.php?action=login&opt=1&id=1&order=desc&language_init=fr&etp=arjulesbara",
@@ -839,7 +839,7 @@ seed.push({
           {
             icon: "🕛",
             title: "Horaires",
-            desc: "Service du midi de 11h45 à 13h15, en deux pauses selon les degrés. Restaurant fermé le mercredi après-midi.",
+            desc: "Service du midi de 11h45 à 13h15, en deux pauses selon les degrés. Fermé le mercredi.",
             href: "#",
             color: "var(--royal)",
           },
@@ -851,9 +851,9 @@ seed.push({
             color: "var(--orange)",
           },
           {
-            icon: "🥗",
-            title: "Alternative & allergènes",
-            desc: "Une alternative végétarienne chaque jour. Les fiches allergènes sont affichées au self et disponibles au secrétariat.",
+            icon: "🧾",
+            title: "Allergènes",
+            desc: "Les fiches allergènes sont affichées au self et disponibles au secrétariat.",
             href: "#",
             color: "var(--teal)",
           },

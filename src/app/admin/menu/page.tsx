@@ -7,7 +7,6 @@ interface MenuDay {
   day: string;
   potage: string;
   plat: string;
-  veggie: string;
   dessert: string;
 }
 
@@ -23,7 +22,6 @@ interface WeeklyMenu {
 const FIELDS: { key: keyof Omit<MenuDay, "day">; label: string; placeholder: string }[] = [
   { key: "potage", label: "Potage", placeholder: "ex. Velouté de potiron" },
   { key: "plat", label: "Plat du jour", placeholder: "ex. Boulettes sauce tomate, purée" },
-  { key: "veggie", label: "Alternative végé", placeholder: "ex. Boulettes végétales, purée" },
   { key: "dessert", label: "Dessert", placeholder: "ex. Compote de pommes" },
 ];
 
@@ -156,7 +154,7 @@ export default function MenuPage() {
             Naviguez avec les flèches ; la flèche droite au-delà de la dernière
             semaine ajoute un nouveau tableau. La page publique{" "}
             <a href="/restaurant" target="_blank" style={{ color: "var(--royal)" }}>
-              Restaurant scolaire
+              Menu scolaire
             </a>{" "}
             affiche la semaine en cours par défaut.
           </p>

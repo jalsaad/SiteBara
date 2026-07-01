@@ -6,7 +6,6 @@ interface MenuDay {
   day: string;
   potage: string;
   plat: string;
-  veggie: string;
   dessert: string;
 }
 
@@ -17,7 +16,7 @@ export interface PublicWeek {
 }
 
 function WeekTable({ week }: { week: PublicWeek }) {
-  const jours = week.days.filter((d) => d.potage || d.plat || d.veggie || d.dessert);
+  const jours = week.days.filter((d) => d.potage || d.plat || d.dessert);
   if (jours.length === 0) {
     return (
       <p className="lead" style={{ textAlign: "center", paddingTop: 20 }}>
@@ -33,7 +32,6 @@ function WeekTable({ week }: { week: PublicWeek }) {
             <th>Jour</th>
             <th>Potage</th>
             <th>Plat du jour</th>
-            <th>Alternative végé</th>
             <th>Dessert</th>
           </tr>
         </thead>
@@ -43,7 +41,6 @@ function WeekTable({ week }: { week: PublicWeek }) {
               <td style={{ fontWeight: 600, color: "var(--royal)" }}>{m.day}</td>
               <td>{m.potage}</td>
               <td>{m.plat}</td>
-              <td>{m.veggie}</td>
               <td>{m.dessert}</td>
             </tr>
           ))}

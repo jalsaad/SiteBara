@@ -6,9 +6,9 @@ import PageBlocks from "@/components/PageBlocks";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Restaurant scolaire",
+  title: "Menu scolaire",
   description:
-    "Menus de la semaine, horaires, tarifs et informations pratiques du restaurant scolaire de l'Athénée Royal Jules Bara à Tournai.",
+    "Menus de la semaine, horaires, tarifs et informations pratiques du menu scolaire de l'Athénée Royal Jules Bara à Tournai.",
 };
 
 // Page éditable via l'éditeur (page composée « restaurant ») ; le menu de la
@@ -19,7 +19,7 @@ export default async function RestaurantPage() {
     return (
       <main className="wrap section">
         <div className="shead">
-          <h1 className="serif">Restaurant scolaire</h1>
+          <h1 className="serif">Menu scolaire</h1>
         </div>
       </main>
     );

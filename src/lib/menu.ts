@@ -12,7 +12,6 @@ export interface MenuDay {
   day: string;
   potage: string;
   plat: string;
-  veggie: string;
   dessert: string;
 }
 
@@ -28,7 +27,7 @@ export interface WeeklyMenu {
 const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
 function emptyDay(day: string): MenuDay {
-  return { day, potage: "", plat: "", veggie: "", dessert: "" };
+  return { day, potage: "", plat: "", dessert: "" };
 }
 
 function emptyDays(): MenuDay[] {
@@ -80,7 +79,6 @@ function normalizeDays(days: unknown): MenuDay[] {
       day,
       potage: typeof d.potage === "string" ? d.potage.trim() : "",
       plat: typeof d.plat === "string" ? d.plat.trim() : "",
-      veggie: typeof d.veggie === "string" ? d.veggie.trim() : "",
       dessert: typeof d.dessert === "string" ? d.dessert.trim() : "",
     };
   });
@@ -111,33 +109,101 @@ const g = globalThis as unknown as { __baraMenus?: MenuRecord[] };
 
 function seed(): MenuRecord[] {
   const now = new Date().toISOString();
+  const w = (id: string, weekStart: string, days: Omit<MenuDay, never>[]) =>
+    ({ id, weekStart, weekLabel: "", days, updatedAt: now }) satisfies MenuRecord;
+  const e = (day: string): MenuDay => ({ day, potage: "", plat: "", dessert: "" });
   return [
-    {
-      id: "m1",
-      weekStart: currentMonday(),
-      weekLabel: "",
-      days: [
-        { day: "Lundi", potage: "Velouté de potiron", plat: "Boulettes sauce tomate, purée maison", veggie: "Boulettes végétales, purée maison", dessert: "Compote de pommes" },
-        { day: "Mardi", potage: "Julienne de légumes", plat: "Filet de poulet, riz, ratatouille", veggie: "Curry de pois chiches, riz", dessert: "Yaourt nature" },
-        { day: "Mercredi", potage: "Tomate-basilic", plat: "Spaghetti bolognaise", veggie: "Spaghetti aux lentilles", dessert: "Fruit de saison" },
-        { day: "Jeudi", potage: "Poireaux-pommes de terre", plat: "Poisson pané, frites, salade", veggie: "Galette de légumes, frites, salade", dessert: "Mousse au chocolat" },
-        { day: "Vendredi", potage: "Carottes-coriandre", plat: "Gratin de chou-fleur, jambon", veggie: "Gratin de chou-fleur (sans jambon)", dessert: "Salade de fruits" },
-      ],
-      updatedAt: now,
-    },
-    {
-      id: "m2",
-      weekStart: addDaysISO(currentMonday(), 7),
-      weekLabel: "",
-      days: [
-        { day: "Lundi", potage: "Velouté de courgettes", plat: "Hachis Parmentier", veggie: "Hachis végétal aux lentilles", dessert: "Yaourt aux fruits" },
-        { day: "Mardi", potage: "Potage au cresson", plat: "Chili con carne, riz", veggie: "Chili sin carne, riz", dessert: "Compote de poires" },
-        { day: "Mercredi", potage: "Soupe à la tomate", plat: "Vol-au-vent, frites", veggie: "Quiche aux légumes, frites", dessert: "Fruit de saison" },
-        { day: "Jeudi", potage: "Velouté de carottes", plat: "Émincé de dinde, pâtes, brocolis", veggie: "Boulettes de pois chiches, pâtes", dessert: "Riz au lait" },
-        { day: "Vendredi", potage: "Soupe de potiron", plat: "Filet de poisson sauce citron, purée", veggie: "Gratin de légumes, purée", dessert: "Salade de fruits" },
-      ],
-      updatedAt: now,
-    },
+    w("w01", "2026-08-24", [
+      { day: "Lundi",    potage: "Potage cultivateur", plat: "Spaghetti bolognaise", dessert: "Biscuit" },
+      { day: "Mardi",    potage: "Potage carotte", plat: "Sandwich / Hachis parmentier aux carottes", dessert: "Muffins choco" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage tomate", plat: "Américain, salade, crudités, frites", dessert: "Ananas, raisin" },
+      { day: "Vendredi", potage: "Potage poireaux", plat: "Cordon bleu, ratatouille niçoise, riz", dessert: "Yaourt fraise" },
+    ]),
+    w("w02", "2026-08-31", [
+      { day: "Lundi",    potage: "Potage cerfeuil", plat: "Spaghetti bolognaise", dessert: "Biscuit" },
+      { day: "Mardi",    potage: "Potage céleri", plat: "Saucisse sauce brune, pois et carottes, purée", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage asperge", plat: "Pita de porc, salade, frites", dessert: "Glace" },
+      { day: "Vendredi", potage: "Potage chicken", plat: "Filet de poisson pané, sauce béarnaise, tomate suisse, PDT", dessert: "Mousse chocolat" },
+    ]),
+    w("w03", "2026-09-07", [
+      { day: "Lundi",    potage: "Potage carotte", plat: "Chipolata, compote de pommes, PDT nature", dessert: "Flan caramel" },
+      { day: "Mardi",    potage: "Potage courgettes", plat: "Pain de viande sauce poivre, haricots verts, purée", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage tomate", plat: "Pêche au thon, frites", dessert: "Fruit" },
+      { day: "Vendredi", potage: "Potage Dubarry", plat: "Couscous, poulet-merguez", dessert: "Biscuit" },
+    ]),
+    w("w04", "2026-09-14", [
+      { day: "Lundi",    potage: "Potage minestrone", plat: "Macaroni jambon fromage", dessert: "Yaourt grec, framboises" },
+      { day: "Mardi",    potage: "Potage Saint-Germain", plat: "Hachis parmentier aux carottes", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage parisien", plat: "Boulette sauce tomate, salade, frites", dessert: "Fruit" },
+      { day: "Vendredi", potage: "Potage chicken", plat: "Blanquette de veau à l'ancienne, riz", dessert: "Crêpes" },
+    ]),
+    w("w05", "2026-09-21", [
+      { day: "Lundi",    potage: "Potage courgettes", plat: "Steak haché de porc, chou-fleur au gratin, purée", dessert: "Biscuit" },
+      { day: "Mardi",    potage: "Potage cresson", plat: "Lasagnes", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage tomate", plat: "Escalope de poulet croustillante, salade, frites", dessert: "Fruit" },
+      { day: "Vendredi", potage: "Potage céleri", plat: "Omelette au fromage, haricots verts, PDT persillée", dessert: "Donuts" },
+    ]),
+    w("w06", "2026-09-28", [
+      { day: "Lundi",    potage: "Potage minestrone", plat: "Spaghetti carbonara", dessert: "Chocolat liégeois" },
+      { day: "Mardi",    potage: "Potage poireaux", plat: "Poupiette ardennaise, sauce poivre, salade, PDT mousseline", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage carotte", plat: "Tomate farcie, frites", dessert: "Glace" },
+      { day: "Vendredi", potage: "Potage cerfeuil", plat: "Chicon au gratin, PDT", dessert: "Boule de Berlin" },
+    ]),
+    w("w07", "2026-10-05", [
+      { day: "Lundi",    potage: "Potage brocoli", plat: "Hachis parmentier", dessert: "Biscuit" },
+      { day: "Mardi",    potage: "Potage chicon", plat: "Couscous, poulet-merguez", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage asperge", plat: "Boulette liégeoise, salade, frites", dessert: "Fruit" },
+      { day: "Vendredi", potage: "Potage tomate", plat: "Filet de colin pané, brocoli sauce blanche, PDT", dessert: "Glace" },
+    ]),
+    w("w08", "2026-10-12", [
+      { day: "Lundi",    potage: "Potage poireaux", plat: "Steak haché de bœuf, carottes au beurre, gratin dauphinois", dessert: "Mousse chocolat" },
+      { day: "Mardi",    potage: "Potage chicken", plat: "Vol-au-vent champignons, PDT en cubes", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage cerfeuil", plat: "Boudin blanc sauce brune, compote ou salade, frites", dessert: "Fruits" },
+      { day: "Vendredi", potage: "Potage tomate", plat: "Lasagnes", dessert: "Salade de fruits" },
+    ]),
+    w("w09", "2026-11-02", [
+      e("Lundi"),
+      { day: "Mardi",    potage: "Potage asperge", plat: "Paella au poulet", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage poireaux", plat: "Filet américain, salade, frites", dessert: "Fruit" },
+      { day: "Vendredi", potage: "Potage tomate", plat: "Dos de cabillaud, épinards à la crème, riz", dessert: "Crêpe" },
+    ]),
+    w("w10", "2026-11-09", [
+      { day: "Lundi",    potage: "Potage cultivateur", plat: "Spaghetti bolognaise", dessert: "Biscuit" },
+      { day: "Mardi",    potage: "Potage carotte", plat: "Oiseau sans tête, sauce brune, pois et carottes, purée", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage brocoli", plat: "Chipolata, pêche au sirop et salade, frites", dessert: "Salade de fruits" },
+      { day: "Vendredi", potage: "Potage cerfeuil", plat: "Saucisse sauce moutarde, poireaux à la crème, PDT", dessert: "Mousse au café" },
+    ]),
+    w("w11", "2026-11-16", [
+      { day: "Lundi",    potage: "Potage tomate", plat: "Escalope de porc à la milanaise, fusilli", dessert: "Glace" },
+      { day: "Mardi",    potage: "Potage poireaux", plat: "Lasagnes", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage chicon", plat: "Rôti de porc Orloff, salade, frites", dessert: "Pomme" },
+      { day: "Vendredi", potage: "Potage cresson", plat: "Émincé de poulet à la paysanne, riz", dessert: "Crêpe" },
+    ]),
+    w("w12", "2026-11-23", [
+      { day: "Lundi",    potage: "Potage chou-fleur", plat: "Saucisse, sauce brune, pois et macaroni", dessert: "Chocolat liégeois" },
+      { day: "Mardi",    potage: "Potage tomate", plat: "Vol-au-vent champignons, boulette, purée", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage céleri", plat: "Boulette sauce tomate, salade, frites", dessert: "Fruit" },
+      { day: "Vendredi", potage: "Potage cerfeuil", plat: "Filet de colin pané, sauce tartare, salade chicon-haricot blanc, PDT nature", dessert: "Biscuit" },
+    ]),
+    w("w13", "2026-11-30", [
+      { day: "Lundi",    potage: "Potage asperge", plat: "", dessert: "Crème vanille, spéculoos" },
+      { day: "Mardi",    potage: "Potage tomate", plat: "Boudin blanc, sauce brune, pois et carottes, purée", dessert: "Pâtisserie" },
+      e("Mercredi"),
+      { day: "Jeudi",    potage: "Potage poireaux", plat: "Nuggets, compote et salade, frites", dessert: "Cornet d'amour" },
+      { day: "Vendredi", potage: "Potage minestrone", plat: "Bûchette de volaille, sauce poivre, haricots verts, gratin dauphinois", dessert: "Brownie chocolat" },
+    ]),
   ];
 }
 
