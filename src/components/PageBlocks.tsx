@@ -246,7 +246,9 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                     href={it.href || "#"}
                     {...(it.download
                       ? { download: true }
-                      : { target: "_blank", rel: "noopener noreferrer" })}
+                      : it.href?.endsWith(".ics")
+                        ? {}
+                        : { target: "_blank", rel: "noopener noreferrer" })}
                   >
                     {it.label}
                   </a>
