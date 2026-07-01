@@ -1,4 +1,5 @@
 import Link from "next/link";
+import JulesBaraLink from "@/components/JulesBaraModal";
 
 type NavLink = { href: string; label: string };
 
@@ -39,12 +40,12 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
           <Link href="/applis">Applis</Link>
           <Link href="/filieres">Nos options</Link>
           <Link href="/restaurant">Restaurant scolaire</Link>
-          <Link href={notreProjetHref}>Notre projet</Link>
+          <Link href="/p/projet-pedagogique">Documents</Link>
         </div>
 
         {/* Colonne 3 : l'école */}
         <div>
-          <Link href="/p/qui-est-jules-bara">Qui est Jules Bara&nbsp;?</Link>
+          <JulesBaraLink />
           <Link href="/p/historique">Historique</Link>
           <Link href="/p/projets">Projets</Link>
           <Link href="/p/projet-detablissement">Projet d&apos;établissement</Link>
