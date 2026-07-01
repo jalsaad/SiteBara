@@ -166,7 +166,7 @@ const seed: PageData[] = [
 // pour illustrer l'éditeur drag-and-drop sans faire doublon.
 seed.push({
   slug: "projet-pedagogique",
-  title: "Notre projet",
+  title: "Docs",
   published: true,
   order: 50,
   blocks: [
