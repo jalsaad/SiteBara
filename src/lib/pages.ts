@@ -202,10 +202,10 @@ seed.push({
 // ---- Pages « cœur » du menu, désormais éditables (rendues sur leurs routes
 // dédiées /filieres, /calendrier, /actualites, /restaurant). ----
 
-// Options (/filieres)
+// Grilles horaires (/filieres)
 seed.push({
   slug: "filieres",
-  title: "Options",
+  title: "Grilles",
   published: true,
   order: 10,
   blocks: [
@@ -214,7 +214,7 @@ seed.push({
       type: "banner",
       data: {
         eyebrow: "Enseignement secondaire · Tournai",
-        title: "Nos *options*",
+        title: "Grilles *horaires*",
         sub: "Un parcours général de transition, du premier au troisième degré, pour préparer chaque élève aux études supérieures dans un cadre exigeant et bienveillant.",
         color: "#284193",
       },

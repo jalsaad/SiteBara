@@ -5,9 +5,9 @@ import PageBlocks from "@/components/PageBlocks";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Nos options",
+  title: "Grilles horaires",
   description:
-    "Du premier au troisième degré, enseignement général de transition, DASPA et 7ᵉ préparatoire : découvrez les options de l'Athénée Royal Jules Bara à Tournai.",
+    "Du premier au troisième degré, enseignement général de transition, DASPA et 7ᵉ préparatoire : toutes les grilles horaires de l'Athénée Royal Jules Bara à Tournai.",
 };
 
 // Page éditable via l'éditeur (page composée « filieres »).
@@ -17,7 +17,7 @@ export default async function FilieresPage() {
     return (
       <main className="wrap section">
         <div className="shead">
-          <h1 className="serif">Nos options</h1>
+          <h1 className="serif">Grilles horaires</h1>
         </div>
       </main>
     );

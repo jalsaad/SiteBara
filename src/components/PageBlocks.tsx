@@ -24,6 +24,18 @@ function renderTitle(title: string) {
   return parts.map((p, i) => (i % 2 === 1 ? <em key={i}>{p}</em> : p));
 }
 
+// Déduit un id d'ancre depuis le titre d'un bloc text/grid pour la page Grilles.
+function anchorId(title?: string): string | undefined {
+  if (!title) return undefined;
+  const t = title.toLowerCase();
+  if (t.includes("premier degré") || t.includes("1er degré")) return "1er-degre";
+  if (t.includes("deuxième degré") || t.includes("2e degré") || t.includes("2ème")) return "2e-degre";
+  if (t.includes("troisième degré") || t.includes("3e degré") || t.includes("3ème")) return "3e-degre";
+  if (t.startsWith("daspa")) return "daspa";
+  if (t.startsWith("7") && t.includes("prépa")) return "7e-prep";
+  return undefined;
+}
+
 function heroVeil(color: string, bg?: string, hasVideo?: boolean): string {
   const cs = shade(color);
   // Sur une vidéo, le voile reste translucide pour la laisser transparaître
@@ -328,8 +340,9 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
           );
         }
         if (b.type === "text") {
+          const aid = anchorId(d.title);
           return (
-            <section className="wrap section" key={b.id}>
+            <section className="wrap section" key={b.id} id={aid} style={aid ? { scrollMarginTop: "90px" } : undefined}>
               <div className="shead reveal">
                 <h2 className="serif">{d.title}</h2>
               </div>

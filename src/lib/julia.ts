@@ -110,7 +110,7 @@ Entreprise pédagogique « C'est Bio Bara » : créée par deux enseignants de l
 - Ces accès sont disponibles sur la page « Applis » du site.
 
 ═══ PAGES DU SITE ═══
-- « Options » : toutes les grilles horaires détaillées
+- « Grilles » : toutes les grilles horaires détaillées (1er, 2e, 3e degré, DASPA, 7e préparatoire)
 - « Préinscription » : formulaire d'inscription en ligne
 - « Calendrier » : dates, congés, événements de l'année scolaire
 - « Restaurant » : menus hebdomadaires du restaurant scolaire
@@ -147,17 +147,17 @@ const DEMO_RULES: DemoRule[] = [
   },
   {
     keywords: ["horaire", "grille", "filière", "filiere", "option", "degré", "latin", "sciences", "langues", "économique"],
-    answer: "L'Athénée propose l'enseignement général du 1er au 3e degré (4 dominantes en 2e degré, 6 options en 3e degré), le DASPA et une 7e préparatoire. Toutes les grilles horaires détaillées sont sur la page « Options ».",
+    answer: "L'Athénée propose l'enseignement général du 1er au 3e degré (4 dominantes en 2e degré, 6 options en 3e degré), le DASPA et une 7e préparatoire. Toutes les grilles horaires détaillées sont sur la page « Grilles ».",
     suggs: ["Qu'est-ce que le DASPA ?", "C'est quoi la 7e préparatoire ?", "Quelles options au 3e degré ?"],
   },
   {
     keywords: ["daspa", "primo", "arrivant", "passerelle", "étranger"],
-    answer: "Le DASPA (classes passerelles) accueille les élèves primo-arrivants ne maîtrisant pas encore le français. Le programme intensif comprend 8 périodes de FLE et 7 de français par semaine, pour une intégration progressive. Voir la page « Options » pour la grille complète.",
+    answer: "Le DASPA (classes passerelles) accueille les élèves primo-arrivants ne maîtrisant pas encore le français. Le programme intensif comprend 8 périodes de FLE et 7 de français par semaine, pour une intégration progressive. Voir la page « Grilles » pour la grille complète.",
     suggs: ["Combien de temps dure le DASPA ?", "Quelles sont les conditions d'accès ?", "Comment s'inscrire ?"],
   },
   {
     keywords: ["7e", "septième", "préparatoire", "supérieur"],
-    answer: "La 7e préparatoire (après la rhétorique) prépare aux études supérieures scientifiques avec 14 périodes de maths, 6 de physique, 4 de chimie et 3 de biologie par semaine — 31 périodes au total. La grille complète est sur la page « Options ».",
+    answer: "La 7e préparatoire (après la rhétorique) prépare aux études supérieures scientifiques avec 14 périodes de maths, 6 de physique, 4 de chimie et 3 de biologie par semaine — 31 périodes au total. La grille complète est sur la page « Grilles ».",
     suggs: ["Qui peut s'inscrire en 7e ?", "Quelles études supérieures cela prépare-t-il ?", "Comment s'inscrire ?"],
   },
   {
