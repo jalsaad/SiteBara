@@ -36,7 +36,7 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
           <Link href="/calendrier">Calendrier scolaire</Link>
           <Link href="/preinscription">Inscription</Link>
           <Link href="/applis">Applis</Link>
-          <Link href="/filieres">Grilles</Link>
+          <Link href="/grilles">Grilles</Link>
           <Link href="/restaurant">Restaurant scolaire</Link>
           <Link href="/p/projet-pedagogique">Documents</Link>
         </div>

@@ -21,9 +21,9 @@ const GREETING_SUGGS = [
 const PAGE_ANCHORS: Record<string, string> = {
   "Préinscription": "/preinscription",
   "Préinscriptions": "/preinscription",
-  "Grilles": "/filieres",
-  "Options": "/filieres",
-  "Filières": "/filieres",
+  "Grilles": "/grilles",
+  "Options": "/grilles",
+  "Filières": "/grilles",
   "Calendrier": "/calendrier",
   "Restaurant": "/restaurant",
   "Contact": "/contact",

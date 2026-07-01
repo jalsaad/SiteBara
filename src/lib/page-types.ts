@@ -29,7 +29,7 @@ export const LOCKED_BLOCK_TYPES: BlockType[] = ["tools"];
 // non supprimables.
 export const CORE_PAGE_SLUGS = [
   "accueil",
-  "filieres",
+  "grilles",
   "calendrier",
   "actualites",
   "restaurant",

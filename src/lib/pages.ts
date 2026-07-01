@@ -82,7 +82,7 @@ const seed: PageData[] = [
               icon: "🎓",
               title: "Nos options",
               desc: "Grilles horaires du premier au troisième degré, DASPA et 7ᵉ préparatoire.",
-              href: "/filieres",
+              href: "/grilles",
               color: "var(--royal)",
             },
             {
@@ -204,7 +204,7 @@ seed.push({
 
 // Grilles horaires (/filieres)
 seed.push({
-  slug: "filieres",
+  slug: "grilles",
   title: "Grilles",
   published: true,
   order: 10,
