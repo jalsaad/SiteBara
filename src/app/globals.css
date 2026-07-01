@@ -229,7 +229,7 @@ body::before {
 /* pied de page */
 .footer { background: var(--marine); color: #9aa6cf; padding: 72px 0 34px; position: relative; overflow: hidden; }
 .footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--orange), var(--gold), var(--royal)); }
-.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr auto; gap: 46px; align-items: start; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr auto; gap: 40px; align-items: start; }
 .footer-partners { display: flex; flex-direction: column; align-items:flex-end; gap: 6px; }
 .footer-partner-logo { height: 50px; width: auto; opacity: 0.9; display:block;}
 .footer-eu { display: flex; flex-direction: column; align-items:flex-end; gap: 6px; }

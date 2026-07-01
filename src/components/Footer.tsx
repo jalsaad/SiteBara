@@ -2,7 +2,6 @@ import Link from "next/link";
 
 type NavLink = { href: string; label: string };
 
-// Retourne le lien d'une page par son label exact, ou le fallback si absente.
 function pageLink(pages: NavLink[], label: string, fallback: string): string {
   return pages.find((p) => p.label === label)?.href ?? fallback;
 }
@@ -13,6 +12,7 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
   return (
     <footer className="footer">
       <div className="wrap footer-grid">
+        {/* Colonne 1 : identité */}
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -30,21 +30,39 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
             <a aria-label="LinkedIn" href="#">in</a>
           </div>
         </div>
+
+        {/* Colonne 2 : navigation principale */}
         <div>
-          <h4>Le site</h4>
           <Link href="/actualites">Actualités</Link>
           <Link href="/calendrier">Calendrier scolaire</Link>
           <Link href="/preinscription">Inscription</Link>
           <Link href="/applis">Applis</Link>
-        </div>
-        <div>
-          <h4>L&apos;école</h4>
           <Link href="/filieres">Nos options</Link>
           <Link href="/restaurant">Restaurant scolaire</Link>
           <Link href={notreProjetHref}>Notre projet</Link>
         </div>
+
+        {/* Colonne 3 : l'école */}
         <div>
-          <h4>Contact</h4>
+          <Link href="/p/qui-est-jules-bara">Qui est Jules Bara&nbsp;?</Link>
+          <Link href="/p/historique">Historique</Link>
+          <Link href="/p/projets">Projets</Link>
+          <Link href="/p/projet-detablissement">Projet d&apos;établissement</Link>
+          <Link href="/p/reglement-dordre-interieur">Règlement d&apos;ordre intérieur</Link>
+        </div>
+
+        {/* Colonne 4 : services & communauté */}
+        <div>
+          <Link href="/p/ecole-des-devoirs">École des devoirs</Link>
+          <Link href="/p/ecole-numerique">École numérique</Link>
+          <Link href="/p/troubles-dapprentissage">Troubles d&apos;apprentissage</Link>
+          <Link href="/p/union-des-anciens">Union des Anciens</Link>
+          <Link href="/p/association-des-parents">Association des parents</Link>
+          <Link href="/p/internat">Internat</Link>
+        </div>
+
+        {/* Colonne 5 : contact */}
+        <div>
           <p>
             Rue Duquesnoy 24
             <br />
@@ -55,6 +73,8 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
             direction@atheneejulesbara.be
           </a>
         </div>
+
+        {/* Colonne 6 : partenaires */}
         <div className="footer-partners">
           <a href="https://www.wbe.be/" target="_blank" rel="noopener noreferrer">
             {/* eslint-disable-next-line @next/next/no-img-element */}
