@@ -17,7 +17,7 @@ export async function PATCH(
   }
 
   const body = await request.json().catch(() => ({}));
-  const { name, role, password } = body;
+  const { name, role, password, codes } = body;
   if (role !== undefined && !ROLES.includes(role)) {
     return Response.json({ error: "Rôle invalide" }, { status: 400 });
   }
@@ -27,6 +27,9 @@ export async function PATCH(
       { status: 400 }
     );
   }
+  if (codes !== undefined && !Array.isArray(codes)) {
+    return Response.json({ error: "Format de codes invalide" }, { status: 400 });
+  }
   // Empêche de rétrograder le dernier administrateur.
   if (role !== undefined && role !== "ADMIN" && target.role === "ADMIN" && (await countAdmins()) <= 1) {
     return Response.json(
@@ -35,7 +38,7 @@ export async function PATCH(
     );
   }
 
-  const user = await updateUser(id, { name, role, password });
+  const user = await updateUser(id, { name, role, password, codes });
   if (!user) {
     return Response.json({ error: "Mise à jour impossible" }, { status: 400 });
   }

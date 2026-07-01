@@ -28,6 +28,7 @@ model User {
   name         String
   role         Role     @default(COMM)
   passwordHash String
+  codes        String[] @default([])
   createdAt    DateTime @default(now())
   articles     Article[]
 }

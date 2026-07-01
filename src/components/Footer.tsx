@@ -54,11 +54,7 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
             <p>En 1995, l&apos;école célébra son remarquable 400e anniversaire.</p>
           </FooterInfoModal>
 
-          <FooterInfoModal label="Projets" title="L'entreprise pédagogique — C'est Bio Bara">
-            <p>Deux enseignants responsables de l&apos;option Sciences économiques ont lancé une entreprise pédagogique ambitieuse : <strong>C&apos;est Bio Bara</strong>.</p>
-            <p>Ce projet a pour vocation de stimuler l&apos;esprit d&apos;entreprendre chez les jeunes économistes de l&apos;établissement, en leur faisant vivre concrètement les réalités du monde de l&apos;entreprise.</p>
-            <p>Les participants peuvent acquérir des parts à deux niveaux : <strong>5 €</strong> ou <strong>10 €</strong>. Pour toute information complémentaire, contactez directement les deux professeurs responsables du projet via la direction de l&apos;école.</p>
-          </FooterInfoModal>
+          <Link href="/Projets/Biodiversity/index.html">Projets</Link>
 
           <FooterInfoModal label="Projet d'établissement" title="Projet d'établissement">
             <p>Le projet d&apos;établissement de l&apos;Athénée Royal Jules Bara est placé sous la devise :</p>

@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>La Biodiversité à tous les étages</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+ <style>
+ :root{--forest:#1a4a2e;--deep:#0d2b1a;--moss:#2d6a4f;--sage:#52b788;--mint:#b7e4c7;--cream:#fdf8f0;--parchment:#f2ece0;--earth:#8b5e3c;--gold:#c9920e;--sand:#e8d5b0;--charcoal:#2c2c2c;--mid:#555;--light:#f3f8f3;--white:#ffffff;--radius:18px;--shadow:0 6px 30px rgba(26,74,46,.10)}
+ *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);line-height:1.72;overflow-x:hidden}
+ img{display:block;max-width:100%}
+ a{text-decoration:none}
+
+ nav{position:fixed;top:0;left:0;right:0;z-index:200;height:60px;background:rgba(13,43,26,.97);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;box-shadow:0 2px 20px rgba(0,0,0,.18)}
+ .nav-brand{font-family:'Caveat',cursive;color:var(--mint);font-size:1.3rem}
+ .nav-links{display:flex;gap:1.4rem;list-style:none}
+ .nav-links a{color:rgba(255,255,255,.78);font-size:.78rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;transition:color .2s}
+ .nav-links a:hover{color:var(--sage)}
+
+ .hero{min-height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9rem 2rem 6rem;overflow:hidden;background:radial-gradient(ellipse at 25% 75%,rgba(82,183,136,.16) 0%,transparent 55%),radial-gradient(ellipse at 75% 25%,rgba(45,106,79,.22) 0%,transparent 55%),linear-gradient(155deg,#08180f 0%,#1a4a2e 50%,#2d6a4f 100%)}
+ .hero::before,.hero::after{content:'';position:absolute;border-radius:50%;pointer-events:none}
+ .hero::before{width:700px;height:700px;border:1px solid rgba(82,183,136,.1);top:50%;left:50%;transform:translate(-50%,-50%)}
+ .hero::after{width:480px;height:480px;border:1px solid rgba(183,228,199,.08);top:50%;left:50%;transform:translate(-50%,-50%)}
+ .hero-leaf{position:absolute;font-size:26rem;opacity:.04;bottom:-5rem;right:-4rem;line-height:1;pointer-events:none;user-select:none}
+ .hero-eyebrow{font-family:'Caveat',cursive;color:var(--sage);font-size:1.15rem;letter-spacing:.08em;margin-bottom:.8rem;opacity:0;animation:fadeUp .8s ease .1s forwards}
+ .hero h1{font-family:'Playfair Display',serif;color:var(--white);font-size:clamp(2.8rem,6.5vw,5.2rem);font-weight:900;line-height:1.08;max-width:820px;margin-bottom:1.4rem;opacity:0;animation:fadeUp .9s ease .2s forwards}
+ .hero h1 em{color:var(--sage);font-style:italic}
+ .hero-sub{color:rgba(255,255,255,.7);font-size:1.05rem;max-width:600px;margin-bottom:2.6rem;opacity:0;animation:fadeUp .9s ease .32s forwards}
+ .hero-badges{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;opacity:0;animation:fadeUp .9s ease .44s forwards}
+ .badge{background:rgba(82,183,136,.13);border:1px solid rgba(82,183,136,.3);color:var(--mint);font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px}
+ .scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.35);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;animation:bob 2s ease-in-out infinite;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+ .scroll-cue::after{content:'↓';font-size:1.1rem}
+
+ section{padding:5.5rem 2rem}
+ .container{max-width:1140px;margin:0 auto}
+ .s-label{font-family:'Caveat',cursive !important;color:var(--sage);font-size:2.5rem !important;letter-spacing:.05em;margin-bottom:.6rem}
+ .s-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--forest);line-height:1.18;margin-bottom:1rem}
+ .s-title em{color:var(--moss);font-style:italic}
+ .rule{width:56px;height:3px;background:linear-gradient(90deg,var(--sage),var(--gold));border-radius:2px;margin-bottom:2rem}
+
+ #intro{background:var(--white)}
+ .intro-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:3.5rem;align-items:start}
+ .intro-body p{color:var(--mid);font-size:.97rem;margin-bottom:1rem}
+ .quote-block{border-left:3px solid var(--sage);background:var(--light);padding:1.1rem 1.4rem;border-radius:0 12px 12px 0;margin-top:1.4rem}
+ .quote-block p{font-family:'Playfair Display',serif;font-style:italic;color:var(--forest);font-size:1rem;margin:0}
+ .proj-card{background:linear-gradient(145deg,var(--forest),var(--deep));border-radius:var(--radius);padding:2.2rem;color:var(--white);position:sticky;top:80px}
+ .proj-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--mint);margin-bottom:1.2rem}
+ .meta-row{display:flex;gap:.7rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.85rem}
+ .meta-row:last-child{border-bottom:none}
+ .meta-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem}
+ .meta-label{color:rgba(255,255,255,.45);font-size:.72rem;display:block;margin-bottom:.1rem;letter-spacing:.06em;text-transform:uppercase}
+ .meta-val{color:rgba(255,255,255,.88)}
+ .obj-list{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1.5rem}
+ .obj-item{background:var(--light);border:1px solid var(--mint);border-radius:10px;padding:.7rem 1rem;font-size:.83rem;color:var(--moss);display:flex;gap:.5rem;align-items:flex-start}
+ .obj-item::before{content:'✓';color:var(--sage);font-weight:700;flex-shrink:0}
+
+ #panneaux{background:var(--light)}
+ .pnx-stack{display:flex;flex-direction:column;gap:2.8rem}
+ .pnx-card{background:var(--white);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;transition:transform .35s,box-shadow .35s}
+ .pnx-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(26,74,46,.16)}
+ .pnx-card.rev .pnx-vis{order:2}
+ .pnx-card.rev .pnx-body{order:1}
+ .pnx-vis{position:relative;overflow:hidden;min-height:360px}
+ .pnx-vis img{width:100%;height:100%;object-fit:cover;transition:transform .55s}
+ .pnx-card:hover .pnx-vis img{transform:scale(1.05)}
+ .pnx-num{position:absolute;top:1rem;left:1rem;background:rgba(13,43,26,.88);color:var(--mint);font-family:'Playfair Display',serif;font-size:.78rem;font-weight:700;padding:.28rem .75rem;border-radius:100px;letter-spacing:.07em}
+ .pnx-body{padding:2.4rem 2.4rem 2rem;display:flex;flex-direction:column;justify-content:center;gap:1.1rem}
+ .pnx-theme{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage)}
+ .pnx-title{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:var(--forest);line-height:1.22}
+ .pnx-desc{color:var(--mid);font-size:.92rem;line-height:1.75}
+ .pnx-cta{font-family:'Caveat',cursive;color:var(--earth);font-size:1rem;background:var(--parchment);border-left:3px solid var(--gold);padding:.7rem 1rem;border-radius:0 8px 8px 0}
+ .audio-block{display:flex;align-items:center;gap:1rem;background:var(--light);border:1px solid #d4eedd;border-radius:14px;padding:.9rem 1.1rem}
+ .qr-box{flex-shrink:0;width:68px;height:68px;border-radius:10px;overflow:hidden;border:2px solid var(--moss);background:white}
+ .qr-box img{width:100%;height:100%;object-fit:contain}
+ .qr-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--light);font-size:1.6rem;color:var(--moss)}
+ .audio-right{flex:1;min-width:0}
+ .audio-lbl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--moss);margin-bottom:.35rem}
+ audio{width:100%;height:30px;accent-color:var(--moss)}
+
+ #podcast{background:linear-gradient(145deg,var(--deep) 0%,#122b1e 100%);position:relative;overflow:hidden}
+ #podcast .s-title{color:var(--white)}
+ .sandrine-wrap{display:grid;grid-template-columns:auto 1fr;gap:2.4rem;align-items:center;background:rgba(82,183,136,.1);border:1px solid rgba(82,183,136,.28);border-radius:22px;padding:2.4rem;margin-bottom:2.8rem}
+ .sandrine-avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--sage),var(--moss));display:flex;align-items:center;justify-content:center;font-size:2.4rem;border:3px solid var(--sage);flex-shrink:0}
+ .sandrine-name{font-family:'Playfair Display',serif;color:var(--white);font-size:1.5rem;margin-bottom:.2rem}
+ .sandrine-role{color:var(--sage);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.8rem}
+ .sandrine-bio{color:rgba(255,255,255,.68);font-size:.91rem;line-height:1.72;margin-bottom:1.2rem}
+ .pod-slot{background:rgba(255,255,255,.07);border:1px dashed rgba(82,183,136,.35);border-radius:12px;padding:1rem 1.2rem}
+ .pod-slot-lbl{color:var(--sage);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+ .pod-slot audio{width:100%;accent-color:var(--sage)}
+ .pod-slot-ph{color:rgba(255,255,255,.3);font-size:.78rem;font-style:italic;margin-top:.4rem}
+ .ep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.4rem}
+ .ep-card{background:rgba(255,255,255,.06);border:1px solid rgba(82,183,136,.18);border-radius:18px;padding:1.7rem;backdrop-filter:blur(6px);transition:background .3s,transform .3s}
+ .ep-card:hover{background:rgba(255,255,255,.11);transform:translateY(-3px)}
+ .ep-icon{font-size:1.9rem;margin-bottom:.9rem}
+ .ep-card h3{font-family:'Playfair Display',serif;color:var(--white);font-size:1.1rem;margin-bottom:.5rem}
+ .ep-card p{color:rgba(255,255,255,.58);font-size:.85rem;line-height:1.65;margin-bottom:1.1rem}
+ .ep-audio9{background:rgba(201,146,14,.1);border-color:rgba(201,146,14,.3)}
+
+ #galerie{background:var(--white)}
+ .gal-filters{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:2rem}
+ .gal-btn{background:var(--light);border:1px solid #cde8d8;color:var(--moss);font-size:.78rem;font-weight:600;letter-spacing:.06em;padding:.42rem 1rem;border-radius:100px;cursor:pointer;transition:all .2s;font-family:inherit}
+ .gal-btn:hover,.gal-btn.on{background:var(--moss);border-color:var(--moss);color:var(--white)}
+ .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:.7rem}
+ .gal-item{border-radius:12px;overflow:hidden;position:relative;cursor:zoom-in}
+ .gal-item.w2{grid-column:span 2}
+ .gal-item.h2{grid-row:span 2}
+ .gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .45s}
+ .gal-item:hover img{transform:scale(1.08)}
+ .gal-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,43,26,.72) 0%,transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:.9rem 1rem}
+ .gal-item:hover .gal-ov{opacity:1}
+ .gal-cap{color:white;font-size:.76rem;font-weight:500;letter-spacing:.04em}
+ .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:999;align-items:center;justify-content:center}
+ .lb.open{display:flex}
+ .lb img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px}
+ .lb-x{position:absolute;top:1.4rem;right:1.6rem;color:white;font-size:2rem;cursor:pointer;background:none;border:none;line-height:1}
+
+ #partenaires{background:var(--parchment);border-top:1px solid var(--sand)}
+ .part-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:1rem}
+ .part-card{background:var(--white);border-radius:14px;padding:1.4rem 1.6rem;border:1px solid var(--sand);transition:box-shadow .2s}
+ .part-card:hover{box-shadow:0 6px 20px rgba(26,74,46,.1)}
+ .part-name{font-weight:600;color:var(--forest);font-size:.95rem;margin-bottom:.35rem}
+ .part-role{color:var(--mid);font-size:.83rem;line-height:1.65}
+ .part-type{display:inline-block;margin-bottom:.5rem;font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);background:rgba(82,183,136,.1);padding:.18rem .65rem;border-radius:100px}
+
+ footer{background:var(--deep);color:rgba(255,255,255,.45);text-align:center;padding:3rem 2rem;font-size:.82rem;line-height:2}
+ footer strong{color:var(--sage)}
+
+ @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+ @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+ @media(max-width:960px){
+ .intro-grid,.pnx-card,.sandrine-wrap{grid-template-columns:1fr}
+ .proj-card{position:static}
+ .pnx-card .pnx-vis{order:0!important;min-height:240px}
+ .pnx-card .pnx-body{order:1!important}
+ .sandrine-avatar{margin:0 auto}
+ .gal-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:170px}
+ .nav-links{display:none}
+ .obj-list{grid-template-columns:1fr}
+ }
+ @media(max-width:540px){
+ .gal-grid{grid-template-columns:1fr 1fr;grid-auto-rows:130px}
+ .gal-item.h2{grid-row:span 1}
+ }
+ 
+ /* ── IMAGE SWITCHER & QR OVERLAY ───────────────────────── */
+ 
+ .pnx-img {
+ position: absolute; inset: 0;
+ width: 100%; height: 100%; object-fit: cover;
+ opacity: 0; transition: opacity .35s;
+ cursor: zoom-in;
+ }
+ .pnx-img.on { opacity: 1; }
+ .pnx-img:hover { transform: scale(1.03); transition: opacity .35s, transform .5s; }
+
+
+ .qr-btn {
+ position: absolute; top: .75rem; right: .75rem; z-index: 9;
+ background: rgba(13,43,26,.85); color: var(--mint);
+ border: 1px solid rgba(82,183,136,.5); border-radius: 8px;
+ padding: .32rem .7rem; font-size: .7rem; font-weight: 700;
+ letter-spacing: .05em; cursor: pointer; font-family: inherit;
+ transition: all .2s; backdrop-filter: blur(4px);
+ }
+ .qr-btn:hover { background: var(--moss); border-color: var(--sage); }
+
+ .qr-overlay {
+ position: absolute; inset: 0; z-index: 20;
+ background: rgba(253,248,240,.97);
+ display: flex; flex-direction: column;
+ align-items: center; justify-content: center; gap: .8rem;
+ opacity: 0; pointer-events: none;
+ transition: opacity .3s;
+ }
+ .qr-overlay.show { opacity: 1; pointer-events: auto; }
+ .qr-overlay img {
+ width: 200px; height: 200px; object-fit: contain;
+ border: 3px solid var(--moss); border-radius: 12px; padding: 8px; background: white;
+ }
+ .qr-overlay p { color: var(--forest); font-size: .82rem; font-weight: 600; }
+
+ .qr-img-wrap { position: relative; width: 200px; height: 200px; }
+ .qr-img-wrap img { width: 200px; height: 200px; object-fit: contain; border: 3px solid var(--moss); border-radius: 12px; padding: 6px; background: white; }
+ .qr-ph { width: 200px; height: 200px; border: 2px dashed var(--sage); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; color: var(--moss); font-size: .75rem; text-align: center; padding: 1rem; }
+ .qr-ph code { font-size: .68rem; background: rgba(82,183,136,.12); padding: .1rem .3rem; border-radius: 4px; }
+
+ .qr-close {
+ position: absolute; top: .6rem; right: .8rem;
+ background: none; border: none; font-size: 1.4rem;
+ cursor: pointer; color: var(--forest); line-height: 1;
+ }
+ .qr-close:hover { color: var(--moss); }
+
+ 
+
+  /* ══ INTRO AUDIO BANNER ═══════════════════════════════════ */
+  #intro-audio-bar {
+    background: linear-gradient(100deg, var(--forest) 0%, var(--moss) 100%);
+    position: relative; z-index: 10;
+    border-bottom: 3px solid var(--sage);
+  }
+  .iab-inner {
+    display: flex; align-items: center; gap: 1.4rem;
+    padding: 1.1rem 0;
+    flex-wrap: wrap;
+  }
+  .iab-leaf { flex-shrink: 0; }
+  .iab-text { flex-shrink: 0; }
+  .iab-label {
+    font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--sage); margin-bottom: .1rem;
+  }
+  .iab-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--white); margin: 0;
+  }
+  .iab-player { flex: 1; min-width: 200px; }
+  .iab-player audio { width: 100%; accent-color: var(--sage); }
+  .iab-close {
+    flex-shrink: 0; background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25); border-radius: 50%;
+    color: white; width: 28px; height: 28px; font-size: 1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .2s; font-family: inherit; line-height: 1;
+  }
+  .iab-close:hover { background: rgba(255,255,255,.25); }
+
+  /* ══ LOGOS GRID ═══════════════════════════════════════════ */
+  #partenaires { background: var(--parchment); }
+  .logos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .logo-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.2rem 1rem .8rem;
+    border: 1px solid var(--sand);
+    display: flex; flex-direction: column;
+    align-items: center; gap: .7rem;
+    text-decoration: none;
+    transition: box-shadow .3s, transform .35s cubic-bezier(.34,1.56,.64,1);
+  }
+  .logo-card:hover {
+    box-shadow: 0 8px 28px rgba(26,74,46,.14);
+    transform: translateY(-4px);
+  }
+  .logo-card svg { width: 100%; max-width: 160px; height: 80px; }
+  .logo-name {
+    font-size: .75rem; font-weight: 600; color: var(--mid);
+    text-align: center; line-height: 1.4; letter-spacing: .02em;
+  }
+  .donors-note {
+    background: white; border-radius: 12px;
+    padding: 1rem 1.4rem; font-size: .88rem;
+    color: var(--mid); border: 1px solid var(--sand);
+    text-align: center;
+  }
+  .donors-note strong { color: var(--forest); }
+
+  @media (max-width: 600px) {
+    .iab-inner { gap: .8rem; }
+    .logos-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ══ CURSOR ══════════════════════════════════════════════ */
+  body { cursor: default; }
+
+  /* ══ SCROLL REVEAL ═══════════════════════════════════════ */
+  [data-sr] {
+    opacity: 0;
+    transition: opacity .9s cubic-bezier(.16,1,.3,1),
+                transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  [data-sr="up"]    { transform: translateY(55px); }
+  [data-sr="left"]  { transform: translateX(-55px); }
+  [data-sr="right"] { transform: translateX(55px); }
+  [data-sr="scale"] { transform: scale(.82); }
+  [data-sr="fade"]  { }
+  [data-sr].sr-done { opacity: 1 !important; transform: none !important; }
+
+  /* ══ PLANT DIVIDERS ══════════════════════════════════════ */
+  .plant-div {
+    display: block; width: 100%;
+    line-height: 0; overflow: hidden;
+    position: relative; z-index: 2;
+  }
+  .plant-div svg { display: block; width: 100%; }
+
+  /* ══ FLOATING NATURE LAYER ═══════════════════════════════ */
+  #nature-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 45;
+    overflow: hidden;
+  }
+
+  /* ─ PETALS ─ */
+  .petal {
+    position: absolute; top: -40px;
+    border-radius: 50% 0 50% 0;
+    animation: petalFall linear infinite;
+    will-change: transform;
+    opacity: 0;
+  }
+  @keyframes petalFall {
+    0%   { opacity:0; transform: translateY(0) rotate(0deg) translateX(0); }
+    8%   { opacity: .75; }
+    88%  { opacity: .55; }
+    100% { opacity:0; transform: translateY(105vh) rotate(540deg) translateX(var(--drift)); }
+  }
+
+  /* ─ BEES ─ */
+  .bee {
+    position: absolute;
+    animation: beePath linear infinite;
+    will-change: transform;
+    transform-origin: 50% 50%;
+  }
+  .bee svg .bee-wing {
+    transform-origin: 50% 100%;
+    animation: wingBeat .14s ease-in-out infinite alternate;
+  }
+  .bee svg .bee-wing-r {
+    transform-origin: 50% 100%;
+    animation: wingBeat .14s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes wingBeat {
+    from { transform: scaleY(1) scaleX(1); }
+    to   { transform: scaleY(.35) scaleX(.8); }
+  }
+  @keyframes beePath {
+    0%   { transform: translate(var(--bx0), var(--by0)) rotate(0deg); }
+    20%  { transform: translate(var(--bx1), var(--by1)) rotate(var(--br1)); }
+    45%  { transform: translate(var(--bx2), var(--by2)) rotate(var(--br2)); }
+    70%  { transform: translate(var(--bx3), var(--by3)) rotate(var(--br3)); }
+    100% { transform: translate(var(--bx0), var(--by0)) rotate(0deg); }
+  }
+
+  /* ─ BUTTERFLIES ─ */
+  .butterfly {
+    position: absolute;
+    animation: bfPath ease-in-out infinite;
+    will-change: transform;
+  }
+  .bf-left, .bf-right {
+    transform-origin: 50% 100%;
+    animation: bfFlap .38s ease-in-out infinite alternate;
+  }
+  .bf-right { animation-direction: alternate-reverse; }
+  @keyframes bfFlap {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(.15); }
+  }
+  @keyframes bfPath {
+    0%   { transform: translate(var(--px0),var(--py0)) rotate(0deg); opacity:.8; }
+    25%  { transform: translate(var(--px1),var(--py1)) rotate(var(--pr1)); opacity:.9; }
+    55%  { transform: translate(var(--px2),var(--py2)) rotate(var(--pr2)); opacity:.75; }
+    80%  { transform: translate(var(--px3),var(--py3)) rotate(var(--pr3)); opacity:.9; }
+    100% { transform: translate(var(--px0),var(--py0)) rotate(0deg); opacity:.8; }
+  }
+
+  /* ═══ HERO ENHANCEMENTS ══════════════════════════════════ */
+  .hero-petal-bg {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .hero-petal-bg .hp {
+    position: absolute; border-radius: 50% 0 50% 0;
+    animation: heroPetalDrift ease-in-out infinite;
+    opacity: 0;
+  }
+  @keyframes heroPetalDrift {
+    0%   { opacity:0; transform: translateY(-20px) rotate(0deg); }
+    15%  { opacity:.5; }
+    85%  { opacity:.35; }
+    100% { opacity:0; transform: translateY(120px) rotate(200deg) translateX(40px); }
+  }
+
+  /* ═══ SECTION LEAF ACCENTS ═══════════════════════════════ */
+  .leaf-accent {
+    position: absolute; pointer-events: none;
+    animation: leafSway ease-in-out infinite alternate;
+    transform-origin: bottom center;
+  }
+  @keyframes leafSway {
+    from { transform: rotate(-4deg); }
+    to   { transform: rotate(4deg); }
+  }
+
+  /* ═══ PANNEAU CARD HOVER ════════════════════════════════ */
+  .pnx-card {
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1),
+                box-shadow .4s ease !important;
+  }
+  .pnx-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 60px rgba(26,74,46,.22) !important;
+  }
+
+  /* ═══ GALLERY ITEM HOVER ════════════════════════════════ */
+  .gal-item {
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1),
+                box-shadow .35s ease;
+  }
+  .gal-item:hover {
+    transform: scale(1.03) translateY(-3px);
+    box-shadow: 0 12px 32px rgba(26,74,46,.18);
+    z-index: 2;
+  }
+
+  /* ═══ EP CARD HOVER ══════════════════════════════════════ */
+  .ep-card {
+    transition: background .3s, transform .4s cubic-bezier(.34,1.56,.64,1) !important;
+  }
+  .ep-card:hover { transform: translateY(-6px) scale(1.01) !important; }
+
+  /* ═══ PART CARD HOVER ════════════════════════════════════ */
+  .part-card {
+    transition: box-shadow .3s, transform .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .part-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(26,74,46,.14) !important;
+  }
+
+  /* ═══ AUDIO BLOCK PULSE ═════════════════════════════════ */
+  .audio-block { transition: border-color .3s, box-shadow .3s; }
+  .audio-block:hover {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(82,183,136,.12);
+  }
+
+  /* ═══ NAV BRAND SVG LEAF ════════════════════════════════ */
+  .nav-leaf { display:inline-block; margin-right:.4rem; vertical-align:middle; }
+
+  /* ═══ QR BTN refined ════════════════════════════════════ */
+  .qr-btn { letter-spacing: .06em; }
+
+  /* ═══ PARALLAX WRAPPER ══════════════════════════════════ */
+  .parallax-bg {
+    transition: transform .1s linear;
+    will-change: transform;
+  }
+
+  /* ═══ STAGGER CHILDREN ══════════════════════════════════ */
+  .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
+
+  /* ═══ SECTION TINT BANDS ════════════════════════════════ */
+  #panneaux { position: relative; overflow: hidden; }
+  #panneaux::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 5% 30%, rgba(82,183,136,.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 95% 70%, rgba(45,106,79,.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------------*/
+
+  </style>
+</head>
+<body>
+
+
+<!-- NATURE LAYER -->
+<div id="nature-layer" aria-hidden="true">
+  <!-- BEES -->
+  <div class="bee" style="left:8%;top:30%;width:44px;--bx0:0px;--by0:0px;--bx1:180px;--by1:-80px;--br1:20deg;--bx2:300px;--by2:40px;--br2:-15deg;--bx3:120px;--by3:100px;--br3:8deg;animation-duration:22s;opacity:.75"><svg width="44" height="28" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse class="bee-wing" cx="14" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(-18,14,9)"/>
+  <ellipse class="bee-wing-r" cx="30" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(18,30,9)"/>
+  <ellipse cx="22" cy="17" rx="10" ry="6.5" fill="#f5c518"/>
+  <rect x="15.5" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/>
+  <rect x="22" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/>
+  <circle cx="22" cy="10" r="4.5" fill="#f5c518"/>
+  <circle cx="20.5" cy="9" r="1" fill="#2c1810"/>
+  <circle cx="23.5" cy="9" r="1" fill="#2c1810"/>
+  <line x1="20" y1="7" x2="16" y2="3" stroke="#2c1810" stroke-width="1.2"/>
+  <line x1="24" y1="7" x2="28" y2="3" stroke="#2c1810" stroke-width="1.2"/>
+  <circle cx="16" cy="3" r="1.8" fill="#2c1810"/>
+  <circle cx="28" cy="3" r="1.8" fill="#2c1810"/>
+</svg></div>
+  <div class="bee" style="left:72%;top:20%;width:36px;--bx0:0px;--by0:0px;--bx1:-120px;--by1:60px;--br1:-12deg;--bx2:-200px;--by2:-40px;--br2:18deg;--bx3:-80px;--by3:80px;--br3:-6deg;animation-duration:18s;animation-delay:-7s;opacity:.65"><svg width="44" height="28" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse class="bee-wing" cx="14" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(-18,14,9)"/>
+  <ellipse class="bee-wing-r" cx="30" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(18,30,9)"/>
+  <ellipse cx="22" cy="17" rx="10" ry="6.5" fill="#f5c518"/>
+  <rect x="15.5" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/>
+  <rect x="22" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/>
+  <circle cx="22" cy="10" r="4.5" fill="#f5c518"/>
+  <circle cx="20.5" cy="9" r="1" fill="#2c1810"/>
+  <circle cx="23.5" cy="9" r="1" fill="#2c1810"/>
+  <line x1="20" y1="7" x2="16" y2="3" stroke="#2c1810" stroke-width="1.2"/>
+  <line x1="24" y1="7" x2="28" y2="3" stroke="#2c1810" stroke-width="1.2"/>
+  <circle cx="16" cy="3" r="1.8" fill="#2c1810"/>
+  <circle cx="28" cy="3" r="1.8" fill="#2c1810"/>
+</svg></div>
+  <div class="bee" style="left:45%;top:65%;width:32px;--bx0:0px;--by0:0px;--bx1:100px;--by1:-60px;--br1:10deg;--bx2:160px;--by2:30px;--br2:-8deg;--bx3:50px;--by3:70px;--br3:5deg;animation-duration:26s;animation-delay:-12s;opacity:.6"><svg width="44" height="28" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse class="bee-wing" cx="14" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(-18,14,9)"/>
+  <ellipse class="bee-wing-r" cx="30" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(18,30,9)"/>
+  <ellipse cx="22" cy="17" rx="10" ry="6.5" fill="#f5c518"/>
+  <rect x="15.5" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/>
+  <rect x="22" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/>
+  <circle cx="22" cy="10" r="4.5" fill="#f5c518"/>
+  <circle cx="20.5" cy="9" r="1" fill="#2c1810"/>
+  <circle cx="23.5" cy="9" r="1" fill="#2c1810"/>
+  <line x1="20" y1="7" x2="16" y2="3" stroke="#2c1810" stroke-width="1.2"/>
+  <line x1="24" y1="7" x2="28" y2="3" stroke="#2c1810" stroke-width="1.2"/>
+  <circle cx="16" cy="3" r="1.8" fill="#2c1810"/>
+  <circle cx="28" cy="3" r="1.8" fill="#2c1810"/>
+</svg></div>
+
+  <!-- BUTTERFLIES -->
+  <div class="butterfly" style="left:15%;top:50%;width:56px;--px0:0px;--py0:0px;--px1:250px;--py1:-120px;--pr1:15deg;--px2:400px;--py2:60px;--pr2:-10deg;--px3:200px;--py3:150px;--pr3:8deg;animation-duration:32s;animation-delay:-5s;opacity:.78"><svg width="56" height="46" viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <path class="bf-left" d="M28,23 C22,14 10,8 5,14 C1,20 9,28 28,23Z" fill="#e8528a" opacity=".82"/>
+    <path class="bf-right" d="M28,23 C34,14 46,8 51,14 C55,20 47,28 28,23Z" fill="#ff7d3b" opacity=".82"/>
+    <path class="bf-left" d="M28,23 C20,30 7,36 5,42 C3,47 16,43 28,23Z" fill="#e8528a" opacity=".65"/>
+    <path class="bf-right" d="M28,23 C36,30 49,36 51,42 C53,47 40,43 28,23Z" fill="#ff7d3b" opacity=".65"/>
+    <!-- body -->
+    <ellipse cx="28" cy="23" rx="2.5" ry="9" fill="#3a2010"/>
+    <!-- antennae -->
+    <path d="M27,15 Q22,8 19,5" stroke="#3a2010" stroke-width="1.3" fill="none"/>
+    <path d="M29,15 Q34,8 37,5" stroke="#3a2010" stroke-width="1.3" fill="none"/>
+    <circle cx="19" cy="5" r="2.5" fill="#3a2010"/>
+    <circle cx="37" cy="5" r="2.5" fill="#3a2010"/>
+    <!-- wing spots -->
+    <circle cx="15" cy="18" r="3" fill="rgba(255,255,255,.3)"/>
+    <circle cx="41" cy="18" r="3" fill="rgba(255,255,255,.3)"/>
+    <circle cx="13" cy="34" r="2" fill="rgba(255,255,255,.25)"/>
+    <circle cx="43" cy="34" r="2" fill="rgba(255,255,255,.25)"/>
+  </g>
+</svg></div>
+  <div class="butterfly" style="left:60%;top:40%;width:46px;--px0:0px;--py0:0px;--px1:-180px;--py1:-80px;--pr1:-12deg;--px2:-280px;--py2:40px;--pr2:8deg;--px3:-100px;--py3:110px;--pr3:-5deg;animation-duration:28s;animation-delay:-15s;opacity:.7"><svg width="56" height="46" viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <path class="bf-left" d="M28,23 C22,14 10,8 5,14 C1,20 9,28 28,23Z" fill="#e8528a" opacity=".82"/>
+    <path class="bf-right" d="M28,23 C34,14 46,8 51,14 C55,20 47,28 28,23Z" fill="#ff7d3b" opacity=".82"/>
+    <path class="bf-left" d="M28,23 C20,30 7,36 5,42 C3,47 16,43 28,23Z" fill="#e8528a" opacity=".65"/>
+    <path class="bf-right" d="M28,23 C36,30 49,36 51,42 C53,47 40,43 28,23Z" fill="#ff7d3b" opacity=".65"/>
+    <!-- body -->
+    <ellipse cx="28" cy="23" rx="2.5" ry="9" fill="#3a2010"/>
+    <!-- antennae -->
+    <path d="M27,15 Q22,8 19,5" stroke="#3a2010" stroke-width="1.3" fill="none"/>
+    <path d="M29,15 Q34,8 37,5" stroke="#3a2010" stroke-width="1.3" fill="none"/>
+    <circle cx="19" cy="5" r="2.5" fill="#3a2010"/>
+    <circle cx="37" cy="5" r="2.5" fill="#3a2010"/>
+    <!-- wing spots -->
+    <circle cx="15" cy="18" r="3" fill="rgba(255,255,255,.3)"/>
+    <circle cx="41" cy="18" r="3" fill="rgba(255,255,255,.3)"/>
+    <circle cx="13" cy="34" r="2" fill="rgba(255,255,255,.25)"/>
+    <circle cx="43" cy="34" r="2" fill="rgba(255,255,255,.25)"/>
+  </g>
+</svg></div>
+  <div class="butterfly" style="left:82%;top:70%;width:38px;--px0:0px;--py0:0px;--px1:-140px;--py1:-90px;--pr1:18deg;--px2:-60px;--py2:50px;--pr2:-14deg;--px3:-180px;--py3:30px;--pr3:7deg;animation-duration:35s;animation-delay:-20s;opacity:.65"><svg width="56" height="46" viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <path class="bf-left" d="M28,23 C22,14 10,8 5,14 C1,20 9,28 28,23Z" fill="#e8528a" opacity=".82"/>
+    <path class="bf-right" d="M28,23 C34,14 46,8 51,14 C55,20 47,28 28,23Z" fill="#ff7d3b" opacity=".82"/>
+    <path class="bf-left" d="M28,23 C20,30 7,36 5,42 C3,47 16,43 28,23Z" fill="#e8528a" opacity=".65"/>
+    <path class="bf-right" d="M28,23 C36,30 49,36 51,42 C53,47 40,43 28,23Z" fill="#ff7d3b" opacity=".65"/>
+    <!-- body -->
+    <ellipse cx="28" cy="23" rx="2.5" ry="9" fill="#3a2010"/>
+    <!-- antennae -->
+    <path d="M27,15 Q22,8 19,5" stroke="#3a2010" stroke-width="1.3" fill="none"/>
+    <path d="M29,15 Q34,8 37,5" stroke="#3a2010" stroke-width="1.3" fill="none"/>
+    <circle cx="19" cy="5" r="2.5" fill="#3a2010"/>
+    <circle cx="37" cy="5" r="2.5" fill="#3a2010"/>
+    <!-- wing spots -->
+    <circle cx="15" cy="18" r="3" fill="rgba(255,255,255,.3)"/>
+    <circle cx="41" cy="18" r="3" fill="rgba(255,255,255,.3)"/>
+    <circle cx="13" cy="34" r="2" fill="rgba(255,255,255,.25)"/>
+    <circle cx="43" cy="34" r="2" fill="rgba(255,255,255,.25)"/>
+  </g>
+</svg></div>
+</div>
+
+<nav>
+ <span class="nav-brand"><span class="nav-leaf"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M9 19C9 19 1 13 1 7a8 8 0 0 1 16 0c0 6-8 12-8 12z" fill="#52b788" stroke="#2d6a4f" stroke-width="1"/><line x1="9" y1="19" x2="9" y2="9" stroke="#2d6a4f" stroke-width="1" stroke-dasharray="2 1"/></svg></span>Biodiversité à tous les étages</span>
+ <ul class="nav-links">
+ <li><a href="#intro">Le projet</a></li>
+ <li><a href="#panneaux">Les panneaux</a></li>
+ 
+ <li><a href="#galerie">Galerie</a></li>
+ <li><a href="#partenaires">Partenaires</a></li>
+ </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-video-wrap" id="heroVidWrap">
+    <video id="heroVid" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="hero_background.mp4" type="video/mp4" />
+    </video>
+  </div>
+  
+  <!-- Hero drifting petals -->
+  <div class="hero-petal-bg" aria-hidden="true">
+    <div class="hp" style="left:86%;width:15px;height:19px;background:rgba(232,82,138,.55);transform:rotate(52deg);animation-duration:6.9s;animation-delay:-3.9s;top:44%;--drift:36px"></div>
+    <div class="hp" style="left:16%;width:13px;height:16px;background:rgba(255,125,59,.45);transform:rotate(258deg);animation-duration:10.7s;animation-delay:-14.5s;top:11%;--drift:27px"></div>
+    <div class="hp" style="left:76%;width:20px;height:27px;background:rgba(255,182,193,.5);transform:rotate(229deg);animation-duration:7.6s;animation-delay:-5.3s;top:27%;--drift:25px"></div>
+    <div class="hp" style="left:5%;width:18px;height:24px;background:rgba(183,228,199,.4);transform:rotate(79deg);animation-duration:12.1s;animation-delay:-12.6s;top:31%;--drift:-23px"></div>
+    <div class="hp" style="left:18%;width:17px;height:24px;background:rgba(255,105,180,.35);transform:rotate(22deg);animation-duration:6.7s;animation-delay:-13.5s;top:39%;--drift:43px"></div>
+    <div class="hp" style="left:73%;width:13px;height:18px;background:rgba(252,90,141,.5);transform:rotate(321deg);animation-duration:7.0s;animation-delay:-1.2s;top:33%;--drift:29px"></div>
+    <div class="hp" style="left:78%;width:22px;height:28px;background:rgba(232,82,138,.55);transform:rotate(148deg);animation-duration:7.5s;animation-delay:-14.0s;top:24%;--drift:-40px"></div>
+    <div class="hp" style="left:17%;width:17px;height:21px;background:rgba(255,125,59,.45);transform:rotate(181deg);animation-duration:9.0s;animation-delay:-8.2s;top:27%;--drift:-24px"></div>
+    <div class="hp" style="left:94%;width:21px;height:30px;background:rgba(255,182,193,.5);transform:rotate(273deg);animation-duration:13.5s;animation-delay:-5.3s;top:25%;--drift:43px"></div>
+    <div class="hp" style="left:25%;width:22px;height:32px;background:rgba(183,228,199,.4);transform:rotate(112deg);animation-duration:9.7s;animation-delay:-11.0s;top:30%;--drift:37px"></div>
+    <div class="hp" style="left:12%;width:17px;height:23px;background:rgba(255,105,180,.35);transform:rotate(33deg);animation-duration:7.8s;animation-delay:-14.5s;top:46%;--drift:-23px"></div>
+    <div class="hp" style="left:45%;width:22px;height:30px;background:rgba(252,90,141,.5);transform:rotate(135deg);animation-duration:7.7s;animation-delay:-7.5s;top:25%;--drift:-33px"></div>
+    <div class="hp" style="left:76%;width:18px;height:28px;background:rgba(232,82,138,.55);transform:rotate(204deg);animation-duration:10.3s;animation-delay:-3.8s;top:24%;--drift:-4px"></div>
+    <div class="hp" style="left:22%;width:12px;height:18px;background:rgba(255,125,59,.45);transform:rotate(78deg);animation-duration:10.1s;animation-delay:-13.6s;top:20%;--drift:30px"></div>
+    <div class="hp" style="left:92%;width:18px;height:25px;background:rgba(255,182,193,.5);transform:rotate(239deg);animation-duration:9.4s;animation-delay:-14.0s;top:26%;--drift:17px"></div>
+    <div class="hp" style="left:75%;width:13px;height:19px;background:rgba(183,228,199,.4);transform:rotate(274deg);animation-duration:12.9s;animation-delay:-14.8s;top:27%;--drift:46px"></div>
+    <div class="hp" style="left:87%;width:14px;height:19px;background:rgba(255,105,180,.35);transform:rotate(134deg);animation-duration:8.7s;animation-delay:-10.6s;top:21%;--drift:14px"></div>
+    <div class="hp" style="left:69%;width:16px;height:24px;background:rgba(252,90,141,.5);transform:rotate(259deg);animation-duration:13.3s;animation-delay:-1.9s;top:22%;--drift:27px"></div>
+    </div>
+  <div class="hero-leaf"></div>
+ <p class="hero-eyebrow">Athénée Royal Jules Bara · Année scolaire 2025–2026</p>
+ <h1>La Biodiversité<br/><em>à tous les étages</em></h1>
+    <p class="hero-sub">Un projet intergénérationnel porté par l’asbl <em>Ag’Y Sont</em> entre élèves de 2ème secondaire et adultes du groupe <em>Cuisinons malin </em>— explorer, créer et transmettre autour de la biodiversité urbaine.</p>
+ <div class="hero-badges">
+ <span class="badge">PECA · FWB</span>
+ <span class="badge">SCES ASBL</span>
+ <span class="badge">Ag'Y Sont ASBL</span>
+ <span class="badge">Palette Nature ASBL</span>
+ <span class="badge">La Pépinière</span>
+ </div>
+ <div class="scroll-cue">Découvrir</div>
+</header>
+
+<!-- AUDIO INTRO MME DELHAYE -->
+<div id="intro-audio-bar" data-sr="up">
+  <div class="container iab-inner">
+    <div class="iab-leaf" aria-hidden="true">
+      <svg width="38" height="44" viewBox="0 0 38 44" fill="none"><path d="M19 42C19 42 2 30 2 16a17 17 0 0 1 34 0c0 14-17 26-17 26z" fill="#52b788"/><path d="M19 42V18" stroke="#1a4a2e" stroke-width="1.5" stroke-dasharray="3 2"/><path d="M19 26 Q12 22 9 16" stroke="#1a4a2e" stroke-width="1.2" fill="none"/><path d="M19 30 Q26 26 29 20" stroke="#1a4a2e" stroke-width="1.2" fill="none"/></svg>
+    </div>
+    <div class="iab-text">
+      <p class="iab-label">Introduction du projet</p>
+      <h3 class="iab-name">Madame Delhaye</h3>
+    </div>
+    <div class="iab-player">
+      <audio controls preload="none">
+        <source src="intervieuw_MME_SANDRINE.mp3" type="audio/mpeg"/>
+      </audio>
+    </div>
+    <button class="iab-close" onclick="this.closest('#intro-audio-bar').style.display='none'" title="Fermer">×</button>
+  </div>
+</div>
+
+
+<!-- INTRO -->
+<section id="intro">
+ <div class="container">
+ <div class="intro-grid">
+ <div data-sr="left" class="intro-body">
+ <p class="s-label">Le projet</p>
+ <h2 class="s-title">Quand jeunes et aînés <em>jardinent ensemble</em></h2>
+ <div class="rule"></div>
+ <p>C'est à partir du film <em>« Nature, pour une réconciliation »</em> de Yann Arthus-Bertrand que les élèves de la classe 2E d'activités sciences ont pris conscience des différentes problématiques en lien avec la biodiversité. Le désir d'agir pour préserver les ressources liées aux écosystèmes s'est alors révélé comme une évidence. Parmi les changements profonds à opérer dans nos modes de vie, les élèves ont retenu la thématique de l'alimentation : <strong>« Manger des produits locaux et de saison ».</strong></p>
+ <p>La protection de la biodiversité étant un défi qui concerne tout un chacun, l'ASBL <strong>Ag'Y Sont</strong> — partageant le même intérêt pour l'alimentation — a rejoint la classe pour mener à bien nos objectifs. Le groupe <em>Cuisinons malin</em> avait également la volonté de transmettre à un jeune public leurs connaissances liées aux plantes sauvages et comestibles qui favorisent notre biodiversité.</p>
+ <p>À l'issue du projet, les bacs potagers du jardin pédagogique ont été réhabilités. Des <strong>panneaux didactiques</strong> conçus par assemblage et collage ont été imprimés sur support Forex et fixés sur les bacs. Des <strong>QR codes</strong> insérés dans les panneaux donnent accès à 9 podcasts réunissant expertise scientifique et échanges intergénérationnels.</p>
+ <div class="quote-block">
+ <p>« La diversité fait notre richesse, la biodiversité est notre avenir !<br/>Protégeons-la et redécouvrons sa richesse ensemble. »</p>
+ </div>
+ <div style="margin-top:2rem">
+ <p class="s-label" style="margin-bottom:.6rem">Les objectifs</p>
+ <div class="obj-list">
+ <div class="obj-item">Respecter l'environnement en milieu urbain</div>
+ <div class="obj-item">Découvrir la biodiversité et la saisonnalité</div>
+ <div class="obj-item">Prendre conscience d'une alimentation saine</div>
+ <div class="obj-item">Créer du lien entre générations</div>
+ <div class="obj-item">Réhabiliter les bacs potagers</div>
+ <div class="obj-item">Déconstruire les préjugés intergénérationnels</div>
+ <div class="obj-item">Développer un esprit critique et constructif</div>
+ <div class="obj-item">Se responsabiliser en tant que futur citoyen</div>
+ </div>
+ </div>
+ </div>
+ <div>
+ <div data-sr="right" class="proj-card">
+ <h3> Le projet en chiffres</h3>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">École</span><span class="meta-val">Athénée Royal Jules Bara</span></div></div>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">Année scolaire</span><span class="meta-val">2025–2026</span></div></div>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">Rencontres</span><span class="meta-val">9 animations · Mars à Juin 2026</span></div></div>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">Élèves</span><span class="meta-val">12 élèves · 2ème secondaire sciences</span></div></div>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">Adultes</span><span class="meta-val">10 adultes du groupe Cuisinons malin</span></div></div>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">Audios</span><span class="meta-val">9 audios avec QR codes intégrés</span></div></div>
+ <div class="meta-row"><span class="meta-icon"></span><div><span class="meta-label">Panneaux</span><span class="meta-val">8 panneaux sur support Forex</span></div></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+<!--PANNEAUX -->
+  <circle cx="320" cy="33" r="3" fill="#52b788" opacity=".5"/>
+  <circle cx="700" cy="36" r="2.5" fill="#b7e4c7" opacity=".6"/>
+  <circle cx="1050" cy="30" r="3" fill="#52b788" opacity=".45"/>
+</svg></div>
+<section id="panneaux">
+  <div class="container">
+    <p class="s-label">Nos créations</p>
+    <h2 class="s-title">Les <em>8 panneaux</em> du parcours</h2>
+    <div class="rule"></div>
+    <p style="color:var(--mid);max-width:640px;margin-bottom:3rem;font-size:.94rem;">
+      Chaque panneau a été conçu en binôme élève–adulte. Cliquez sur l'image pour l'agrandir,
+      scannez le QR code ou utilisez le lecteur audio pour écouter la piste enregistrée par les participants.
+    </p>
+    <div class="pnx-stack">
+
+      <div class="pnx-card" data-sr="up">
+        <div class="pnx-vis" id="vis-1">
+          <span class="pnx-num">Panneau 01</span>
+          <img class="pnx-img on" src="1__L_eco_jardin.jpg" alt="L'Éco-Jardin — photo réalisée"
+               onclick="openLbSrc('1__L_eco_jardin.jpg','L'Éco-Jardin')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-1">
+            <button class="qr-close" onclick="hideQR(1)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-1">
+              <img src="qr_panneau_1.png" alt="QR Code Panneau 1"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_1.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(1)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Jardinage durable</p>
+          <h3 class="pnx-title">L'Éco-Jardin</h3>
+          <p class="pnx-desc">Et si on arrêtait deux minutes de vouloir tout dompter… pour apprendre à laisser pousser ? Un espace où les plantes poussent (presque) comme elles veulent, où les « mauvaises herbes » n'existent pas… et où même une ortie peut devenir une alliée précieuse. Un jardin qui soigne, qui nourrit, et qui raconte aussi notre histoire oubliée : celle des savoirs transmis, des remèdes naturels, d'une nature qu'on gagne à écouter plutôt qu'à combattre.</p>
+          <div class="pnx-cta">➔ Effets secondaires possibles : envie soudaine de composter, de parler à ses plantes et de revoir sa définition du mot « propre ».</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_1.png" alt="QR L'Éco-Jardin"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — L'Éco-Jardin</p>
+              <audio controls preload="none">
+                <source src="Panneau_1_-_ECO_JARDIN.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card rev" data-sr="up">
+        <div class="pnx-vis" id="vis-2">
+          <span class="pnx-num">Panneau 02</span>
+          <img class="pnx-img on" src="2__L_pollinisateurs.jpg" alt="Les Pollinisateurs — photo réalisée"
+               onclick="openLbSrc('2__L_pollinisateurs.jpg','Les Pollinisateurs')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-2">
+            <button class="qr-close" onclick="hideQR(2)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-2">
+              <img src="qr_panneau_2.png" alt="QR Code Panneau 2"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_2.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(2)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Biodiversité</p>
+          <h3 class="pnx-title">Les Pollinisateurs</h3>
+          <p class="pnx-desc">Ils sont minuscules, travaillent gratuitement… et pourtant, sans eux, ton frigo serait franchement triste. Abeilles, bourdons et toute leur fine équipe — ces ouvriers de l'ombre sans qui ni fruits, ni légumes, ni fleurs ne verraient vraiment le jour. Les espèces sauvages sont de véritables championnes de la biodiversité. Même avec toute notre technologie, on est encore très loin de rivaliser avec leur efficacité.</p>
+          <div class="pnx-cta">➔ Protéger ces petites bêtes, c'est surtout… prendre soin de nous-mêmes.</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_2.png" alt="QR Les Pollinisateurs"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — Les Pollinisateurs</p>
+              <audio controls preload="none">
+                <source src="Panneau_2_-_POLLINISATEURS.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card" data-sr="up">
+        <div class="pnx-vis" id="vis-3">
+          <span class="pnx-num">Panneau 03</span>
+          <img class="pnx-img on" src="3__La_chaine_alimentaire.jpg" alt="La Chaîne Alimentaire — photo réalisée"
+               onclick="openLbSrc('3__La_chaine_alimentaire.jpg','La Chaîne Alimentaire')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-3">
+            <button class="qr-close" onclick="hideQR(3)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-3">
+              <img src="qr_panneau_3.png" alt="QR Code Panneau 3"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_3.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(3)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Écologie</p>
+          <h3 class="pnx-title">La Chaîne Alimentaire</h3>
+          <p class="pnx-desc">Pas de super-héros… mais une chaîne de vie digne d'un scénario bien ficelé. Des fleurs aux insectes, des insectes aux oiseaux, chaque petit maillon a son rôle à jouer — même la minuscule guêpe dont tu ignorais l'existence. Tout le monde est invité à ce grand buffet… et personne n'est vraiment optionnel. Enlever un seul élément, c'est comme retirer une pièce d'un jeu de dominos : tout peut vaciller.</p>
+          <div class="pnx-cta">➔ La nature ne fonctionne pas en solo, elle fonctionne en équipe. Et on fait partie de l'équipe !</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_3.png" alt="QR La Chaîne Alimentaire"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — La Chaîne Alimentaire</p>
+              <audio controls preload="none">
+                <source src="Panneau_3_-_CHAINE_ALIMENTAIRE_OK.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card rev" data-sr="up">
+        <div class="pnx-vis" id="vis-4">
+          <span class="pnx-num">Panneau 04</span>
+          <img class="pnx-img on" src="4__Des_recettes_Quand_la_cuisine_.jpg" alt="Quand la cuisine sort des sentiers battus… — photo réalisée"
+               onclick="openLbSrc('4__Des_recettes_Quand_la_cuisine_.jpg','Quand la cuisine sort des sentiers battus…')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-4">
+            <button class="qr-close" onclick="hideQR(4)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-4">
+              <img src="qr_panneau_4.png" alt="QR Code Panneau 4"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_4.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(4)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Cuisine &amp; nature</p>
+          <h3 class="pnx-title">Quand la cuisine sort des sentiers battus…</h3>
+          <p class="pnx-desc">Et si ton prochain ingrédient se cachait juste sous tes pieds ? Une immersion gourmande dans la cuisine des plantes sauvages — nos fruits et légumes d'aujourd'hui sont, à la base, de simples plantes sauvages domestiquées. Un jardin peut aussi être un garde-manger inattendu. Mais attention : la nature est généreuse, mais elle demande respect et observation. On ne goûte pas au hasard !</p>
+          <div class="pnx-cta">➔ Cuisiner avec la nature, c'est avant tout apprendre à la connaître.</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_4.png" alt="QR Quand la cuisine sort des sentiers battus…"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — Les Recettes</p>
+              <audio controls preload="none">
+                <source src="Panneau_4___RECETTES.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card" data-sr="up">
+        <div class="pnx-vis" id="vis-5">
+          <span class="pnx-num">Panneau 05</span>
+          <img class="pnx-img on" src="5__L_alimentation_durable.jpg" alt="L'Alimentation Durable — photo réalisée"
+               onclick="openLbSrc('5__L_alimentation_durable.jpg','L'Alimentation Durable')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-5">
+            <button class="qr-close" onclick="hideQR(5)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-5">
+              <img src="qr_panneau_5.png" alt="QR Code Panneau 5"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_5.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(5)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Consommation responsable</p>
+          <h3 class="pnx-title">L'Alimentation Durable</h3>
+          <p class="pnx-desc">On aimerait tous bien manger… sans y passer trois heures, sans exploser le budget, avec du goût. Acheter local, de saison, éviter le gaspillage — des idées simples en apparence, mais qui demandent parfois un vrai changement de réflexe. On peut tout trouver, tout le temps… mais pas toujours de la qualité ni du sens. Entre retour aux sources et prise de conscience écologique, ce panneau invite à repenser notre manière de consommer sans culpabiliser.</p>
+          <div class="pnx-cta">➔ Un panneau qui donne envie de faire mieux… à son rythme.</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_5.png" alt="QR L'Alimentation Durable"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — Alimentation Durable</p>
+              <audio controls preload="none">
+                <source src="Panneau_5_-_ALIMENTATION_DURABLE.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card rev" data-sr="up">
+        <div class="pnx-vis" id="vis-6">
+          <span class="pnx-num">Panneau 06</span>
+          <img class="pnx-img on" src="6___coeur_a_coeur.jpg" alt="Cœur à cœur — photo réalisée"
+               onclick="openLbSrc('6___coeur_a_coeur.jpg','Cœur à cœur')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-6">
+            <button class="qr-close" onclick="hideQR(6)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-6">
+              <img src="qr_panneau_6.png" alt="QR Code Panneau 6"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_6.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(6)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Lien intergénérationnel</p>
+          <h3 class="pnx-title">Cœur à cœur</h3>
+          <p class="pnx-desc">Pas besoin d'effets spéciaux ni de grandes théories. Il suffit d'une conversation. Ces moments où les souvenirs rencontrent la curiosité, où l'expérience dialogue avec les questions d'aujourd'hui. Ces rencontres ne sont pas juste « sympas » — elles font du bien. Parce que des savoirs se perdent, parce que des liens se raréfient… et parce qu'on a encore énormément à apprendre les uns des autres. Partager, c'est aussi recevoir, se redécouvrir.</p>
+          <div class="pnx-cta">➔ Le dialogue est peut-être l'outil le plus précieux pour construire demain.</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_6.png" alt="QR Cœur à cœur"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — Cœur à cœur</p>
+              <audio controls preload="none">
+                <source src="Panneau_6_-_ECHANGE.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card" data-sr="up">
+        <div class="pnx-vis" id="vis-7">
+          <span class="pnx-num">Panneau 07</span>
+          <img class="pnx-img on" src="7__Un_jardin_qui_vit_.jpg" alt="Un jardin qui vit, vraiment — photo réalisée"
+               onclick="openLbSrc('7__Un_jardin_qui_vit_.jpg','Un jardin qui vit, vraiment')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-7">
+            <button class="qr-close" onclick="hideQR(7)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-7">
+              <img src="qr_panneau_7.png" alt="QR Code Panneau 7"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_7.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(7)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Faune &amp; Flore</p>
+          <h3 class="pnx-title">Un jardin qui vit, vraiment</h3>
+          <p class="pnx-desc">Un jardin, ce n'est pas juste des plantes bien rangées. C'est un monde entier… carrément invisible. Prenez votre loupe : on découvre comment un espace, même tout petit, peut devenir un véritable refuge pour la vie — insectes, oiseaux… et parfois même des invités surprises. Coccinelles, tritons, escargots, mésanges, lombrics : les habitants discrets mais indispensables du jardin.</p>
+          <div class="pnx-cta">➔ Ce n'est pas la taille du jardin qui compte, c'est ce qu'on y laisse exister.</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_7.png" alt="QR Un jardin qui vit, vraiment"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — Un jardin qui vit</p>
+              <audio controls preload="none">
+                <source src="Panneau_7_-_FAUNE___FLORE.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pnx-card rev" data-sr="up">
+        <div class="pnx-vis" id="vis-8">
+          <span class="pnx-num">Panneau 08</span>
+          <img class="pnx-img on" src="8__Jardiner_-_prendre_de_la_graine.jpg" alt="Jardiner autrement — photo réalisée"
+               onclick="openLbSrc('8__Jardiner_-_prendre_de_la_graine.jpg','Jardiner autrement')" loading="lazy"/>
+          <div class="qr-overlay" id="qr-8">
+            <button class="qr-close" onclick="hideQR(8)">×</button>
+            <div class="qr-img-wrap" id="qr-wrap-8">
+              <img src="qr_panneau_8.png" alt="QR Code Panneau 8"
+                onload="this.parentElement.querySelector('.qr-ph').style.display='none'"
+                onerror="this.style.display='none'"/>
+              <div class="qr-ph">Fichier <code>qr_panneau_8.png</code><br/>à placer dans le dossier</div>
+            </div>
+            <p>Scannez pour écouter l'audio</p>
+          </div>
+          <button class="qr-btn" onclick="showQR(8)"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="4" height="4" rx=".5" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="9.5" y="2.5" width="1" height="1" fill="currentColor"/><rect x="2.5" y="9.5" width="1" height="1" fill="currentColor"/><line x1="8.5" y1="8.5" x2="9.5" y2="8.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="8.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="9.5" y1="11.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/><line x1="11.5" y1="9.5" x2="11.5" y2="11.5" stroke="currentColor" stroke-width="1"/></svg>QR Code</button>
+        </div>
+        <div class="pnx-body">
+          <p class="pnx-theme">Thème · Pratiques écologiques</p>
+          <h3 class="pnx-title">Jardiner autrement</h3>
+          <p class="pnx-desc">Et si le secret d'un bon jardin… c'était d'en faire moins ? Pas de tondeuse obsessionnelle, pas de produits chimiques à tout-va. Des gestes simples : pailler, composter, laisser pousser, observer, placer du carton… Travailler avec la nature plutôt que contre elle. Un sol couvert, c'est un sol vivant. Des déchets, c'est en fait une ressource. Une herbe qu'on laisse tranquille devient un refuge pour tout un petit monde.</p>
+          <div class="pnx-cta">➔ Jardiner au naturel n'est pas une contrainte… mais une autre logique. Et parfois, une sacrée bonne surprise.</div>
+          <div class="audio-block">
+            <div class="qr-box">
+              <img src="qr_panneau_8.png" alt="QR Jardiner autrement"
+                onerror="this.parentElement.innerHTML='<div class=qr-fallback>QR</div>'"/>
+            </div>
+            <div class="audio-right">
+              <p class="audio-lbl">Piste audio — Jardiner autrement</p>
+              <audio controls preload="none">
+                <source src="Panneau_8_-_TECHNIQUES_JARDINAGE.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="container">
+    <p class="s-label">Mémoire du projet</p>
+    <h2 class="s-title">Galerie <em>photos</em></h2>
+    <div class="rule"></div>
+
+    <div class="gal-filters">
+      <button class="gal-btn on" data-f="all">Toutes</button>
+      <button class="gal-btn" data-f="ateliers">Ateliers créatifs</button>
+      <button class="gal-btn" data-f="jardins">Jardins &amp; sorties</button>
+      <button class="gal-btn" data-f="cuisine">Cuisine &amp; dégustation</button>
+      <button class="gal-btn" data-f="panneaux">Panneaux réalisés</button>
+    </div>
+
+    <div class="gal-grid">
+      <div class="gal-item" style="--i:0" data-c="ateliers" onclick="openLb(this)">
+        <img src="A__9_mars_26_.png" alt="Première rencontre · 9 mars 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Première rencontre · 9 mars 2026</span></div>
+      </div>
+      <div class="gal-item w2" style="--i:1" data-c="ateliers" onclick="openLb(this)">
+        <img src="B__9_mars_26.jpg" alt="Activité "Mon plat préféré" · 9 mars 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Activité "Mon plat préféré" · 9 mars 2026</span></div>
+      </div>
+      <div class="gal-item w2" style="--i:2" data-c="ateliers" onclick="openLb(this)">
+        <img src="C__16_mars_26.png" alt="Cercle de discussion · 16 mars 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Cercle de discussion · 16 mars 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:3" data-c="ateliers" onclick="openLb(this)">
+        <img src="D_16_mars_26.jpg" alt="Atelier collage · 16 mars 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Atelier collage · 16 mars 2026</span></div>
+      </div>
+      <div class="gal-item w2" style="--i:14" data-c="Ateliers" onclick="openLb(this)">
+        <img src="P__11_mai_26.jpg" alt="Atelier création de panneaux · 11 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Atelier création de panneaux · 11 mai 2026</span></div>
+      </div>
+      <div class="gal-item w2" style="--i:4" data-c="jardins" onclick="openLb(this)">
+        <img src="E__23_mars_26.jpg" alt="Découverte de l'espace vert · 23 mars 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Découverte de l'espace vert · 23 mars 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:5" data-c="jardins" onclick="openLb(this)">
+        <img src="F__1_avril_2026.jpg" alt="Visite à La Pépinière · 1er avril 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Visite à La Pépinière · 1er avril 2026</span></div>
+      </div>
+      <div class="gal-item h2" style="--i:6" data-c="cuisine" onclick="openLb(this)">
+        <img src="G__1_avril_26__.jpg" alt="Pesto d'ail des ours & jus · 1er avril 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Pesto d'ail des ours & jus · 1er avril 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:7" data-c="cuisine" onclick="openLb(this)">
+        <img src="H__1_avril_26.JPG" alt="Atelier cuisine sauvage · 1er avril 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Atelier cuisine sauvage · 1er avril 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:8" data-c="ateliers" onclick="openLb(this)">
+        <img src="I__1er_avril_26.png" alt="Atelier créatif · 1er avril 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Atelier créatif · 1er avril 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:9" data-c="ateliers" onclick="openLb(this)">
+        <img src="J__11_mai_26_.jpg" alt="Binôme au travail · 11 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Binôme au travail · 11 mai 2026</span></div>
+      </div>
+      <div class="gal-item w2" style="--i:10" data-c="ateliers" onclick="openLb(this)">
+        <img src="K_20_avril_26.jpg" alt="Atelier panneaux · 20 avril 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Atelier panneaux · 20 avril 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:11" data-c="ateliers" onclick="openLb(this)">
+        <img src="N__20_avril_26.jpg" alt="Création intergénérationnelle · 20 avril 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Création intergénérationnelle · 20 avril 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:12" data-c="jardins" onclick="openLb(this)">
+        <img src="L__11_mai_26.jpg" alt="Sortie au jardin · 11 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Sortie au jardin · 11 mai 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:13" data-c="jardins" onclick="openLb(this)">
+        <img src="O__11_mai_26_.jpg" alt="Exploration nature · 11 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Exploration nature · 11 mai 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:15" data-c="jardins" onclick="openLb(this)">
+        <img src="Q__18_mai_26_.jpg" alt="Plantation dans les bacs · 18 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Plantation dans les bacs · 18 mai 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:16" data-c="jardins" onclick="openLb(this)">
+        <img src="R__18_mai_26.jpg" alt="Jardinage en équipe · 18 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Jardinage en équipe · 18 mai 2026</span></div>
+      </div>
+      <div class="gal-item h2" style="--i:17" data-c="jardins" onclick="openLb(this)">
+        <img src="S___18_mai_2026.jpg" alt="Bacs potagers · 18 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Bacs potagers · 18 mai 2026</span></div>
+      </div>
+      <div class="gal-item" style="--i:18" data-c="jardins" onclick="openLb(this)">
+        <img src="U__18_mai_26.jpeg" alt="Travail au jardin · 18 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Travail au jardin · 18 mai 2026</span></div>
+      </div>
+      <div class="gal-item w2 h2" style="--i:19" data-c="jardins" onclick="openLb(this)">
+        <img src="V_____18_mai_26.jpg" alt="Photo de groupe · 18 mai 2026" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Photo de groupe · 18 mai 2026</span></div>
+      </div>
+
+      <!-- PANNEAUX RÉALISÉS -->
+      <div class="gal-item w2 h2" style="--i:20" data-c="panneaux" onclick="openLb(this)">
+        <img src="1__L_eco_jardin.jpg" alt="Panneau 1 · L'Éco-Jardin" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 1 · L'Éco-Jardin</span></div>
+      </div>
+      <div class="gal-item" style="--i:21" data-c="panneaux" onclick="openLb(this)">
+        <img src="2__L_pollinisateurs.jpg" alt="Panneau 2 · Pollinisateurs" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 2 · Pollinisateurs</span></div>
+      </div>
+      <div class="gal-item" style="--i:22" data-c="panneaux" onclick="openLb(this)">
+        <img src="3__La_chaine_alimentaire.jpg" alt="Panneau 3 · Chaîne Alimentaire" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 3 · Chaîne Alimentaire</span></div>
+      </div>
+      <div class="gal-item" style="--i:23" data-c="panneaux" onclick="openLb(this)">
+        <img src="4__Des_recettes_Quand_la_cuisine_.jpg" alt="Panneau 4 · Les Recettes" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 4 · Les Recettes</span></div>
+      </div>
+      <div class="gal-item" style="--i:24" data-c="panneaux" onclick="openLb(this)">
+        <img src="5__L_alimentation_durable.jpg" alt="Panneau 5 · Alimentation Durable" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 5 · Alimentation Durable</span></div>
+      </div>
+      <div class="gal-item" style="--i:25" data-c="panneaux" onclick="openLb(this)">
+        <img src="6___coeur_a_coeur.jpg" alt="Panneau 6 · Cœur à Cœur" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 6 · Cœur à Cœur</span></div>
+      </div>
+      <div class="gal-item" style="--i:26" data-c="panneaux" onclick="openLb(this)">
+        <img src="7__Un_jardin_qui_vit_.jpg" alt="Panneau 7 · Un Jardin qui Vit" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 7 · Un Jardin qui Vit</span></div>
+      </div>
+      <div class="gal-item" style="--i:27" data-c="panneaux" onclick="openLb(this)">
+        <img src="8__Jardiner_-_prendre_de_la_graine.jpg" alt="Panneau 8 · Jardiner autrement" loading="lazy"/>
+        <div class="gal-ov"><span class="gal-cap">Panneau 8 · Jardiner autrement</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+  <!-- small flowers -->
+  <circle cx="320" cy="33" r="3" fill="#52b788" opacity=".5"/>
+  <circle cx="700" cy="36" r="2.5" fill="#b7e4c7" opacity=".6"/>
+  <circle cx="1050" cy="30" r="3" fill="#52b788" opacity=".45"/>
+  <circle cx="1340" cy="35" r="2" fill="#b7e4c7" opacity=".6"/>
+</svg></div>
+
+
+<!-- PARTENAIRES -->
+<section id="partenaires">
+  <div class="container">
+    <p class="s-label">Qui nous soutient ?</p>
+    <h2 class="s-title">Nos <em>partenaires</em></h2>
+    <div class="rule"></div>
+
+    <!-- ── ORGANISATEUR ─────────────────────────────────────── -->
+    <p class="partner-category-label">Organisateur</p>
+    <div class="logos-grid logos-grid--featured">
+      <a class="logo-card logo-card--featured" href="https://www.atheneejulesbara.be" target="_blank" rel="noopener"
+         title="Athénée Royal Jules Bara" data-sr="scale">
+        <div class="logo-img-wrap logo-dark">
+          <img src="logo_bara.png" alt="Athénée Royal Jules Bara" loading="lazy"/>
+        </div>
+        <span class="logo-name">Athénée Royal Jules Bara<br/><em>École organisatrice · Tournai</em></span>
+      </a>
+    </div>
+
+    <!-- ── PARTENAIRES INSTITUTIONNELS ──────────────────────── -->
+    <p class="partner-category-label">Partenaires institutionnels</p>
+    <div class="logos-grid">
+      <a class="logo-card" href="https://www.wbe.be" target="_blank" rel="noopener"
+         title="Wallonie-Bruxelles Enseignement" data-sr="up">
+        <div class="logo-img-wrap">
+          <img src="logo_wbe.jpg" alt="Wallonie-Bruxelles Enseignement" loading="lazy"/>
+        </div>
+        <span class="logo-name">Wallonie-Bruxelles Enseignement</span>
+      </a>
+      <a class="logo-card" href="https://www.peca.be" target="_blank" rel="noopener"
+         title="PECA" data-sr="up">
+        <div class="logo-img-wrap logo-dark">
+          <img src="logo_peca.png" alt="PECA — Parcours d'Éducation Culturelle &amp; Artistique" loading="lazy"/>
+        </div>
+        <span class="logo-name">PECA · Parcours d'Éducation Culturelle &amp; Artistique</span>
+      </a>
+      <a class="logo-card" href="https://www.sces.be" target="_blank" rel="noopener"
+         title="SCES" data-sr="up">
+        <div class="logo-img-wrap">
+          <img src="logo_sces.jpg" alt="SCES ASBL — Savoir Culture École Solidarité" loading="lazy"/>
+        </div>
+        <span class="logo-name">SCES ASBL · Savoir Culture École Solidarité</span>
+      </a>
+    </div>
+
+    <!-- ── PARTENAIRES ASSOCIATIFS ───────────────────────────── -->
+    <p class="partner-category-label">Partenaires associatifs</p>
+    <div class="logos-grid">
+      <a class="logo-card" href="https://www.agysont.be" target="_blank" rel="noopener"
+         title="Ag'Y Sont ASBL" data-sr="up">
+        <div class="logo-img-wrap">
+          <img src="logo_agysont.jpg" alt="Ag'Y Sont asbl" loading="lazy"/>
+        </div>
+        <span class="logo-name">Ag'Y Sont asbl<br/><em>Animations intergénérationnelles</em></span>
+      </a>
+      <a class="logo-card" href="https://lapepiniere-tournai.be" title="La Pépinière Tournai" data-sr="up">
+        <div class="logo-img-wrap">
+          <img src="logo_pepiniere.jpeg" alt="La Pépinière Tournai" loading="lazy"/>
+        </div>
+        <span class="logo-name">La Pépinière · Tournai<br/><em>Jardins partagés</em></span>
+      </a>
+      <a class="logo-card" href="https://www.facebook.com/p/Palette-Nature-asbl-100067624853543/" title="Palette Nature" data-sr="up">
+        <div class="logo-img-wrap logo-dark">
+          <img src="logo_palette.png" alt="Palette Nature asbl" loading="lazy"/>
+        </div>
+        <span class="logo-name">Palette Nature asbl<br/><em>Éducation à l'environnement</em></span>
+      </a>
+    </div>
+
+    <!-- ── PARTENAIRE TECHNOLOGIQUE ─────────────────────────── -->
+    <p class="partner-category-label">Partenaire technologique</p>
+    <div class="logos-grid logos-grid--featured">
+      <a class="logo-card logo-card--tech" href="https://www.jas-dw.be/" title="JAS Digital Works" data-sr="scale">
+        <div class="logo-img-wrap">
+          <img src="logo_jas.png" alt="JAS Digital Works" loading="lazy"/>
+        </div>
+        <span class="logo-name">JAS Digital Works<br/><em>Conception &amp; développement web</em></span>
+      </a>
+    </div>
+
+    <!-- ── DONATEURS ─────────────────────────────────────────── -->
+      
+      <p class="donors-note" data-sr="fade">
+      Merci à Mlle <strong>Amélie Rodono</strong> la stagiaire en communication en 3ème bachelier à l’ASBL Ag’Y Sont, pour la création des montages audios
+    </p>
+      
+    <p class="donors-note" data-sr="fade">
+      Merci également aux donateurs de plantes : <strong>Michel</strong>, <strong>Sonny</strong>
+      (Les Graines Évadées), <strong>Viviane</strong>, <strong>Marie</strong> et aux parents d'élèves
+      pour leur générosité.
+    </p>
+  </div>
+</section>
+
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<!-- ── Tapis d'herbe et de fleurs (dynamique) ── -->
+<div class="footer-meadow" aria-hidden="true" style="display:block;line-height:0;overflow:hidden;background:var(--parchment)"></div>
+<script>
+(function () {
+  /* ── Générateur pseudo-aléatoire (SEED) pour herbe & fleurs ── */
+  const SEED = (Date.now() % 2147483647) | 0 || 1337;
+  let _s = SEED;
+  const rand = () => { _s = (_s * 16807) % 2147483647; return (_s - 1) / 2147483646; };
+  const rng  = (a, b) => a + rand() * (b - a);
+  const rngi = (a, b) => Math.floor(rng(a, b + 1));
+  const f    = n => +n.toFixed(2);
+
+  const DEEP   = '#0d2b1a';
+  const FOREST = '#1a4a2e';
+  const PETALS = ['#ffffff', '#52b788', '#b7e4c7', '#e8d5b0'];
+  const GOLD   = '#c9920e';
+
+  const beeSVG = '<svg width="32" height="20" viewBox="0 0 44 28" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse class="bee-wing" cx="14" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(-18,14,9)"/><ellipse class="bee-wing-r" cx="30" cy="9" rx="11" ry="6" fill="rgba(190,230,255,0.72)" transform="rotate(18,30,9)"/><ellipse cx="22" cy="17" rx="10" ry="6.5" fill="#f5c518"/><rect x="15.5" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/><rect x="22" y="12" width="4.5" height="10" rx="1.5" fill="#2c1810" opacity=".55"/><circle cx="22" cy="10" r="4.5" fill="#f5c518"/><circle cx="20.5" cy="9" r="1" fill="#2c1810"/><circle cx="23.5" cy="9" r="1" fill="#2c1810"/><line x1="20" y1="7" x2="16" y2="3" stroke="#2c1810" stroke-width="1.2"/><line x1="24" y1="7" x2="28" y2="3" stroke="#2c1810" stroke-width="1.2"/><circle cx="16" cy="3" r="1.8" fill="#2c1810"/><circle cx="28" cy="3" r="1.8" fill="#2c1810"/></svg>';
+  const bfSVG  = '<svg width="40" height="33" viewBox="0 0 56 46" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path class="bf-left" d="M28,23 C22,14 10,8 5,14 C1,20 9,28 28,23Z" fill="#e8528a" opacity=".82"/><path class="bf-right" d="M28,23 C34,14 46,8 51,14 C55,20 47,28 28,23Z" fill="#ff7d3b" opacity=".82"/><path class="bf-left" d="M28,23 C20,30 7,36 5,42 C3,47 16,43 28,23Z" fill="#e8528a" opacity=".65"/><path class="bf-right" d="M28,23 C36,30 49,36 51,42 C53,47 40,43 28,23Z" fill="#ff7d3b" opacity=".65"/><ellipse cx="28" cy="23" rx="2.5" ry="9" fill="#3a2010"/><path d="M27,15 Q22,8 19,5" stroke="#3a2010" stroke-width="1.3" fill="none"/><path d="M29,15 Q34,8 37,5" stroke="#3a2010" stroke-width="1.3" fill="none"/><circle cx="19" cy="5" r="2.5" fill="#3a2010"/><circle cx="37" cy="5" r="2.5" fill="#3a2010"/><circle cx="15" cy="18" r="3" fill="rgba(255,255,255,.3)"/><circle cx="41" cy="18" r="3" fill="rgba(255,255,255,.3)"/></g></svg>';
+
+  /* ── État module (insectes animés en JS) ── */
+  let insects = [], meadowVisible = false, obsReady = false;
+  let rafId = 0, lastT = 0, mW = 0, mFlorals = [];
+
+  /* ease-in-out cubique */
+  const eio = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+
+  /* Choisit une fleur cible différente (runtime Math.random, pas SEED) */
+  const pickFlower = curX => {
+    const pool = mFlorals.length > 2
+      ? mFlorals.filter(g => Math.abs(g.fx - curX) > mW * 0.08)
+      : mFlorals;
+    const src = pool.length ? pool : mFlorals;
+    return src[Math.floor(Math.random() * src.length)];
+  };
+
+  /* Boucle rAF : déplace chaque insecte de fleur en fleur */
+  function animLoop(now) {
+    const dt = lastT ? Math.min(now - lastT, 80) : 16;
+    lastT = now;
+
+    insects.forEach(o => {
+      if (!o.el.isConnected) return;
+
+      /* Pause sur une fleur : légère oscillation verticale */
+      if (now < o.restUntil) {
+        o.el.style.top = (o.restBaseY + Math.sin((now - o.restStart) * 0.0063) * 2.5).toFixed(1) + 'px';
+        return;
+      }
+
+      /* Arrivée à destination */
+      if (o.progress >= 1) {
+        o.x = o.tx; o.y = o.ty;
+        if (Math.random() < 0.45) {           /* 45 % de chance de s'arrêter */
+          o.restStart = now;
+          o.restUntil = now + 800 + Math.random() * 3400;
+          o.restBaseY = o.y - o.oy;
+        }
+        const nf = pickFlower(o.x);
+        o.sx = o.x; o.sy = o.y;
+        o.tx = nf.fx; o.ty = nf.fy;
+        o.progress  = 0;
+        o.waveSign  = Math.random() < .5 ? 1 : -1;
+        /* durée de vol : abeille 15-28 s, papillon 20-38 s */
+        o.speed = 1 / (o.isBee ? 15000 + Math.random()*13000 : 20000 + Math.random()*18000);
+        return;
+      }
+
+      /* Vol : ease-in-out + légère courbe perpendiculaire */
+      o.progress = Math.min(1, o.progress + o.speed * dt);
+      const t  = eio(o.progress);
+      const cx = o.sx + (o.tx - o.sx) * t;
+      const cy = o.sy + (o.ty - o.sy) * t;
+      const ddx = o.tx - o.sx, ddy = o.ty - o.sy;
+      const len = Math.hypot(ddx, ddy) || 1;
+      const amp = Math.sin(o.progress * Math.PI) * o.waveSign * Math.min(len * 0.16, 13);
+      const px  = cx + (-ddy / len) * amp;
+      const py  = cy + ( ddx / len) * amp;
+      /* inclinaison dans le sens du déplacement (compressée) */
+      const lean = Math.max(-30, Math.min(30, Math.atan2(ddy, ddx) * 180 / Math.PI * 0.26));
+
+      o.el.style.left      = `calc(${(px / mW * 100).toFixed(2)}% - ${o.hw}px)`;
+      o.el.style.top       = (py - o.oy).toFixed(1) + 'px';
+      o.el.style.transform = `rotate(${lean.toFixed(1)}deg)`;
+    });
+
+    rafId = requestAnimationFrame(animLoop);
+  }
+
+  /* ── SVG herbe & fleurs (inchangé) ── */
+  function blade(x, tipY, hw, lean, color, op) {
+    const mid = (90 + tipY) / 2;
+    return `<path d="M${f(x-hw)},90 Q${f(x+lean*.5-hw*.4)},${f(mid)} ${f(x+lean)},${f(tipY)} Q${f(x+lean+hw*.4)},${f(mid)} ${f(x+hw)},90Z" fill="${color}"${op != null ? ` opacity="${op}"` : ''}/>`;
+  }
+  function flowerHead(cx, cy, sc, petalColor, n) {
+    const pd = f(8*sc), prx = f(2.5*sc), pry = f(5.5*sc);
+    let s = '';
+    for (let i = 0; i < n; i++)
+      s += `<ellipse cx="0" cy="-${pd}" rx="${prx}" ry="${pry}" transform="rotate(${f(i*360/n)})" fill="${petalColor}"/>`;
+    return `<g transform="translate(${f(cx)},${f(cy)})">${s}<circle r="${f(4.5*sc)}" fill="${GOLD}"/><circle r="${f(2.5*sc)}" fill="#e8b030" opacity=".7"/></g>`;
+  }
+  function bud(cx, cy, sc) {
+    const rad = f(4*sc), dy1 = f(-7*sc), dxa = f(-5*sc), dxb = f(5*sc), dy2 = f(-3*sc);
+    return `<g transform="translate(${f(cx)},${f(cy)})"><circle cx="0" cy="${dy1}" r="${rad}" fill="${GOLD}" opacity=".88"/><circle cx="${dxa}" cy="${dy2}" r="${rad}" fill="${GOLD}" opacity=".75"/><circle cx="${dxb}" cy="${dy2}" r="${rad}" fill="${GOLD}" opacity=".75"/></g>`;
+  }
+
+  /* ── Build (chargement initial + resize) ── */
+  function build() {
+    const el = document.querySelector('.footer-meadow');
+    if (!el) return;
+    _s = SEED;
+    const W = el.offsetWidth || window.innerWidth;
+    const p = [];
+
+    const flN = Math.max(3, W / 90 | 0);
+    const florals = Array.from({ length: flN }, (_, i) => ({
+      fx: f((i + .5) * (W / flN) + rng(-28, 28)),
+      fy: f(rng(25, 50)),
+      sc: rng(.72, 1.42),
+      t:  rngi(0, 3)
+    }));
+
+    const bgN = Math.max(8, W / 42 | 0);
+    for (let i = 0; i < bgN; i++)
+      p.push(blade((i+.5)*(W/bgN)+rng(-18,18), rng(18,48), rng(2.5,5.5), rng(-10,10), FOREST, .6));
+
+    florals.forEach(({ fx, fy }) =>
+      p.push(`<line x1="${fx}" y1="${f(fy+4)}" x2="${fx}" y2="74" stroke="${FOREST}" stroke-width="1.5" stroke-linecap="round"/>`)
+    );
+
+    const fgN = Math.max(20, W / 12 | 0);
+    for (let i = 0; i < fgN; i++)
+      p.push(blade(f((i+.3+rand())*(W/fgN)), rng(28,68), rng(1.5,4.5), rng(-12,12), DEEP));
+
+    florals.forEach(({ fx, fy, sc, t }) =>
+      p.push(t === 3 ? bud(fx,fy,sc) : flowerHead(fx,fy,sc, PETALS[t], t===0 ? 8 : rngi(5,7)))
+    );
+    p.push(`<rect x="0" y="78" width="${W}" height="12" fill="${DEEP}"/>`);
+
+    el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="90" viewBox="0 0 ${W} 90" focusable="false" style="display:block">${p.join('')}</svg>`;
+    el.style.position = 'relative';
+
+    /* Arrêter l'ancienne boucle & supprimer les anciens insectes */
+    if (rafId) { cancelAnimationFrame(rafId); rafId = 0; lastT = 0; }
+    insects.forEach(o => o.el.remove());
+    insects = [];
+    mW = W; mFlorals = florals;
+
+    /* Crée un insecte JS (animation:none → les ailes CSS continuent) */
+    const addInsect = (isBee, delayMs) => {
+      const sf = florals[Math.floor(Math.random() * florals.length)];
+      const nf = pickFlower(sf.fx);
+      const w  = isBee ? (28 + Math.random()*10|0) : (34 + Math.random()*14|0);
+      const oy = isBee ? w * 0.52 : w * 0.60;
+      const el2 = document.createElement('div');
+      el2.className = isBee ? 'bee' : 'butterfly';
+      el2.style.cssText = [
+        'position:absolute', 'animation:none',
+        `width:${w}px`,
+        `left:calc(${f(sf.fx/W*100)}% - ${w>>1}px)`,
+        `top:${f(sf.fy-oy)}px`,
+        'opacity:0;transition:opacity 1.6s ease',
+        'will-change:left,top,transform',
+      ].join(';');
+      el2.innerHTML = isBee ? beeSVG : bfSVG;
+      el.appendChild(el2);
+      const now0 = performance.now();
+      insects.push({
+        el: el2, isBee,
+        x: sf.fx, y: sf.fy,
+        sx: sf.fx, sy: sf.fy,
+        tx: nf.fx, ty: nf.fy,
+        progress: Math.random() * .85,        /* décalage initial aléatoire */
+        speed: 1/(isBee ? 15000+Math.random()*13000 : 20000+Math.random()*18000),
+        restUntil: now0 + delayMs,            /* démarrage échelonné */
+        restStart: now0, restBaseY: sf.fy-oy,
+        waveSign: Math.random()<.5 ? 1 : -1,
+        hw: w>>1, oy,
+      });
+    };
+
+    /* 4 abeilles + 2 papillons, départs échelonnés */
+    for (let i = 0; i < 4; i++) addInsect(true,  i * 1600);
+    for (let i = 0; i < 2; i++) addInsect(false, i * 2200 + 1000);
+
+    /* IntersectionObserver : démarre/arrête la boucle rAF */
+    if (!obsReady) {
+      obsReady = true;
+      new IntersectionObserver(([e]) => {
+        meadowVisible = e.isIntersecting;
+        if (e.isIntersecting) {
+          insects.forEach(o => { o.el.style.opacity = o.isBee ? '.72' : '.68'; });
+          if (!rafId) { lastT = 0; rafId = requestAnimationFrame(animLoop); }
+        } else {
+          insects.forEach(o => { o.el.style.opacity = '0'; });
+          if (rafId) { cancelAnimationFrame(rafId); rafId = 0; lastT = 0; }
+        }
+      }, { threshold: 0.1 }).observe(el);
+    } else if (meadowVisible) {
+      /* Rebuild pendant visibilité (ex. resize) */
+      insects.forEach(o => requestAnimationFrame(() => requestAnimationFrame(() => {
+        o.el.style.opacity = o.isBee ? '.72' : '.68';
+      })));
+      lastT = 0; rafId = requestAnimationFrame(animLoop);
+    }
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', build)
+    : build();
+
+  let t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
+})();
+</script>
+<!------------------------------------------------------------------------------------------------------------------------------------>
+<div class="lb" id="lb" onclick="closeLb(event)">
+ <button class="lb-x" onclick="closeLb()">×</button>
+ <img id="lb-img" src="" alt=""/>
+</div>
+
+<footer>
+ <p><strong>La Biodiversité à tous les étages</strong> · Athénée Royal Jules Bara · 2025–2026</p>
+ <p>SCES ASBL · PECA · Fédération Wallonie-Bruxelles · Ag'Y Sont ASBL · Palette Nature ASBL · La Pépinière </p>
+ <p style="margin-top:.8rem;font-size:.72rem;opacity:.5;">Page réalisée naturellement par <a href="https://www.jas-dw.be/" title="JAS Digital Works" data-sr="scale" style="color: #FFFFFF;">JAS Digital Works</a></p>
+</footer>
+
+
+<script>
+function openLb(el){const img=el.querySelector('img');document.getElementById('lb-img').src=img.src;document.getElementById('lb-img').alt=img.alt;document.getElementById('lb').classList.add('open');document.body.style.overflow='hidden';}
+function closeLb(e){if(e&&e.target!==document.getElementById('lb')&&!e.target.classList.contains('lb-x'))return;document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}});
+document.querySelectorAll('.gal-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.gal-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const f=btn.dataset.f;document.querySelectorAll('.gal-item').forEach(item=>{item.style.display=(f==='all'||item.dataset.c===f)?'':'none';});});});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:.07});
+document.querySelectorAll('[data-reveal],.ep-card,.part-card').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(28px)';el.style.transition='opacity .65s ease,transform .65s ease';obs.observe(el);});
+
+
+/* QR overlay */
+function showQR(n) {
+ document.getElementById('qr-' + n).classList.add('show');
+}
+function hideQR(n) {
+ document.getElementById('qr-' + n).classList.remove('show');
+}
+/* Lightbox by src */
+function openLbSrc(src, alt) {
+ document.getElementById('lb-img').src = src;
+ document.getElementById('lb-img').alt = alt || '';
+ document.getElementById('lb').classList.add('open');
+ document.body.style.overflow = 'hidden';
+}
+
+
+
+/* ── VIDEO HERO PARALLAX ─── */
+(function() {
+  const vid = document.getElementById('heroVid');
+  const wrap = document.getElementById('heroVidWrap');
+  if (!vid || !wrap) return;
+
+  // Ensure video plays (some browsers block autoplay)
+  vid.play().catch(() => {
+    document.addEventListener('click', () => vid.play(), { once: true });
+  });
+
+  // Subtle scale+translate parallax on scroll
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    const vh = window.innerHeight;
+    if (y > vh * 1.5) return; // stop calculating when far below
+    const progress = Math.min(y / vh, 1);
+    // Slight upward drift + scale zoom
+    vid.style.transform = `scale(${1.04 + progress * 0.06}) translateY(${progress * -6}%)`;
+    // Fade overlay stronger as user scrolls down
+    wrap.style.setProperty('--overlay-extra', progress * 0.25);
+  }, { passive: true });
+})();
+
+/* ── FLOATING PETALS (JS spawner) ─── */
+(function() {
+  const COLORS = [
+    'rgba(232,82,138,.6)','rgba(255,140,80,.5)','rgba(255,182,200,.55)',
+    'rgba(218,60,120,.45)','rgba(255,105,180,.4)','rgba(183,228,199,.35)',
+    'rgba(255,200,180,.45)','rgba(240,100,150,.5)'
+  ];
+  const layer = document.getElementById('nature-layer');
+  if (!layer) return;
+
+  function spawnPetal() {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const w = 10 + Math.random() * 14;
+    const h = w * (1.2 + Math.random() * .5);
+    const left = Math.random() * 100;
+    const dur = 7 + Math.random() * 10;
+    const rot = Math.random() * 360;
+    const drift = (Math.random() - .5) * 120;
+    const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    p.style.cssText = `left:${left}%;width:${w}px;height:${h}px;background:${color};
+      transform:rotate(${rot}deg);animation-duration:${dur}s;
+      animation-delay:${-Math.random()*dur}s;--drift:${drift}px;border-radius:50% 0 50% 0;`;
+    layer.appendChild(p);
+    // Remove after a while to avoid DOM bloat
+    setTimeout(() => p.remove(), (dur + 3) * 1000);
+  }
+
+  // Spawn initial petals
+  for (let i = 0; i < 22; i++) spawnPetal();
+  // Keep spawning
+  setInterval(spawnPetal, 1200);
+})();
+
+/* ── SCROLL REVEAL ─────────────────── */
+(function() {
+  const els = document.querySelectorAll('[data-sr]');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, idx) => {
+      if (e.isIntersecting) {
+        // Stagger siblings
+        const parent = e.target.parentElement;
+        const siblings = [...parent.children].filter(c => c.hasAttribute('data-sr'));
+        const i = siblings.indexOf(e.target);
+        e.target.style.transitionDelay = (i * 90) + 'ms';
+        e.target.classList.add('sr-done');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.09, rootMargin: '0px 0px -60px 0px' });
+  els.forEach(el => io.observe(el));
+})();
+
+/* ── PARALLAX HERO LEAF ─────────────── */
+(function() {
+  const leaf = document.querySelector('.hero-leaf');
+  if (!leaf) return;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    leaf.style.transform = `translateY(${y * .18}px) rotate(${y * .02}deg)`;
+  }, { passive: true });
+})();
+
+/* ── NATURE LAYER PARALLAX ──────────── */
+(function() {
+  const bees = document.querySelectorAll('.bee');
+  const bfs  = document.querySelectorAll('.butterfly');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    const dy = y - lastY; lastY = y;
+    bees.forEach(b => {
+      const cur = parseFloat(b.style.top) || 30;
+      b.style.top = (cur + dy * .04) + '%';
+    });
+    bfs.forEach(b => {
+      const cur = parseFloat(b.style.top) || 40;
+      b.style.top = (cur + dy * .025) + '%';
+    });
+  }, { passive: true });
+})();
+
+
+</script>
+</body>
+</html>

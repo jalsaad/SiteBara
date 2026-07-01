@@ -18,6 +18,7 @@ export interface User {
   email: string;
   name: string;
   role: Role;
+  codes: string[];
   createdAt: string;
 }
 
@@ -43,24 +44,27 @@ function verifyPassword(password: string, stored: string): boolean {
 
 /* ---------------------------- comptes par défaut ---------------------------- */
 
-const SEED: { email: string; name: string; role: Role; password: string }[] = [
+const SEED: { email: string; name: string; role: Role; password: string; codes: string[] }[] = [
   {
     email: "admin@atheneejulesbara.be",
     name: "Administrateur",
     role: "ADMIN",
     password: process.env.ADMIN_PASSWORD ?? "admin2026",
+    codes: [],
   },
   {
     email: "communication@atheneejulesbara.be",
     name: "Communication",
     role: "COMM",
     password: process.env.COMM_PASSWORD ?? "comm2026",
+    codes: [],
   },
   {
     email: "cuisine@atheneejulesbara.be",
     name: "Cuisine",
     role: "CUISINE",
     password: process.env.CUISINE_PASSWORD ?? "cuisine2026",
+    codes: [],
   },
 ];
 
@@ -80,6 +84,7 @@ function memStore(): UserRow[] {
       email: s.email,
       name: s.name,
       role: s.role,
+      codes: s.codes,
       passwordHash: hashPassword(s.password),
       createdAt: new Date("2026-01-01T00:00:00.000Z").toISOString(),
     }));
@@ -112,6 +117,7 @@ async function prisma() {
 
 type PrismaUser = Omit<User, "createdAt"> & {
   passwordHash: string;
+  codes: string[];
   createdAt: Date;
 };
 
@@ -129,6 +135,7 @@ async function ensureSeeded() {
         email: s.email,
         name: s.name,
         role: s.role,
+        codes: s.codes,
         passwordHash: hashPassword(s.password),
       },
     });
@@ -183,12 +190,14 @@ export async function createUser(input: {
   name: string;
   role: Role;
   password: string;
+  codes?: string[];
 }): Promise<User | null> {
   const email = input.email.trim().toLowerCase();
   const data = {
     email,
     name: input.name.trim(),
     role: input.role,
+    codes: input.codes ?? [],
     passwordHash: hashPassword(input.password),
   };
   if (useDb) {
@@ -204,6 +213,7 @@ export async function createUser(input: {
     email,
     name: data.name,
     role: data.role,
+    codes: data.codes,
     passwordHash: data.passwordHash,
     createdAt: new Date().toISOString(),
   };
@@ -211,15 +221,16 @@ export async function createUser(input: {
   return stripUser(row);
 }
 
-/** Met à jour le nom, le rôle et/ou le mot de passe (e-mail immuable). */
+/** Met à jour le nom, le rôle, le mot de passe et/ou la liste de codes (e-mail immuable). */
 export async function updateUser(
   id: string,
-  input: { name?: string; role?: Role; password?: string }
+  input: { name?: string; role?: Role; password?: string; codes?: string[] }
 ): Promise<User | null> {
-  const data: { name?: string; role?: Role; passwordHash?: string } = {};
+  const data: { name?: string; role?: Role; passwordHash?: string; codes?: string[] } = {};
   if (input.name !== undefined) data.name = input.name.trim();
   if (input.role !== undefined) data.role = input.role;
   if (input.password) data.passwordHash = hashPassword(input.password);
+  if (input.codes !== undefined) data.codes = input.codes;
   if (useDb) {
     const db = await prisma();
     try {
@@ -234,6 +245,7 @@ export async function updateUser(
   if (data.name !== undefined) row.name = data.name;
   if (data.role !== undefined) row.role = data.role;
   if (data.passwordHash !== undefined) row.passwordHash = data.passwordHash;
+  if (data.codes !== undefined) row.codes = data.codes;
   return stripUser(row);
 }
 
@@ -261,4 +273,34 @@ export async function getUser(id: string): Promise<User | null> {
     return row ? stripUser(fromDb(row)) : null;
   }
   return memStore().map(stripUser).find((u) => u.id === id) ?? null;
+}
+
+/** Retourne l'utilisateur avec sa liste de codes (pour la vérification au login). */
+export async function getUserWithCodes(
+  email: string
+): Promise<User | null> {
+  const normalized = email.trim().toLowerCase();
+  if (useDb) {
+    await ensureSeeded();
+    const db = await prisma();
+    const row = (await db.user.findUnique({ where: { email: normalized } })) as PrismaUser | null;
+    return row ? stripUser(fromDb(row)) : null;
+  }
+  return memStore().map(stripUser).find((u) => u.email === normalized) ?? null;
+}
+
+/** Supprime un code de la liste de l'utilisateur (usage unique après vérification). */
+export async function removeCode(id: string, code: string): Promise<void> {
+  if (useDb) {
+    const db = await prisma();
+    const row = (await db.user.findUnique({ where: { id } })) as PrismaUser | null;
+    if (!row) return;
+    await db.user.update({
+      where: { id },
+      data: { codes: row.codes.filter((c) => c !== code) },
+    });
+    return;
+  }
+  const row = memStore().find((u) => u.id === id);
+  if (row) row.codes = row.codes.filter((c) => c !== code);
 }

@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   if (auth instanceof Response) return auth;
 
   const body = await request.json().catch(() => ({}));
-  const { email, name, role, password } = body;
+  const { email, name, role, password, codes } = body;
   if (!email || !name || !password) {
     return Response.json(
       { error: "Nom, e-mail et mot de passe requis" },
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  const user = await createUser({ email, name, role, password });
+  const user = await createUser({ email, name, role, password, codes: Array.isArray(codes) ? codes : [] });
   if (!user) {
     return Response.json(
       { error: "Un compte existe déjà avec cet e-mail" },

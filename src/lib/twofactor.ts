@@ -1,62 +1,54 @@
-// Double authentification de connexion par code à usage unique — CÔTÉ SERVEUR.
+// Authentification par liste de codes prédéfinis — CÔTÉ SERVEUR.
 //
-// Après vérification du mot de passe, un code à 6 chiffres est généré, envoyé
-// par e-mail (voir `sendLoginCode` dans `@/lib/email`) et conservé ici en
-// mémoire (haché, jamais en clair) le temps que l'utilisateur le saisisse.
-//
-// Le magasin vit dans `globalThis` : il survit au hot-reload en dev et tient
-// sur un serveur Node persistant (cible d'hébergement du projet). Les codes
-// sont éphémères (10 min) : une perte au redémarrage oblige simplement à
-// recommencer la connexion.
+// Après vérification du mot de passe, un chiffre aléatoire (0–9) est tiré.
+// L'admin doit saisir n'importe quel code de sa liste commençant par ce chiffre.
+// La vérification de l'existence dans la liste est faite dans le route login.
 
 import "server-only";
-import { randomInt, createHash, timingSafeEqual } from "node:crypto";
+import { randomInt } from "node:crypto";
 import type { Role } from "./auth";
 
-interface PendingCode {
-  codeHash: string;
+interface PendingChallenge {
+  digit: number;
   role: Role;
-  expires: number; // epoch ms
+  expires: number;
   attempts: number;
 }
 
-const CODE_TTL_MS = 10 * 60 * 1000; // 10 min
+const CHALLENGE_TTL_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 
-const g = globalThis as unknown as { __baraLoginCodes?: Map<string, PendingCode> };
+const g = globalThis as unknown as {
+  __baraLoginChallenges?: Map<string, PendingChallenge>;
+};
 
-function store(): Map<string, PendingCode> {
-  return (g.__baraLoginCodes ??= new Map());
+function store(): Map<string, PendingChallenge> {
+  return (g.__baraLoginChallenges ??= new Map());
 }
 
 function key(email: string): string {
   return email.trim().toLowerCase();
 }
 
-function hash(code: string): string {
-  return createHash("sha256").update(code).digest("hex");
-}
-
-/** Génère un code à 6 chiffres (zéros de tête conservés). */
-export function generateCode(): string {
-  return String(randomInt(0, 1_000_000)).padStart(6, "0");
-}
-
-/** Mémorise (haché) le code attendu pour un e-mail, en écrasant tout code en cours. */
-export function setPendingCode(email: string, role: Role, code: string): void {
+/** Génère un challenge et retourne le chiffre requis (0–9). */
+export function setPendingChallenge(email: string, role: Role): number {
+  const digit = randomInt(0, 10);
   store().set(key(email), {
-    codeHash: hash(code),
+    digit,
     role,
-    expires: Date.now() + CODE_TTL_MS,
+    expires: Date.now() + CHALLENGE_TTL_MS,
     attempts: 0,
   });
+  return digit;
 }
 
 /**
- * Vérifie le code saisi. Renvoie le rôle si valide (et consomme le code),
- * sinon null. Le code est invalidé après expiration ou trop d'essais.
+ * Vérifie que le code soumis commence par le chiffre attendu.
+ * Retourne le rôle si le challenge est valide, null sinon.
+ * Ne vérifie PAS que le code est dans la liste de l'utilisateur — c'est fait
+ * dans le route /api/auth/login.
  */
-export function verifyPendingCode(email: string, code: string): Role | null {
+export function verifyChallenge(email: string, code: string): Role | null {
   const k = key(email);
   const pending = store().get(k);
   if (!pending) return null;
@@ -68,11 +60,7 @@ export function verifyPendingCode(email: string, code: string): Role | null {
     store().delete(k);
     return null;
   }
-  const given = Buffer.from(hash(code));
-  const expected = Buffer.from(pending.codeHash);
-  if (given.length !== expected.length || !timingSafeEqual(given, expected)) {
-    return null;
-  }
-  store().delete(k); // usage unique
+  if (!code.startsWith(String(pending.digit))) return null;
+  store().delete(k);
   return pending.role;
 }

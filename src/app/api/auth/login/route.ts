@@ -1,27 +1,30 @@
 import { createSessionToken, sessionCookie } from "@/lib/auth";
-import { authenticate } from "@/lib/users";
-import { generateCode, setPendingCode, verifyPendingCode } from "@/lib/twofactor";
-import { sendLoginCode } from "@/lib/email";
+import { authenticate, getUserWithCodes, removeCode } from "@/lib/users";
+import { setPendingChallenge, verifyChallenge } from "@/lib/twofactor";
 
 // Connexion en deux temps :
-//  1. e-mail + mot de passe → si OK, un code à 6 chiffres est envoyé par e-mail
-//     (aucune session n'est encore ouverte) ; réponse { twoFactor: true }.
-//  2. e-mail + code → si OK, la session est créée et le cookie posé.
+//  1. e-mail + mot de passe → si OK, un chiffre (0–9) est retourné comme défi.
+//  2. e-mail + code → si le code est dans la liste de l'utilisateur ET commence
+//     par le chiffre demandé, la session est créée et le code consommé.
 export async function POST(request: Request) {
   const { email, password, code, remember } = await request
     .json()
     .catch(() => ({}));
 
-  // ── Étape 2 : vérification du code de double authentification ──
-  if (email && code) {
-    const role = verifyPendingCode(email, code);
-    if (!role) {
+  // ── Étape 2 : vérification du code de la liste ──
+  if (email && code !== undefined) {
+    const normalized = String(email).trim().toLowerCase();
+    const user = await getUserWithCodes(normalized);
+    const role = user ? verifyChallenge(normalized, String(code)) : null;
+
+    if (!role || !user || !user.codes.includes(String(code))) {
       return Response.json(
         { error: "Code invalide ou expiré" },
         { status: 401 }
       );
     }
-    const normalized = String(email).trim().toLowerCase();
+
+    await removeCode(user.id, String(code));
     const token = await createSessionToken(normalized, role, !!remember);
     return Response.json(
       { email: normalized, role },
@@ -41,9 +44,6 @@ export async function POST(request: Request) {
     return Response.json({ error: "Identifiants incorrects" }, { status: 401 });
   }
 
-  const otp = generateCode();
-  setPendingCode(user.email, user.role, otp);
-  const mail = await sendLoginCode(user.email, otp);
-
-  return Response.json({ twoFactor: true, delivery: mail.status });
+  const digit = setPendingChallenge(user.email, user.role);
+  return Response.json({ challenge: true, digit });
 }

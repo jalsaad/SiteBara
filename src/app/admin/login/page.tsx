@@ -11,8 +11,8 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [stage, setStage] = useState<Stage>("credentials");
+  const [digit, setDigit] = useState<number | null>(null);
   const [code, setCode] = useState("");
-  const [info, setInfo] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const router = useRouter();
@@ -24,7 +24,6 @@ function LoginForm() {
     router.refresh();
   }
 
-  // Étape 1 : e-mail + mot de passe → déclenche l'envoi du code.
   async function submitCredentials(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -35,20 +34,15 @@ function LoginForm() {
       body: JSON.stringify({ email, password, remember }),
     });
     const data = await res.json().catch(() => ({}));
-    if (res.ok && data.twoFactor) {
+    if (res.ok && data.challenge) {
+      setDigit(data.digit);
       setStage("code");
-      setInfo(
-        data.delivery === "SENT"
-          ? `Un code de sécurité a été envoyé à ${email}.`
-          : "Mode démo : le code de sécurité est affiché dans la console du serveur."
-      );
     } else {
       setError(data.error ?? "Connexion impossible");
     }
     setBusy(false);
   }
 
-  // Étape 2 : vérification du code de sécurité.
   async function submitCode(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -56,7 +50,7 @@ function LoginForm() {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, code, remember }),
+      body: JSON.stringify({ email, code: code.trim(), remember }),
     });
     if (res.ok) {
       goToAdmin();
@@ -71,7 +65,7 @@ function LoginForm() {
     setStage("credentials");
     setCode("");
     setError("");
-    setInfo("");
+    setDigit(null);
   }
 
   return (
@@ -123,17 +117,8 @@ function LoginForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  aria-label={
-                    showPassword
-                      ? "Masquer le mot de passe"
-                      : "Afficher le mot de passe"
-                  }
+                  aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                   aria-pressed={showPassword}
-                  title={
-                    showPassword
-                      ? "Masquer le mot de passe"
-                      : "Afficher le mot de passe"
-                  }
                   style={{
                     position: "absolute",
                     top: 0,
@@ -166,38 +151,50 @@ function LoginForm() {
           </>
         ) : (
           <>
-            {info && (
-              <p
-                style={{
-                  fontSize: 13,
-                  color: "var(--ink-soft)",
-                  textAlign: "center",
-                  lineHeight: 1.5,
-                  marginBottom: 16,
-                }}
-              >
-                {info}
+            <div
+              style={{
+                background: "var(--cream-deep)",
+                borderRadius: 12,
+                padding: "18px 20px",
+                textAlign: "center",
+                marginBottom: 20,
+              }}
+            >
+              <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "0 0 8px" }}>
+                Consultez votre liste de codes et entrez
               </p>
-            )}
+              <p style={{ fontSize: 15, fontWeight: 600, margin: 0 }}>
+                un code commençant par le chiffre{" "}
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 42,
+                    height: 42,
+                    borderRadius: "50%",
+                    background: "var(--royal)",
+                    color: "#fff",
+                    fontSize: 22,
+                    fontWeight: 700,
+                    verticalAlign: "middle",
+                    marginLeft: 6,
+                  }}
+                >
+                  {digit}
+                </span>
+              </p>
+            </div>
             <div className="field">
-              <label>Code de sécurité</label>
+              <label>Code</label>
               <input
                 type="text"
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                pattern="[0-9]*"
-                maxLength={6}
                 value={code}
-                onChange={(e) =>
-                  setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-                }
-                placeholder="123456"
+                onChange={(e) => setCode(e.target.value)}
+                placeholder={`${digit ?? ""}XXXXXX`}
+                autoComplete="off"
                 autoFocus
-                style={{
-                  textAlign: "center",
-                  fontSize: 22,
-                  letterSpacing: 8,
-                }}
+                style={{ fontSize: 20, letterSpacing: 4, textTransform: "uppercase" }}
                 required
               />
             </div>
@@ -243,22 +240,6 @@ function LoginForm() {
           >
             ← Revenir
           </button>
-        )}
-
-        {stage === "credentials" && (
-          <p
-            style={{
-              fontSize: 12,
-              color: "#959cb3",
-              marginTop: 16,
-              textAlign: "center",
-              lineHeight: 1.5,
-            }}
-          >
-            Comptes de démonstration : admin@atheneejulesbara.be / admin2026
-            (éditeur + actus) · communication@atheneejulesbara.be / comm2026
-            (actus uniquement)
-          </p>
         )}
       </form>
     </div>
