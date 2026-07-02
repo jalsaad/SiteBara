@@ -7,24 +7,8 @@ function homeFor(role: Role): string {
   return "/admin/actus";
 }
 
-const LAUNCH = process.env.LAUNCH_DATE ? new Date(process.env.LAUNCH_DATE) : null;
-
-const COMING_SOON_BYPASS = [
-  "/coming-soon", "/admin", "/api", "/_next", "/favicon", "/icons", "/uploads", "/google",
-];
-
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // ── Page temporaire avant lancement ───────────────────────────────────────
-  // Actif uniquement si LAUNCH_DATE est défini dans .env et date non atteinte.
-  // Auto-destruction dès que Date.now() >= LAUNCH.
-  if (LAUNCH && Date.now() < LAUNCH.getTime()) {
-    const isStatic = /\.(ico|png|jpg|jpeg|svg|webp|mp4|mp3|html|pdf|ics|txt|json)$/.test(pathname);
-    if (!COMING_SOON_BYPASS.some((p) => pathname.startsWith(p)) && !isStatic) {
-      return NextResponse.redirect(new URL("/coming-soon", request.url));
-    }
-  }
 
   // ── Protection admin ──────────────────────────────────────────────────────
   if (!pathname.startsWith("/admin")) return NextResponse.next();
