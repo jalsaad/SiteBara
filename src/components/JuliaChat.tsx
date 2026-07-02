@@ -188,7 +188,7 @@ export default function JuliaChat() {
             {/* Favicon blanc semi-transparent par-dessus l'animation */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/favicon.ico"
+              src="/favicon.png"
               alt="" aria-hidden="true"
               className="julia-fab-logo"
               style={{ opacity: showLogo ? 0.68 : 0 }}
@@ -212,7 +212,7 @@ export default function JuliaChat() {
           <div className="julia-head">
             <span className="julia-avatar">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/favicon.ico" alt="Jules" className="julia-avatar-img" />
+              <img src="/favicon.png" alt="Jules" className="julia-avatar-img" />
             </span>
             <div className="julia-head-info">
               <b>Jules</b>
