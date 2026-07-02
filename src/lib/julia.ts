@@ -23,8 +23,25 @@ Ton rôle : répondre aux questions des élèves, parents et visiteurs à propos
 
 ═══ COORDONNÉES ═══
 - Adresse : Rue Duquesnoy 24, 7500 Tournai
-- Téléphone : 069 89 06 02
-- E-mail : direction@atheneejulesbara.be
+- Téléphone général : 069 89 06 02
+- E-mail direction : direction@atheneejulesbara.be
+
+═══ PERSONNES RÉFÉRENTES ═══
+DIRECTION
+  - Leandro Anzaldi (Directeur) — Tél. 069/89.06.00 — direction@atheneejulesbara.be
+
+DIRECTION ADJOINTE
+  - Albano D'Arcangelo — Tél. 069/89.06.08 — directionadjointe@atheneejulesbara.be
+
+SECRÉTARIAT DE DIRECTION
+  - Yasmina Bouvry — Tél. 069/89.06.02 — Bouvry.y@atheneejulesbara.be
+
+SECRÉTARIAT ÉLÈVES
+  - Dorothée Lecomte — Tél. 069/89.06.03 — Lecomte.d@atheneejulesbara.be
+
+COMPTABILITÉ
+  - Isabelle Debray — Tél. 069/89.06.04 — Debray.i@atheneejulesbara.be
+  - Alexandra Daminet (Assistante comptable) — Tél. 069/89.06.09 — Daminet.a@atheneejulesbara.be
 
 ═══ L'ÉCOLE ═══
 Fondée en 1595, l'Athénée Royal Jules Bara accueille environ 950 élèves. Trois valeurs : Apprendre (pédagogie diversifiée, suivi personnalisé), S'ouvrir (projets pluridisciplinaires, citoyenneté), S'accomplir (autonomie, épanouissement).
@@ -168,9 +185,9 @@ const DEMO_RULES: DemoRule[] = [
     suggs: ["Qui peut s'inscrire en 7e ?", "Quelles études supérieures cela prépare-t-il ?", "Comment s'inscrire ?"],
   },
   {
-    keywords: ["contact", "téléphone", "telephone", "mail", "e-mail", "adresse", "joindre", "secrétariat", "secretariat"],
-    answer: "Vous pouvez nous joindre au 069 89 06 02, par e-mail à direction@atheneejulesbara.be, ou à l'adresse Rue Duquesnoy 24, 7500 Tournai. La page « Contact » permet aussi d'envoyer un message directement.",
-    suggs: ["Quelles sont les heures d'ouverture ?", "Comment s'inscrire ?", "Où se trouve l'école ?"],
+    keywords: ["contact", "téléphone", "telephone", "mail", "e-mail", "adresse", "joindre", "secrétariat", "secretariat", "direction", "directeur", "comptabilité", "comptabilite"],
+    answer: "Voici les contacts principaux de l'école :\n• Directeur : Leandro Anzaldi — 069/89.06.00 — direction@atheneejulesbara.be\n• Direction adjointe : Albano D'Arcangelo — 069/89.06.08 — directionadjointe@atheneejulesbara.be\n• Secrétariat de direction : Yasmina Bouvry — 069/89.06.02 — Bouvry.y@atheneejulesbara.be\n• Secrétariat élèves : Dorothée Lecomte — 069/89.06.03 — Lecomte.d@atheneejulesbara.be\n• Comptabilité : Isabelle Debray — 069/89.06.04 — Debray.i@atheneejulesbara.be\nAdresse : Rue Duquesnoy 24, 7500 Tournai. La page « Contact » permet aussi d'envoyer un message directement.",
+    suggs: ["Comment s'inscrire ?", "Où se trouve l'école ?", "Quels sont les horaires du secrétariat ?"],
   },
   {
     keywords: ["restaurant", "cantine", "menu", "repas", "manger", "école en ligne", "portefeuille"],
@@ -305,7 +322,7 @@ export async function streamJulia(
         console.error("[jules] erreur Groq :", e);
         controller.enqueue(
           encoder.encode(
-            "Désolée, je rencontre un problème technique. Contactez le secrétariat au 069 89 06 02."
+            "Désolé, je rencontre un problème technique. Contactez le secrétariat au 069 89 06 02."
           )
         );
       } finally {
