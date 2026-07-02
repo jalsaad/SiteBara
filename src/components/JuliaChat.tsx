@@ -23,13 +23,18 @@ const PAGE_ANCHORS: Record<string, string> = {
   "Préinscription": "/preinscription",
   "Préinscriptions": "/preinscription",
   "Grilles": "/grilles",
+  "Grilles horaires": "/grilles",
   "Options": "/grilles",
   "Filières": "/grilles",
   "Calendrier": "/calendrier",
   "Restaurant": "/restaurant",
   "Contact": "/contact",
   "Actualités": "/actualites",
+  "Actualité": "/actualites",
   "Applis": "/applis",
+  "Applications": "/applis",
+  "Documents": "/documents",
+  "JAS Digital Works": "https://jas-dw.be",
 };
 
 function renderMsg(raw: string): React.ReactNode {
@@ -44,7 +49,10 @@ function renderMsg(raw: string): React.ReactNode {
     const href = PAGE_ANCHORS[name];
     parts.push(
       href
-        ? <a key={k++} href={href} className="julia-link">« {name} »</a>
+        ? <a key={k++} href={href} className="julia-link"
+            {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+            « {name} »
+          </a>
         : m[0]
     );
     last = m.index + m[0].length;
@@ -167,7 +175,10 @@ export default function JuliaChat() {
         return (
           <button
             className={`julia-fab${auraOn ? " julia-active" : ""}`}
-            onClick={() => setOpen(o => !o)}
+            onClick={() => {
+              if (!open) { try { new Audio("/universfield-level-up-191997.mp3").play(); } catch {} }
+              setOpen(o => !o);
+            }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             aria-label={open ? "Fermer Julia" : "Ouvrir Julia"}

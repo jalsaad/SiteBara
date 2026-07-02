@@ -679,17 +679,17 @@ body::before {
 .julia-fab {
   position: fixed; bottom: 22px; right: 22px; z-index: 110;
   width: 58px; height: 58px; border-radius: 50%;
-  /* Gradient charte Jules Bara (visible quand animation inactive) */
-  background: linear-gradient(135deg, #284193 0%, #1b2245 100%);
+  /* Même couleurs que le bouton "Demander à Julia" (stand-by) */
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #9333ea 100%);
   color: #fff; font-size: 24px;
-  box-shadow: 0 4px 18px rgba(40,65,147,0.45);
+  box-shadow: 0 4px 18px rgba(124,58,237,0.45);
   display: grid; place-items: center;
   transition: transform 0.2s, box-shadow 0.4s;
   overflow: hidden;
 }
 .julia-fab:hover { transform: scale(1.08); }
 .julia-fab.julia-active {
-  box-shadow: 0 0 22px rgba(40,65,147,0.70), 0 0 44px rgba(245,122,32,0.38), 0 4px 18px rgba(40,65,147,0.50);
+  box-shadow: 0 0 18px 6px rgba(124,58,237,0.65), 0 0 40px 14px rgba(124,58,237,0.28), 0 4px 18px rgba(0,0,0,0.20);
   animation: julia-glow-pulse 2.6s ease-in-out infinite;
 }
 /* Logo favicon : centré, converti en blanc, transition d'opacité */
@@ -717,9 +717,9 @@ body::before {
 .julia-fab-close { font-size: 19px; font-weight: 700; }
 
 @keyframes julia-glow-pulse {
-  0%, 100% { box-shadow: 0 0 18px rgba(40,65,147,0.68), 0 0 36px rgba(40,65,147,0.30); }
-  40%       { box-shadow: 0 0 26px rgba(245,122,32,0.68), 0 0 52px rgba(199,154,75,0.38); }
-  70%       { box-shadow: 0 0 22px rgba(65,110,220,0.72), 0 0 44px rgba(245,122,32,0.32); }
+  0%, 100% { box-shadow: 0 0 16px 5px rgba(124,58,237,0.65), 0 0 38px 14px rgba(124,58,237,0.28), 0 4px 14px rgba(0,0,0,0.20); }
+  35%       { box-shadow: 0 0 22px 9px rgba(245,122,32,0.75), 0 0 50px 20px rgba(245,122,32,0.28), 0 4px 14px rgba(0,0,0,0.20); }
+  65%       { box-shadow: 0 0 20px 7px rgba(190,60,255,0.80), 0 0 46px 18px rgba(124,58,237,0.32), 0 4px 14px rgba(0,0,0,0.20); }
 }
 .julia-panel { position: fixed; bottom: 92px; right: 22px; z-index: 110; width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 130px)); background: #fff; border-radius: 18px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); }
 .julia-head { display: flex; align-items: center; gap: 11px; padding: 14px 16px; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #9333ea 100%); color: #fff; }

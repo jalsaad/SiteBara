@@ -46,6 +46,7 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
   const close = () => setMenuOpen(false);
 
   function openJulia() {
+    try { new Audio("/universfield-level-up-191997.mp3").play(); } catch {}
     window.dispatchEvent(new CustomEvent("julia:open"));
     close();
   }

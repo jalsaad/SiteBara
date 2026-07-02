@@ -120,12 +120,17 @@ type PrismaArticle = Omit<
 > & {
   publishedAt: Date | null;
   createdAt: Date;
-  // Colonnes Json — optionnelles pour rester compatible avec un client Prisma
-  // généré avant les migrations « shares »/« images » (régénérer via
-  // `npx prisma generate`).
+  // Colonnes Json/optionnelles — compatibilité avec clients Prisma antérieurs.
   shares?: unknown;
   images?: unknown;
+  ctaLabel?: string | null;
+  ctaUrl?: string | null;
+  ctaStyle?: string | null;
+  ctaNewTab?: boolean;
 };
+
+// Reinitialize the singleton when this module is hot-reloaded (dev HMR).
+let _moduleLoaded = false;
 
 async function prisma() {
   const { PrismaClient } = await import("@/generated/prisma/client");
@@ -133,6 +138,11 @@ async function prisma() {
   const gp = globalThis as unknown as {
     __baraPrisma?: InstanceType<typeof PrismaClient>;
   };
+  if (!_moduleLoaded) {
+    // First call after a module reload — force fresh client.
+    delete gp.__baraPrisma;
+    _moduleLoaded = true;
+  }
   if (!gp.__baraPrisma) {
     const adapter = new PrismaPg({
       connectionString: process.env.DATABASE_URL!,
@@ -149,6 +159,10 @@ function fromDb(a: PrismaArticle): Article {
     createdAt: a.createdAt.toISOString(),
     shares: Array.isArray(a.shares) ? (a.shares as SocialShare[]) : [],
     images: Array.isArray(a.images) ? (a.images as string[]) : [],
+    ctaLabel: a.ctaLabel ?? null,
+    ctaUrl: a.ctaUrl ?? null,
+    ctaStyle: a.ctaStyle ?? null,
+    ctaNewTab: a.ctaNewTab ?? false,
   };
 }
 
@@ -233,15 +247,16 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
     images: input.images ?? [],
     color: input.color ?? "#284193",
     status,
+    ctaLabel: input.ctaLabel ?? null,
+    ctaUrl: input.ctaUrl ?? null,
+    ctaStyle: input.ctaStyle ?? null,
+    ctaNewTab: input.ctaNewTab ?? false,
   };
   const publishedAt = status === "PUBLISHED" ? new Date() : null;
   if (useDb) {
     const db = await prisma();
     const row = await db.article.create({
-      data: {
-        ...base,
-        publishedAt,
-      },
+      data: { ...base, publishedAt } as never,
     });
     return fromDb(row);
   }
@@ -268,16 +283,24 @@ export async function updateArticle(
     const db = await prisma();
     const prev = await db.article.findUnique({ where: { id } });
     if (!prev) return null;
-    const row = await db.article.update({
-      where: { id },
-      data: {
-        ...input,
-        publishedAt:
-          input.status === "PUBLISHED" && prev.status !== "PUBLISHED"
-            ? new Date()
-            : prev.publishedAt,
-      },
-    });
+    // Construction explicite pour éviter les rejets Prisma 7 sur les champs inconnus.
+    const data: Record<string, unknown> = {};
+    if (input.title     !== undefined) data.title    = input.title;
+    if (input.category  !== undefined) data.category = input.category;
+    if (input.excerpt   !== undefined) data.excerpt  = input.excerpt;
+    if (input.body      !== undefined) data.body     = input.body;
+    if (input.image     !== undefined) data.image    = input.image;
+    if (input.images    !== undefined) data.images   = input.images;
+    if (input.color     !== undefined) data.color    = input.color;
+    if (input.status    !== undefined) data.status   = input.status;
+    if (input.ctaLabel  !== undefined) data.ctaLabel = input.ctaLabel;
+    if (input.ctaUrl    !== undefined) data.ctaUrl   = input.ctaUrl;
+    if (input.ctaStyle  !== undefined) data.ctaStyle = input.ctaStyle;
+    if (input.ctaNewTab !== undefined) data.ctaNewTab = input.ctaNewTab;
+    data.publishedAt = input.status === "PUBLISHED" && prev.status !== "PUBLISHED"
+      ? new Date()
+      : prev.publishedAt;
+    const row = await db.article.update({ where: { id }, data: data as never });
     return fromDb(row);
   }
   const store = memStore();

@@ -18,6 +18,11 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  const article = await createArticle(body);
-  return Response.json(article, { status: 201 });
+  try {
+    const article = await createArticle(body);
+    return Response.json(article, { status: 201 });
+  } catch (e) {
+    console.error("[POST /api/articles]", e);
+    return Response.json({ error: String(e) }, { status: 500 });
+  }
 }

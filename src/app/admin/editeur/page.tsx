@@ -445,8 +445,6 @@ function Editor() {
     facebookPageId: "", facebookPageIdSet: false,
     facebookPageToken: "", facebookPageTokenSet: false,
     instagramAccountId: "", instagramAccountIdSet: false,
-    linkedinOrgId: "", linkedinOrgIdSet: false,
-    linkedinAccessToken: "", linkedinAccessTokenSet: false,
   });
   const [socialInputs, setSocialInputs] = useState<Record<string, string>>({});
   const [savingSocial, setSavingSocial] = useState(false);
@@ -1044,14 +1042,12 @@ function Editor() {
         {/* ── Réseaux sociaux — identifiants (collapsible) ── */}
         {(() => {
           const sc = socialCfg;
-          const allSet = sc.facebookPageIdSet && sc.facebookPageTokenSet && sc.linkedinOrgIdSet && sc.linkedinAccessTokenSet;
-          const anySet = sc.facebookPageIdSet || sc.facebookPageTokenSet || sc.instagramAccountIdSet || sc.linkedinOrgIdSet || sc.linkedinAccessTokenSet;
+          const allSet = sc.facebookPageIdSet && sc.facebookPageTokenSet && sc.instagramAccountIdSet;
+          const anySet = sc.facebookPageIdSet || sc.facebookPageTokenSet || sc.instagramAccountIdSet;
           const fields: { key: string; label: string; hint: string; setKey: keyof typeof sc }[] = [
             { key: "facebookPageId",      label: "Facebook — ID de page",       hint: "Ex : 123456789012345",         setKey: "facebookPageIdSet" },
             { key: "facebookPageToken",   label: "Facebook/Instagram — Token",  hint: "Token de page Meta (Graph API)", setKey: "facebookPageTokenSet" },
             { key: "instagramAccountId",  label: "Instagram — ID de compte",    hint: "Ex : 17841400000000000",        setKey: "instagramAccountIdSet" },
-            { key: "linkedinOrgId",       label: "LinkedIn — ID organisation",  hint: "Ex : 12345678",                 setKey: "linkedinOrgIdSet" },
-            { key: "linkedinAccessToken", label: "LinkedIn — Token d'accès",    hint: "Token OAuth LinkedIn",          setKey: "linkedinAccessTokenSet" },
           ];
           return (
             <>

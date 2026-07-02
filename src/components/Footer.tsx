@@ -24,9 +24,8 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
             qualité au cœur de Tournai depuis 1595.
           </p>
           <div className="social">
-            <a aria-label="Facebook" href="#">f</a>
-            <a aria-label="Instagram" href="#">◉</a>
-            <a aria-label="LinkedIn" href="#">in</a>
+            <a aria-label="Facebook" href="https://www.facebook.com/atheneebara.tournai.3" target="_blank" rel="noopener noreferrer">f</a>
+            <a aria-label="Instagram" href="https://www.instagram.com/ar_jules_bara/" target="_blank" rel="noopener noreferrer">◉</a>
           </div>
         </div>
 

@@ -47,6 +47,10 @@ export type ArticleMinAggregateOutputType = {
   publishedAt: Date | null
   authorId: string | null
   priority: number | null
+  ctaLabel: string | null
+  ctaUrl: string | null
+  ctaStyle: string | null
+  ctaNewTab: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +68,10 @@ export type ArticleMaxAggregateOutputType = {
   publishedAt: Date | null
   authorId: string | null
   priority: number | null
+  ctaLabel: string | null
+  ctaUrl: string | null
+  ctaStyle: string | null
+  ctaNewTab: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -83,6 +91,10 @@ export type ArticleCountAggregateOutputType = {
   shares: number
   authorId: number
   priority: number
+  ctaLabel: number
+  ctaUrl: number
+  ctaStyle: number
+  ctaNewTab: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -110,6 +122,10 @@ export type ArticleMinAggregateInputType = {
   publishedAt?: true
   authorId?: true
   priority?: true
+  ctaLabel?: true
+  ctaUrl?: true
+  ctaStyle?: true
+  ctaNewTab?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -127,6 +143,10 @@ export type ArticleMaxAggregateInputType = {
   publishedAt?: true
   authorId?: true
   priority?: true
+  ctaLabel?: true
+  ctaUrl?: true
+  ctaStyle?: true
+  ctaNewTab?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -146,6 +166,10 @@ export type ArticleCountAggregateInputType = {
   shares?: true
   authorId?: true
   priority?: true
+  ctaLabel?: true
+  ctaUrl?: true
+  ctaStyle?: true
+  ctaNewTab?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -252,6 +276,10 @@ export type ArticleGroupByOutputType = {
   shares: runtime.JsonValue
   authorId: string | null
   priority: number
+  ctaLabel: string | null
+  ctaUrl: string | null
+  ctaStyle: string | null
+  ctaNewTab: boolean
   createdAt: Date
   updatedAt: Date
   _count: ArticleCountAggregateOutputType | null
@@ -294,6 +322,10 @@ export type ArticleWhereInput = {
   shares?: Prisma.JsonFilter<"Article">
   authorId?: Prisma.StringNullableFilter<"Article"> | string | null
   priority?: Prisma.IntFilter<"Article"> | number
+  ctaLabel?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaUrl?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaStyle?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaNewTab?: Prisma.BoolFilter<"Article"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Article"> | Date | string
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -314,6 +346,10 @@ export type ArticleOrderByWithRelationInput = {
   shares?: Prisma.SortOrder
   authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaStyle?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaNewTab?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   author?: Prisma.UserOrderByWithRelationInput
@@ -337,6 +373,10 @@ export type ArticleWhereUniqueInput = Prisma.AtLeast<{
   shares?: Prisma.JsonFilter<"Article">
   authorId?: Prisma.StringNullableFilter<"Article"> | string | null
   priority?: Prisma.IntFilter<"Article"> | number
+  ctaLabel?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaUrl?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaStyle?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaNewTab?: Prisma.BoolFilter<"Article"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Article"> | Date | string
   author?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -357,6 +397,10 @@ export type ArticleOrderByWithAggregationInput = {
   shares?: Prisma.SortOrder
   authorId?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaStyle?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaNewTab?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ArticleCountOrderByAggregateInput
@@ -384,6 +428,10 @@ export type ArticleScalarWhereWithAggregatesInput = {
   shares?: Prisma.JsonWithAggregatesFilter<"Article">
   authorId?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
   priority?: Prisma.IntWithAggregatesFilter<"Article"> | number
+  ctaLabel?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
+  ctaUrl?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
+  ctaStyle?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
+  ctaNewTab?: Prisma.BoolWithAggregatesFilter<"Article"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Article"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Article"> | Date | string
 }
@@ -402,6 +450,10 @@ export type ArticleCreateInput = {
   publishedAt?: Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: number
+  ctaLabel?: string | null
+  ctaUrl?: string | null
+  ctaStyle?: string | null
+  ctaNewTab?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   author?: Prisma.UserCreateNestedOneWithoutArticlesInput
@@ -422,6 +474,10 @@ export type ArticleUncheckedCreateInput = {
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   authorId?: string | null
   priority?: number
+  ctaLabel?: string | null
+  ctaUrl?: string | null
+  ctaStyle?: string | null
+  ctaNewTab?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -440,6 +496,10 @@ export type ArticleUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneWithoutArticlesNestedInput
@@ -460,6 +520,10 @@ export type ArticleUncheckedUpdateInput = {
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -479,6 +543,10 @@ export type ArticleCreateManyInput = {
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   authorId?: string | null
   priority?: number
+  ctaLabel?: string | null
+  ctaUrl?: string | null
+  ctaStyle?: string | null
+  ctaNewTab?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -497,6 +565,10 @@ export type ArticleUpdateManyMutationInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -516,6 +588,10 @@ export type ArticleUncheckedUpdateManyInput = {
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   authorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -545,6 +621,10 @@ export type ArticleCountOrderByAggregateInput = {
   shares?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrder
+  ctaStyle?: Prisma.SortOrder
+  ctaNewTab?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -566,6 +646,10 @@ export type ArticleMaxOrderByAggregateInput = {
   publishedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrder
+  ctaStyle?: Prisma.SortOrder
+  ctaNewTab?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -583,6 +667,10 @@ export type ArticleMinOrderByAggregateInput = {
   publishedAt?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   priority?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrder
+  ctaStyle?: Prisma.SortOrder
+  ctaNewTab?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -659,6 +747,10 @@ export type ArticleCreateWithoutAuthorInput = {
   publishedAt?: Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: number
+  ctaLabel?: string | null
+  ctaUrl?: string | null
+  ctaStyle?: string | null
+  ctaNewTab?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -677,6 +769,10 @@ export type ArticleUncheckedCreateWithoutAuthorInput = {
   publishedAt?: Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: number
+  ctaLabel?: string | null
+  ctaUrl?: string | null
+  ctaStyle?: string | null
+  ctaNewTab?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -725,6 +821,10 @@ export type ArticleScalarWhereInput = {
   shares?: Prisma.JsonFilter<"Article">
   authorId?: Prisma.StringNullableFilter<"Article"> | string | null
   priority?: Prisma.IntFilter<"Article"> | number
+  ctaLabel?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaUrl?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaStyle?: Prisma.StringNullableFilter<"Article"> | string | null
+  ctaNewTab?: Prisma.BoolFilter<"Article"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Article"> | Date | string
 }
@@ -743,6 +843,10 @@ export type ArticleCreateManyAuthorInput = {
   publishedAt?: Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: number
+  ctaLabel?: string | null
+  ctaUrl?: string | null
+  ctaStyle?: string | null
+  ctaNewTab?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -761,6 +865,10 @@ export type ArticleUpdateWithoutAuthorInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -779,6 +887,10 @@ export type ArticleUncheckedUpdateWithoutAuthorInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -797,6 +909,10 @@ export type ArticleUncheckedUpdateManyWithoutAuthorInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shares?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   priority?: Prisma.IntFieldUpdateOperationsInput | number
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaStyle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -818,6 +934,10 @@ export type ArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   shares?: boolean
   authorId?: boolean
   priority?: boolean
+  ctaLabel?: boolean
+  ctaUrl?: boolean
+  ctaStyle?: boolean
+  ctaNewTab?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   author?: boolean | Prisma.Article$authorArgs<ExtArgs>
@@ -838,6 +958,10 @@ export type ArticleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   shares?: boolean
   authorId?: boolean
   priority?: boolean
+  ctaLabel?: boolean
+  ctaUrl?: boolean
+  ctaStyle?: boolean
+  ctaNewTab?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   author?: boolean | Prisma.Article$authorArgs<ExtArgs>
@@ -858,6 +982,10 @@ export type ArticleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   shares?: boolean
   authorId?: boolean
   priority?: boolean
+  ctaLabel?: boolean
+  ctaUrl?: boolean
+  ctaStyle?: boolean
+  ctaNewTab?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   author?: boolean | Prisma.Article$authorArgs<ExtArgs>
@@ -878,11 +1006,15 @@ export type ArticleSelectScalar = {
   shares?: boolean
   authorId?: boolean
   priority?: boolean
+  ctaLabel?: boolean
+  ctaUrl?: boolean
+  ctaStyle?: boolean
+  ctaNewTab?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "category" | "excerpt" | "body" | "image" | "images" | "color" | "status" | "publishedAt" | "shares" | "authorId" | "priority" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
+export type ArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "category" | "excerpt" | "body" | "image" | "images" | "color" | "status" | "publishedAt" | "shares" | "authorId" | "priority" | "ctaLabel" | "ctaUrl" | "ctaStyle" | "ctaNewTab" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
 export type ArticleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.Article$authorArgs<ExtArgs>
 }
@@ -913,6 +1045,10 @@ export type $ArticlePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     shares: runtime.JsonValue
     authorId: string | null
     priority: number
+    ctaLabel: string | null
+    ctaUrl: string | null
+    ctaStyle: string | null
+    ctaNewTab: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["article"]>
@@ -1353,6 +1489,10 @@ export interface ArticleFieldRefs {
   readonly shares: Prisma.FieldRef<"Article", 'Json'>
   readonly authorId: Prisma.FieldRef<"Article", 'String'>
   readonly priority: Prisma.FieldRef<"Article", 'Int'>
+  readonly ctaLabel: Prisma.FieldRef<"Article", 'String'>
+  readonly ctaUrl: Prisma.FieldRef<"Article", 'String'>
+  readonly ctaStyle: Prisma.FieldRef<"Article", 'String'>
+  readonly ctaNewTab: Prisma.FieldRef<"Article", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Article", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Article", 'DateTime'>
 }

@@ -39,6 +39,10 @@ export interface Article {
   publishedAt: string | null;
   createdAt: string;
   shares: SocialShare[];
+  ctaLabel?: string | null;
+  ctaUrl?: string | null;
+  ctaStyle?: string | null;
+  ctaNewTab?: boolean;
 }
 
 export interface ArticleInput {
@@ -50,6 +54,10 @@ export interface ArticleInput {
   images?: string[];
   color?: string;
   status?: ArticleStatus;
+  ctaLabel?: string | null;
+  ctaUrl?: string | null;
+  ctaStyle?: string | null;
+  ctaNewTab?: boolean;
 }
 
 // Une URL de média est considérée comme une vidéo d'après son extension.

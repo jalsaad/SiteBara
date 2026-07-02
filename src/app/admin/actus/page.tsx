@@ -24,6 +24,10 @@ interface Draft {
   images: string[];
   color: string;
   status: ArticleStatus;
+  ctaLabel: string;
+  ctaUrl: string;
+  ctaStyle: string;
+  ctaNewTab: boolean;
 }
 
 const EMPTY: Draft = {
@@ -35,6 +39,10 @@ const EMPTY: Draft = {
   images: [],
   color: "#284193",
   status: "DRAFT",
+  ctaLabel: "",
+  ctaUrl: "",
+  ctaStyle: "primary",
+  ctaNewTab: false,
 };
 
 const ALL_NETWORKS = SOCIAL_NETWORKS.map((n) => n.id);
@@ -93,6 +101,10 @@ export default function ActusManager() {
           images: draft.images,
           color: draft.color,
           status: draft.status,
+          ctaLabel: draft.ctaLabel || null,
+          ctaUrl: draft.ctaUrl || null,
+          ctaStyle: draft.ctaLabel ? draft.ctaStyle : null,
+          ctaNewTab: draft.ctaNewTab,
         }),
       }
     );
@@ -101,7 +113,8 @@ export default function ActusManager() {
       setDraft(null);
       refresh();
     } else {
-      toast("Erreur lors de l'enregistrement");
+      const err = await res.json().catch(() => ({})) as { error?: string };
+      toast(err.error ?? "Erreur lors de l'enregistrement");
     }
   }
 
@@ -197,6 +210,10 @@ export default function ActusManager() {
       images: a.images,
       color: a.color,
       status: a.status,
+      ctaLabel: a.ctaLabel ?? "",
+      ctaUrl: a.ctaUrl ?? "",
+      ctaStyle: a.ctaStyle ?? "primary",
+      ctaNewTab: a.ctaNewTab ?? false,
     });
   }
 
@@ -441,6 +458,73 @@ export default function ActusManager() {
                 images 5 Mo).
               </p>
             </div>
+            {/* ── Bouton CTA dans l'entête ── */}
+            <div className="field">
+              <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span>Bouton dans l&apos;entête <span style={{ fontWeight: 400, color: "var(--ink-soft)" }}>(optionnel)</span></span>
+                {draft.ctaLabel && (
+                  <button
+                    type="button"
+                    style={{ fontSize: 12, color: "var(--ink-soft)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                    onClick={() => setDraft({ ...draft, ctaLabel: "", ctaUrl: "" })}
+                  >
+                    ✕ Retirer
+                  </button>
+                )}
+              </label>
+              <input
+                value={draft.ctaLabel}
+                onChange={(e) => setDraft({ ...draft, ctaLabel: e.target.value })}
+                placeholder="Texte du bouton (ex : S'inscrire, En savoir plus…)"
+              />
+            </div>
+            {draft.ctaLabel && (
+              <>
+                <div className="field">
+                  <label>Lien du bouton</label>
+                  <input
+                    type="url"
+                    value={draft.ctaUrl}
+                    onChange={(e) => setDraft({ ...draft, ctaUrl: e.target.value })}
+                    placeholder="https://… ou /page-interne"
+                  />
+                </div>
+                <div className="field">
+                  <label>Style du bouton</label>
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                    {(["primary", "royal", "ghost"] as const).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setDraft({ ...draft, ctaStyle: s })}
+                        style={{
+                          padding: "8px 18px", borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: "pointer",
+                          border: draft.ctaStyle === s ? "2px solid var(--royal)" : "2px solid transparent",
+                          outline: draft.ctaStyle === s ? "2px solid var(--royal)" : "none",
+                          outlineOffset: 2,
+                          ...(s === "primary" ? { background: "linear-gradient(135deg,#f57a20,#e05c00)", color: "#fff" }
+                            : s === "royal"   ? { background: "linear-gradient(135deg,#284193,#1b2245)", color: "#fff" }
+                            : { background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,0.5)" }),
+                        }}
+                      >
+                        {s === "primary" ? "🟠 Orange" : s === "royal" ? "🔵 Bleu" : "⬜ Contour blanc"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="field tog">
+                  <label>Ouvrir dans un nouvel onglet</label>
+                  <button
+                    type="button"
+                    className={`switch${draft.ctaNewTab ? " on" : ""}`}
+                    onClick={() => setDraft({ ...draft, ctaNewTab: !draft.ctaNewTab })}
+                    aria-label="Ouvrir dans un nouvel onglet"
+                  >
+                    <span></span>
+                  </button>
+                </div>
+              </>
+            )}
             <div className="field">
               <label>Couleur d&apos;accent</label>
               <div className="swatches">

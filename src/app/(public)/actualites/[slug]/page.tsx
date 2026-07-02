@@ -41,6 +41,18 @@ export default async function ArticlePage({
               {article.title}
             </h1>
             <p className="sub">{article.excerpt}</p>
+            {article.ctaLabel && article.ctaUrl && (
+              <div style={{ marginTop: 28 }}>
+                <a
+                  href={article.ctaUrl}
+                  className={`btn${article.ctaStyle === "ghost" ? " btn-ghost" : article.ctaStyle === "royal" ? "" : " btn-orange"}`}
+                  style={article.ctaStyle === "royal" ? { background: "linear-gradient(135deg,#284193,#1b2245)", color: "#fff", boxShadow: "0 8px 22px rgba(40,65,147,0.36)" } : {}}
+                  {...(article.ctaNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  {article.ctaLabel}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </section>

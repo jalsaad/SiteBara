@@ -9,11 +9,16 @@ export async function PATCH(
   if (auth instanceof Response) return auth;
   const { id } = await params;
   const body = await request.json();
-  const article = await updateArticle(id, body);
-  if (!article) {
-    return Response.json({ error: "Article introuvable" }, { status: 404 });
+  try {
+    const article = await updateArticle(id, body);
+    if (!article) {
+      return Response.json({ error: "Article introuvable" }, { status: 404 });
+    }
+    return Response.json(article);
+  } catch (e) {
+    console.error("[PATCH /api/articles/:id]", e);
+    return Response.json({ error: String(e) }, { status: 500 });
   }
-  return Response.json(article);
 }
 
 export async function DELETE(
