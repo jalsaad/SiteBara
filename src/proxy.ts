@@ -2,29 +2,39 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifySessionToken, SESSION_COOKIE, type Role } from "@/lib/auth";
 
-// Page d'accueil de l'admin selon le rôle (cible des redirections d'accès).
 function homeFor(role: Role): string {
   if (role === "CUISINE") return "/admin/menu";
   return "/admin/actus";
 }
 
-// Protège l'interface d'administration :
-//  - /admin/login reste public (redirige si déjà connecté)
-//  - le reste de /admin exige une session valide
-//  - éditeur de pages et gestion des comptes → ADMIN
-//  - actualités et messages → ADMIN ou COMM
-//  - menu de la semaine → ADMIN ou CUISINE
-// Les API d'écriture sont protégées dans les route handlers (requireRole).
+const LAUNCH = process.env.LAUNCH_DATE ? new Date(process.env.LAUNCH_DATE) : null;
+
+const COMING_SOON_BYPASS = [
+  "/coming-soon", "/admin", "/api", "/_next", "/favicon", "/icons", "/uploads", "/google",
+];
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // ── Page temporaire avant lancement ───────────────────────────────────────
+  // Actif uniquement si LAUNCH_DATE est défini dans .env et date non atteinte.
+  // Auto-destruction dès que Date.now() >= LAUNCH.
+  if (LAUNCH && Date.now() < LAUNCH.getTime()) {
+    const isStatic = /\.(ico|png|jpg|jpeg|svg|webp|mp4|mp3|html|pdf|ics|txt|json)$/.test(pathname);
+    if (!COMING_SOON_BYPASS.some((p) => pathname.startsWith(p)) && !isStatic) {
+      return NextResponse.redirect(new URL("/coming-soon", request.url));
+    }
+  }
+
+  // ── Protection admin ──────────────────────────────────────────────────────
+  if (!pathname.startsWith("/admin")) return NextResponse.next();
+
   const session = await verifySessionToken(
     request.cookies.get(SESSION_COOKIE)?.value
   );
 
   if (pathname === "/admin/login") {
-    if (session) {
-      return NextResponse.redirect(new URL("/admin", request.url));
-    }
+    if (session) return NextResponse.redirect(new URL("/admin", request.url));
     return NextResponse.next();
   }
 
@@ -35,11 +45,11 @@ export async function proxy(request: NextRequest) {
   }
 
   const allowed: Record<string, Role[]> = {
-    "/admin/editeur": ["ADMIN"],
+    "/admin/editeur":      ["ADMIN"],
     "/admin/utilisateurs": ["ADMIN"],
-    "/admin/actus": ["ADMIN", "COMM"],
-    "/admin/messages": ["ADMIN", "COMM"],
-    "/admin/menu": ["ADMIN", "CUISINE"],
+    "/admin/actus":        ["ADMIN", "COMM"],
+    "/admin/messages":     ["ADMIN", "COMM"],
+    "/admin/menu":         ["ADMIN", "CUISINE"],
   };
   const section = Object.keys(allowed).find((p) => pathname.startsWith(p));
   if (section && !allowed[section].includes(session.role)) {
@@ -50,5 +60,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };
