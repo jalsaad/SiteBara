@@ -10,438 +10,426 @@ function fmtDate(iso: string) {
   });
 }
 
+/* Éléments flottants : formules, citations, mots-clés — s'écrivent en fond */
+const BG_ELEMENTS = [
+  { t: "a² + b² = c²",          x:  4, y:  8, s: 22, d: 0.0, dur: 9  },
+  { t: "E = mc²",                x: 82, y:  6, s: 26, d: 1.2, dur: 11 },
+  { t: "∫f(x)dx",               x: 12, y: 28, s: 20, d: 2.5, dur: 8  },
+  { t: "1830",                   x: 70, y: 22, s: 34, d: 0.8, dur: 14 },
+  { t: "lim(x→∞) = L",          x: 55, y: 12, s: 18, d: 3.1, dur: 10 },
+  { t: "H₂O",                   x: 88, y: 42, s: 30, d: 1.8, dur: 7  },
+  { t: "∑(n=1..∞)",             x:  3, y: 55, s: 19, d: 4.2, dur: 12 },
+  { t: "Qui cherche, trouve.",   x: 60, y: 55, s: 15, d: 2.0, dur: 16 },
+  { t: "F = m·a",               x: 22, y: 72, s: 22, d: 5.0, dur: 9  },
+  { t: "1595",                   x: 78, y: 70, s: 32, d: 0.4, dur: 13 },
+  { t: "CO₂ + H₂O →",          x: 38, y: 82, s: 17, d: 3.8, dur: 8  },
+  { t: "√(x² + y²)",            x:  6, y: 88, s: 20, d: 1.5, dur: 11 },
+  { t: "Apprendre.",             x: 68, y: 88, s: 24, d: 6.0, dur: 15 },
+  { t: "λ = h / mv",            x: 42, y:  5, s: 18, d: 2.8, dur: 10 },
+  { t: "PV = nRT",              x: 18, y: 42, s: 21, d: 4.5, dur: 9  },
+  { t: "π ≈ 3,14159…",          x: 50, y: 72, s: 20, d: 1.0, dur: 12 },
+  { t: "S'ouvrir.",              x: 88, y: 58, s: 22, d: 3.3, dur: 14 },
+  { t: "sin²θ + cos²θ = 1",     x: 28, y: 16, s: 17, d: 5.5, dur: 11 },
+];
+
 export default function ComingSoonPage() {
   return (
     <>
-      <style>{`
-        body { background: #d6d0c4; margin: 0; }
+      {/* Import fonte manuscrite */}
+      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap"
+      />
 
-        .cs-wrap {
+      <style>{`
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #1a2a1a; overflow-x: hidden; }
+
+        /* ── Tableau ── */
+        .tb-scene {
           min-height: 100vh;
+          background: radial-gradient(ellipse at 40% 40%, #2c412c 0%, #1a2a1a 70%);
           display: flex;
-          align-items: flex-start;
+          flex-direction: column;
+          align-items: center;
           justify-content: center;
           padding: 40px 16px 60px;
-          font-family: Georgia, serif;
-        }
-
-        /* ── La feuille ── */
-        .cs-paper {
           position: relative;
-          background-color: #fffef5;
-          background-image:
-            repeating-linear-gradient(transparent 0, transparent 31px, #b8d4f0 31px, #b8d4f0 32px);
-          width: 100%;
-          max-width: 780px;
-          box-shadow: 3px 4px 18px rgba(0,0,0,0.28), -1px 1px 6px rgba(0,0,0,0.12);
-          border-radius: 2px;
-          padding: 0 0 48px 0;
           overflow: hidden;
         }
 
-        /* Ligne de marge rouge */
-        .cs-paper::before {
+        /* Grain de craie sur tout l'écran */
+        .tb-scene::after {
           content: '';
-          position: absolute;
-          left: 72px;
-          top: 0; bottom: 0;
-          width: 2px;
-          background: rgba(220, 80, 80, 0.55);
+          position: fixed;
+          inset: 0;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* ── Formules de fond ── */
+        .tb-bg {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
           z-index: 1;
         }
-
-        /* Perforations */
-        .cs-holes {
+        .tb-bg-item {
           position: absolute;
-          left: 16px;
-          top: 0; bottom: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-          align-items: center;
-          pointer-events: none;
+          font-family: 'Caveat', cursive;
+          color: rgba(255,255,255,0.10);
+          white-space: nowrap;
+          animation: tb-drift var(--dur, 10s) ease-in-out var(--delay, 0s) infinite alternate;
+          text-shadow: 0 0 6px rgba(255,255,255,0.06);
+        }
+        @keyframes tb-drift {
+          0%   { opacity: 0.04; transform: translateY(0px)   rotate(-1deg); }
+          50%  { opacity: 0.13; transform: translateY(-6px)  rotate(0.5deg); }
+          100% { opacity: 0.06; transform: translateY(3px)   rotate(-0.5deg); }
+        }
+
+        /* ── Cadre en bois ── */
+        .tb-frame {
+          position: relative;
           z-index: 2;
-        }
-        .cs-hole {
-          width: 22px; height: 22px;
-          border-radius: 50%;
-          background: #d6d0c4;
-          border: 1px solid #bbb;
-          box-shadow: inset 0 1px 4px rgba(0,0,0,0.25);
-        }
-
-        /* ── En-tête ── */
-        .cs-header {
-          padding: 28px 36px 18px 90px;
-          border-bottom: 2px solid #111;
-          position: relative;
-        }
-        .cs-school { font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #333; font-weight: bold; }
-        .cs-subject-line {
-          display: flex; gap: 32px; flex-wrap: wrap;
-          margin-top: 10px; font-size: 14px; color: #222;
-        }
-        .cs-field { border-bottom: 1px solid #555; min-width: 160px; padding-bottom: 2px; }
-        .cs-field span { color: #888; font-size: 12px; display: block; margin-bottom: 2px; }
-
-        /* ── Tampon EN COURS ── */
-        .cs-stamp-wrap {
-          position: absolute;
-          top: 18px; right: 32px;
-          transform: rotate(-9deg);
-          z-index: 5;
-        }
-        .cs-stamp {
-          border: 5px solid rgba(185, 28, 28, 0.82);
-          color: rgba(185, 28, 28, 0.82);
-          padding: 10px 18px;
-          font-family: 'Arial Black', Arial, sans-serif;
-          font-size: 14px;
-          font-weight: 900;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-          line-height: 1.3;
-          text-align: center;
+          background: linear-gradient(160deg, #263d26 0%, #1c301c 55%, #263d26 100%);
           border-radius: 4px;
-          box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.18), inset 0 0 0 1px rgba(185, 28, 28, 0.18);
+          padding: 18px;
+          box-shadow:
+            0 0 0 3px #6b4c1a,
+            0 0 0 6px #7a5a22,
+            0 0 0 9px #5c3d14,
+            0 30px 80px rgba(0,0,0,0.7),
+            inset 0 0 80px rgba(0,0,0,0.25);
+          max-width: 680px;
+          width: 100%;
         }
 
-        /* ── Corps ── */
-        .cs-body { padding: 0 36px 0 90px; }
-
-        .cs-question {
-          margin-top: 0;
-          padding: 20px 0 12px;
-          border-bottom: 1px dashed #ccc;
+        /* Surface du tableau */
+        .tb-surface {
+          background: linear-gradient(135deg, #233323 0%, #1e2e1e 40%, #253525 100%);
+          border-radius: 2px;
+          padding: 48px 52px 44px;
           position: relative;
+          overflow: hidden;
         }
-        .cs-q-header {
-          display: flex; align-items: baseline; gap: 12px;
+
+        /* Reflet subtil */
+        .tb-surface::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+        }
+
+        /* Traces d'effacement */
+        .tb-erased {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 120px 40px at 70% 30%, rgba(255,255,255,0.018) 0%, transparent 100%),
+            radial-gradient(ellipse 80px 30px at 20% 70%, rgba(255,255,255,0.012) 0%, transparent 100%);
+          pointer-events: none;
+        }
+
+        /* ── Contenu ── */
+        .tb-school {
+          font-family: 'Caveat', cursive;
+          font-size: 13px;
+          color: rgba(255,255,255,0.45);
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          text-align: center;
+          margin-bottom: 6px;
+          animation: tb-in 1s ease-out 0.2s both;
+        }
+
+        .tb-divider {
+          text-align: center;
+          color: rgba(255,255,255,0.20);
+          font-size: 12px;
+          letter-spacing: 10px;
+          margin: 10px 0 28px;
+          animation: tb-in 1s ease-out 0.4s both;
+        }
+
+        .tb-title {
+          font-family: 'Caveat', cursive;
+          font-size: clamp(32px, 5.5vw, 52px);
+          font-weight: 700;
+          color: rgba(250, 248, 240, 0.93);
+          text-align: center;
+          line-height: 1.2;
+          text-shadow:
+            0 0 4px rgba(255,255,255,0.25),
+            1px 1px 0 rgba(0,0,0,0.5),
+            -1px -1px 0 rgba(0,0,0,0.3);
+          animation: tb-write 1.4s ease-out 0.7s both;
           margin-bottom: 8px;
         }
-        .cs-q-num {
-          font-size: 12px; font-weight: bold; text-transform: uppercase;
-          letter-spacing: 1px; color: #444;
-        }
-        .cs-q-pts {
-          font-size: 12px; color: #888; margin-left: auto;
-          border: 1px solid #bbb; padding: 1px 8px; border-radius: 20px;
-        }
-        .cs-q-text { font-size: 15px; color: #222; margin-bottom: 10px; font-style: italic; }
 
-        /* Réponse style "écrit à la main" */
-        .cs-answer {
-          font-family: cursive;
-          font-size: 17px;
-          color: #1a3a70;
-          line-height: 1.9;
-          position: relative;
-        }
-
-        /* Annotation rouge du prof */
-        .cs-note {
-          position: absolute;
-          right: -28px;
-          top: 50%;
-          transform: translateY(-50%);
-          font-family: cursive;
-          color: #b91c1c;
-          font-size: 18px;
-          white-space: nowrap;
-        }
-        @media (max-width: 640px) { .cs-note { display: none; } }
-
-        /* Coche/Croix rouge */
-        .cs-mark {
-          display: inline-block;
-          font-family: cursive;
-          font-size: 22px;
-          font-weight: bold;
-          margin-left: 8px;
-          vertical-align: middle;
-        }
-        .cs-mark.ok { color: #15803d; }
-        .cs-mark.warn { color: #b45309; }
-
-        /* Score encerclé (style correction) */
-        .cs-score {
-          display: inline-block;
-          border: 2px solid #b91c1c;
-          border-radius: 50%;
-          color: #b91c1c;
-          font-family: cursive;
-          font-size: 14px;
-          width: 38px; height: 38px;
-          line-height: 34px;
+        .tb-sub {
+          font-family: 'Caveat', cursive;
+          font-size: clamp(16px, 2.5vw, 20px);
+          color: rgba(255,248,200,0.65);
           text-align: center;
-          margin-left: 6px;
-          vertical-align: middle;
+          margin-bottom: 36px;
+          animation: tb-in 1s ease-out 1.2s both;
         }
 
         /* ── Compte à rebours ── */
-        .cs-countdown-box {
-          background: #fffde7;
-          border: 2px dashed #f59e0b;
+        .tb-countdown-wrap {
+          background: rgba(0,0,0,0.2);
+          border: 1px solid rgba(255,255,255,0.12);
           border-radius: 4px;
-          padding: 14px 20px;
-          margin: 8px 0;
-          text-align: center;
+          padding: 24px 16px 20px;
+          margin: 0 0 28px;
+          animation: tb-in 1s ease-out 1.5s both;
+          position: relative;
         }
+        .tb-countdown-wrap::before {
+          content: 'Compte à rebours';
+          position: absolute;
+          top: -10px; left: 50%; transform: translateX(-50%);
+          background: #1e2e1e;
+          padding: 0 12px;
+          font-family: 'Caveat', cursive;
+          font-size: 13px;
+          color: rgba(255,255,255,0.35);
+          letter-spacing: 2px;
+          white-space: nowrap;
+        }
+
+        /* Countdown units */
         .cs-cd {
-          display: inline-flex; align-items: baseline; gap: 4px;
-          font-family: 'Courier New', monospace;
-        }
-        .cs-cd-unit { display: inline-flex; flex-direction: column; align-items: center; }
-        .cs-cd-unit b { font-size: 36px; color: #1e3a8a; line-height: 1; }
-        .cs-cd-unit small { font-size: 11px; color: #666; text-transform: uppercase; }
-        .cs-cd-sep { font-size: 28px; color: #999; padding: 0 2px; line-height: 1.1; }
-        .cs-cd-done { font-family: cursive; font-size: 24px; color: #15803d; }
-
-        /* ── Barre de progression ── */
-        .cs-progress-wrap { margin: 10px 0 4px; }
-        .cs-progress-label { font-size: 13px; color: #444; margin-bottom: 5px; font-family: cursive; }
-        .cs-progress-track {
-          height: 22px;
-          background: #f3f4f6;
-          border: 1.5px solid #9ca3af;
-          border-radius: 3px;
-          overflow: hidden;
-          position: relative;
-        }
-        .cs-progress-fill {
-          height: 100%;
-          width: 87%;
-          background: repeating-linear-gradient(
-            45deg,
-            #16a34a, #16a34a 8px,
-            #22c55e 8px, #22c55e 16px
-          );
-          position: relative;
-        }
-        .cs-progress-fill::after {
-          content: '87 %';
-          position: absolute; right: 8px; top: 50%;
-          transform: translateY(-50%);
-          font-size: 12px; font-weight: bold; color: #fff;
-          text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-          font-family: Arial, sans-serif;
-        }
-        .cs-progress-remainder {
-          position: absolute; right: 8px; top: 50%;
-          transform: translateY(-50%);
-          font-size: 11px; color: #9ca3af;
-          font-family: Arial, sans-serif;
-        }
-
-        /* ── Barré (raturé) ── */
-        .cs-strike {
-          text-decoration: line-through;
-          text-decoration-color: #b91c1c;
-          text-decoration-thickness: 2px;
-          color: #888;
-        }
-
-        /* ── Appréciation ── */
-        .cs-appreciation {
-          margin: 24px 0 0;
-          padding: 18px 20px;
-          background: #fff9f0;
-          border-left: 4px solid #b91c1c;
-          position: relative;
-        }
-        .cs-appr-label {
-          font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-          color: #888; margin-bottom: 8px; font-family: Arial, sans-serif;
-        }
-        .cs-appr-text {
-          font-family: cursive; font-size: 16px; color: #7f1d1d;
-          line-height: 1.8; font-style: italic;
-        }
-
-        /* ── Pied de page (note + signature) ── */
-        .cs-footer {
-          margin-top: 28px;
-          padding: 0 36px 0 90px;
-          display: flex;
+          display: inline-flex;
           align-items: flex-end;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 20px;
+          gap: 6px;
+          justify-content: center;
+          width: 100%;
         }
-        .cs-grade-box {
+        .cs-cd-unit {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          min-width: 64px;
+        }
+        .cs-cd-unit b {
+          font-family: 'Caveat', cursive;
+          font-size: clamp(38px, 7vw, 56px);
+          color: rgba(255, 248, 200, 0.95);
+          line-height: 1;
+          text-shadow: 0 0 12px rgba(255,248,180,0.3), 1px 1px 0 rgba(0,0,0,0.6);
+          font-weight: 700;
+        }
+        .cs-cd-unit small {
+          font-family: 'Caveat', cursive;
+          font-size: 13px;
+          color: rgba(255,255,255,0.35);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-top: -2px;
+        }
+        .cs-cd-sep {
+          font-family: 'Caveat', cursive;
+          font-size: 40px;
+          color: rgba(255,255,255,0.2);
+          line-height: 1.05;
+          padding-bottom: 14px;
+        }
+        .cs-cd-done {
+          font-family: 'Caveat', cursive;
+          font-size: 28px;
+          color: rgba(255,248,200,0.9);
           text-align: center;
+          display: block;
         }
-        .cs-grade-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #666; }
-        .cs-grade {
-          font-family: cursive; font-size: 48px; color: #15803d;
-          line-height: 1; position: relative;
-          display: inline-block;
-        }
-        .cs-grade::after {
-          content: '/20';
-          font-size: 20px; color: #888;
-          position: absolute; bottom: 4px; right: -34px;
-        }
-        .cs-grade-note { font-family: cursive; font-size: 13px; color: #b91c1c; margin-top: 4px; }
-
-        .cs-sig {
-          text-align: right;
-        }
-        .cs-sig-name {
-          font-family: cursive; font-size: 22px; color: #1a3a70;
-          border-bottom: 1px solid #aaa; padding-bottom: 4px; margin-bottom: 4px;
-        }
-        .cs-sig-role { font-size: 11px; color: #888; letter-spacing: 1px; text-transform: uppercase; }
 
         /* ── Date de lancement ── */
-        .cs-launch-date {
-          margin-top: 28px;
+        .tb-date {
+          font-family: 'Caveat', cursive;
+          font-size: 17px;
+          color: rgba(255,255,255,0.42);
           text-align: center;
-          font-size: 13px;
-          color: #666;
-          font-family: cursive;
+          animation: tb-in 1s ease-out 1.8s both;
+          margin-bottom: 28px;
         }
-        .cs-launch-date strong { color: #1a3a70; font-size: 15px; }
+        .tb-date strong {
+          color: rgba(255,248,180,0.7);
+        }
 
-        /* ── Admin bypass hint ── */
-        .cs-admin-hint {
-          margin-top: 32px;
+        /* ── Citation ── */
+        .tb-quote {
+          font-family: 'Caveat', cursive;
+          font-size: 16px;
+          font-style: italic;
+          color: rgba(255,255,255,0.28);
           text-align: center;
-          font-size: 11px;
-          color: #bbb;
-          font-family: Arial, sans-serif;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          padding-top: 20px;
+          line-height: 1.6;
+          animation: tb-in 1s ease-out 2.0s both;
         }
-        .cs-admin-hint a { color: #aaa; }
+
+        /* ── Lien admin ── */
+        .tb-admin {
+          font-family: 'Caveat', cursive;
+          font-size: 13px;
+          color: rgba(255,255,255,0.18);
+          text-align: center;
+          margin-top: 10px;
+          animation: tb-in 1s ease-out 2.2s both;
+        }
+        .tb-admin a { color: rgba(255,255,255,0.22); text-decoration: none; }
+        .tb-admin a:hover { color: rgba(255,255,255,0.45); }
+
+        /* ── Bord de la craie (en bas) ── */
+        .tb-tray {
+          position: fixed;
+          bottom: 0; left: 0; right: 0;
+          height: 18px;
+          background: linear-gradient(180deg, #7a5a22 0%, #5c3d14 100%);
+          box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+        }
+        /* Craies sur le rebord */
+        .tb-chalk-piece {
+          height: 10px;
+          border-radius: 3px;
+          opacity: 0.7;
+        }
+
+        /* ── Animations ── */
+        @keyframes tb-in {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes tb-write {
+          from { opacity: 0; letter-spacing: 0.4em; }
+          to   { opacity: 1; letter-spacing: normal; }
+        }
+
+        /* ── Poussière de craie ── */
+        .tb-dust {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 3;
+          overflow: hidden;
+        }
+        .tb-dust-p {
+          position: absolute;
+          bottom: 18px;
+          width: 3px; height: 3px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.35);
+          animation: tb-float var(--dur,6s) ease-in-out var(--delay,0s) infinite;
+        }
+        @keyframes tb-float {
+          0%   { transform: translate(0, 0) scale(1);   opacity: 0.3; }
+          50%  { transform: translate(var(--dx,10px), calc(var(--h,-80px))) scale(0.7); opacity: 0.15; }
+          100% { transform: translate(0, -200px) scale(0.2); opacity: 0; }
+        }
+
+        @media (max-width: 520px) {
+          .tb-surface { padding: 32px 24px 30px; }
+          .tb-frame { padding: 12px; }
+          .cs-cd-unit { min-width: 48px; }
+        }
       `}</style>
 
-      <div className="cs-wrap">
-        <div className="cs-paper">
+      {/* Formules en arrière-plan */}
+      <div className="tb-bg">
+        {BG_ELEMENTS.map((el, i) => (
+          <span
+            key={i}
+            className="tb-bg-item"
+            style={{
+              left: `${el.x}%`,
+              top: `${el.y}%`,
+              fontSize: `${el.s}px`,
+              ["--delay" as string]: `${el.d}s`,
+              ["--dur" as string]: `${el.dur}s`,
+            }}
+          >
+            {el.t}
+          </span>
+        ))}
+      </div>
 
-          {/* Perforations */}
-          <div className="cs-holes">
-            <div className="cs-hole" />
-            <div className="cs-hole" />
-            <div className="cs-hole" />
+      {/* Poussière de craie */}
+      <div className="tb-dust">
+        {Array.from({ length: 14 }, (_, i) => (
+          <div
+            key={i}
+            className="tb-dust-p"
+            style={{
+              left: `${10 + i * 6.5}%`,
+              ["--dur" as string]: `${5 + (i % 4)}s`,
+              ["--delay" as string]: `${(i * 0.7) % 4}s`,
+              ["--dx" as string]: `${-12 + (i % 5) * 6}px`,
+              ["--h" as string]: `${-60 - (i % 3) * 40}px`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="tb-scene">
+        {/* Tableau encadré */}
+        <div className="tb-frame">
+          <div className="tb-surface">
+            <div className="tb-erased" />
+
+            <div className="tb-school">Athénée Royal Jules Bara · Tournai</div>
+            <div className="tb-divider">✦ · ✦ · ✦</div>
+
+            <h1 className="tb-title">
+              Un nouveau site<br />se prépare…
+            </h1>
+            <p className="tb-sub">Le tableau s&apos;efface pour mieux recommencer.</p>
+
+            <div className="tb-countdown-wrap">
+              <Countdown target={LAUNCH} />
+            </div>
+
+            <p className="tb-date">
+              Inauguration le <strong>{fmtDate(LAUNCH)} à 11h45</strong>
+            </p>
+
+            <p className="tb-quote">
+              &laquo;&nbsp;Une école n&apos;est pas un lieu où l&apos;on entasse des savoirs,<br />
+              mais où l&apos;on apprend à devenir soi-même.&nbsp;&raquo;
+            </p>
+
+            <p className="tb-admin">
+              <a href="/admin">→ accès administration</a>
+            </p>
           </div>
-
-          {/* En-tête */}
-          <div className="cs-header">
-            <div className="cs-school">Athénée Royal Jules Bara · Tournai</div>
-            <div className="cs-subject-line">
-              <div className="cs-field"><span>Cours</span>Développement Web — Site officiel</div>
-              <div className="cs-field"><span>Date de remise</span>{fmtDate(LAUNCH)}</div>
-              <div className="cs-field"><span>Classe</span>Communauté scolaire</div>
-            </div>
-
-            {/* Tampon */}
-            <div className="cs-stamp-wrap">
-              <div className="cs-stamp">En cours<br />de correction</div>
-            </div>
-          </div>
-
-          {/* Corps */}
-          <div className="cs-body">
-
-            {/* Q1 */}
-            <div className="cs-question">
-              <div className="cs-q-header">
-                <span className="cs-q-num">Question 1</span>
-                <span className="cs-q-pts">2 pts</span>
-              </div>
-              <p className="cs-q-text">
-                L&apos;Athénée Jules Bara dispose-t-il d&apos;un nouveau site web ?
-              </p>
-              <div className="cs-answer" style={{ position: "relative" }}>
-                Oui, et il sera magnifique.
-                <span className="cs-mark ok"> ✓</span>
-                <span className="cs-score">2</span>
-                <span className="cs-note">Excellente réponse !</span>
-              </div>
-            </div>
-
-            {/* Q2 */}
-            <div className="cs-question">
-              <div className="cs-q-header">
-                <span className="cs-q-num">Question 2</span>
-                <span className="cs-q-pts">8 pts</span>
-              </div>
-              <p className="cs-q-text">
-                Calculez avec précision le délai restant avant la mise en ligne. Montrez votre travail.
-              </p>
-              <div className="cs-answer">
-                Calcul en cours…
-              </div>
-              <div className="cs-countdown-box">
-                <Countdown target={LAUNCH} />
-              </div>
-              <div className="cs-answer" style={{ position: "relative" }}>
-                <span className="cs-mark warn">⚠</span> Patience requise.
-                <span className="cs-score" style={{ borderColor: "#b45309", color: "#b45309" }}>7</span>
-                <span className="cs-note">— 1 pt : impatience</span>
-              </div>
-            </div>
-
-            {/* Q3 */}
-            <div className="cs-question">
-              <div className="cs-q-header">
-                <span className="cs-q-num">Question 3</span>
-                <span className="cs-q-pts">10 pts</span>
-              </div>
-              <p className="cs-q-text">
-                Évaluez le taux d&apos;avancement des travaux et justifiez votre réponse.
-              </p>
-              <div className="cs-progress-wrap">
-                <div className="cs-progress-label">Avancement des travaux :</div>
-                <div className="cs-progress-track">
-                  <div className="cs-progress-fill" />
-                  <span className="cs-progress-remainder" style={{ right: "auto", left: "calc(87% + 8px)" }}>
-                    13 % ✏
-                  </span>
-                </div>
-              </div>
-              <div className="cs-answer" style={{ marginTop: 8, position: "relative" }}>
-                <span className="cs-strike">Note : voir fiche séparée</span>
-                <span className="cs-mark ok"> ✓</span>
-                <span className="cs-score">9</span>
-                <span className="cs-note">Travail soigné !</span>
-              </div>
-            </div>
-
-            {/* Appréciation */}
-            <div className="cs-appreciation">
-              <div className="cs-appr-label">Appréciation générale du correcteur</div>
-              <div className="cs-appr-text">
-                &laquo;&nbsp;Travail sérieux et projet ambitieux. Le site sera à la hauteur des attentes de la
-                communauté scolaire. Repassez le&nbsp;<strong>{fmtDate(LAUNCH)}</strong> pour consulter
-                les résultats définitifs.&nbsp;&raquo;
-              </div>
-            </div>
-
-          </div>
-
-          {/* Pied de page */}
-          <div className="cs-footer">
-            <div className="cs-grade-box">
-              <div className="cs-grade-label">Note provisoire</div>
-              <div className="cs-grade">18</div>
-              <div className="cs-grade-note">Mention : Très bien ✓</div>
-            </div>
-
-            <div className="cs-sig">
-              <div className="cs-sig-name">Prof. Jules Bara</div>
-              <div className="cs-sig-role">Directeur du projet numérique</div>
-            </div>
-          </div>
-
-          <div className="cs-launch-date">
-            📅 Résultats définitifs affichés le&nbsp;<strong>{fmtDate(LAUNCH)}</strong>
-          </div>
-
-          <div className="cs-admin-hint">
-            <a href="/admin">→ accès administration</a>
-          </div>
-
         </div>
+      </div>
+
+      {/* Rebord du tableau avec craies */}
+      <div className="tb-tray">
+        {[
+          { w: 42, bg: "#f5f5f0" },
+          { w: 28, bg: "#f5e8d0" },
+          { w: 36, bg: "#f5f5f0" },
+          { w: 22, bg: "#d0e8d0" },
+          { w: 38, bg: "#f5f5f0" },
+        ].map((c, i) => (
+          <div
+            key={i}
+            className="tb-chalk-piece"
+            style={{ width: c.w, background: c.bg }}
+          />
+        ))}
       </div>
     </>
   );
