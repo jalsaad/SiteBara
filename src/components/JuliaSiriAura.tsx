@@ -9,7 +9,7 @@ type BlobDef = {
   radius: number;
 };
 
-// Palette violet/orange/magenta alignée avec le bouton "Demander à Julia"
+// Palette violet/orange/magenta alignée avec le bouton "Demander à Jules"
 const BLOBS: BlobDef[] = [
   { rgb: [124,  58, 237], speed: 0.90, phase: 0.00, dist: 14, radius: 26 }, // purple #7c3aed
   { rgb: [245, 122,  32], speed: 1.20, phase: 1.57, dist: 14, radius: 21 }, // orange Bara

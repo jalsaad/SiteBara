@@ -966,12 +966,12 @@ function Editor() {
             </div>
           </div>
         ))}
-        {/* ── Julia — Clé Groq (collapsible) ── */}
+        {/* ── Jules — Clé Groq (collapsible) ── */}
         <button
           className="julia-key-toggle"
           onClick={() => setShowJuliaSection((v) => !v)}
         >
-          <span>Julia — Clé API Groq</span>
+          <span>Jules — Clé API Groq</span>
           <span className={`julia-toggle-indicator ${groqKeySet ? "ok" : "warn"}`}>
             {groqKeySet ? "✓" : "⚠"}
           </span>
@@ -993,7 +993,7 @@ function Editor() {
                 <button
                   className="abtn ghost sm"
                   onClick={() => {
-                    if (confirm("Effacer la clé Groq ? Julia passera en mode démo sans IA.")) {
+                    if (confirm("Effacer la clé Groq ? Jules passera en mode démo sans IA.")) {
                       clearGroqKey();
                     }
                   }}

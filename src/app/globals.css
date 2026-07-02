@@ -679,7 +679,7 @@ body::before {
 .julia-fab {
   position: fixed; bottom: 22px; right: 22px; z-index: 110;
   width: 58px; height: 58px; border-radius: 50%;
-  /* Même couleurs que le bouton "Demander à Julia" (stand-by) */
+  /* Même couleurs que le bouton "Demander à Jules" (stand-by) */
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #9333ea 100%);
   color: #fff; font-size: 24px;
   box-shadow: 0 4px 18px rgba(124,58,237,0.45);

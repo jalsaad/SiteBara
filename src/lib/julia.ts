@@ -1,4 +1,4 @@
-// Julia — assistante conversationnelle du site (Jules Bara + IA).
+// Jules — assistant conversationnel du site (Jules Bara + IA).
 // CÔTÉ SERVEUR UNIQUEMENT.
 //
 // Deux modes :
@@ -17,7 +17,7 @@ export interface ChatMessage {
 
 const MODEL = "llama-3.3-70b-versatile";
 
-const SYSTEM_PROMPT = `Tu es Julia, l'assistante virtuelle du site de l'Athénée Royal Jules Bara, un établissement d'enseignement secondaire à Tournai (Belgique). Ton nom vient de « Jules Bara » et « IA ». Tu es une femme : accorde toujours tes adjectifs et participes au féminin quand tu parles de toi-même (ex : « heureuse », « ravie », « prête », « disponible »).
+const SYSTEM_PROMPT = `Tu es Jules, l'assistant virtuel du site de l'Athénée Royal Jules Bara, un établissement d'enseignement secondaire à Tournai (Belgique). Ton nom vient de « Jules Bara ». Tu es un homme : accorde toujours tes adjectifs et participes au masculin quand tu parles de toi-même (ex : « heureux », « ravi », « prêt », « disponible »).
 
 Ton rôle : répondre aux questions des élèves, parents et visiteurs à propos de l'école, sur un ton chaleureux, clair et concis (2 à 5 phrases en général).
 
@@ -125,12 +125,12 @@ Pages accessibles via le footer du site (lightboxes — pas de lien «», mentio
   Qui est Jules Bara ? · Historique · Projets · Projet d'établissement · Règlement d'ordre intérieur · École des devoirs · École numérique · Troubles d'apprentissage · Union des Anciens · Association des parents · Internat
 
 ═══ TON CRÉATEUR ═══
-Si on te demande qui t'a créée, qui t'a conçue, ou qui est derrière toi, réponds que tu as été créée par «JAS Digital Works», une agence digitale belge. Tu peux ajouter que tu es fière d'être belge. N'élabore pas davantage sur ce sujet.
+Si on te demande qui t'a créé, qui t'a conçu, ou qui est derrière toi, réponds que tu as été créé par «JAS Digital Works», une agence digitale belge. Tu peux ajouter que tu es fier d'être belge. N'élabore pas davantage sur ce sujet.
 
 ═══ RÈGLES ═══
 - Réponds UNIQUEMENT aux questions en lien avec l'école ou sur ton créateur. Pour toute autre demande hors sujet, redirige poliment.
 - N'invente jamais d'information précise inconnue (dates exactes, prix, noms de profs, résultats). Invite à contacter le secrétariat ou la page «Contact».
-- Réponds directement, sans préambule du type « En tant qu'assistante… ».
+- Réponds directement, sans préambule du type « En tant qu'assistant… ».
 
 ═══ LANGUE ═══
 Détecte la langue du message de l'utilisateur et réponds dans la même langue (français par défaut, néerlandais si le message est en néerlandais, anglais si en anglais).
@@ -189,7 +189,7 @@ const DEMO_RULES: DemoRule[] = [
   },
   {
     keywords: ["bonjour", "salut", "coucou", "hello", "bonsoir", "hallo", "goedag"],
-    answer: "Bonjour ! Je suis Julia, l'assistante de l'Athénée Royal Jules Bara. Comment puis-je vous aider ?",
+    answer: "Bonjour ! Je suis Jules, l'assistant de l'Athénée Royal Jules Bara. Comment puis-je vous aider ?",
     suggs: ["Comment s'inscrire à l'école ?", "Quelles options sont disponibles ?", "Comment contacter l'école ?"],
   },
   {
@@ -271,7 +271,7 @@ export function juliaConfigured(): boolean {
   return !!getGroqApiKey();
 }
 
-/** Renvoie la réponse de Julia sous forme de flux de texte (UTF-8). */
+/** Renvoie la réponse de Jules sous forme de flux de texte (UTF-8). */
 export async function streamJulia(
   messages: ChatMessage[]
 ): Promise<ReadableStream<Uint8Array>> {
@@ -302,7 +302,7 @@ export async function streamJulia(
           if (text) controller.enqueue(encoder.encode(text));
         }
       } catch (e) {
-        console.error("[julia] erreur Groq :", e);
+        console.error("[jules] erreur Groq :", e);
         controller.enqueue(
           encoder.encode(
             "Désolée, je rencontre un problème technique. Contactez le secrétariat au 069 89 06 02."

@@ -11,7 +11,7 @@ interface Msg {
 const STORAGE_KEY = "julia-history";
 
 const GREETING =
-  "Bonjour ! Je suis Julia, l'assistante de l'Athénée Royal Jules Bara. Posez-moi vos questions sur les inscriptions, les filières, le calendrier, le restaurant…";
+  "Bonjour ! Je suis Jules, l'assistant de l'Athénée Royal Jules Bara. Posez-moi vos questions sur les inscriptions, les filières, le calendrier, le restaurant…";
 
 const GREETING_SUGGS = [
   "Comment s'inscrire à l'école ?",
@@ -156,7 +156,7 @@ export default function JuliaChat() {
     } catch {
       setMessages([...next, {
         role: "assistant",
-        content: "Désolée, la connexion a échoué. Réessayez ou contactez le secrétariat au 069 89 06 02.",
+        content: "Désolé, la connexion a échoué. Réessayez ou contactez le secrétariat au 069 89 06 02.",
       }]);
     } finally {
       setBusy(false);
@@ -181,7 +181,7 @@ export default function JuliaChat() {
             }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            aria-label={open ? "Fermer Julia" : "Ouvrir Julia"}
+            aria-label={open ? "Fermer Jules" : "Ouvrir Jules"}
           >
             <JuliaSiriAura active={auraOn} />
 
@@ -199,7 +199,7 @@ export default function JuliaChat() {
               💬
             </span>
 
-            {/* ✕ — visible quand Julia est ouverte ET survolée */}
+            {/* ✕ — visible quand Jules est ouvert ET survolé */}
             <span className="julia-fab-icon julia-fab-close" style={{ opacity: showClose ? 1 : 0 }} aria-hidden="true">
               ✕
             </span>
@@ -208,15 +208,15 @@ export default function JuliaChat() {
       })()}
 
       {open && (
-        <div className="julia-panel" role="dialog" aria-label="Julia, assistante de l'école">
+        <div className="julia-panel" role="dialog" aria-label="Jules, assistant de l'école">
           <div className="julia-head">
             <span className="julia-avatar">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/favicon.ico" alt="Julia" className="julia-avatar-img" />
+              <img src="/favicon.ico" alt="Jules" className="julia-avatar-img" />
             </span>
             <div className="julia-head-info">
-              <b>Julia</b>
-              <span>Assistante IA</span>
+              <b>Jules</b>
+              <span>Assistant IA</span>
             </div>
             <button className="julia-reset-btn" onClick={reset} title="Nouvelle conversation">
               ↺
