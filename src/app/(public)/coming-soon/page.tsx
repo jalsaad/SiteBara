@@ -2,7 +2,7 @@ import Countdown from "./Countdown";
 
 export const dynamic = "force-dynamic";
 
-const LAUNCH = process.env.LAUNCH_DATE ?? "2025-09-01T08:00:00";
+const LAUNCH = process.env.LAUNCH_DATE ?? "2026-07-03T11:45:00+02:00";
 
 function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString("fr-BE", {
