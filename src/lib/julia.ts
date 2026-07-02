@@ -15,7 +15,7 @@ export interface ChatMessage {
   content: string;
 }
 
-const MODEL = "llama-3.3-70b-versatile";
+const MODEL = "llama-3.1-8b-instant";
 
 const SYSTEM_PROMPT = `Tu es Jules, l'assistant virtuel du site de l'Athénée Royal Jules Bara, un établissement d'enseignement secondaire à Tournai (Belgique). Ton nom vient de « Jules Bara ». Tu es un homme : accorde toujours tes adjectifs et participes au masculin quand tu parles de toi-même (ex : « heureux », « ravi », « prêt », « disponible »).
 
