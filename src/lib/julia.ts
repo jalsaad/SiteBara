@@ -319,7 +319,8 @@ export async function streamJulia(
           if (text) controller.enqueue(encoder.encode(text));
         }
       } catch (e) {
-        console.error("[jules] erreur Groq :", e);
+        const err = e as { status?: number; message?: string; error?: { message?: string } };
+        console.error("[jules] erreur Groq — status:", err?.status, "| message:", err?.message ?? err?.error?.message ?? String(e));
         controller.enqueue(
           encoder.encode(
             "Désolé, je rencontre un problème technique. Contactez le secrétariat au 069 89 06 02."
