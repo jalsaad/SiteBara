@@ -90,7 +90,7 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
         {!juliaOpen && (
           <button className="nav-julia-btn" onClick={openJulia}>
             <span className="julia-spark">✦</span>
-            Demandez à Jules
+            Demander à Jules
           </button>
         )}
 
@@ -115,7 +115,7 @@ export default function Nav({ pages = [] }: { pages?: NavLink[] }) {
           <Link href="/preinscription" onClick={close}>Préinscription</Link>
           <button className="nav-julia-btn nav-mobile-julia" onClick={openJulia}>
             <span className="julia-spark">✦</span>
-            Demandez à Jules
+            Demander à Jules
           </button>
         </nav>
       )}
