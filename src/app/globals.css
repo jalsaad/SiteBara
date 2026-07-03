@@ -589,12 +589,15 @@ body::before {
 .cal-actions-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 26px; max-width: 640px; }
 /* Galerie de documents — style photo (tuiles carrées) */
 .doc-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 24px 0 10px; }
-.doc-card { aspect-ratio: 1; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; padding: 0; position: relative; display: block; width: 100%; transition: 0.3s; }
+.doc-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; padding: 0; position: relative; display: flex; flex-direction: column; width: 100%; transition: 0.3s; }
 .doc-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--royal), #5a7ef8); transform: scaleX(0); transform-origin: left; transition: 0.35s; z-index: 2; }
 .doc-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(40, 65, 147, 0.14); border-color: transparent; }
 .doc-card:hover::before { transform: scaleX(1); }
 .doc-card:focus-visible { outline: 3px solid var(--royal); outline-offset: 2px; }
-.doc-thumb { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; pointer-events: none; }
+.doc-thumb { height: 160px; flex-shrink: 0; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; pointer-events: none; }
+.doc-label { padding: 8px 10px 10px; border-top: 1px solid var(--line); text-align: left; flex: 1; }
+.doc-label-name { display: block; color: var(--ink); font-size: 12.5px; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.doc-label-desc { display: block; color: var(--ink-soft); font-size: 11px; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .doc-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
 /* Aperçu iframe (PDF / Office) mis à l'échelle */
 .doc-thumb-preview { width: 100%; height: 100%; overflow: hidden; position: relative; background: #fff; pointer-events: none; }
@@ -603,10 +606,6 @@ body::before {
 .doc-thumb-icon-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 .doc-thumb-icon { font-size: 52px; line-height: 1; pointer-events: none; }
 /* Overlay nom au survol */
-.doc-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,12,34,0.80) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 10px 10px 10px; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
-.doc-card:hover .doc-overlay { opacity: 1; }
-.doc-overlay-name { color: #fff; font-size: 12.5px; font-weight: 600; line-height: 1.3; text-shadow: 0 1px 4px rgba(0,0,0,0.6); word-break: break-word; }
-.doc-overlay-desc { color: rgba(255,255,255,0.75); font-size: 11px; margin-top: 2px; line-height: 1.3; }
 /* Lightbox document — plein écran, fond sombre */
 .lb-veil { position: fixed; inset: 0; background: rgba(8,10,26,0.93); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 12px; }
 .lb-close-float { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.12); cursor: pointer; font-size: 20px; color: #fff; display: flex; align-items: center; justify-content: center; transition: background 0.18s; z-index: 1; }

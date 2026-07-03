@@ -154,9 +154,9 @@ export default function DocGallery({ items, hint }: { items: DocItem[]; hint?: s
             <div className="doc-thumb">
               <DocThumbnail href={it.href} />
             </div>
-            <div className="doc-overlay" aria-hidden="true">
-              <span className="doc-overlay-name">{it.label || "Document"}</span>
-              {it.desc && <span className="doc-overlay-desc">{it.desc}</span>}
+            <div className="doc-label">
+              <span className="doc-label-name">{it.label || "Document"}</span>
+              {it.desc && <span className="doc-label-desc">{it.desc}</span>}
             </div>
           </button>
         ))}
