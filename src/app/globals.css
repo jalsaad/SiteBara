@@ -658,6 +658,13 @@ body::before {
 .pub-contact .rowc { display: flex; gap: 12px; align-items: center; font-size: 15.5px; margin-bottom: 12px; color: var(--ink-soft); }
 .pub-contact .rowc i { color: var(--royal); font-style: normal; }
 .pub-contact a:hover { color: var(--orange); }
+.pub-contact-persons { display: flex; flex-direction: column; gap: 0; margin-top: 22px; }
+.pub-contact-person { padding: 14px 0; border-top: 1px solid var(--line); }
+.pub-contact-person .role { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--royal); font-weight: 700; margin-bottom: 3px; }
+.pub-contact-person .pname { font-weight: 600; color: var(--ink); font-size: 15.5px; margin-bottom: 7px; }
+.pub-contact-person .rowc { font-size: 14px; margin-bottom: 4px; }
+.pub-contact-person .rowc a { color: var(--ink-soft); }
+.pub-contact-person .rowc a:hover { color: var(--orange); }
 
 /* formulaires publics (contact, préinscription) */
 .form-band { max-width: 720px; margin: 0 auto; }
