@@ -367,6 +367,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
         }
         if (b.type === "grid") {
           const rows = d.rows ?? [];
+          const thExtra = (d.thExtra as string[] | undefined) ?? [];
           return (
             <section className="wrap section" key={b.id}>
               <div className="shead reveal">
@@ -377,6 +378,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                   <tr>
                     <th>{d.th1 || "Cours"}</th>
                     <th>{d.th2 || "Périodes"}</th>
+                    {thExtra.map((th, i) => <th key={i}>{th}</th>)}
                   </tr>
                 </thead>
                 <tbody>
@@ -384,6 +386,7 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
                     <tr key={i}>
                       <td>{r.c}</td>
                       <td>{r.p}</td>
+                      {thExtra.map((_, ci) => <td key={ci}>{r.extra?.[ci] ?? ""}</td>)}
                     </tr>
                   ))}
                 </tbody>

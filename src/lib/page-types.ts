@@ -115,8 +115,9 @@ export interface HeroData {
 }
 
 export interface GridRow {
-  c: string; // intitulé (ex. cours)
-  p: string; // valeur (ex. périodes)
+  c: string;     // intitulé (ex. cours)
+  p: string;     // valeur (ex. périodes)
+  extra?: string[]; // cellules des colonnes 3, 4, … (index = colonne supplémentaire)
 }
 
 export type BlockData = Partial<HeroData> & {
@@ -130,6 +131,7 @@ export type BlockData = Partial<HeroData> & {
   // Bloc « Grille horaire » : en-têtes de colonnes + lignes éditables.
   th1?: string;
   th2?: string;
+  thExtra?: string[]; // en-têtes des colonnes supplémentaires (3e, 4e, …)
   rows?: GridRow[];
   // Sections « accueil » : intitulés communs.
   eyebrow?: string;

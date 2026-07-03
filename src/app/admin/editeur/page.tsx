@@ -748,6 +748,16 @@ function Editor() {
     );
   }
 
+  function updMany(patches: Record<string, unknown>) {
+    if (!selected) return;
+    dirty.current = true;
+    setBlocks(
+      blocks.map((b) =>
+        b.id === selected.id ? { ...b, data: { ...b.data, ...patches } } : b
+      )
+    );
+  }
+
   /* galerie : liste d'images du bloc sélectionné */
   const gallery = (selected?.data.images as string[] | undefined) ?? [];
   const galAdd = (url: string | null) => {
@@ -761,13 +771,35 @@ function Editor() {
     );
   };
 
-  /* grille horaire : lignes éditables du bloc sélectionné */
+  /* grille horaire : lignes et colonnes éditables du bloc sélectionné */
   const gridRows = (selected?.data.rows as GridRow[] | undefined) ?? [];
+  const gridCols = (selected?.data.thExtra as string[] | undefined) ?? [];
+
   const gridSetCell = (i: number, key: "c" | "p", value: string) =>
     upd("rows", gridRows.map((r, idx) => (idx === i ? { ...r, [key]: value } : r)));
-  const gridAddRow = () => upd("rows", [...gridRows, { c: "", p: "" }]);
+  const gridSetExtra = (rowIdx: number, colIdx: number, value: string) =>
+    upd("rows", gridRows.map((r, idx) => {
+      if (idx !== rowIdx) return r;
+      const extra = [...(r.extra ?? [])];
+      extra[colIdx] = value;
+      return { ...r, extra };
+    }));
+  const gridAddRow = () =>
+    upd("rows", [...gridRows, { c: "", p: "", extra: gridCols.map(() => "") }]);
   const gridRemoveRow = (i: number) =>
     upd("rows", gridRows.filter((_, idx) => idx !== i));
+  const gridAddCol = () =>
+    updMany({
+      thExtra: [...gridCols, ""],
+      rows: gridRows.map((r) => ({ ...r, extra: [...(r.extra ?? []), ""] })),
+    });
+  const gridSetColHeader = (i: number, value: string) =>
+    upd("thExtra", gridCols.map((c, idx) => (idx === i ? value : c)));
+  const gridRemoveCol = (i: number) =>
+    updMany({
+      thExtra: gridCols.filter((_, idx) => idx !== i),
+      rows: gridRows.map((r) => ({ ...r, extra: (r.extra ?? []).filter((_, idx) => idx !== i) })),
+    });
 
   /* listes d'objets éditables (piliers, cartes, points, stats…) */
   const listOf = <T,>(key: keyof BlockData): T[] =>
@@ -1747,10 +1779,38 @@ function Editor() {
             {selected.type === "grid" && (
               <>
                 {txt("title", "Titre du tableau")}
-                <div className="isub">Colonnes</div>
+                <div className="isub">
+                  Colonnes ({2 + gridCols.length})
+                </div>
                 {txt("th1", "En-tête colonne 1")}
                 {txt("th2", "En-tête colonne 2")}
-                <div className="isub">
+                {gridCols.map((col, i) => (
+                  <div className="grid-row-edit" key={i}>
+                    <input
+                      value={col}
+                      onChange={(e) => gridSetColHeader(i, e.target.value)}
+                      placeholder={`En-tête colonne ${i + 3}`}
+                      style={{ flex: 1 }}
+                    />
+                    <button
+                      type="button"
+                      className="grid-row-x"
+                      onClick={() => gridRemoveCol(i)}
+                      aria-label="Supprimer la colonne"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="abtn ghost"
+                  style={{ width: "100%", justifyContent: "center", marginTop: 4 }}
+                  onClick={gridAddCol}
+                >
+                  + Ajouter une colonne
+                </button>
+                <div className="isub" style={{ marginTop: 12 }}>
                   Lignes {gridRows.length > 0 && `(${gridRows.length})`}
                 </div>
                 {gridRows.map((r, i) => (
@@ -1765,6 +1825,14 @@ function Editor() {
                       onChange={(e) => gridSetCell(i, "p", e.target.value)}
                       placeholder="Valeur"
                     />
+                    {gridCols.map((_, ci) => (
+                      <input
+                        key={ci}
+                        value={r.extra?.[ci] ?? ""}
+                        onChange={(e) => gridSetExtra(i, ci, e.target.value)}
+                        placeholder={`Col. ${ci + 3}`}
+                      />
+                    ))}
                     <button
                       type="button"
                       className="grid-row-x"
