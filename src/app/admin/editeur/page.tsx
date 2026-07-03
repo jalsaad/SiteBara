@@ -452,8 +452,9 @@ function Editor() {
   const dragId = useRef<string | null>(null);
   const dropzone = useRef<HTMLDivElement>(null);
   const dragPage = useRef<string | null>(null);
-  // Modifications non enregistrées sur la page courante.
   const dirty = useRef(false);
+  const gridDragIdx = useRef<number>(-1);
+  const [gridDragOver, setGridDragOver] = useState<number | null>(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -800,6 +801,13 @@ function Editor() {
       thExtra: gridCols.filter((_, idx) => idx !== i),
       rows: gridRows.map((r) => ({ ...r, extra: (r.extra ?? []).filter((_, idx) => idx !== i) })),
     });
+  const gridMoveRow = (from: number, to: number) => {
+    if (from === to) return;
+    const next = [...gridRows];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    upd("rows", next);
+  };
 
   /* listes d'objets éditables (piliers, cartes, points, stats…) */
   const listOf = <T,>(key: keyof BlockData): T[] =>
@@ -1814,7 +1822,16 @@ function Editor() {
                   Lignes {gridRows.length > 0 && `(${gridRows.length})`}
                 </div>
                 {gridRows.map((r, i) => (
-                  <div className="grid-row-edit" key={i}>
+                  <div
+                    key={i}
+                    className={`grid-row-edit${gridDragOver === i ? " grid-row-drag-over" : ""}`}
+                    draggable
+                    onDragStart={() => { gridDragIdx.current = i; }}
+                    onDragOver={(e) => { e.preventDefault(); setGridDragOver(i); }}
+                    onDrop={() => { gridMoveRow(gridDragIdx.current, i); setGridDragOver(null); }}
+                    onDragEnd={() => setGridDragOver(null)}
+                  >
+                    <span className="grid-row-handle" aria-hidden="true">⠿</span>
                     <input
                       value={r.c}
                       onChange={(e) => gridSetCell(i, "c", e.target.value)}

@@ -838,10 +838,13 @@ body::before {
 @keyframes pb-pulse { 0%,100%{ opacity:.35 } 50%{ opacity:.7 } }
 
 /* éditeur de lignes du bloc « Grille horaire » (inspecteur) */
-.grid-row-edit { display: flex; gap: 6px; margin-bottom: 6px; align-items: center; }
+.grid-row-edit { display: flex; gap: 6px; margin-bottom: 6px; align-items: center; cursor: default; border-radius: 8px; transition: background .15s; }
+.grid-row-edit.grid-row-drag-over { background: rgba(40,65,147,.08); outline: 2px dashed var(--royal, #284193); outline-offset: -2px; }
+.grid-row-handle { font-size: 14px; color: #b0bac9; cursor: grab; flex-shrink: 0; padding: 0 2px; user-select: none; line-height: 1; }
+.grid-row-handle:active { cursor: grabbing; }
 .grid-row-edit input { border: 1px solid var(--line, #e4dac6); border-radius: 8px; padding: 8px 10px; font-size: 13px; font-family: inherit; outline: none; min-width: 0; }
-.grid-row-edit input:first-child { flex: 1; }
-.grid-row-edit input:nth-child(2) { width: 64px; flex-shrink: 0; }
+.grid-row-edit input:nth-child(2) { flex: 1; }
+.grid-row-edit input:nth-child(3) { width: 64px; flex-shrink: 0; }
 .grid-row-edit input:focus { border-color: var(--royal, #284193); }
 .grid-row-x { width: 28px; height: 28px; border-radius: 7px; background: rgba(27,34,69,.06); color: #98a2b3; font-size: 12px; flex-shrink: 0; transition: .15s; }
 .grid-row-x:hover { background: #f4d4cf; color: #c0392b; }
