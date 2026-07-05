@@ -5,6 +5,8 @@ import JuliaChat from "@/components/JuliaChat";
 import { listPages } from "@/lib/pages";
 import { CORE_PAGE_SLUGS } from "@/lib/page-types";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

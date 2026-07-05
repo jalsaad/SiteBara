@@ -95,7 +95,8 @@ body::before {
 .nav-mobile-cta { margin-top: 10px; text-align: center; justify-content: center; }
 .nav-mobile-julia { width: 100%; justify-content: center; margin-top: 10px; }
 .nav-mobile-julia::after { display: none; }
-@media (max-width: 980px) { .nav-links { display: none; } .nav-cta { display: none; } .nav-julia-btn:not(.nav-mobile-julia) { display: none; } .nav-hamburger { display: flex; } .nav-logo { height: 54px; } }
+@media (max-width: 980px) { .nav-links { display: none; } .nav-cta { display: none; } .nav-julia-btn:not(.nav-mobile-julia) { display: none; } .nav-hamburger { display: flex; margin-left: auto; } .nav-logo { height: 54px; } }
+@media (max-width: 640px) { .wrap { padding: 0 18px; } .shead h2 { font-size: clamp(24px, 6vw, 36px); } }
 
 /* héro */
 .hero { position: relative; overflow: hidden; background: var(--marine); }
