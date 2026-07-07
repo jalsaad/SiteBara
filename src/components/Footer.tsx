@@ -88,17 +88,6 @@ export default function Footer({ pages = [] }: { pages?: NavLink[] }) {
 
         {/* Colonne 4 : services & communauté */}
         <div>
-          <FooterInfoModal label="École des devoirs" title="L'École des devoirs">
-            <p>L&apos;École des devoirs de l&apos;Athénée Royal Jules Bara est une structure qui accueille les enfants et les jeunes de 6 à 18 ans en dehors des heures scolaires régulières.</p>
-            <p>Elle remplit une mission à la fois <strong>sociale, culturelle et éducative</strong> : accompagner les élèves dans leur scolarité et leur développement citoyen, en leur proposant un soutien pédagogique adapté.</p>
-            <p>Les activités proposées visent à :</p>
-            <ul>
-              <li>Aider à la réalisation des devoirs et à la préparation des leçons</li>
-              <li>Offrir un encadrement éducatif bienveillant</li>
-              <li>Favoriser l&apos;épanouissement personnel et la socialisation</li>
-            </ul>
-            <p>Pour plus d&apos;informations, contactez la direction au <strong>069 89 06 02</strong> ou à <a href="mailto:direction@atheneejulesbara.be">direction@atheneejulesbara.be</a>.</p>
-          </FooterInfoModal>
 
           <FooterInfoModal label="École numérique" title="L'École numérique">
             <p>L&apos;Athénée Royal Jules Bara participe au programme <strong>« École numérique »</strong> lancé en 2011 par les gouvernements wallon et de la Fédération Wallonie-Bruxelles. Ce programme vise à impulser les usages innovants des Technologies de l&apos;Information et de la Communication (TIC) au bénéfice de l&apos;éducation.</p>
