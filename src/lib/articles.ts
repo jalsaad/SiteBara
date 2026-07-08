@@ -127,6 +127,7 @@ type PrismaArticle = Omit<
   ctaUrl?: string | null;
   ctaStyle?: string | null;
   ctaNewTab?: boolean;
+  embed?: string | null;
 };
 
 // Reinitialize the singleton when this module is hot-reloaded (dev HMR).
@@ -163,6 +164,7 @@ function fromDb(a: PrismaArticle): Article {
     ctaUrl: a.ctaUrl ?? null,
     ctaStyle: a.ctaStyle ?? null,
     ctaNewTab: a.ctaNewTab ?? false,
+    embed: a.embed ?? null,
   };
 }
 
@@ -251,6 +253,7 @@ export async function createArticle(input: ArticleInput): Promise<Article> {
     ctaUrl: input.ctaUrl ?? null,
     ctaStyle: input.ctaStyle ?? null,
     ctaNewTab: input.ctaNewTab ?? false,
+    embed: input.embed ?? null,
   };
   const publishedAt = status === "PUBLISHED" ? new Date() : null;
   if (useDb) {
@@ -297,6 +300,7 @@ export async function updateArticle(
     if (input.ctaUrl    !== undefined) data.ctaUrl   = input.ctaUrl;
     if (input.ctaStyle  !== undefined) data.ctaStyle = input.ctaStyle;
     if (input.ctaNewTab !== undefined) data.ctaNewTab = input.ctaNewTab;
+    if (input.embed     !== undefined) data.embed    = input.embed;
     data.publishedAt = input.status === "PUBLISHED" && prev.status !== "PUBLISHED"
       ? new Date()
       : prev.publishedAt;

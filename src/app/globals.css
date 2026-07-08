@@ -842,3 +842,7 @@ a { color: inherit; text-decoration: none; }
 .grid-row-edit input:focus { border-color: var(--royal, #284193); }
 .grid-row-x { width: 28px; height: 28px; border-radius: 7px; background: rgba(27,34,69,.06); color: #98a2b3; font-size: 12px; flex-shrink: 0; transition: .15s; }
 .grid-row-x:hover { background: #f4d4cf; color: #c0392b; }
+
+/* article embed (iframe Facebook, etc.) */
+.article-embed { margin-top: 32px; overflow-x: auto; }
+.article-embed iframe { max-width: 100%; display: block; border: none; }

@@ -61,6 +61,12 @@ export default async function ArticlePage({
           {article.body || article.excerpt}
         </article>
         <ArticleGallery images={article.images} />
+        {article.embed && (
+          <div
+            className="article-embed"
+            dangerouslySetInnerHTML={{ __html: article.embed }}
+          />
+        )}
         <p style={{ marginTop: 40 }}>
           <Link className="btn btn-ghost" style={{ borderColor: "var(--line)", color: "var(--royal)" }} href="/actualites">
             ← Toutes les actualités

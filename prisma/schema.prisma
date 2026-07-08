@@ -84,6 +84,8 @@ model Article {
   ctaUrl      String?
   ctaStyle    String?       // "primary" | "royal" | "ghost"
   ctaNewTab   Boolean       @default(false)
+  // Bloc d'intégration HTML (iframe Facebook, etc.) affiché en bas de l'article
+  embed       String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }

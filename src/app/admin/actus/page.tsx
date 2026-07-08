@@ -28,6 +28,7 @@ interface Draft {
   ctaUrl: string;
   ctaStyle: string;
   ctaNewTab: boolean;
+  embed: string;
 }
 
 const EMPTY: Draft = {
@@ -43,6 +44,7 @@ const EMPTY: Draft = {
   ctaUrl: "",
   ctaStyle: "primary",
   ctaNewTab: false,
+  embed: "",
 };
 
 const ALL_NETWORKS = SOCIAL_NETWORKS.map((n) => n.id);
@@ -105,6 +107,7 @@ export default function ActusManager() {
           ctaUrl: draft.ctaUrl || null,
           ctaStyle: draft.ctaLabel ? draft.ctaStyle : null,
           ctaNewTab: draft.ctaNewTab,
+          embed: draft.embed || null,
         }),
       }
     );
@@ -214,6 +217,7 @@ export default function ActusManager() {
       ctaUrl: a.ctaUrl ?? "",
       ctaStyle: a.ctaStyle ?? "primary",
       ctaNewTab: a.ctaNewTab ?? false,
+      embed: a.embed ?? "",
     });
   }
 
@@ -525,6 +529,21 @@ export default function ActusManager() {
                 </div>
               </>
             )}
+            {/* ── Intégration (embed) ── */}
+            <div className="field">
+              <label>
+                Intégration <span style={{ fontWeight: 400, color: "var(--ink-soft)" }}>(optionnel)</span>
+              </label>
+              <textarea
+                style={{ minHeight: 90, fontFamily: "monospace", fontSize: 12 }}
+                value={draft.embed}
+                onChange={(e) => setDraft({ ...draft, embed: e.target.value })}
+                placeholder={'<iframe src="https://www.facebook.com/plugins/post.php?href=…" width="500" height="400"></iframe>'}
+              />
+              <p className="ihint">
+                Code HTML d&apos;intégration (iframe Facebook, vidéo…) affiché en bas de l&apos;article.
+              </p>
+            </div>
             <div className="field">
               <label>Couleur d&apos;accent</label>
               <div className="swatches">

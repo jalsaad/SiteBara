@@ -43,6 +43,7 @@ export interface Article {
   ctaUrl?: string | null;
   ctaStyle?: string | null;
   ctaNewTab?: boolean;
+  embed?: string | null;
 }
 
 export interface ArticleInput {
@@ -58,6 +59,7 @@ export interface ArticleInput {
   ctaUrl?: string | null;
   ctaStyle?: string | null;
   ctaNewTab?: boolean;
+  embed?: string | null;
 }
 
 // Une URL de média est considérée comme une vidéo d'après son extension.
