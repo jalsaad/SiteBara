@@ -10,6 +10,7 @@ export type BlockType =
   | "downloads"
   | "grid"
   | "gallery"
+  | "image"
   | "contact"
   | "pillars"
   | "cards"
@@ -146,6 +147,17 @@ export type BlockData = Partial<HeroData> & {
   tags?: string[];
   checks?: CheckItem[];
   img?: string;
+  // Bloc « Image » : image unique avec mise en forme.
+  imgAlt?: string;
+  imgCaption?: string;
+  imgWidth?: string;        // "25" | "50" | "75" | "100"
+  imgAlign?: "left" | "center" | "right";
+  imgCrop?: boolean;
+  imgCropHeight?: number;   // px
+  imgBorder?: boolean;
+  imgBorderColor?: string;
+  imgBorderWidth?: number;  // px
+  imgRadius?: number;       // px
   // Bloc « Citation ».
   quote?: string;
   who?: string;
@@ -189,6 +201,7 @@ export const BLOCK_LABELS: Record<BlockType, string> = {
   downloads: "Documents",
   grid: "Grille horaire",
   gallery: "Galerie",
+  image: "Image",
   contact: "Contact",
   pillars: "Piliers",
   cards: "Cartes d'accès",
@@ -238,6 +251,19 @@ export const BLOCK_TEMPLATES: Record<BlockType, BlockData> = {
     ],
   },
   gallery: { title: "Galerie photo", images: [] },
+  image: {
+    img: "",
+    imgAlt: "",
+    imgCaption: "",
+    imgWidth: "100",
+    imgAlign: "center",
+    imgCrop: false,
+    imgCropHeight: 400,
+    imgBorder: false,
+    imgBorderColor: "#284193",
+    imgBorderWidth: 2,
+    imgRadius: 0,
+  },
   contact: {
     title: "Nous contacter",
     addr: "Rue Duquesnoy 24, 7500 Tournai",

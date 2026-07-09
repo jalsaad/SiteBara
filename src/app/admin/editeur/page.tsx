@@ -51,6 +51,7 @@ const PALETTE: { type: BlockType; icon: string; desc: string }[] = [
   { type: "text", icon: "📝", desc: "Paragraphe riche" },
   { type: "grid", icon: "🗂️", desc: "Tableau" },
   { type: "gallery", icon: "🏞️", desc: "Photos" },
+  { type: "image", icon: "🖼️", desc: "Image unique" },
   { type: "quote", icon: "❝", desc: "Citation" },
   { type: "cta", icon: "📣", desc: "Appel à l'action" },
   { type: "downloads", icon: "📁", desc: "Documents / Galerie" },
@@ -384,6 +385,29 @@ function BlockPreview({ block, news }: { block: Block; news: Article[] }) {
             : cols.map((c, i) => (
                 <div key={i} style={{ background: `linear-gradient(135deg,${c},${shade(c)})` }} />
               ))}
+        </div>
+      </div>
+    );
+  }
+  if (block.type === "image") {
+    if (!d.img) return (
+      <div className="r-text" style={{ textAlign: "center", color: "#b0bac9", padding: "24px 0" }}>
+        🖼 Aucune image — ajoutez-en une dans l&apos;inspecteur
+      </div>
+    );
+    const align = d.imgAlign ?? "center";
+    return (
+      <div style={{ display: "flex", justifyContent: align === "left" ? "flex-start" : align === "right" ? "flex-end" : "center", padding: "12px 0" }}>
+        <div style={{
+          width: `${d.imgWidth ?? "100"}%`,
+          maxWidth: "100%",
+          overflow: d.imgCrop ? "hidden" : undefined,
+          height: d.imgCrop ? `${d.imgCropHeight ?? 400}px` : undefined,
+          border: d.imgBorder ? `${d.imgBorderWidth ?? 2}px solid ${d.imgBorderColor ?? "#284193"}` : undefined,
+          borderRadius: d.imgRadius ? `${d.imgRadius}px` : undefined,
+        }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={d.img} alt={d.imgAlt ?? ""} style={{ width: "100%", height: d.imgCrop ? "100%" : "auto", objectFit: d.imgCrop ? "cover" : undefined, display: "block" }} />
         </div>
       </div>
     );
@@ -1890,6 +1914,81 @@ function Editor() {
                   {gallery.length === 0 &&
                     info("Sans photo, la galerie affiche des vignettes colorées par défaut.")}
                 </div>
+              </>
+            )}
+            {selected.type === "image" && (
+              <>
+                <div className="field">
+                  <label>Image</label>
+                  <ImageUpload
+                    value={selected.data.img ?? null}
+                    onChange={(url) => upd("img", url ?? "")}
+                  />
+                </div>
+                {txt("imgAlt", "Texte alternatif (accessibilité)")}
+                {txt("imgCaption", "Légende (facultatif)")}
+                <div className="isub">Dimensions &amp; alignement</div>
+                <div className="field">
+                  <label>Largeur</label>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    {(["25", "50", "75", "100"] as const).map((w) => (
+                      <button
+                        key={w}
+                        type="button"
+                        className={`itab${(selected.data.imgWidth ?? "100") === w ? " on" : ""}`}
+                        onClick={() => upd("imgWidth", w)}
+                      >{w}%</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="field">
+                  <label>Alignement</label>
+                  <div style={{ display: "flex", gap: 6 }}>
+                    {([["left", "⬅ Gauche"], ["center", "↔ Centre"], ["right", "Droite ➡"]] as const).map(([a, lbl]) => (
+                      <button
+                        key={a}
+                        type="button"
+                        className={`itab${(selected.data.imgAlign ?? "center") === a ? " on" : ""}`}
+                        onClick={() => upd("imgAlign", a)}
+                      >{lbl}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="isub">Rognage</div>
+                {tog("imgCrop", "Rogner à hauteur fixe")}
+                {selected.data.imgCrop && (
+                  <div className="field">
+                    <label>Hauteur — {selected.data.imgCropHeight ?? 400} px</label>
+                    <input
+                      type="range" min={80} max={900} step={10}
+                      value={selected.data.imgCropHeight ?? 400}
+                      onChange={(e) => upd("imgCropHeight", Number(e.target.value))}
+                    />
+                  </div>
+                )}
+                <div className="isub">Bordure</div>
+                {tog("imgBorder", "Ajouter une bordure")}
+                {selected.data.imgBorder && (
+                  <>
+                    {colorField("imgBorderColor", "Couleur de la bordure")}
+                    <div className="field">
+                      <label>Épaisseur — {selected.data.imgBorderWidth ?? 2} px</label>
+                      <input
+                        type="range" min={1} max={20} step={1}
+                        value={selected.data.imgBorderWidth ?? 2}
+                        onChange={(e) => upd("imgBorderWidth", Number(e.target.value))}
+                      />
+                    </div>
+                    <div className="field">
+                      <label>Arrondi des coins — {selected.data.imgRadius ?? 0} px</label>
+                      <input
+                        type="range" min={0} max={80} step={4}
+                        value={selected.data.imgRadius ?? 0}
+                        onChange={(e) => upd("imgRadius", Number(e.target.value))}
+                      />
+                    </div>
+                  </>
+                )}
               </>
             )}
             {selected.type === "contact" && (

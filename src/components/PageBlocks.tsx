@@ -562,6 +562,46 @@ export default function PageBlocks({ blocks }: { blocks: Block[] }) {
             </section>
           );
         }
+        if (b.type === "image") {
+          if (!d.img) return null;
+          const align = d.imgAlign ?? "center";
+          const justifyContent =
+            align === "left" ? "flex-start" : align === "right" ? "flex-end" : "center";
+          const containerStyle: React.CSSProperties = {
+            width: `${d.imgWidth ?? "100"}%`,
+            maxWidth: "100%",
+            overflow: d.imgCrop ? "hidden" : undefined,
+            height: d.imgCrop ? `${d.imgCropHeight ?? 400}px` : undefined,
+            border: d.imgBorder
+              ? `${d.imgBorderWidth ?? 2}px solid ${d.imgBorderColor ?? "#284193"}`
+              : undefined,
+            borderRadius: d.imgRadius ? `${d.imgRadius}px` : undefined,
+          };
+          return (
+            <section className="wrap section" key={b.id}>
+              <figure style={{ margin: 0, display: "flex", flexDirection: "column", alignItems: justifyContent === "flex-start" ? "flex-start" : justifyContent === "flex-end" ? "flex-end" : "center" }}>
+                <div style={containerStyle}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={d.img}
+                    alt={d.imgAlt ?? ""}
+                    style={{
+                      width: "100%",
+                      height: d.imgCrop ? "100%" : "auto",
+                      objectFit: d.imgCrop ? "cover" : undefined,
+                      display: "block",
+                    }}
+                  />
+                </div>
+                {d.imgCaption && (
+                  <figcaption style={{ textAlign: align, marginTop: 10, fontSize: 14, color: "var(--ink-soft)", fontStyle: "italic" }}>
+                    {d.imgCaption}
+                  </figcaption>
+                )}
+              </figure>
+            </section>
+          );
+        }
         // contact
         return (
           <section className="wrap section" key={b.id}>
