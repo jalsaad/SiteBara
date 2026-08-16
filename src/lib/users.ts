@@ -290,32 +290,3 @@ export async function getUser(id: string): Promise<User | null> {
   return memStore().map(stripUser).find((u) => u.id === id) ?? null;
 }
 
-/** Retourne l'utilisateur avec sa liste de codes (pour la vérification au login). */
-export async function getUserWithCodes(
-  email: string
-): Promise<User | null> {
-  const normalized = email.trim().toLowerCase();
-  if (useDb) {
-    await ensureSeeded();
-    const db = await prisma();
-    const row = (await db.user.findUnique({ where: { email: normalized } })) as PrismaUser | null;
-    return row ? stripUser(fromDb(row)) : null;
-  }
-  return memStore().map(stripUser).find((u) => u.email === normalized) ?? null;
-}
-
-/** Supprime un code de la liste de l'utilisateur (usage unique après vérification). */
-export async function removeCode(id: string, code: string): Promise<void> {
-  if (useDb) {
-    const db = await prisma();
-    const row = (await db.user.findUnique({ where: { id } })) as PrismaUser | null;
-    if (!row) return;
-    await db.user.update({
-      where: { id },
-      data: { codes: { set: row.codes.filter((c) => c !== code) } } as never,
-    });
-    return;
-  }
-  const row = memStore().find((u) => u.id === id);
-  if (row) row.codes = row.codes.filter((c) => c !== code);
-}

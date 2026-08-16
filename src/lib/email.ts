@@ -27,8 +27,8 @@ export interface MailResult {
 const MAIL_TO = process.env.MAIL_TO;
 const SMTP_HOST = process.env.SMTP_HOST;
 
-/** L'envoi réel n'est tenté que si le serveur SMTP et un destinataire existent. */
-const configured = !!SMTP_HOST && !!MAIL_TO;
+/** L'envoi réel n'est tenté que si le serveur SMTP est configuré. */
+const configured = !!SMTP_HOST;
 
 function esc(s: string): string {
   return s
@@ -70,6 +70,7 @@ async function transporter() {
 
 /** Envoi bas-niveau : nodemailer si configuré, sinon trace console (démo). */
 async function send(
+  to: string,
   subject: string,
   content: { text: string; html: string },
   replyTo?: string
@@ -88,13 +89,13 @@ async function send(
     const transport = await transporter();
     await transport.sendMail({
       from: process.env.MAIL_FROM ?? process.env.SMTP_USER,
-      to: MAIL_TO!.split(",").map((a) => a.trim()),
+      to: to.split(",").map((a) => a.trim()),
       replyTo,
       subject,
       text: content.text,
       html: content.html,
     });
-    return { status: "SENT", detail: `Notification envoyée à ${MAIL_TO}.` };
+    return { status: "SENT", detail: `Notification envoyée à ${to}.` };
   } catch (e) {
     console.error("[email] échec de l'envoi :", e);
     return { status: "FAILED", detail: String(e).slice(0, 180) };
@@ -106,6 +107,9 @@ async function send(
 export async function notifyContactMessage(
   msg: ContactMessage
 ): Promise<MailResult> {
+  if (!MAIL_TO) {
+    return { status: "SIMULATED", detail: "Mode démo : MAIL_TO non configuré." };
+  }
   const content = body(
     "Un nouveau message a été reçu via le formulaire de contact du site.",
     [
@@ -115,12 +119,15 @@ export async function notifyContactMessage(
       ["Message", msg.message],
     ]
   );
-  return send(`Contact — ${msg.subject}`, content, msg.email);
+  return send(MAIL_TO, `Contact — ${msg.subject}`, content, msg.email);
 }
 
 export async function notifyPreRegistration(
   reg: PreRegistration
 ): Promise<MailResult> {
+  if (!MAIL_TO) {
+    return { status: "SIMULATED", detail: "Mode démo : MAIL_TO non configuré." };
+  }
   const content = body(
     "Une nouvelle demande de préinscription a été reçue via le site.",
     [
@@ -133,9 +140,20 @@ export async function notifyPreRegistration(
     ]
   );
   return send(
+    MAIL_TO,
     `Préinscription — ${reg.firstName} ${reg.lastName}`,
     content,
     reg.email
   );
+}
+
+/* ------------------------------ connexion admin ------------------------------ */
+
+export async function sendLoginCode(to: string, code: string): Promise<MailResult> {
+  const content = body(
+    "Voici votre code de connexion à l'espace d'administration du site (valable 10 minutes).",
+    [["Code de connexion", code]]
+  );
+  return send(to, `Code de connexion — ${code}`, content);
 }
 

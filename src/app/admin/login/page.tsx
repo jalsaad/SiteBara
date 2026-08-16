@@ -11,7 +11,6 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [stage, setStage] = useState<Stage>("credentials");
-  const [digit, setDigit] = useState<number | null>(null);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -35,10 +34,7 @@ function LoginForm() {
     });
     const data = await res.json().catch(() => ({}));
     if (res.ok && data.challenge) {
-      setDigit(data.digit);
       setStage("code");
-    } else if (data.noCodesLeft) {
-      setError("Votre liste de codes est épuisée. Contactez un administrateur pour en générer de nouveaux.");
     } else {
       setError(data.error ?? "Connexion impossible");
     }
@@ -67,7 +63,6 @@ function LoginForm() {
     setStage("credentials");
     setCode("");
     setError("");
-    setDigit(null);
   }
 
   return (
@@ -163,40 +158,22 @@ function LoginForm() {
               }}
             >
               <p style={{ fontSize: 13, color: "var(--ink-soft)", margin: "0 0 8px" }}>
-                Consultez votre liste de codes et entrez
+                Un code de connexion vient d&apos;être envoyé à
               </p>
-              <p style={{ fontSize: 15, fontWeight: 600, margin: 0 }}>
-                un code commençant par le chiffre{" "}
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 42,
-                    height: 42,
-                    borderRadius: "50%",
-                    background: "var(--royal)",
-                    color: "#fff",
-                    fontSize: 22,
-                    fontWeight: 700,
-                    verticalAlign: "middle",
-                    marginLeft: 6,
-                  }}
-                >
-                  {digit}
-                </span>
-              </p>
+              <p style={{ fontSize: 15, fontWeight: 600, margin: 0 }}>{email}</p>
             </div>
             <div className="field">
-              <label>Code</label>
+              <label>Code reçu par e-mail</label>
               <input
                 type="text"
+                inputMode="numeric"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder={`${digit ?? ""}XXXXXX`}
-                autoComplete="off"
+                placeholder="123456"
+                autoComplete="one-time-code"
                 autoFocus
-                style={{ fontSize: 20, letterSpacing: 4, textTransform: "uppercase" }}
+                maxLength={6}
+                style={{ fontSize: 20, letterSpacing: 4, textAlign: "center" }}
                 required
               />
             </div>

@@ -1,26 +1,25 @@
 import { createSessionToken, sessionCookie } from "@/lib/auth";
-import { authenticate, getUserWithCodes, removeCode } from "@/lib/users";
+import { authenticate } from "@/lib/users";
 import { setPendingChallenge, verifyChallenge } from "@/lib/twofactor";
+import { sendLoginCode } from "@/lib/email";
 
 export async function POST(request: Request) {
   const { email, password, code, remember } = await request
     .json()
     .catch(() => ({}));
 
-  // ── Étape 2 : vérification du code de la liste ──
+  // ── Étape 2 : vérification du code reçu par e-mail ──
   if (email && code !== undefined) {
     const normalized = String(email).trim().toLowerCase();
-    const user = await getUserWithCodes(normalized);
-    const role = user ? verifyChallenge(normalized, String(code)) : null;
+    const role = verifyChallenge(normalized, String(code));
 
-    if (!role || !user || !user.codes.includes(String(code))) {
+    if (!role) {
       return Response.json(
         { error: "Code invalide ou expiré" },
         { status: 401 }
       );
     }
 
-    await removeCode(user.id, String(code));
     const token = await createSessionToken(normalized, role, !!remember);
     return Response.json(
       { email: normalized, role },
@@ -40,19 +39,14 @@ export async function POST(request: Request) {
     return Response.json({ error: "Identifiants incorrects" }, { status: 401 });
   }
 
-  const userWithCodes = await getUserWithCodes(user.email);
-  const digit = setPendingChallenge(
-    user.email,
-    user.role,
-    userWithCodes?.codes ?? []
-  );
-
-  if (digit === null) {
+  const otp = setPendingChallenge(user.email, user.role);
+  const mail = await sendLoginCode(user.email, otp);
+  if (mail.status === "FAILED") {
     return Response.json(
-      { noCodesLeft: true },
-      { status: 403 }
+      { error: "Impossible d'envoyer le code par e-mail. Contactez un administrateur." },
+      { status: 502 }
     );
   }
 
-  return Response.json({ challenge: true, digit });
+  return Response.json({ challenge: true });
 }

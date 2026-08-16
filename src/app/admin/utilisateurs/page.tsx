@@ -10,7 +10,6 @@ interface User {
   email: string;
   name: string;
   role: Role;
-  codes: string[];
   createdAt: string;
 }
 
@@ -20,7 +19,6 @@ interface Draft {
   name: string;
   role: Role;
   password: string;
-  codes: string[];
 }
 
 const ROLE_LABEL: Record<Role, string> = {
@@ -29,7 +27,7 @@ const ROLE_LABEL: Record<Role, string> = {
   CUISINE: "Cuisine",
 };
 
-const EMPTY: Draft = { email: "", name: "", role: "COMM", password: "", codes: [] };
+const EMPTY: Draft = { email: "", name: "", role: "COMM", password: "" };
 
 function dateFr(iso: string) {
   return new Date(iso).toLocaleDateString("fr-BE", {
@@ -39,89 +37,7 @@ function dateFr(iso: string) {
   });
 }
 
-function printCodesPDF(user: User) {
-  const win = window.open("", "_blank", "width=900,height=700");
-  if (!win) return;
-  const date = new Date().toLocaleDateString("fr-BE", {
-    day: "numeric", month: "long", year: "numeric",
-  });
-  const codesHtml = user.codes.length > 0
-    ? user.codes.map((c, i) =>
-        `<div class="ci"><span class="cn">${String(i + 1).padStart(2, "0")}</span>`
-        + `<span class="cv">${c}</span><span class="ck">☐</span></div>`
-      ).join("")
-    : `<p class="empty">Aucun code disponible — générez-en depuis l'interface d'administration.</p>`;
-
-  win.document.write(`<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
-<title>Codes de validation — ${user.name}</title>
-<style>
-@page{margin:18mm 20mm}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;color:#1b2245;background:#fff}
-header{display:flex;align-items:center;gap:18px;border-bottom:3px solid #284193;padding-bottom:14px;margin-bottom:18px}
-header img{height:58px;width:auto}
-.ht h1{font-size:13.5pt;color:#284193;font-weight:700;line-height:1.3}
-.ht p{font-size:9pt;color:#667085;margin-top:5px}
-.meta{background:#f3f5fb;border:1px solid #dce3f0;border-radius:7px;padding:11px 15px;margin-bottom:18px;font-size:9.5pt;line-height:1.8}
-.meta b{color:#284193}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
-.ci{border:1px solid #dce3f0;border-radius:7px;padding:9px 12px;display:flex;align-items:center;gap:9px;background:#fff;break-inside:avoid}
-.cn{font-size:7.5pt;color:#bbb;min-width:18px}
-.cv{font-family:"Courier New",Courier,monospace;font-size:12.5pt;font-weight:700;flex:1;letter-spacing:2px;color:#1b2245}
-.ck{font-size:15pt;color:#d0d5e8}
-.empty{grid-column:1/-1;padding:20px;text-align:center;color:#667085;font-style:italic}
-.warn{border:2px solid #f57a20;border-radius:7px;padding:12px 16px;font-size:9pt;display:flex;gap:10px;line-height:1.6}
-.warn b{color:#f57a20}
-footer{margin-top:22px;padding-top:11px;border-top:1px solid #dce3f0;font-size:8pt;color:#aaa;display:flex;justify-content:space-between}
-</style></head><body>
-<header>
-  <img src="${window.location.origin}/logo-dark.png" alt="Athénée Royal Jules Bara"/>
-  <div class="ht">
-    <h1>Codes de validation pour la console BARA admin</h1>
-    <p>Code à usage unique &nbsp;·&nbsp; Liste personnelle et confidentielle</p>
-  </div>
-</header>
-<div class="meta">
-  <b>Propriétaire :</b> ${user.name} &nbsp;&nbsp;
-  <b>E-mail :</b> ${user.email} &nbsp;&nbsp;
-  <b>Rôle :</b> ${ROLE_LABEL[user.role]} &nbsp;&nbsp;
-  <b>Générée le :</b> ${date} &nbsp;&nbsp;
-  <b>Codes disponibles :</b> ${user.codes.length}
-</div>
-<div class="grid">${codesHtml}</div>
-<div class="warn">
-  <span style="font-size:16pt">⚠</span>
-  <div><b>Instructions :</b> Barrez chaque code immédiatement après utilisation.
-  Conservez cette liste en lieu sûr et ne la partagez avec personne.
-  En cas de perte, contactez immédiatement un administrateur pour régénérer vos codes.</div>
-</div>
-<footer>
-  <span>Athénée Royal Jules Bara — Usage strictement interne</span>
-  <span>© ${new Date().getFullYear()}</span>
-</footer>
-<script>window.onload=()=>window.print()</script>
-</body></html>`);
-  win.document.close();
-}
-
-const CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-/** Génère un code du type : chiffre 0–9 + 5 caractères alphanumériques. */
-function genCode(startDigit: number): string {
-  let s = String(startDigit);
-  for (let i = 0; i < 5; i++) s += CHARS[Math.floor(Math.random() * CHARS.length)];
-  return s;
-}
-
-/** Génère N codes couvrant tous les chiffres 0–9 (au moins 1 par chiffre). */
-function genCodes(total = 20): string[] {
-  const codes: string[] = [];
-  for (let d = 0; d <= 9; d++) codes.push(genCode(d));
-  while (codes.length < total) codes.push(genCode(Math.floor(Math.random() * 10)));
-  return codes;
-}
-
-const COLS = "1fr 150px 160px 110px";
+const COLS = "1fr 150px 160px 90px";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -129,7 +45,6 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [saving, setSaving] = useState(false);
-  const [newCode, setNewCode] = useState("");
   const toast = useToast();
 
   async function refresh() {
@@ -150,26 +65,7 @@ export default function UsersPage() {
   }, []);
 
   function edit(u: User) {
-    setDraft({ id: u.id, email: u.email, name: u.name, role: u.role, password: "", codes: u.codes ?? [] });
-    setNewCode("");
-  }
-
-  function addCodeToDraft() {
-    const c = newCode.trim().toUpperCase();
-    if (!c) return;
-    if (!/^\d/.test(c)) { toast("Le code doit commencer par un chiffre"); return; }
-    if (draft!.codes.includes(c)) { toast("Ce code existe déjà"); return; }
-    setDraft({ ...draft!, codes: [...draft!.codes, c] });
-    setNewCode("");
-  }
-
-  function removeCodeFromDraft(c: string) {
-    setDraft({ ...draft!, codes: draft!.codes.filter((x) => x !== c) });
-  }
-
-  function generateCodes() {
-    const fresh = genCodes(20);
-    setDraft({ ...draft!, codes: [...draft!.codes, ...fresh] });
+    setDraft({ id: u.id, email: u.email, name: u.name, role: u.role, password: "" });
   }
 
   async function save() {
@@ -186,7 +82,6 @@ export default function UsersPage() {
             ? {
                 name: draft.name,
                 role: draft.role,
-                codes: draft.codes,
                 ...(draft.password ? { password: draft.password } : {}),
               }
             : { ...draft }
@@ -222,8 +117,8 @@ export default function UsersPage() {
         <div>
           <h2 className="serif">Utilisateurs</h2>
           <p style={{ color: "var(--ink-soft)", fontSize: 14 }}>
-            Comptes d&apos;accès à l&apos;espace d&apos;administration. Chaque admin dispose
-            d&apos;une liste de codes à usage unique pour la double vérification.
+            Comptes d&apos;accès à l&apos;espace d&apos;administration. La double
+            vérification se fait par un code envoyé à l&apos;adresse e-mail du compte.
           </p>
         </div>
         <button className="abtn primary" onClick={() => setDraft({ ...EMPTY })}>
@@ -254,9 +149,6 @@ export default function UsersPage() {
                 )}
               </div>
               <div className="ds">{u.email}</div>
-              <div style={{ fontSize: 12, color: "#959cb3", marginTop: 2 }}>
-                {(u.codes ?? []).length} code{(u.codes ?? []).length !== 1 ? "s" : ""} restant{(u.codes ?? []).length !== 1 ? "s" : ""}
-              </div>
             </div>
             <div>
               <span className={`badge ${u.role === "ADMIN" ? "pub" : "draft"}`}>
@@ -265,15 +157,7 @@ export default function UsersPage() {
             </div>
             <div className="dt">{dateFr(u.createdAt)}</div>
             <div className="acts">
-              <button title="Modifier / gérer les codes" onClick={() => edit(u)}>✏️</button>
-              <button
-                title="Exporter les codes en PDF"
-                onClick={() => printCodesPDF(u)}
-                disabled={(u.codes ?? []).length === 0}
-                style={(u.codes ?? []).length === 0 ? { opacity: 0.35, cursor: "default" } : undefined}
-              >
-                🖨️
-              </button>
+              <button title="Modifier" onClick={() => edit(u)}>✏️</button>
               <button
                 title={u.email === me ? "Vous ne pouvez pas supprimer votre propre compte" : "Supprimer"}
                 onClick={() => remove(u)}
@@ -296,7 +180,6 @@ export default function UsersPage() {
           >
             <h3>{draft.id ? "Modifier le compte" : "Nouvel utilisateur"}</h3>
 
-            {/* Champs identité */}
             <div className="field">
               <label>Nom</label>
               <input
@@ -320,6 +203,9 @@ export default function UsersPage() {
                   L&apos;e-mail d&apos;un compte ne peut pas être modifié.
                 </span>
               )}
+              <span style={{ fontSize: 12, color: "#959cb3" }}>
+                Le code de connexion sera envoyé à cette adresse.
+              </span>
             </div>
             <div className="field">
               <label>Rôle</label>
@@ -341,111 +227,6 @@ export default function UsersPage() {
                 placeholder={draft.id ? "Laisser vide pour ne pas changer" : "8 caractères minimum"}
                 autoComplete="new-password"
               />
-            </div>
-
-            {/* Codes de connexion */}
-            <div style={{ borderTop: "1px solid var(--line)", marginTop: 18, paddingTop: 18 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                <label style={{ fontWeight: 600, fontSize: 14 }}>
-                  Codes de connexion ({draft.codes.length})
-                </label>
-                <div style={{ display: "flex", gap: 6 }}>
-                  <button
-                    type="button"
-                    className="abtn ghost"
-                    style={{ fontSize: 12, padding: "4px 10px" }}
-                    onClick={generateCodes}
-                    title="Génère 20 nouveaux codes (2 par chiffre 0–9)"
-                  >
-                    ✨ Générer 20 codes
-                  </button>
-                  {draft.id && draft.codes.length > 0 && (
-                    <button
-                      type="button"
-                      className="abtn ghost"
-                      style={{ fontSize: 12, padding: "4px 10px" }}
-                      onClick={() => printCodesPDF({
-                        id: draft.id!,
-                        email: draft.email,
-                        name: draft.name,
-                        role: draft.role,
-                        codes: draft.codes,
-                        createdAt: "",
-                      })}
-                      title="Exporter la liste en PDF"
-                    >
-                      🖨️ PDF
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {draft.codes.length > 0 && (
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 6,
-                    maxHeight: 160,
-                    overflowY: "auto",
-                    background: "var(--cream)",
-                    borderRadius: 8,
-                    padding: 10,
-                    marginBottom: 10,
-                    fontFamily: "monospace",
-                  }}
-                >
-                  {draft.codes.map((c) => (
-                    <span
-                      key={c}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: 4,
-                        background: "#fff",
-                        border: "1px solid var(--line)",
-                        borderRadius: 6,
-                        padding: "2px 8px",
-                        fontSize: 13,
-                      }}
-                    >
-                      {c}
-                      <button
-                        type="button"
-                        onClick={() => removeCodeFromDraft(c)}
-                        style={{
-                          border: "none",
-                          background: "none",
-                          cursor: "pointer",
-                          color: "#c0392b",
-                          fontSize: 14,
-                          lineHeight: 1,
-                          padding: 0,
-                        }}
-                        title="Supprimer ce code"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div style={{ display: "flex", gap: 8 }}>
-                <input
-                  value={newCode}
-                  onChange={(e) => setNewCode(e.target.value.toUpperCase())}
-                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCodeToDraft(); } }}
-                  placeholder="ex: 5KJ8MN"
-                  style={{ fontFamily: "monospace", flex: 1 }}
-                />
-                <button type="button" className="abtn ghost" onClick={addCodeToDraft}>
-                  Ajouter
-                </button>
-              </div>
-              <p style={{ fontSize: 11, color: "#959cb3", marginTop: 6 }}>
-                Chaque code commence par un chiffre (0–9). Usage unique — imprimez la liste et remettez-la à l&apos;utilisateur.
-              </p>
             </div>
 
             <div className="actions" style={{ marginTop: 18 }}>
