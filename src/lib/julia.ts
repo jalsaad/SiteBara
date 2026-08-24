@@ -5,7 +5,8 @@
 //   - GROQ_API_KEY défini → réponses réelles via l'API Groq (streaming)
 //   - sans clé            → mode démo : réponses pré-écrites par mots-clés
 //
-// Modèle : llama-3.3-70b-versatile (rapide, multilingue, streaming natif).
+// Modèle : openai/gpt-oss-120b (llama-3.1-8b-instant a été retiré de Groq le 16/08/2026).
+
 
 import "server-only";
 import { getGroqApiKey } from "./config";
@@ -15,8 +16,7 @@ export interface ChatMessage {
   content: string;
 }
 
-const MODEL = "llama-3.1-8b-instant";
-
+const MODEL = "openai/gpt-oss-120b";
 const SYSTEM_PROMPT = `Tu es Jules, l'assistant virtuel du site de l'Athénée Royal Jules Bara, un établissement d'enseignement secondaire à Tournai (Belgique). Ton nom vient de « Jules Bara ». Tu es un homme : accorde toujours tes adjectifs et participes au masculin quand tu parles de toi-même (ex : « heureux », « ravi », « prêt », « disponible »).
 
 Ton rôle : répondre aux questions des élèves, parents et visiteurs à propos de l'école, sur un ton chaleureux, clair et concis (2 à 5 phrases en général).
