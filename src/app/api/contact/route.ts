@@ -1,5 +1,4 @@
 import {
-  createContactMessage,
   listContactMessages,
   updateContactStatus,
   deleteContactForever,
@@ -14,9 +13,14 @@ export async function POST(request: Request) {
   if (!name || !email || !subject || !message) {
     return Response.json({ error: "Tous les champs sont requis" }, { status: 400 });
   }
-  const msg = await createContactMessage({ name, email, subject, message });
-  await notifyContactMessage(msg).catch(() => {});
-  return Response.json({ ok: true, id: msg.id }, { status: 201 });
+  const result = await notifyContactMessage({ name, email, subject, message });
+  if (result.status === "FAILED") {
+    return Response.json(
+      { error: "Envoi impossible, réessayez plus tard ou contactez-nous directement." },
+      { status: 502 }
+    );
+  }
+  return Response.json({ ok: true }, { status: 201 });
 }
 
 export async function GET(request: Request) {

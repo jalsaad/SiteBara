@@ -11,8 +11,10 @@
 //  - SMTP_USER, SMTP_PASS     identifiants de la boîte d'envoi
 //  - SMTP_SECURE              "true" pour TLS implicite (port 465)
 //  - MAIL_FROM                expéditeur affiché (défaut : SMTP_USER)
-//  - MAIL_TO                  destinataire des notifications (secrétariat).
-//    Plusieurs adresses séparées par des virgules sont acceptées.
+//
+// Les notifications de contact et de préinscription ne sont plus stockées
+// dans l'espace admin : elles sont transmises directement par e-mail aux
+// destinataires ci-dessous (CONTACT_TO / PREREG_TO).
 
 import "server-only";
 import type { ContactMessage, PreRegistration } from "./messages";
@@ -24,7 +26,8 @@ export interface MailResult {
   detail: string;
 }
 
-const MAIL_TO = process.env.MAIL_TO;
+const CONTACT_TO = "direction@atheneejulesbara.be";
+const PREREG_TO = "lecomte.d@atheneejulesbara.be";
 const SMTP_HOST = process.env.SMTP_HOST;
 
 /** L'envoi réel n'est tenté que si le serveur SMTP est configuré. */
@@ -105,11 +108,8 @@ async function send(
 /* ------------------------------ notifications ------------------------------ */
 
 export async function notifyContactMessage(
-  msg: ContactMessage
+  msg: Pick<ContactMessage, "name" | "email" | "subject" | "message">
 ): Promise<MailResult> {
-  if (!MAIL_TO) {
-    return { status: "SIMULATED", detail: "Mode démo : MAIL_TO non configuré." };
-  }
   const content = body(
     "Un nouveau message a été reçu via le formulaire de contact du site.",
     [
@@ -119,15 +119,12 @@ export async function notifyContactMessage(
       ["Message", msg.message],
     ]
   );
-  return send(MAIL_TO, `Contact — ${msg.subject}`, content, msg.email);
+  return send(CONTACT_TO, `Contact — ${msg.subject}`, content, msg.email);
 }
 
 export async function notifyPreRegistration(
-  reg: PreRegistration
+  reg: Pick<PreRegistration, "lastName" | "firstName" | "email" | "phone" | "level" | "message">
 ): Promise<MailResult> {
-  if (!MAIL_TO) {
-    return { status: "SIMULATED", detail: "Mode démo : MAIL_TO non configuré." };
-  }
   const content = body(
     "Une nouvelle demande de préinscription a été reçue via le site.",
     [
@@ -140,7 +137,7 @@ export async function notifyPreRegistration(
     ]
   );
   return send(
-    MAIL_TO,
+    PREREG_TO,
     `Préinscription — ${reg.firstName} ${reg.lastName}`,
     content,
     reg.email

@@ -1,5 +1,4 @@
 import {
-  createPreRegistration,
   listPreRegistrations,
   updatePreRegStatus,
   deletePreRegForever,
@@ -17,9 +16,14 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  const reg = await createPreRegistration({ lastName, firstName, email, phone, level, message });
-  await notifyPreRegistration(reg).catch(() => {});
-  return Response.json({ ok: true, id: reg.id }, { status: 201 });
+  const result = await notifyPreRegistration({ lastName, firstName, email, phone, level, message });
+  if (result.status === "FAILED") {
+    return Response.json(
+      { error: "Envoi impossible, réessayez plus tard ou contactez-nous directement." },
+      { status: 502 }
+    );
+  }
+  return Response.json({ ok: true }, { status: 201 });
 }
 
 export async function GET(request: Request) {
