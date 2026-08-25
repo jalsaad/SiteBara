@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     " && npx prisma generate >> /var/www/bara/deploy.log 2>&1" +
     " && npx prisma db push --accept-data-loss >> /var/www/bara/deploy.log 2>&1" +
     " && npm run build >> /var/www/bara/deploy.log 2>&1" +
-    " && pm2 restart bara >> /var/www/bara/deploy.log 2>&1";
+    " && pm2 restart bara --update-env >> /var/www/bara/deploy.log 2>&1";
 
   const child = spawn("bash", ["-c", cmd], { detached: true, stdio: "ignore" });
   child.unref();
