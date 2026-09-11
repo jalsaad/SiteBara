@@ -56,6 +56,9 @@ export default function ContactForm() {
         <label>Message</label>
         <textarea name="message" required style={{ minHeight: 140 }} placeholder="Votre message…" />
       </div>
+      {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+        <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
+      )}
       <button className="btn btn-orange" disabled={busy}>
         {busy ? "Envoi…" : "Envoyer le message →"}
       </button>

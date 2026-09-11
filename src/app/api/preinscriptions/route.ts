@@ -6,6 +6,7 @@ import {
 } from "@/lib/messages";
 import { notifyPreRegistration } from "@/lib/email";
 import { requireRole } from "@/lib/auth";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
@@ -15,6 +16,10 @@ export async function POST(request: Request) {
       { error: "Nom, prénom, e-mail et année souhaitée sont requis" },
       { status: 400 }
     );
+  }
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  if (!(await verifyTurnstile(body["cf-turnstile-response"], ip))) {
+    return Response.json({ error: "Vérification anti-spam échouée, veuillez réessayer." }, { status: 400 });
   }
   const result = await notifyPreRegistration({ lastName, firstName, email, phone, level, message });
   if (result.status === "FAILED") {

@@ -1,3 +1,4 @@
+import Script from "next/script";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -30,6 +31,7 @@ export default async function PublicLayout({
       <Footer pages={pages} />
       <Reveal />
       <JuliaChat />
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" async defer />
     </>
   );
 }

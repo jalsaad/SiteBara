@@ -48,6 +48,7 @@ src/app/api/articles/         API REST des actualités
 src/lib/articles.ts           Couche données (Prisma ⇄ mémoire) — serveur
 src/lib/users.ts              Comptes admin (scrypt, Prisma ⇄ mémoire) — serveur
 src/lib/email.ts              Notifications e-mail (nodemailer) — serveur
+src/lib/turnstile.ts          Anti-spam Cloudflare Turnstile — serveur
 src/lib/julia.ts              Chatbot Julia (API Claude ⇄ démo) — serveur
 src/lib/article-types.ts      Types partagés client/serveur
 src/components/               Nav, Footer, NewsCard, Reveal, Toast
@@ -119,25 +120,43 @@ Connecteurs dans `src/lib/social.ts`, historique stocké sur l'article
   styles du site.
 - Les pages publiées apparaissent automatiquement dans le menu de
   navigation public (entre les liens fixes et « Contact »).
-- `/contact` et `/preinscription` enregistrent les demandes, consultables
-  dans `/admin/messages`.
-- À chaque demande reçue, une **notification e-mail** est envoyée au secrétariat
-  (voir ci-dessous).
+- `/contact` et `/preinscription` ne sont plus stockés en base : chaque
+  demande est transmise **directement par e-mail** (voir ci-dessous), rien
+  n'apparaît dans un espace d'administration.
 
 ## Notifications e-mail
 
-À la réception d'un message de contact ou d'une préinscription, le secrétariat
-est notifié par e-mail (connecteur `src/lib/email.ts`, branché sur les routes
-`POST /api/contact` et `POST /api/preinscriptions`). L'envoi est *best-effort* :
-un échec n'empêche jamais l'enregistrement de la demande.
+Les formulaires de contact et de préinscription transmettent directement
+par e-mail, sans passer par une file d'attente ni un espace admin
+(connecteur `src/lib/email.ts`, branché sur les routes `POST /api/contact`
+et `POST /api/preinscriptions`) :
+
+- **Contact** → `direction@atheneejulesbara.be`
+- **Préinscription** → `lecomte.d@atheneejulesbara.be`
+
+L'adresse indiquée par l'expéditeur du formulaire est placée en `Reply-To`.
+Un échec d'envoi renvoie une erreur au visiteur (l'e-mail étant le seul canal,
+il n'y a plus de filet de sécurité en base).
 
 - **Sans SMTP** (mode démo) : la notification est *simulée* et tracée dans la
-  console serveur — rien n'est envoyé.
+  console serveur — rien n'est envoyé (le formulaire répond quand même `ok`).
 - **Avec SMTP** (`.env`) : envoi réel via nodemailer. Variables `SMTP_HOST`,
-  `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, expéditeur `MAIL_FROM`
-  et destinataire(s) `MAIL_TO` (plusieurs adresses séparées par des virgules).
-  Exemple OVH : `ssl0.ovh.net` / `465` / `SMTP_SECURE=true`. L'adresse de
-  l'expéditeur du formulaire est placée en `Reply-To`.
+  `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, expéditeur `MAIL_FROM`.
+  Exemple OVH : `ssl0.ovh.net` / `465` / `SMTP_SECURE=true`.
+
+### Anti-spam (Cloudflare Turnstile)
+
+Les deux formulaires affichent un widget [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/)
+(gratuit) qui bloque les soumissions automatisées avant même l'envoi de
+l'e-mail — y compris les bots qui postent directement en JSON sur l'API sans
+charger la page.
+
+- **Sans `TURNSTILE_SECRET_KEY`** (mode démo) : vérification ignorée, widget
+  masqué (pas de `NEXT_PUBLIC_TURNSTILE_SITE_KEY`).
+- **Avec les clés** (`.env`) : `dash.cloudflare.com` → Turnstile → Add site
+  (widget « Managed ») → `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (publique, côté
+  client) et `TURNSTILE_SECRET_KEY` (secrète, vérifiée côté serveur dans
+  `src/lib/turnstile.ts` via l'API `siteverify`).
 
 ## Applis & outils
 

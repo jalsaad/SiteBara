@@ -90,6 +90,9 @@ export default function PreinscriptionForm() {
           placeholder="Questions, situation particulière…"
         />
       </div>
+      {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+        <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
+      )}
       <button className="btn btn-orange" disabled={busy}>
         {busy ? "Envoi…" : "Envoyer la demande →"}
       </button>
