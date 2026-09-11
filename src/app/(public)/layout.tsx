@@ -31,7 +31,7 @@ export default async function PublicLayout({
       <Footer pages={pages} />
       <Reveal />
       <JuliaChat />
-      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" async defer />
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" async defer />
     </>
   );
 }
